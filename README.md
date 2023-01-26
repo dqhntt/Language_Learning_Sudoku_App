@@ -176,7 +176,7 @@ As a
 
 
 
-	# VISUAL STATE OF THE GAME/APPLICATION
+	## VISUAL STATE OF THE GAME/APPLICATION
 
 	![](images/edited/homepage.jpg)  ![](images/edited/choose_level.jpg)  
 	![](images/edited/game_play.jpg) ![](images/edited/choose_level.jpg) 

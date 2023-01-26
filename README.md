@@ -132,8 +132,9 @@ As a
 		-   During a game play, the player can select a word and add it to a list of favourite words.
 		- On the homepage, when the user taps the “Saved” button, a page will be shown with a sortable list of words saved along with which languages they are in.
     
-
-	WORD TRANSLATION
+	<br />
+	WORD TRANSLATION <br />
+	<br />
 	
 	-   I want to look up the meaning of the words I don’t know so that I can learn what they are and solve the game faster.<br />
     **Examples:**

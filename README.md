@@ -87,6 +87,7 @@ As a
 	![](images/choose_level.jpg)
 
 
+
 	TAKING NOTES DURING THE GAME
 
 	2.  I want to take notes on a specific cell so that I can remember what answers are possible for that one.<br />

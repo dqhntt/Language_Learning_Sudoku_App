@@ -134,6 +134,7 @@ As a
     
 
 	WORD TRANSLATION
+	
 	-   I want to look up the meaning of the words I don’t know so that I can learn what they are and solve the game faster.<br />
     **Examples:**
 		-   During a game play, when the player taps-and-holds a word, a pop-up will open with a translation of that word in the language that the player knows.

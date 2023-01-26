@@ -11,7 +11,6 @@ As a
 	    -   Every time the app launches, it should take no more than 3 taps before the player can start playing the game.
 	<br />
 	INSTRUCTIONAL TUTORIAL <br />
-	<br />
 
 	2.  I want to have a simple onboarding tutorial so that I can learn the basic rules of the game.<br />
     **Examples:**

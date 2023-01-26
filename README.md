@@ -176,13 +176,9 @@ As a
 
 	# VISUAL STATE OF THE GAME/APPLICATION
 
-	![](images/edited/homepage.jpg)  ![](images/edited/choose_level.jpg)
+	![](images/edited/homepage.jpg)  ![](images/edited/choose_level.jpg)  ![](images/edited/game_play.jpg)
 
-	![](images/edited/game_play.jpg)
-
-	![](images/edited/choose_level.jpg)
-
-	![](images/edited/word_translation.jpg)
+	![](images/edited/choose_level.jpg) ![](images/edited/word_translation.jpg)
 
 	![](images/edited/note_taking_mode.jpg)
 	

@@ -181,3 +181,4 @@ As a
 
 
 			![](images/IMAGES/homepage.jpg)
+			![](images/RESIZED_IMAGES/homepage.jpg)

@@ -149,7 +149,6 @@ As a
 			**Examples:**
 			-   If the player’s native language is English and is studying French, the following sample of words and their French counterparts may be used: contract, narrative, offspring, elapse, diarrhea, …
 
-			<br />
     
 4.  # Language teachers
     LANGUAGE TEACHER’S GOAL

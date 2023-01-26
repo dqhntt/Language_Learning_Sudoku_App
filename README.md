@@ -158,7 +158,7 @@ As a
 
 	REWARD TO KEEP STUDENTS/USERS MOTIVATED
 
-	2.  I want my students to be rewarded for their effort so that they stay motivated.
+	2.  I want my students to be rewarded for their effort so that they stay motivated.<br />
     **Examples:**
 	    -   When the user plays the game for several days in a row, a page will pop up congratulating them for their effort.
     

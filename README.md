@@ -174,13 +174,17 @@ As a
 	    -   When the students work hard, they are rewarded for their effort *(4b)*
 	    -   Ensure that the app design is intuitive and engaging
 
-	REWARD TO KEEP STUDENTS/USERS MOTIVATED
+	<br />
+	REWARD TO KEEP STUDENTS/USERS MOTIVATED <br />
+	<br />
 
 	2.  I want my students to be rewarded for their effort so that they stay motivated.<br />
     **Examples:**
 	    -   When the user plays the game for several days in a row, a page will pop up congratulating them for their effort.
     
-	CUSTOMIZE WORD-LISTS
+	<br />
+	CUSTOMIZE WORD-LISTS <br />
+	<br />
 	
 	3.  I want to curate my own lists of word pairs for use with the game so that the words they learn fit into the current themes or topics I’m teaching.<br />
     **Examples:**

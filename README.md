@@ -192,6 +192,8 @@ As a
 	![](images/edited/pause.jpg)
 
 	![](images/edited/game_completion.jpg)
+
+	![](images/edited/streaks_reward.jpg)
 	
 	![](images/edited/history_of_games_played.jpg)
 

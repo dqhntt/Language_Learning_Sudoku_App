@@ -165,6 +165,6 @@ As a
 	CUSTOMIZE WORD-LISTS
 	
 	3.  I want to curate my own lists of word pairs for use with the game so that the words they learn fit into the current themes or topics I’m teaching.
-    **Examples:**__
+    **Examples:**<br />
 	    -   When the user taps the “Settings” button followed by “Curate my own word lists” option, the users are directed to a page where they can input their own word lists by uploading a specially formatted file.
 		    -   Once set up, every game that matches the provided language configurations would use those words and those only.

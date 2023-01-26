@@ -84,7 +84,7 @@ As a
 		-   When choosing the level of the game, the player can choose between a “Novice” or an “Expert” level.
 		-   Harder levels have fewer cells prefilled than easier ones.
     
-	![](images/edited/choose_level.jpg)
+	![](images/choose_level.jpg)
 
 
 
@@ -177,6 +177,19 @@ As a
     **Examples:**
 	    -   When the user taps the “Settings” button followed by “Curate my own word lists” option, the users are directed to a page where they can input their own word lists by uploading a specially formatted file.
 		    -   Once set up, every game that matches the provided language configurations would use those words and those only.
+
+	VISUAL STATE OF THE GAME/APPLICATION
+
+	![](images/edited/homepage.jpg)
+
+	![](images/edited/choose_level.jpg)
+
+	![](images/edited/game_play.jpg)
+
+	![](images/edited/choose_level.jpg)
+
+	![](images/edited/word_translation.jpg)
+
 
 
 

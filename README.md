@@ -91,7 +91,9 @@ As a
 		-   When choosing the level of the game, the player can choose between a “Novice” or an “Expert” level.
 		-   Harder levels have fewer cells prefilled than easier ones.
 
-	TAKING NOTES DURING THE GAME
+	<br />
+	TAKING NOTES DURING THE GAME <br />
+	<br />
 
 	2.  I want to take notes on a specific cell so that I can remember what answers are possible for that one.<br />
 	**Examples:**
@@ -106,7 +108,9 @@ As a
 			- When a word is tapped, all the notes in that cell will be erased and replaced with that word.
 				- If that word also appears in other cells’ notes of the same row/column/subgrid, the tiny versions of this word in those cells will be removed.
     
-	PAST GAMES
+	<br />
+	PAST GAMES <br />
+	<br />
 
 	3.  I want to see how I played my past games, including game configurations, moves made, time spent for each move, etc., so that I can analyze my past strategies and improve them.<br />
 	**Examples:**

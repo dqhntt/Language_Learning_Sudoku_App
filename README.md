@@ -84,7 +84,7 @@ As a
 		-   When choosing the level of the game, the player can choose between a “Novice” or an “Expert” level.
 		-   Harder levels have fewer cells prefilled than easier ones.
     
-	![](images/choose_level.jpg)
+	![](images/edited/choose_level.jpg)
 
 
 

@@ -19,8 +19,9 @@ As a
 		-   The homepage should have a button or section that takes the player to the tutorial.
 	    -   If the players start playing the game without ever seeing the tutorial, there should be more mistakes made on average than if they had seen the tutorial.
      
-
-	PAUSE and RESUME FUNCTIONALITY
+	<br />
+	PAUSE and RESUME FUNCTIONALITY <br />
+	<br />
 
 	3.  I want the game to be saved automatically and to be able to pause it so that if I need to do something else, I can come back later and resume it.<br />
 	**Examples:**
@@ -29,8 +30,9 @@ As a
 		- When the player exits the app or taps the “Home” or “Settings” button, and then resumes the game, the game looks exactly as if it had been paused before the first action was performed.
 		*(game will be auto-saved)*
  
-
-	CHECKING FOR GAME CORRECTNESS
+	<br />
+	CHECKING FOR GAME CORRECTNESS <br />
+	<br />
 
 	4.  I want feedback as to whether a move I make is right or wrong so that I can learn as I play.<br />
 	**Examples:**
@@ -40,8 +42,9 @@ As a
 		- When a row/column/subgrid is completed correctly, it will be quickly highlighted with a different colour before changing back to its original colour.
 		- When the game play is completed correctly, the player will be directed to a page where it congratulates the player on finishing that game along with some statistics such as the time spent and the levels of Sudoku and language used.
      
-
-	UNDO and REDO FUNCTIONALITY
+	<br />
+	UNDO and REDO FUNCTIONALITY <br />
+	<br />
 
 	5.  I want to be able to undo and redo my moves so that I can fix my mistakes or try out a new strategy.<br />
 	**Examples:**

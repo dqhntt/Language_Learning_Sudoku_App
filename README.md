@@ -136,6 +136,7 @@ As a
 		- I want the game to use words that match my level of the language being studied (up to A2) so that I’m not overwhelmed by what I don’t know.<br />
 			**Examples:**
 			-   If the player’s native language is English and is studying French, the following sample of words and their French counterparts may be used: December, twelve, thank you, sorry, goodbye …
+	<br />
     
     2.  ## Level 2
 	    LANGUAGE DIFFICULTY LEVEL (B1/B2)

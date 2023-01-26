@@ -180,5 +180,3 @@ As a
 
 
 
-			![](images/IMAGES/homepage.jpg =10x10)
-			![](images/RESIZED_IMAGES/homepage.jpg)

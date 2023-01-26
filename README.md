@@ -83,6 +83,9 @@ As a
 	**Examples:**
 		-   When choosing the level of the game, the player can choose between a “Novice” or an “Expert” level.
 		-   Harder levels have fewer cells prefilled than easier ones.
+    
+	![](images/choose_level.jpg)
+
 
 
 	TAKING NOTES DURING THE GAME
@@ -186,6 +189,36 @@ As a
 	![](images/edited/choose_level.jpg)
 
 	![](images/edited/word_translation.jpg)
+
+	![](images/edited/note_taking_mode.jpg)
+	
+		
+	![](images/edited/pause.jpg)
+
+	![](images/edited/game_completion.jpg)
+	
+	![](images/edited/history_of_games_played.jpg)
+
+		
+	![](images/edited/game_play_details.jpg)
+
+		
+	![](images/edited/favourites_list.jpg)
+
+		
+	![](images/edited/tutorial.jpg)
+
+		
+	![](images/edited/settings.jpg)
+
+		
+	![](images/edited/curate_own_list.jpg)
+
+		
+	![](images/edited/import_word_list.jpg)
+
+	
+
 
 
 

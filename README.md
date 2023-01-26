@@ -72,6 +72,7 @@ As a
 		-   Every time a game is completed correctly, its total time duration is recorded along with how many mistakes were made and other metadata.
 		- While on a certain difficulty level, the user will receive the “highscore” notification every time they beat their previous high score in that level using their selected language.
 			- Highscore is calculated as the amount of time it takes the user to complete the sudoku
+	<br />
 
 2.  # Expert users 
 	*Defined as users who are already good at Sudoku.*
@@ -108,6 +109,7 @@ As a
 		-   When the “History” button is tapped on the homepage, the user is directed to a page with a sortable list of games played from each level, each showing some or all of the above information.
 			- When the user taps a specific game, another page is shown with more details such as the lists of words used and game configurations.
 			*(User’s previous games+stats have been auto-saved)*
+	<br />
 
 3.  # Language learners
     *The 3 levels roughly correspond to A1/A2, B1/B2, and C1/C2 of [CEFR: Common European Framework of Reference for Languages](https://www.coe.int/en/web/common-european-framework-reference-languages/level-descriptions).*

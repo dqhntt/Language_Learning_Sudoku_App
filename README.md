@@ -61,14 +61,18 @@ As a
 			 - When the “Undo” button is tapped, that cell will look like before it was “redone”.
 			 - When the “Redo” button is tapped, that cell will appear as it was two moves prior to being “redone”.
     
-	GAME HINTS
+	<br />
+	GAME HINTS <br />
+	<br />
 
 	6.  I want to have a hint every now and then so that I don’t get stuck and may learn something new.<br />
 	**Examples:**
 		-   When the “Hint” button is tapped, a cell that is currently empty or incorrect will be filled in a way that is in accordance with the rules of the game.
 		- The player has to wait 30 seconds from the last time a hint was used before getting another one.
     
-	SCORING SYSTEM
+	<br />
+	SCORING SYSTEM <br />
+	<br />
 
 	7.  I want to have a (scoring) system so that I can see how well I’m doing compared with my past plays or with others.<br />
 	**Examples:**

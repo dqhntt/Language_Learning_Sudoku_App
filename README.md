@@ -143,6 +143,7 @@ As a
 		- I want the game to use words that match my level of the language being studied (B1/B2) so that I’m not overwhelmed by what I don’t know and not bored by what I already know.<br />
 			**Examples:**
 			-   If the player’s native language is English and is studying French, the following sample of words and their French counterparts may be used: although, now, second, disagree, application, …
+	<br />
     
 	3.  ## Level 3
 	    LANGUAGE DIFFICULTY LEVEL (C1/C2)

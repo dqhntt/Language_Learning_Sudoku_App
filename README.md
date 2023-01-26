@@ -148,7 +148,7 @@ As a
 		- I want the game to use words that match my level of the language being studied (C1/C2) so that I’m not bored by what I already know.<br />
 			**Examples:**
 			-   If the player’s native language is English and is studying French, the following sample of words and their French counterparts may be used: contract, narrative, offspring, elapse, diarrhea, …
-
+	<br />
     
 4.  # Language teachers
     LANGUAGE TEACHER’S GOAL

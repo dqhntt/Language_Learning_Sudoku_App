@@ -171,8 +171,8 @@ As a
 	1.  I want the game to be easy to understand and interactive so it is more appealing and my students are more willing to try it out and use it as a fun tool for everyday learning. *(similar to 1.1.)*<br />
 	**Examples:**
 		-   When the players need help, there are a tutorial *(1.2.)* and a hint system *(1.6.)* readily available.
-	    -   When the students work hard, they are rewarded for their effort *(4.2)*
-	    -   Ensure that the app design is intuitive and engaging
+	    -   When the students work hard, they are rewarded for their effort *(4.2.)*
+	    -   Ensure that the app design is intuitive and engaging.
 
 	<br />
 	REWARD TO KEEP STUDENTS/USERS MOTIVATED <br />

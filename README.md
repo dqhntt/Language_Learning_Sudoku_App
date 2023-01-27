@@ -2,7 +2,7 @@ As a
 
 1.  # Novice users of the software
 
-	__define: users that have not used/are not very familiar with the app
+	*Defined as users that have not used/are not very familiar with the app*
 	__
 	GENERAL USER INTERFACE ACCESSIBILITY REQUIREMENTS
 
@@ -80,7 +80,7 @@ As a
 	**Examples:**
 		-   Every time a game is completed correctly, its total time duration is recorded along with how many mistakes were made and other metadata.
 		- While on a certain difficulty level, the user will receive the “highscore” notification every time they beat their previous high score in that level using their selected language.
-			- Highscore is calculated as the amount of time it takes the user to complete the sudoku
+			- Highscore is based on how fast the user completes the sudoku game.
 	<br />
 
 2.  # Expert users 

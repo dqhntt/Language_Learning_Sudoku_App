@@ -4,7 +4,7 @@ As a
 	
 	GENERAL USER INTERFACE ACCESSIBILITY REQUIREMENTS
 
-	1. I want the game’s interface to be easy to understand so I can start playing quickly.<br />
+	1.1. I want the game’s interface to be easy to understand so I can start playing quickly.<br />
     **Examples:**
 		-   Whatever action the user wants to do, he/she can figure out the appropriate button or sequence of buttons in under 2 seconds.
 			-   This is achieved through all the requirements expressed below *(from 1.2 onwards)*
@@ -13,7 +13,7 @@ As a
 	INSTRUCTIONAL TUTORIAL <br />
 	<br />
 
-	2.  I want to have a simple onboarding tutorial so that I can learn the basic rules of the game.<br />
+	1.2.  I want to have a simple onboarding tutorial so that I can learn the basic rules of the game.<br />
     **Examples:**
 		-   When the app launches for the first time, the player is greeted with a video-tutorial explaining how to play the game.
 		-   The homepage should have a button or section that takes the player to the tutorial.
@@ -23,7 +23,7 @@ As a
 	PAUSE and RESUME FUNCTIONALITY <br />
 	<br />
 
-	3.  I want the game to be saved automatically and to be able to pause it so that if I need to do something else, I can come back later and resume it.<br />
+	1.3.  I want the game to be saved automatically and to be able to pause it so that if I need to do something else, I can come back later and resume it.<br />
 	**Examples:**
 		-   When the “Pause” button is tapped, the game’s clock is paused and the cells and words do not respond to taps.
 			-   When the “Resume” button is tapped, the game’s clock resumes, the game responds like before, and the board remains the same.
@@ -34,7 +34,7 @@ As a
 	CHECKING FOR GAME CORRECTNESS <br />
 	<br />
 
-	4.  I want feedback as to whether a move I make is right or wrong so that I can learn as I play.<br />
+	1.4.  I want feedback as to whether a move I make is right or wrong so that I can learn as I play.<br />
 	**Examples:**
 		-   Given a cell selected by the player,
 			- When it is filled in a way not in accordance with the rules of the game, that cell will be highlighted with a different colour than when it’s correct or empty.
@@ -46,7 +46,7 @@ As a
 	UNDO and REDO FUNCTIONALITY <br />
 	<br />
 
-	5.  I want to be able to undo and redo my moves so that I can fix my mistakes or try out a new strategy.<br />
+	1.5.  I want to be able to undo and redo my moves so that I can fix my mistakes or try out a new strategy.<br />
 	**Examples:**
 		-   Given a cell the player just filled in,
 			- When the player taps the “Undo” button, that cell will appear as it was prior to being filled in
@@ -65,7 +65,7 @@ As a
 	GAME HINTS <br />
 	<br />
 
-	6.  I want to have a hint every now and then so that I don’t get stuck and may learn something new.<br />
+	1.6.  I want to have a hint every now and then so that I don’t get stuck and may learn something new.<br />
 	**Examples:**
 		-   When the “Hint” button is tapped, a cell that is currently empty or incorrect will be filled in a way that is in accordance with the rules of the game.
 		- The player has to wait 30 seconds from the last time a hint was used before getting another one.
@@ -74,7 +74,7 @@ As a
 	SCORING SYSTEM <br />
 	<br />
 
-	7.  I want to have a (scoring) system so that I can see how well I’m doing compared with my past plays or with others.<br />
+	1.7.  I want to have a (scoring) system so that I can see how well I’m doing compared with my past plays or with others.<br />
 	**Examples:**
 		-   Every time a game is completed correctly, its total time duration is recorded along with how many mistakes were made and other metadata.
 		- While on a certain difficulty level, the user will receive the “highscore” notification every time they beat their previous high score in that level using their selected language.
@@ -86,7 +86,7 @@ As a
 
 	CHALLENGES *(for players)*
 
-	1.  I want the game to have multiple levels of difficulty so that I can challenge myself.<br />
+	2.1.  I want the game to have multiple levels of difficulty so that I can challenge myself.<br />
 	**Examples:**
 		-   When choosing the level of the game, the player can choose between a “Novice” or an “Expert” level.
 		-   Harder levels have fewer cells prefilled than easier ones.
@@ -95,7 +95,7 @@ As a
 	TAKING NOTES DURING THE GAME <br />
 	<br />
 
-	2.  I want to take notes on a specific cell so that I can remember what answers are possible for that one.<br />
+	2.2.  I want to take notes on a specific cell so that I can remember what answers are possible for that one.<br />
 	**Examples:**
 		-   Given the player taps the “Notes” button and selects a fillable cell,
 			- No error checking is done in this mode.
@@ -112,7 +112,7 @@ As a
 	PAST GAMES <br />
 	<br />
 
-	3.  I want to see how I played my past games, including game configurations, moves made, time spent for each move, etc, so that I can analyze my past strategies and improve them.<br />
+	2.3.  I want to see how I played my past games, including game configurations, moves made, time spent for each move, etc, so that I can analyze my past strategies and improve them.<br />
 	**Examples:**
 		-   When the “History” button is tapped on the homepage, the user is directed to a page with a sortable list of games played from each level, each showing some or all of the above information.
 			- When the user taps a specific game, another page is shown with more details such as the lists of words used and game configurations.
@@ -141,7 +141,7 @@ As a
 		-   During a game play, when the player taps-and-holds a word, a pop-up will open with a translation of that word in the language that the player knows.
 	<br />
     
-	1.  ## Level 1
+	3.1.  ## Level 1
 	    LANGUAGE DIFFICULTY LEVEL (A1/A2)
 		
 		- I want the game to use words that match my level of the language being studied (up to A2) so that I’m not overwhelmed by what I don’t know.<br />
@@ -149,7 +149,7 @@ As a
 			-   If the player’s native language is English and is studying French, the following sample of words and their French counterparts may be used: December, twelve, thank you, sorry, goodbye …
 	<br />
     
-    2.  ## Level 2
+    3.2.  ## Level 2
 	    LANGUAGE DIFFICULTY LEVEL (B1/B2)
 
 		- I want the game to use words that match my level of the language being studied (B1/B2) so that I’m not overwhelmed by what I don’t know and not bored by what I already know.<br />
@@ -157,7 +157,7 @@ As a
 			-   If the player’s native language is English and is studying French, the following sample of words and their French counterparts may be used: although, now, second, disagree, application, …
 	<br />
     
-	3.  ## Level 3
+	3.3.  ## Level 3
 	    LANGUAGE DIFFICULTY LEVEL (C1/C2)
 		
 		- I want the game to use words that match my level of the language being studied (C1/C2) so that I’m not bored by what I already know.<br />
@@ -168,7 +168,7 @@ As a
 4.  # Language teachers
     LANGUAGE TEACHER’S GOAL
 
-	1.  I want the game to be easy to understand and interactive so it is more appealing and my students are more willing to try it out and use it as a fun tool for everyday learning. *(similar to 1.1.)*<br />
+	4.1.  I want the game to be easy to understand and interactive so it is more appealing and my students are more willing to try it out and use it as a fun tool for everyday learning. *(similar to 1.1.)*<br />
 	**Examples:**
 		-   When the players need help, there are a tutorial *(1.2.)* and a hint system *(1.6.)* readily available.
 	    -   When the students work hard, they are rewarded for their effort *(4.2.)*
@@ -178,7 +178,7 @@ As a
 	REWARD TO KEEP STUDENTS/USERS MOTIVATED <br />
 	<br />
 
-	2.  I want my students to be rewarded for their effort so that they stay motivated.<br />
+	4.2.  I want my students to be rewarded for their effort so that they stay motivated.<br />
     **Examples:**
 	    -   When the user plays the game for several days in a row, a page will pop up congratulating them for their effort.
     
@@ -186,7 +186,7 @@ As a
 	CUSTOMIZE WORD-LISTS <br />
 	<br />
 	
-	3.  I want to curate my own lists of word pairs for use with the game so that the words they learn fit into the current themes or topics I’m teaching.<br />
+	4.3.  I want to curate my own lists of word pairs for use with the game so that the words they learn fit into the current themes or topics I’m teaching.<br />
     **Examples:**
 	    -   When the user taps the “Settings” button followed by “Curate my own word lists” option, the users are directed to a page where they can input their own word lists by uploading a specially formatted file.
 		    -   Once set up, every game that matches the provided language configurations would use those words and those only.

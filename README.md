@@ -1,4 +1,3 @@
-
 1.  # Novice users of the software
 	
 	GENERAL USER INTERFACE ACCESSIBILITY REQUIREMENTS

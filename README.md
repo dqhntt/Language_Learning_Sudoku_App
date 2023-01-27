@@ -3,7 +3,7 @@ As a
 1.  # Novice users of the software
 
 	*Defined as users that have not used/are not very familiar with the app*
-	__
+	
 	GENERAL USER INTERFACE ACCESSIBILITY REQUIREMENTS
 
 	1. I want the game’s interface to be easy to understand so I can start playing quickly.<br />

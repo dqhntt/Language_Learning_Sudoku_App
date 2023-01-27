@@ -7,7 +7,7 @@ As a
 	1. I want the game’s interface to be easy to understand so I can start playing quickly.<br />
     **Examples:**
 		-   Whatever action the user wants to do, he/she can figure out the appropriate button or sequence of buttons in under 2 seconds.
-			-   This is achieved through all the requirements expressed below *(from 1b onwards)*
+			-   This is achieved through all the requirements expressed below *(from 1.2 onwards)*
 	    -   Every time the app launches, it should take no more than 3 taps before the player can start playing the game.
 	<br />
 	INSTRUCTIONAL TUTORIAL <br />
@@ -112,7 +112,7 @@ As a
 	PAST GAMES <br />
 	<br />
 
-	3.  I want to see how I played my past games, including game configurations, moves made, time spent for each move, etc., so that I can analyze my past strategies and improve them.<br />
+	3.  I want to see how I played my past games, including game configurations, moves made, time spent for each move, etc, so that I can analyze my past strategies and improve them.<br />
 	**Examples:**
 		-   When the “History” button is tapped on the homepage, the user is directed to a page with a sortable list of games played from each level, each showing some or all of the above information.
 			- When the user taps a specific game, another page is shown with more details such as the lists of words used and game configurations.
@@ -125,7 +125,7 @@ As a
 	COMMON REQUIREMENTS FOR LANGUAGE LEARNERS
 
 	-   I want to see the list of words used in my past games so that I can review and study them.<br />
-    **Examples:** *(similar to 2.c.)*
+    **Examples:** *(similar to 2.3.)*
 
 	-   I want to save the words I like in a game so that I can quickly review them later to study.<br />
     **Examples:**
@@ -168,10 +168,10 @@ As a
 4.  # Language teachers
     LANGUAGE TEACHER’S GOAL
 
-	1.  I want the game to be easy to understand and interactive so it is more appealing and my students are more willing to try it out and use it as a fun tool for everyday learning. *(similar to 1a.)*<br />
+	1.  I want the game to be easy to understand and interactive so it is more appealing and my students are more willing to try it out and use it as a fun tool for everyday learning. *(similar to 1.1.)*<br />
 	**Examples:**
-		-   When the players need help, there are a tutorial *(1b.)* and a hint system *(1f.)* readily available.
-	    -   When the students work hard, they are rewarded for their effort *(4b)*
+		-   When the players need help, there are a tutorial *(1.2.)* and a hint system *(1.6.)* readily available.
+	    -   When the students work hard, they are rewarded for their effort *(4.2)*
 	    -   Ensure that the app design is intuitive and engaging
 
 	<br />

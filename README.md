@@ -1,8 +1,6 @@
 As a
 
 1.  # Novice users of the software
-
-	*Defined as users that have not used/are not very familiar with the app*
 	
 	GENERAL USER INTERFACE ACCESSIBILITY REQUIREMENTS
 

@@ -193,18 +193,12 @@
 
 	## VISUAL STATE OF THE GAME/APPLICATION
 
-	![](images/edited/homepage.jpg)  ![](images/edited/choose_level.jpg)  
-	![](images/edited/game_play.jpg) ![](images/edited/choose_level.jpg) 
-	![](images/edited/word_translation.jpg) ![](images/edited/note_taking_mode.jpg)
-	![](images/edited/pause.jpg) ![](images/edited/game_completion.jpg)
-	![](images/edited/streaks_reward.jpg) ![](images/edited/history_of_games_played.jpg)
-	![](images/edited/game_play_details.jpg) ![](images/edited/favourites_list.jpg)
-	![](images/edited/tutorial.jpg) ![](images/edited/settings.jpg)
-	![](images/edited/curate_own_list.jpg) ![](images/edited/import_word_list.jpg)
-
+	![](docs/images/homepage.jpg)  ![](docs/images/choose_level.jpg)  
+	![](docs/images/game_play.jpg) ![](docs/images/word_translation.jpg)
+	![](docs/images/note_taking_mode.jpg) ![](docs/images/pause.jpg)
+	![](docs/images/game_completion.jpg) ![](docs/images/streaks_reward.jpg)
+	![](docs/images/history_of_games_played.jpg) ![](docs/images/game_play_details.jpg)
+	![](docs/images/favourites_list.jpg) ![](docs/images/tutorial.jpg)
+	![](docs/images/settings.jpg) ![](docs/images/curate_own_word_list.jpg)
+	![](docs/images/import_word_list.jpg)
 	
-
-
-
-
-

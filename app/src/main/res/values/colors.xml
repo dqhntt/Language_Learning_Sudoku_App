@@ -2,4 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="cell_enabled_light">#E3ECFA</color>
+    <color name="cell_focused_light">#</color>
+    // TODO: qhduong
 </resources>

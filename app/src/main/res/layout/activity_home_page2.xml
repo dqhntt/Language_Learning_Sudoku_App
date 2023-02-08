@@ -4,17 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".HomePage2"
     android:layout_marginBottom="5dp"
     android:layout_marginRight="15dp"
     android:layout_marginLeft="15dp"
-
-
     >
 
 
     <TextView
-        android:id="@+id/welcome_text"
+        android:id="@+id/textView_lang_level"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -23,79 +21,56 @@
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="-1dp"
-        android:layout_marginTop="109dp"
+        android:layout_marginTop="169dp"
         android:layout_marginEnd="2dp"
         android:padding="6dp"
-        android:text="@string/welcome_text"
+        android:text="@string/lang_level"
         android:textAlignment="center"
         android:textColor="#555555"
         android:textSize="18sp"
-        tools:text="@string/welcome_text" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView_Indian_states"
-        android:layout_below="@+id/welcome_text"
-        android:layout_marginTop="55dp"
-        android:padding="6dp"
-        android:textSize="15sp"
-        android:textColor="#555555"
-        android:text="@string/I_want_to_learn"
-
-        />
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:id="@+id/spinner_indian_states"
-        android:layout_below="@id/textView_Indian_states"
-
-        />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView_Indian_districts"
-        android:layout_below="@+id/spinner_indian_states"
-        android:layout_marginTop="40dp"
-        android:padding="6dp"
-        android:textSize="15sp"
-        android:textColor="#555555"
-        android:text="@string/I_already_know"
-
-        />
+        tools:text="@string/lang_level" />
 
     <Spinner
+        android:id="@+id/spinner_lang_level"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:id="@+id/spinner_indian_districts"
-        android:layout_below="@id/textView_Indian_districts"
+        android:layout_below="@id/textView_lang_level"
+        android:layout_alignParentStart="true"
 
-        />
-
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="3dp" />
 
     <TextView
-        android:id="@+id/textView_Grid_Sizes"
+        android:id="@+id/textView_Sudoku_Level"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/spinner_indian_districts"
-        android:layout_marginTop="40dp"
+        android:layout_below="@+id/spinner_lang_level"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="2dp"
         android:padding="6dp"
-        android:text="@string/GridSize"
+        android:text="@string/sudoku_level"
+        android:textAlignment="center"
         android:textColor="#555555"
-
-        android:textSize="15sp" />
+        android:textSize="18sp" />
 
     <Spinner
+        android:id="@+id/spinner_sudoku_level"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:id="@+id/spinner_grid_size"
-        android:layout_below="@id/textView_Grid_Sizes"
+        android:layout_below="@id/textView_Sudoku_Level"
+        android:layout_alignParentStart="true"
 
-        />
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginEnd="1dp" />
 
     <ImageButton
         android:id="@+id/image_button_next"

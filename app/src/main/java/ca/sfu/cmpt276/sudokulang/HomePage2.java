@@ -1,8 +1,7 @@
 package ca.sfu.cmpt276.sudokulang;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -10,6 +9,8 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 
 public class HomePage2 extends AppCompatActivity {
@@ -76,8 +77,7 @@ public class HomePage2 extends AppCompatActivity {
         nextImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Toast.makeText(HomePage2.this, "this works", Toast.LENGTH_SHORT).show();
-
+                startActivity(new Intent(HomePage2.this, GameActivity.class));
             }
         });
 

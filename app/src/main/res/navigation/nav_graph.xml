@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/navigation_game">
+
+    <!-- NOTE: Automatically works with BottomNavigationView but not BottomAppBar. -->
+    <!-- See: https://developer.android.com/guide/navigation -->
+
+    <fragment
+        android:id="@+id/navigation_game"
+        android:name="ca.sfu.cmpt276.sudokulang.ui.game.GameFragment"
+        android:label="@string/title_activity_game"
+        tools:layout="@layout/fragment_game" />
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="ca.sfu.cmpt276.sudokulang.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_HomeFragment_to_GameFragment"
+            app:destination="@id/navigation_game" />
+        <action
+            android:id="@+id/action_HomeFragment_to_HelpFragment"
+            app:destination="@id/navigation_help" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_help"
+        android:name="ca.sfu.cmpt276.sudokulang.ui.help.HelpFragment"
+        android:label="@string/title_help"
+        tools:layout="@layout/fragment_help">
+        <action
+            android:id="@+id/action_HelpFragment_to_GameFragment"
+            app:destination="@id/navigation_game" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_translation"
+        android:name="ca.sfu.cmpt276.sudokulang.ui.translation.TranslationFragment"
+        android:label="@string/title_translation"
+        tools:layout="@layout/fragment_translation">
+        <action
+            android:id="@+id/action_TranslationFragment_to_GameFragment"
+            app:destination="@id/navigation_game" />
+    </fragment>
+</navigation>

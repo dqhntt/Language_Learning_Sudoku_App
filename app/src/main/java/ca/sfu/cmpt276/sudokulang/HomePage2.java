@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package ca.sfu.cmpt276.sudokulang;
 
 import androidx.appcompat.app.AppCompatActivity;
 

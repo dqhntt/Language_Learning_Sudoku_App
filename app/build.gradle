@@ -3,12 +3,12 @@ plugins {
 }
 
 android {
-    namespace 'com.example.myapplication'
+    namespace 'ca.sfu.cmpt276.sudokulang'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.myapplication"
-        minSdk 24
+        applicationId "ca.sfu.cmpt276.sudokulang"
+        minSdk 26
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -29,12 +29,12 @@ android {
     buildFeatures {
         viewBinding true
     }
-    buildToolsVersion '33.0.1'
+    buildToolsVersion '33.0.2'
 }
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.lifecycle:lifecycle-livedata:2.5.1'

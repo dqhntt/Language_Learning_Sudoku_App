@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name"></string>
+    <string name="app_name">Sudoku Language Practice App</string>
     <string name="welcome_text"><b>Welcome TO \n Sudoku Vocabulary \nPractice App</b></string>
     <string name="lang_level"><b>My level of \n (*** input language***) is </b></string>
     <string name="sudoku_level"><b>My level of \n Sudoku is </b></string>

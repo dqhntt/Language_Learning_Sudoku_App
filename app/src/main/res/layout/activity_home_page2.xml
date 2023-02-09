@@ -26,7 +26,7 @@
         android:padding="6dp"
         android:text="@string/lang_level"
         android:textAlignment="center"
-        android:textColor="#555555"
+        android:textColor="?attr/colorOnSurfaceVariant"
         android:textSize="18sp"
         tools:text="@string/lang_level" />
 
@@ -56,7 +56,7 @@
         android:padding="6dp"
         android:text="@string/sudoku_level"
         android:textAlignment="center"
-        android:textColor="#555555"
+        android:textColor="?attr/colorOnSurfaceVariant"
         android:textSize="18sp" />
 
     <Spinner

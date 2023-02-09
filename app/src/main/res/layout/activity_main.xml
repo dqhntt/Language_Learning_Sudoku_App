@@ -28,7 +28,7 @@
         android:padding="6dp"
         android:text="@string/welcome_text"
         android:textAlignment="center"
-        android:textColor="#555555"
+        android:textColor="?attr/colorOnSurfaceVariant"
         android:textSize="18sp"
         tools:text="@string/welcome_text" />
 
@@ -40,7 +40,7 @@
         android:layout_marginTop="55dp"
         android:padding="6dp"
         android:textSize="15sp"
-        android:textColor="#555555"
+        android:textColor="?attr/colorOnSurfaceVariant"
         android:text="@string/I_want_to_learn"
 
         />
@@ -61,7 +61,7 @@
         android:layout_marginTop="40dp"
         android:padding="6dp"
         android:textSize="15sp"
-        android:textColor="#555555"
+        android:textColor="?attr/colorOnSurfaceVariant"
         android:text="@string/I_already_know"
 
         />
@@ -84,7 +84,7 @@
         android:layout_marginTop="40dp"
         android:padding="6dp"
         android:text="@string/GridSize"
-        android:textColor="#555555"
+        android:textColor="?attr/colorOnSurfaceVariant"
 
         android:textSize="15sp" />
 

@@ -61,7 +61,6 @@ public class HomePage2 extends AppCompatActivity {
 
 
 
-        getSupportActionBar().hide();
         view=this.getWindow().getDecorView();
         view.setBackgroundResource(R.color.blue);
 

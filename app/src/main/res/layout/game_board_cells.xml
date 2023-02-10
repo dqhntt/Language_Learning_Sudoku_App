@@ -16,6 +16,70 @@
 
 
     <!-- TODO: Use Group to control visibility of extra cells. -->
+    <!-- TODO: Constrain cells to the dividers. -->
+    <!-- Dividers. -->
+
+    <View
+        android:id="@+id/vertical_divider_1"
+        android:layout_width="1.5dp"
+        android:layout_height="0dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/vertical_divider_2"
+        android:layout_width="1.5dp"
+        android:layout_height="0dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_3"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/vertical_divider_3"
+        android:layout_width="1.5dp"
+        android:layout_height="0dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/horizontal_divider_1"
+        android:layout_width="0dp"
+        android:layout_height="1.5dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/horizontal_divider_2"
+        android:layout_width="0dp"
+        android:layout_height="1.5dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_1" />
+
+    <View
+        android:id="@+id/horizontal_divider_3"
+        android:layout_width="0dp"
+        android:layout_height="1.5dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_2" />
+
+
     <!-- Game cells. -->
 
     <!-- Cite: https://stackoverflow.com/a/63331089 -->
@@ -33,8 +97,8 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r2c1"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r1c2"
+        app:layout_constraintBottom_toTopOf="@id/cell_r2c1"
+        app:layout_constraintEnd_toStartOf="@id/cell_r1c2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
@@ -54,9 +118,9 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r2c2"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r1c3"
-        app:layout_constraintStart_toEndOf="@+id/cell_r1c1"
+        app:layout_constraintBottom_toTopOf="@id/cell_r2c2"
+        app:layout_constraintEnd_toStartOf="@id/cell_r1c3"
+        app:layout_constraintStart_toEndOf="@id/cell_r1c1"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
@@ -75,9 +139,9 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r2c2"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r1c4"
-        app:layout_constraintStart_toEndOf="@+id/cell_r1c2"
+        app:layout_constraintBottom_toTopOf="@id/cell_r2c2"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_1"
+        app:layout_constraintStart_toEndOf="@id/cell_r1c2"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
@@ -96,9 +160,9 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r2c4"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r1c5"
-        app:layout_constraintStart_toEndOf="@+id/cell_r1c3"
+        app:layout_constraintBottom_toTopOf="@id/cell_r2c4"
+        app:layout_constraintEnd_toStartOf="@id/cell_r1c5"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_1"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
@@ -117,9 +181,9 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r2c5"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r1c6"
-        app:layout_constraintStart_toEndOf="@+id/cell_r1c4"
+        app:layout_constraintBottom_toTopOf="@id/cell_r2c5"
+        app:layout_constraintEnd_toStartOf="@id/cell_r1c6"
+        app:layout_constraintStart_toEndOf="@id/cell_r1c4"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
@@ -138,9 +202,9 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r2c6"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r1c7"
-        app:layout_constraintStart_toEndOf="@+id/cell_r1c5"
+        app:layout_constraintBottom_toTopOf="@id/cell_r2c6"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_2"
+        app:layout_constraintStart_toEndOf="@id/cell_r1c5"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
@@ -159,9 +223,9 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r2c7"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r1c8"
-        app:layout_constraintStart_toEndOf="@+id/cell_r1c6"
+        app:layout_constraintBottom_toTopOf="@id/cell_r2c7"
+        app:layout_constraintEnd_toStartOf="@id/cell_r1c8"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_2"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
@@ -180,9 +244,9 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r2c8"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r1c9"
-        app:layout_constraintStart_toEndOf="@+id/cell_r1c7"
+        app:layout_constraintBottom_toTopOf="@id/cell_r2c8"
+        app:layout_constraintEnd_toStartOf="@id/cell_r1c9"
+        app:layout_constraintStart_toEndOf="@id/cell_r1c7"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
@@ -201,9 +265,9 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r2c9"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r1c10"
-        app:layout_constraintStart_toEndOf="@+id/cell_r1c8"
+        app:layout_constraintBottom_toTopOf="@id/cell_r2c9"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_3"
+        app:layout_constraintStart_toEndOf="@id/cell_r1c8"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
@@ -222,9 +286,9 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r2c10"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r1c11"
-        app:layout_constraintStart_toEndOf="@+id/cell_r1c9"
+        app:layout_constraintBottom_toTopOf="@id/cell_r2c10"
+        app:layout_constraintEnd_toStartOf="@id/cell_r1c11"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_3"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
@@ -243,9 +307,9 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r2c11"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r1c12"
-        app:layout_constraintStart_toEndOf="@+id/cell_r1c10"
+        app:layout_constraintBottom_toTopOf="@id/cell_r2c11"
+        app:layout_constraintEnd_toStartOf="@id/cell_r1c12"
+        app:layout_constraintStart_toEndOf="@id/cell_r1c10"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
@@ -264,9 +328,9 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r2c12"
+        app:layout_constraintBottom_toTopOf="@id/cell_r2c12"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cell_r1c11"
+        app:layout_constraintStart_toEndOf="@id/cell_r1c11"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
@@ -285,10 +349,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r3c1"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r2c2"
+        app:layout_constraintBottom_toTopOf="@id/cell_r3c1"
+        app:layout_constraintEnd_toStartOf="@id/cell_r2c2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r1c1"
+        app:layout_constraintTop_toBottomOf="@id/cell_r1c1"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -306,10 +370,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r3c2"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r2c3"
-        app:layout_constraintStart_toEndOf="@+id/cell_r2c1"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r1c2"
+        app:layout_constraintBottom_toTopOf="@id/cell_r3c2"
+        app:layout_constraintEnd_toStartOf="@id/cell_r2c3"
+        app:layout_constraintStart_toEndOf="@id/cell_r2c1"
+        app:layout_constraintTop_toBottomOf="@id/cell_r1c2"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -327,10 +391,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r3c3"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r2c4"
-        app:layout_constraintStart_toEndOf="@+id/cell_r2c2"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r1c3"
+        app:layout_constraintBottom_toTopOf="@id/cell_r3c3"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_1"
+        app:layout_constraintStart_toEndOf="@id/cell_r2c2"
+        app:layout_constraintTop_toBottomOf="@id/cell_r1c3"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -348,10 +412,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r3c4"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r2c5"
-        app:layout_constraintStart_toEndOf="@+id/cell_r2c3"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r1c4"
+        app:layout_constraintBottom_toTopOf="@id/cell_r3c4"
+        app:layout_constraintEnd_toStartOf="@id/cell_r2c5"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_1"
+        app:layout_constraintTop_toBottomOf="@id/cell_r1c4"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -369,10 +433,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r3c5"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r2c6"
-        app:layout_constraintStart_toEndOf="@+id/cell_r2c4"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r1c5"
+        app:layout_constraintBottom_toTopOf="@id/cell_r3c5"
+        app:layout_constraintEnd_toStartOf="@id/cell_r2c6"
+        app:layout_constraintStart_toEndOf="@id/cell_r2c4"
+        app:layout_constraintTop_toBottomOf="@id/cell_r1c5"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -390,10 +454,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r3c6"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r2c7"
-        app:layout_constraintStart_toEndOf="@+id/cell_r2c5"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r1c6"
+        app:layout_constraintBottom_toTopOf="@id/cell_r3c6"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_2"
+        app:layout_constraintStart_toEndOf="@id/cell_r2c5"
+        app:layout_constraintTop_toBottomOf="@id/cell_r1c6"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -411,10 +475,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r3c7"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r2c8"
-        app:layout_constraintStart_toEndOf="@+id/cell_r2c6"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r1c7"
+        app:layout_constraintBottom_toTopOf="@id/cell_r3c7"
+        app:layout_constraintEnd_toStartOf="@id/cell_r2c8"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_2"
+        app:layout_constraintTop_toBottomOf="@id/cell_r1c7"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -432,10 +496,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r3c8"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r2c9"
-        app:layout_constraintStart_toEndOf="@+id/cell_r2c7"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r1c8"
+        app:layout_constraintBottom_toTopOf="@id/cell_r3c8"
+        app:layout_constraintEnd_toStartOf="@id/cell_r2c9"
+        app:layout_constraintStart_toEndOf="@id/cell_r2c7"
+        app:layout_constraintTop_toBottomOf="@id/cell_r1c8"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -453,10 +517,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r3c9"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r2c10"
-        app:layout_constraintStart_toEndOf="@+id/cell_r2c8"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r1c9"
+        app:layout_constraintBottom_toTopOf="@id/cell_r3c9"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_3"
+        app:layout_constraintStart_toEndOf="@id/cell_r2c8"
+        app:layout_constraintTop_toBottomOf="@id/cell_r1c9"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -474,10 +538,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r3c10"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r2c11"
-        app:layout_constraintStart_toEndOf="@+id/cell_r2c9"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r1c10"
+        app:layout_constraintBottom_toTopOf="@id/cell_r3c10"
+        app:layout_constraintEnd_toStartOf="@id/cell_r2c11"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_3"
+        app:layout_constraintTop_toBottomOf="@id/cell_r1c10"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -495,10 +559,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r3c11"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r2c12"
-        app:layout_constraintStart_toEndOf="@+id/cell_r2c10"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r1c11"
+        app:layout_constraintBottom_toTopOf="@id/cell_r3c11"
+        app:layout_constraintEnd_toStartOf="@id/cell_r2c12"
+        app:layout_constraintStart_toEndOf="@id/cell_r2c10"
+        app:layout_constraintTop_toBottomOf="@id/cell_r1c11"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -516,10 +580,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r3c12"
+        app:layout_constraintBottom_toTopOf="@id/cell_r3c12"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cell_r2c11"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r1c12"
+        app:layout_constraintStart_toEndOf="@id/cell_r2c11"
+        app:layout_constraintTop_toBottomOf="@id/cell_r1c12"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -537,10 +601,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r4c1"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r3c2"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_1"
+        app:layout_constraintEnd_toStartOf="@id/cell_r3c2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r2c1"
+        app:layout_constraintTop_toBottomOf="@id/cell_r2c1"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -558,10 +622,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r4c2"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r3c3"
-        app:layout_constraintStart_toEndOf="@+id/cell_r3c1"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r2c2"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_1"
+        app:layout_constraintEnd_toStartOf="@id/cell_r3c3"
+        app:layout_constraintStart_toEndOf="@id/cell_r3c1"
+        app:layout_constraintTop_toBottomOf="@id/cell_r2c2"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -579,10 +643,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r4c3"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r3c4"
-        app:layout_constraintStart_toEndOf="@+id/cell_r3c2"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r2c2"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_1"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_1"
+        app:layout_constraintStart_toEndOf="@id/cell_r3c2"
+        app:layout_constraintTop_toBottomOf="@id/cell_r2c2"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -600,10 +664,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r4c4"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r3c5"
-        app:layout_constraintStart_toEndOf="@+id/cell_r3c3"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r2c4"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_1"
+        app:layout_constraintEnd_toStartOf="@id/cell_r3c5"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_1"
+        app:layout_constraintTop_toBottomOf="@id/cell_r2c4"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -621,10 +685,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r4c5"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r3c6"
-        app:layout_constraintStart_toEndOf="@+id/cell_r3c4"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r2c5"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_1"
+        app:layout_constraintEnd_toStartOf="@id/cell_r3c6"
+        app:layout_constraintStart_toEndOf="@id/cell_r3c4"
+        app:layout_constraintTop_toBottomOf="@id/cell_r2c5"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -642,10 +706,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r4c6"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r3c7"
-        app:layout_constraintStart_toEndOf="@+id/cell_r3c5"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r2c6"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_1"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_2"
+        app:layout_constraintStart_toEndOf="@id/cell_r3c5"
+        app:layout_constraintTop_toBottomOf="@id/cell_r2c6"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -663,10 +727,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r4c7"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r3c8"
-        app:layout_constraintStart_toEndOf="@+id/cell_r3c6"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r2c7"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_1"
+        app:layout_constraintEnd_toStartOf="@id/cell_r3c8"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_2"
+        app:layout_constraintTop_toBottomOf="@id/cell_r2c7"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -684,10 +748,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r4c8"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r3c9"
-        app:layout_constraintStart_toEndOf="@+id/cell_r3c7"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r2c8"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_1"
+        app:layout_constraintEnd_toStartOf="@id/cell_r3c9"
+        app:layout_constraintStart_toEndOf="@id/cell_r3c7"
+        app:layout_constraintTop_toBottomOf="@id/cell_r2c8"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -705,10 +769,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r4c9"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r3c10"
-        app:layout_constraintStart_toEndOf="@+id/cell_r3c8"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r2c9"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_1"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_3"
+        app:layout_constraintStart_toEndOf="@id/cell_r3c8"
+        app:layout_constraintTop_toBottomOf="@id/cell_r2c9"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -726,10 +790,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r4c10"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r3c11"
-        app:layout_constraintStart_toEndOf="@+id/cell_r3c9"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r2c10"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_1"
+        app:layout_constraintEnd_toStartOf="@id/cell_r3c11"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_3"
+        app:layout_constraintTop_toBottomOf="@id/cell_r2c10"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -747,10 +811,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r4c11"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r3c12"
-        app:layout_constraintStart_toEndOf="@+id/cell_r3c10"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r2c11"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_1"
+        app:layout_constraintEnd_toStartOf="@id/cell_r3c12"
+        app:layout_constraintStart_toEndOf="@id/cell_r3c10"
+        app:layout_constraintTop_toBottomOf="@id/cell_r2c11"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -768,10 +832,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r4c12"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cell_r3c11"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r2c12"
+        app:layout_constraintStart_toEndOf="@id/cell_r3c11"
+        app:layout_constraintTop_toBottomOf="@id/cell_r2c12"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -789,10 +853,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r5c1"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r4c2"
+        app:layout_constraintBottom_toTopOf="@id/cell_r5c1"
+        app:layout_constraintEnd_toStartOf="@id/cell_r4c2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r3c1"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_1"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -810,10 +874,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r5c2"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r4c3"
-        app:layout_constraintStart_toEndOf="@+id/cell_r4c1"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r3c2"
+        app:layout_constraintBottom_toTopOf="@id/cell_r5c2"
+        app:layout_constraintEnd_toStartOf="@id/cell_r4c3"
+        app:layout_constraintStart_toEndOf="@id/cell_r4c1"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_1"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -831,10 +895,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r5c3"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r4c4"
-        app:layout_constraintStart_toEndOf="@+id/cell_r4c2"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r3c3"
+        app:layout_constraintBottom_toTopOf="@id/cell_r5c3"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_1"
+        app:layout_constraintStart_toEndOf="@id/cell_r4c2"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_1"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -852,10 +916,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r5c4"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r4c5"
-        app:layout_constraintStart_toEndOf="@+id/cell_r4c3"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r3c4"
+        app:layout_constraintBottom_toTopOf="@id/cell_r5c4"
+        app:layout_constraintEnd_toStartOf="@id/cell_r4c5"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_1"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_1"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -873,10 +937,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r5c5"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r4c6"
-        app:layout_constraintStart_toEndOf="@+id/cell_r4c4"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r3c5"
+        app:layout_constraintBottom_toTopOf="@id/cell_r5c5"
+        app:layout_constraintEnd_toStartOf="@id/cell_r4c6"
+        app:layout_constraintStart_toEndOf="@id/cell_r4c4"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_1"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -894,10 +958,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r5c6"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r4c7"
-        app:layout_constraintStart_toEndOf="@+id/cell_r4c5"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r3c6"
+        app:layout_constraintBottom_toTopOf="@id/cell_r5c6"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_2"
+        app:layout_constraintStart_toEndOf="@id/cell_r4c5"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_1"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -915,10 +979,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r5c7"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r4c8"
-        app:layout_constraintStart_toEndOf="@+id/cell_r4c6"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r3c7"
+        app:layout_constraintBottom_toTopOf="@id/cell_r5c7"
+        app:layout_constraintEnd_toStartOf="@id/cell_r4c8"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_2"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_1"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -936,10 +1000,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r5c8"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r4c9"
-        app:layout_constraintStart_toEndOf="@+id/cell_r4c7"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r3c8"
+        app:layout_constraintBottom_toTopOf="@id/cell_r5c8"
+        app:layout_constraintEnd_toStartOf="@id/cell_r4c9"
+        app:layout_constraintStart_toEndOf="@id/cell_r4c7"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_1"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -957,10 +1021,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r5c9"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r4c10"
-        app:layout_constraintStart_toEndOf="@+id/cell_r4c8"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r3c9"
+        app:layout_constraintBottom_toTopOf="@id/cell_r5c9"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_3"
+        app:layout_constraintStart_toEndOf="@id/cell_r4c8"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_1"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -978,10 +1042,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r5c10"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r4c11"
-        app:layout_constraintStart_toEndOf="@+id/cell_r4c9"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r3c10"
+        app:layout_constraintBottom_toTopOf="@id/cell_r5c10"
+        app:layout_constraintEnd_toStartOf="@id/cell_r4c11"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_3"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_1"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -999,10 +1063,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r5c11"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r4c12"
-        app:layout_constraintStart_toEndOf="@+id/cell_r4c10"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r3c11"
+        app:layout_constraintBottom_toTopOf="@id/cell_r5c11"
+        app:layout_constraintEnd_toStartOf="@id/cell_r4c12"
+        app:layout_constraintStart_toEndOf="@id/cell_r4c10"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_1"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1020,10 +1084,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r5c12"
+        app:layout_constraintBottom_toTopOf="@id/cell_r5c12"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cell_r4c11"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r3c12"
+        app:layout_constraintStart_toEndOf="@id/cell_r4c11"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_1"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1041,10 +1105,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r6c1"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r5c2"
+        app:layout_constraintBottom_toTopOf="@id/cell_r6c1"
+        app:layout_constraintEnd_toStartOf="@id/cell_r5c2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r4c1"
+        app:layout_constraintTop_toBottomOf="@id/cell_r4c1"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1062,10 +1126,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r6c2"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r5c3"
-        app:layout_constraintStart_toEndOf="@+id/cell_r5c1"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r4c2"
+        app:layout_constraintBottom_toTopOf="@id/cell_r6c2"
+        app:layout_constraintEnd_toStartOf="@id/cell_r5c3"
+        app:layout_constraintStart_toEndOf="@id/cell_r5c1"
+        app:layout_constraintTop_toBottomOf="@id/cell_r4c2"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1083,10 +1147,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r6c3"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r5c4"
-        app:layout_constraintStart_toEndOf="@+id/cell_r5c2"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r4c3"
+        app:layout_constraintBottom_toTopOf="@id/cell_r6c3"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_1"
+        app:layout_constraintStart_toEndOf="@id/cell_r5c2"
+        app:layout_constraintTop_toBottomOf="@id/cell_r4c3"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1104,10 +1168,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r6c4"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r5c5"
-        app:layout_constraintStart_toEndOf="@+id/cell_r5c3"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r4c4"
+        app:layout_constraintBottom_toTopOf="@id/cell_r6c4"
+        app:layout_constraintEnd_toStartOf="@id/cell_r5c5"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_1"
+        app:layout_constraintTop_toBottomOf="@id/cell_r4c4"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1125,10 +1189,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r6c5"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r5c6"
-        app:layout_constraintStart_toEndOf="@+id/cell_r5c4"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r4c5"
+        app:layout_constraintBottom_toTopOf="@id/cell_r6c5"
+        app:layout_constraintEnd_toStartOf="@id/cell_r5c6"
+        app:layout_constraintStart_toEndOf="@id/cell_r5c4"
+        app:layout_constraintTop_toBottomOf="@id/cell_r4c5"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1146,10 +1210,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r6c6"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r5c7"
-        app:layout_constraintStart_toEndOf="@+id/cell_r5c5"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r4c6"
+        app:layout_constraintBottom_toTopOf="@id/cell_r6c6"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_2"
+        app:layout_constraintStart_toEndOf="@id/cell_r5c5"
+        app:layout_constraintTop_toBottomOf="@id/cell_r4c6"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1167,10 +1231,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r6c7"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r5c8"
-        app:layout_constraintStart_toEndOf="@+id/cell_r5c6"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r4c7"
+        app:layout_constraintBottom_toTopOf="@id/cell_r6c7"
+        app:layout_constraintEnd_toStartOf="@id/cell_r5c8"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_2"
+        app:layout_constraintTop_toBottomOf="@id/cell_r4c7"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1188,10 +1252,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r6c8"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r5c9"
-        app:layout_constraintStart_toEndOf="@+id/cell_r5c7"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r4c8"
+        app:layout_constraintBottom_toTopOf="@id/cell_r6c8"
+        app:layout_constraintEnd_toStartOf="@id/cell_r5c9"
+        app:layout_constraintStart_toEndOf="@id/cell_r5c7"
+        app:layout_constraintTop_toBottomOf="@id/cell_r4c8"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1209,10 +1273,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r6c9"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r5c10"
-        app:layout_constraintStart_toEndOf="@+id/cell_r5c8"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r4c9"
+        app:layout_constraintBottom_toTopOf="@id/cell_r6c9"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_3"
+        app:layout_constraintStart_toEndOf="@id/cell_r5c8"
+        app:layout_constraintTop_toBottomOf="@id/cell_r4c9"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1230,10 +1294,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r6c10"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r5c11"
-        app:layout_constraintStart_toEndOf="@+id/cell_r5c9"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r4c10"
+        app:layout_constraintBottom_toTopOf="@id/cell_r6c10"
+        app:layout_constraintEnd_toStartOf="@id/cell_r5c11"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_3"
+        app:layout_constraintTop_toBottomOf="@id/cell_r4c10"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1251,10 +1315,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r6c11"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r5c12"
-        app:layout_constraintStart_toEndOf="@+id/cell_r5c10"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r4c11"
+        app:layout_constraintBottom_toTopOf="@id/cell_r6c11"
+        app:layout_constraintEnd_toStartOf="@id/cell_r5c12"
+        app:layout_constraintStart_toEndOf="@id/cell_r5c10"
+        app:layout_constraintTop_toBottomOf="@id/cell_r4c11"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1272,10 +1336,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r6c12"
+        app:layout_constraintBottom_toTopOf="@id/cell_r6c12"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cell_r5c11"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r4c12"
+        app:layout_constraintStart_toEndOf="@id/cell_r5c11"
+        app:layout_constraintTop_toBottomOf="@id/cell_r4c12"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1293,10 +1357,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r7c1"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r6c2"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_2"
+        app:layout_constraintEnd_toStartOf="@id/cell_r6c2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r5c1"
+        app:layout_constraintTop_toBottomOf="@id/cell_r5c1"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1314,10 +1378,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r7c2"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r6c3"
-        app:layout_constraintStart_toEndOf="@+id/cell_r6c1"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r5c2"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_2"
+        app:layout_constraintEnd_toStartOf="@id/cell_r6c3"
+        app:layout_constraintStart_toEndOf="@id/cell_r6c1"
+        app:layout_constraintTop_toBottomOf="@id/cell_r5c2"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1335,10 +1399,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r7c3"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r6c4"
-        app:layout_constraintStart_toEndOf="@+id/cell_r6c2"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r5c3"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_2"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_1"
+        app:layout_constraintStart_toEndOf="@id/cell_r6c2"
+        app:layout_constraintTop_toBottomOf="@id/cell_r5c3"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1356,10 +1420,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r7c4"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r6c5"
-        app:layout_constraintStart_toEndOf="@+id/cell_r6c3"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r5c4"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_2"
+        app:layout_constraintEnd_toStartOf="@id/cell_r6c5"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_1"
+        app:layout_constraintTop_toBottomOf="@id/cell_r5c4"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1377,10 +1441,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r7c5"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r6c6"
-        app:layout_constraintStart_toEndOf="@+id/cell_r6c4"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r5c5"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_2"
+        app:layout_constraintEnd_toStartOf="@id/cell_r6c6"
+        app:layout_constraintStart_toEndOf="@id/cell_r6c4"
+        app:layout_constraintTop_toBottomOf="@id/cell_r5c5"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1398,10 +1462,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r7c6"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r6c7"
-        app:layout_constraintStart_toEndOf="@+id/cell_r6c5"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r5c6"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_2"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_2"
+        app:layout_constraintStart_toEndOf="@id/cell_r6c5"
+        app:layout_constraintTop_toBottomOf="@id/cell_r5c6"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1419,10 +1483,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r7c7"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r6c8"
-        app:layout_constraintStart_toEndOf="@+id/cell_r6c6"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r5c7"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_2"
+        app:layout_constraintEnd_toStartOf="@id/cell_r6c8"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_2"
+        app:layout_constraintTop_toBottomOf="@id/cell_r5c7"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1440,10 +1504,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r7c8"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r6c9"
-        app:layout_constraintStart_toEndOf="@+id/cell_r6c7"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r5c8"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_2"
+        app:layout_constraintEnd_toStartOf="@id/cell_r6c9"
+        app:layout_constraintStart_toEndOf="@id/cell_r6c7"
+        app:layout_constraintTop_toBottomOf="@id/cell_r5c8"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1461,10 +1525,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r7c9"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r6c10"
-        app:layout_constraintStart_toEndOf="@+id/cell_r6c8"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r5c9"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_2"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_3"
+        app:layout_constraintStart_toEndOf="@id/cell_r6c8"
+        app:layout_constraintTop_toBottomOf="@id/cell_r5c9"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1482,10 +1546,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r7c10"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r6c11"
-        app:layout_constraintStart_toEndOf="@+id/cell_r6c9"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r5c10"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_2"
+        app:layout_constraintEnd_toStartOf="@id/cell_r6c11"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_3"
+        app:layout_constraintTop_toBottomOf="@id/cell_r5c10"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1503,10 +1567,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r7c11"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r6c12"
-        app:layout_constraintStart_toEndOf="@+id/cell_r6c10"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r5c11"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_2"
+        app:layout_constraintEnd_toStartOf="@id/cell_r6c12"
+        app:layout_constraintStart_toEndOf="@id/cell_r6c10"
+        app:layout_constraintTop_toBottomOf="@id/cell_r5c11"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1524,10 +1588,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r7c12"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cell_r6c11"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r5c12"
+        app:layout_constraintStart_toEndOf="@id/cell_r6c11"
+        app:layout_constraintTop_toBottomOf="@id/cell_r5c12"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1545,10 +1609,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r8c1"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r7c2"
+        app:layout_constraintBottom_toTopOf="@id/cell_r8c1"
+        app:layout_constraintEnd_toStartOf="@id/cell_r7c2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r6c1"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_2"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1566,10 +1630,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r8c2"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r7c3"
-        app:layout_constraintStart_toEndOf="@+id/cell_r7c1"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r6c2"
+        app:layout_constraintBottom_toTopOf="@id/cell_r8c2"
+        app:layout_constraintEnd_toStartOf="@id/cell_r7c3"
+        app:layout_constraintStart_toEndOf="@id/cell_r7c1"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_2"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1587,10 +1651,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r8c3"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r7c4"
-        app:layout_constraintStart_toEndOf="@+id/cell_r7c2"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r6c3"
+        app:layout_constraintBottom_toTopOf="@id/cell_r8c3"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_1"
+        app:layout_constraintStart_toEndOf="@id/cell_r7c2"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_2"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1608,10 +1672,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r8c4"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r7c5"
-        app:layout_constraintStart_toEndOf="@+id/cell_r7c3"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r6c4"
+        app:layout_constraintBottom_toTopOf="@id/cell_r8c4"
+        app:layout_constraintEnd_toStartOf="@id/cell_r7c5"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_1"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_2"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1629,10 +1693,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r8c5"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r7c6"
-        app:layout_constraintStart_toEndOf="@+id/cell_r7c4"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r6c5"
+        app:layout_constraintBottom_toTopOf="@id/cell_r8c5"
+        app:layout_constraintEnd_toStartOf="@id/cell_r7c6"
+        app:layout_constraintStart_toEndOf="@id/cell_r7c4"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_2"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1650,10 +1714,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r8c6"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r7c7"
-        app:layout_constraintStart_toEndOf="@+id/cell_r7c5"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r6c6"
+        app:layout_constraintBottom_toTopOf="@id/cell_r8c6"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_2"
+        app:layout_constraintStart_toEndOf="@id/cell_r7c5"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_2"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1671,10 +1735,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r8c7"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r7c8"
-        app:layout_constraintStart_toEndOf="@+id/cell_r7c6"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r6c7"
+        app:layout_constraintBottom_toTopOf="@id/cell_r8c7"
+        app:layout_constraintEnd_toStartOf="@id/cell_r7c8"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_2"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_2"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1692,10 +1756,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r8c8"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r7c9"
-        app:layout_constraintStart_toEndOf="@+id/cell_r7c7"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r6c8"
+        app:layout_constraintBottom_toTopOf="@id/cell_r8c8"
+        app:layout_constraintEnd_toStartOf="@id/cell_r7c9"
+        app:layout_constraintStart_toEndOf="@id/cell_r7c7"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_2"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1713,10 +1777,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r8c9"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r7c10"
-        app:layout_constraintStart_toEndOf="@+id/cell_r7c8"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r6c9"
+        app:layout_constraintBottom_toTopOf="@id/cell_r8c9"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_3"
+        app:layout_constraintStart_toEndOf="@id/cell_r7c8"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_2"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1734,10 +1798,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r8c10"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r7c11"
-        app:layout_constraintStart_toEndOf="@+id/cell_r7c9"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r6c10"
+        app:layout_constraintBottom_toTopOf="@id/cell_r8c10"
+        app:layout_constraintEnd_toStartOf="@id/cell_r7c11"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_3"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_2"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1755,10 +1819,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r8c11"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r7c12"
-        app:layout_constraintStart_toEndOf="@+id/cell_r7c10"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r6c11"
+        app:layout_constraintBottom_toTopOf="@id/cell_r8c11"
+        app:layout_constraintEnd_toStartOf="@id/cell_r7c12"
+        app:layout_constraintStart_toEndOf="@id/cell_r7c10"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_2"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1776,10 +1840,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r8c12"
+        app:layout_constraintBottom_toTopOf="@id/cell_r8c12"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cell_r7c11"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r6c12"
+        app:layout_constraintStart_toEndOf="@id/cell_r7c11"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_2"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1797,10 +1861,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r9c1"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r8c2"
+        app:layout_constraintBottom_toTopOf="@id/cell_r9c1"
+        app:layout_constraintEnd_toStartOf="@id/cell_r8c2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r7c1"
+        app:layout_constraintTop_toBottomOf="@id/cell_r7c1"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1818,10 +1882,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r9c2"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r8c3"
-        app:layout_constraintStart_toEndOf="@+id/cell_r8c1"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r7c2"
+        app:layout_constraintBottom_toTopOf="@id/cell_r9c2"
+        app:layout_constraintEnd_toStartOf="@id/cell_r8c3"
+        app:layout_constraintStart_toEndOf="@id/cell_r8c1"
+        app:layout_constraintTop_toBottomOf="@id/cell_r7c2"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1839,10 +1903,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r9c3"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r8c4"
-        app:layout_constraintStart_toEndOf="@+id/cell_r8c2"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r7c3"
+        app:layout_constraintBottom_toTopOf="@id/cell_r9c3"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_1"
+        app:layout_constraintStart_toEndOf="@id/cell_r8c2"
+        app:layout_constraintTop_toBottomOf="@id/cell_r7c3"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1860,10 +1924,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r9c4"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r8c5"
-        app:layout_constraintStart_toEndOf="@+id/cell_r8c3"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r7c4"
+        app:layout_constraintBottom_toTopOf="@id/cell_r9c4"
+        app:layout_constraintEnd_toStartOf="@id/cell_r8c5"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_1"
+        app:layout_constraintTop_toBottomOf="@id/cell_r7c4"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1881,10 +1945,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r9c5"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r8c6"
-        app:layout_constraintStart_toEndOf="@+id/cell_r8c4"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r7c5"
+        app:layout_constraintBottom_toTopOf="@id/cell_r9c5"
+        app:layout_constraintEnd_toStartOf="@id/cell_r8c6"
+        app:layout_constraintStart_toEndOf="@id/cell_r8c4"
+        app:layout_constraintTop_toBottomOf="@id/cell_r7c5"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1902,10 +1966,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r9c6"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r8c7"
-        app:layout_constraintStart_toEndOf="@+id/cell_r8c5"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r7c6"
+        app:layout_constraintBottom_toTopOf="@id/cell_r9c6"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_2"
+        app:layout_constraintStart_toEndOf="@id/cell_r8c5"
+        app:layout_constraintTop_toBottomOf="@id/cell_r7c6"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1923,10 +1987,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r9c7"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r8c8"
-        app:layout_constraintStart_toEndOf="@+id/cell_r8c6"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r7c7"
+        app:layout_constraintBottom_toTopOf="@id/cell_r9c7"
+        app:layout_constraintEnd_toStartOf="@id/cell_r8c8"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_2"
+        app:layout_constraintTop_toBottomOf="@id/cell_r7c7"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1944,10 +2008,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r9c8"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r8c9"
-        app:layout_constraintStart_toEndOf="@+id/cell_r8c7"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r7c8"
+        app:layout_constraintBottom_toTopOf="@id/cell_r9c8"
+        app:layout_constraintEnd_toStartOf="@id/cell_r8c9"
+        app:layout_constraintStart_toEndOf="@id/cell_r8c7"
+        app:layout_constraintTop_toBottomOf="@id/cell_r7c8"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1965,10 +2029,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r9c9"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r8c10"
-        app:layout_constraintStart_toEndOf="@+id/cell_r8c8"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r7c9"
+        app:layout_constraintBottom_toTopOf="@id/cell_r9c9"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_3"
+        app:layout_constraintStart_toEndOf="@id/cell_r8c8"
+        app:layout_constraintTop_toBottomOf="@id/cell_r7c9"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -1986,10 +2050,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r9c10"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r8c11"
-        app:layout_constraintStart_toEndOf="@+id/cell_r8c9"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r7c10"
+        app:layout_constraintBottom_toTopOf="@id/cell_r9c10"
+        app:layout_constraintEnd_toStartOf="@id/cell_r8c11"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_3"
+        app:layout_constraintTop_toBottomOf="@id/cell_r7c10"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2007,10 +2071,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r9c11"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r8c12"
-        app:layout_constraintStart_toEndOf="@+id/cell_r8c10"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r7c11"
+        app:layout_constraintBottom_toTopOf="@id/cell_r9c11"
+        app:layout_constraintEnd_toStartOf="@id/cell_r8c12"
+        app:layout_constraintStart_toEndOf="@id/cell_r8c10"
+        app:layout_constraintTop_toBottomOf="@id/cell_r7c11"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2028,10 +2092,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r9c12"
+        app:layout_constraintBottom_toTopOf="@id/cell_r9c12"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cell_r8c11"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r7c12"
+        app:layout_constraintStart_toEndOf="@id/cell_r8c11"
+        app:layout_constraintTop_toBottomOf="@id/cell_r7c12"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2049,10 +2113,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r10c1"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r9c2"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_3"
+        app:layout_constraintEnd_toStartOf="@id/cell_r9c2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r8c1"
+        app:layout_constraintTop_toBottomOf="@id/cell_r8c1"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2070,10 +2134,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r10c2"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r9c3"
-        app:layout_constraintStart_toEndOf="@+id/cell_r9c1"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r8c2"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_3"
+        app:layout_constraintEnd_toStartOf="@id/cell_r9c3"
+        app:layout_constraintStart_toEndOf="@id/cell_r9c1"
+        app:layout_constraintTop_toBottomOf="@id/cell_r8c2"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2091,10 +2155,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r10c3"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r9c4"
-        app:layout_constraintStart_toEndOf="@+id/cell_r9c2"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r8c3"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_3"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_1"
+        app:layout_constraintStart_toEndOf="@id/cell_r9c2"
+        app:layout_constraintTop_toBottomOf="@id/cell_r8c3"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2112,10 +2176,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r10c4"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r9c5"
-        app:layout_constraintStart_toEndOf="@+id/cell_r9c3"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r8c4"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_3"
+        app:layout_constraintEnd_toStartOf="@id/cell_r9c5"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_1"
+        app:layout_constraintTop_toBottomOf="@id/cell_r8c4"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2133,10 +2197,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r10c5"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r9c6"
-        app:layout_constraintStart_toEndOf="@+id/cell_r9c4"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r8c5"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_3"
+        app:layout_constraintEnd_toStartOf="@id/cell_r9c6"
+        app:layout_constraintStart_toEndOf="@id/cell_r9c4"
+        app:layout_constraintTop_toBottomOf="@id/cell_r8c5"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2154,10 +2218,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r10c6"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r9c7"
-        app:layout_constraintStart_toEndOf="@+id/cell_r9c5"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r8c6"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_3"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_2"
+        app:layout_constraintStart_toEndOf="@id/cell_r9c5"
+        app:layout_constraintTop_toBottomOf="@id/cell_r8c6"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2175,10 +2239,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r10c7"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r9c8"
-        app:layout_constraintStart_toEndOf="@+id/cell_r9c6"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r8c7"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_3"
+        app:layout_constraintEnd_toStartOf="@id/cell_r9c8"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_2"
+        app:layout_constraintTop_toBottomOf="@id/cell_r8c7"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2196,10 +2260,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r10c8"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r9c9"
-        app:layout_constraintStart_toEndOf="@+id/cell_r9c7"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r8c8"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_3"
+        app:layout_constraintEnd_toStartOf="@id/cell_r9c9"
+        app:layout_constraintStart_toEndOf="@id/cell_r9c7"
+        app:layout_constraintTop_toBottomOf="@id/cell_r8c8"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2217,10 +2281,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r10c9"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r9c10"
-        app:layout_constraintStart_toEndOf="@+id/cell_r9c8"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r8c9"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_3"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_3"
+        app:layout_constraintStart_toEndOf="@id/cell_r9c8"
+        app:layout_constraintTop_toBottomOf="@id/cell_r8c9"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2238,10 +2302,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r10c10"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r9c11"
-        app:layout_constraintStart_toEndOf="@+id/cell_r9c9"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r8c10"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_3"
+        app:layout_constraintEnd_toStartOf="@id/cell_r9c11"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_3"
+        app:layout_constraintTop_toBottomOf="@id/cell_r8c10"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2259,10 +2323,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r10c11"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r9c12"
-        app:layout_constraintStart_toEndOf="@+id/cell_r9c10"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r8c11"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_3"
+        app:layout_constraintEnd_toStartOf="@id/cell_r9c12"
+        app:layout_constraintStart_toEndOf="@id/cell_r9c10"
+        app:layout_constraintTop_toBottomOf="@id/cell_r8c11"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2280,10 +2344,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r10c12"
+        app:layout_constraintBottom_toTopOf="@id/horizontal_divider_3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cell_r9c11"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r8c12"
+        app:layout_constraintStart_toEndOf="@id/cell_r9c11"
+        app:layout_constraintTop_toBottomOf="@id/cell_r8c12"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2301,10 +2365,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r11c1"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r10c2"
+        app:layout_constraintBottom_toTopOf="@id/cell_r11c1"
+        app:layout_constraintEnd_toStartOf="@id/cell_r10c2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r9c1"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_3"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2322,10 +2386,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r11c2"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r10c3"
-        app:layout_constraintStart_toEndOf="@+id/cell_r10c1"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r9c2"
+        app:layout_constraintBottom_toTopOf="@id/cell_r11c2"
+        app:layout_constraintEnd_toStartOf="@id/cell_r10c3"
+        app:layout_constraintStart_toEndOf="@id/cell_r10c1"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_3"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2343,10 +2407,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r11c3"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r10c4"
-        app:layout_constraintStart_toEndOf="@+id/cell_r10c2"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r9c3"
+        app:layout_constraintBottom_toTopOf="@id/cell_r11c3"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_1"
+        app:layout_constraintStart_toEndOf="@id/cell_r10c2"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_3"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2364,10 +2428,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r11c4"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r10c5"
-        app:layout_constraintStart_toEndOf="@+id/cell_r10c3"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r9c4"
+        app:layout_constraintBottom_toTopOf="@id/cell_r11c4"
+        app:layout_constraintEnd_toStartOf="@id/cell_r10c5"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_1"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_3"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2385,10 +2449,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r11c5"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r10c6"
-        app:layout_constraintStart_toEndOf="@+id/cell_r10c4"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r9c5"
+        app:layout_constraintBottom_toTopOf="@id/cell_r11c5"
+        app:layout_constraintEnd_toStartOf="@id/cell_r10c6"
+        app:layout_constraintStart_toEndOf="@id/cell_r10c4"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_3"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2406,10 +2470,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r11c6"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r10c7"
-        app:layout_constraintStart_toEndOf="@+id/cell_r10c5"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r9c6"
+        app:layout_constraintBottom_toTopOf="@id/cell_r11c6"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_2"
+        app:layout_constraintStart_toEndOf="@id/cell_r10c5"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_3"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2427,10 +2491,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r11c7"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r10c8"
-        app:layout_constraintStart_toEndOf="@+id/cell_r10c6"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r9c7"
+        app:layout_constraintBottom_toTopOf="@id/cell_r11c7"
+        app:layout_constraintEnd_toStartOf="@id/cell_r10c8"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_2"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_3"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2448,10 +2512,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r11c8"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r10c9"
-        app:layout_constraintStart_toEndOf="@+id/cell_r10c7"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r9c8"
+        app:layout_constraintBottom_toTopOf="@id/cell_r11c8"
+        app:layout_constraintEnd_toStartOf="@id/cell_r10c9"
+        app:layout_constraintStart_toEndOf="@id/cell_r10c7"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_3"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2469,10 +2533,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r11c9"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r10c10"
-        app:layout_constraintStart_toEndOf="@+id/cell_r10c8"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r9c9"
+        app:layout_constraintBottom_toTopOf="@id/cell_r11c9"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_3"
+        app:layout_constraintStart_toEndOf="@id/cell_r10c8"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_3"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2490,10 +2554,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r11c10"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r10c11"
-        app:layout_constraintStart_toEndOf="@+id/cell_r10c9"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r9c10"
+        app:layout_constraintBottom_toTopOf="@id/cell_r11c10"
+        app:layout_constraintEnd_toStartOf="@id/cell_r10c11"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_3"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_3"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2511,10 +2575,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r11c11"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r10c12"
-        app:layout_constraintStart_toEndOf="@+id/cell_r10c10"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r9c11"
+        app:layout_constraintBottom_toTopOf="@id/cell_r11c11"
+        app:layout_constraintEnd_toStartOf="@id/cell_r10c12"
+        app:layout_constraintStart_toEndOf="@id/cell_r10c10"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_3"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2532,10 +2596,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r11c12"
+        app:layout_constraintBottom_toTopOf="@id/cell_r11c12"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cell_r10c11"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r9c12"
+        app:layout_constraintStart_toEndOf="@id/cell_r10c11"
+        app:layout_constraintTop_toBottomOf="@id/horizontal_divider_3"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2553,10 +2617,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r12c1"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r11c2"
+        app:layout_constraintBottom_toTopOf="@id/cell_r12c1"
+        app:layout_constraintEnd_toStartOf="@id/cell_r11c2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r10c1"
+        app:layout_constraintTop_toBottomOf="@id/cell_r10c1"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2574,10 +2638,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r12c2"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r11c3"
-        app:layout_constraintStart_toEndOf="@+id/cell_r11c1"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r10c2"
+        app:layout_constraintBottom_toTopOf="@id/cell_r12c2"
+        app:layout_constraintEnd_toStartOf="@id/cell_r11c3"
+        app:layout_constraintStart_toEndOf="@id/cell_r11c1"
+        app:layout_constraintTop_toBottomOf="@id/cell_r10c2"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2595,10 +2659,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r12c3"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r11c4"
-        app:layout_constraintStart_toEndOf="@+id/cell_r11c2"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r10c3"
+        app:layout_constraintBottom_toTopOf="@id/cell_r12c3"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_1"
+        app:layout_constraintStart_toEndOf="@id/cell_r11c2"
+        app:layout_constraintTop_toBottomOf="@id/cell_r10c3"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2616,10 +2680,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r12c4"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r11c5"
-        app:layout_constraintStart_toEndOf="@+id/cell_r11c3"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r10c4"
+        app:layout_constraintBottom_toTopOf="@id/cell_r12c4"
+        app:layout_constraintEnd_toStartOf="@id/cell_r11c5"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_1"
+        app:layout_constraintTop_toBottomOf="@id/cell_r10c4"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2637,10 +2701,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r12c5"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r11c6"
-        app:layout_constraintStart_toEndOf="@+id/cell_r11c4"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r10c5"
+        app:layout_constraintBottom_toTopOf="@id/cell_r12c5"
+        app:layout_constraintEnd_toStartOf="@id/cell_r11c6"
+        app:layout_constraintStart_toEndOf="@id/cell_r11c4"
+        app:layout_constraintTop_toBottomOf="@id/cell_r10c5"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2658,10 +2722,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r12c6"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r11c7"
-        app:layout_constraintStart_toEndOf="@+id/cell_r11c5"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r10c6"
+        app:layout_constraintBottom_toTopOf="@id/cell_r12c6"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_2"
+        app:layout_constraintStart_toEndOf="@id/cell_r11c5"
+        app:layout_constraintTop_toBottomOf="@id/cell_r10c6"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2679,10 +2743,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r12c7"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r11c8"
-        app:layout_constraintStart_toEndOf="@+id/cell_r11c6"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r10c7"
+        app:layout_constraintBottom_toTopOf="@id/cell_r12c7"
+        app:layout_constraintEnd_toStartOf="@id/cell_r11c8"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_2"
+        app:layout_constraintTop_toBottomOf="@id/cell_r10c7"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2700,10 +2764,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r12c8"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r11c9"
-        app:layout_constraintStart_toEndOf="@+id/cell_r11c7"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r10c8"
+        app:layout_constraintBottom_toTopOf="@id/cell_r12c8"
+        app:layout_constraintEnd_toStartOf="@id/cell_r11c9"
+        app:layout_constraintStart_toEndOf="@id/cell_r11c7"
+        app:layout_constraintTop_toBottomOf="@id/cell_r10c8"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2721,10 +2785,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r12c9"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r11c10"
-        app:layout_constraintStart_toEndOf="@+id/cell_r11c8"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r10c9"
+        app:layout_constraintBottom_toTopOf="@id/cell_r12c9"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_3"
+        app:layout_constraintStart_toEndOf="@id/cell_r11c8"
+        app:layout_constraintTop_toBottomOf="@id/cell_r10c9"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2742,10 +2806,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r12c10"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r11c11"
-        app:layout_constraintStart_toEndOf="@+id/cell_r11c9"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r10c10"
+        app:layout_constraintBottom_toTopOf="@id/cell_r12c10"
+        app:layout_constraintEnd_toStartOf="@id/cell_r11c11"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_3"
+        app:layout_constraintTop_toBottomOf="@id/cell_r10c10"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2763,10 +2827,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r12c11"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r11c12"
-        app:layout_constraintStart_toEndOf="@+id/cell_r11c10"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r10c11"
+        app:layout_constraintBottom_toTopOf="@id/cell_r12c11"
+        app:layout_constraintEnd_toStartOf="@id/cell_r11c12"
+        app:layout_constraintStart_toEndOf="@id/cell_r11c10"
+        app:layout_constraintTop_toBottomOf="@id/cell_r10c11"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2784,10 +2848,10 @@
         android:visibility="visible"
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/cell_r12c12"
+        app:layout_constraintBottom_toTopOf="@id/cell_r12c12"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cell_r11c11"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r10c12"
+        app:layout_constraintStart_toEndOf="@id/cell_r11c11"
+        app:layout_constraintTop_toBottomOf="@id/cell_r10c12"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2806,9 +2870,9 @@
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r12c2"
+        app:layout_constraintEnd_toStartOf="@id/cell_r12c2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r11c1"
+        app:layout_constraintTop_toBottomOf="@id/cell_r11c1"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2827,9 +2891,9 @@
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r12c3"
-        app:layout_constraintStart_toEndOf="@+id/cell_r12c1"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r11c2"
+        app:layout_constraintEnd_toStartOf="@id/cell_r12c3"
+        app:layout_constraintStart_toEndOf="@id/cell_r12c1"
+        app:layout_constraintTop_toBottomOf="@id/cell_r11c2"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2848,9 +2912,9 @@
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r12c4"
-        app:layout_constraintStart_toEndOf="@+id/cell_r12c2"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r11c3"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_1"
+        app:layout_constraintStart_toEndOf="@id/cell_r12c2"
+        app:layout_constraintTop_toBottomOf="@id/cell_r11c3"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2869,9 +2933,9 @@
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r12c5"
-        app:layout_constraintStart_toEndOf="@+id/cell_r12c3"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r11c4"
+        app:layout_constraintEnd_toStartOf="@id/cell_r12c5"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_1"
+        app:layout_constraintTop_toBottomOf="@id/cell_r11c4"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2890,9 +2954,9 @@
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r12c6"
-        app:layout_constraintStart_toEndOf="@+id/cell_r12c4"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r11c5"
+        app:layout_constraintEnd_toStartOf="@id/cell_r12c6"
+        app:layout_constraintStart_toEndOf="@id/cell_r12c4"
+        app:layout_constraintTop_toBottomOf="@id/cell_r11c5"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2911,9 +2975,9 @@
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r12c7"
-        app:layout_constraintStart_toEndOf="@+id/cell_r12c5"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r11c6"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_2"
+        app:layout_constraintStart_toEndOf="@id/cell_r12c5"
+        app:layout_constraintTop_toBottomOf="@id/cell_r11c6"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2932,9 +2996,9 @@
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r12c8"
-        app:layout_constraintStart_toEndOf="@+id/cell_r12c6"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r11c7"
+        app:layout_constraintEnd_toStartOf="@id/cell_r12c8"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_2"
+        app:layout_constraintTop_toBottomOf="@id/cell_r11c7"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2953,9 +3017,9 @@
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r12c9"
-        app:layout_constraintStart_toEndOf="@+id/cell_r12c7"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r11c8"
+        app:layout_constraintEnd_toStartOf="@id/cell_r12c9"
+        app:layout_constraintStart_toEndOf="@id/cell_r12c7"
+        app:layout_constraintTop_toBottomOf="@id/cell_r11c8"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2974,9 +3038,9 @@
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r12c10"
-        app:layout_constraintStart_toEndOf="@+id/cell_r12c8"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r11c9"
+        app:layout_constraintEnd_toStartOf="@id/vertical_divider_3"
+        app:layout_constraintStart_toEndOf="@id/cell_r12c8"
+        app:layout_constraintTop_toBottomOf="@id/cell_r11c9"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -2995,9 +3059,9 @@
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r12c11"
-        app:layout_constraintStart_toEndOf="@+id/cell_r12c9"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r11c10"
+        app:layout_constraintEnd_toStartOf="@id/cell_r12c11"
+        app:layout_constraintStart_toEndOf="@id/vertical_divider_3"
+        app:layout_constraintTop_toBottomOf="@id/cell_r11c10"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -3016,9 +3080,9 @@
         app:backgroundTint="@color/cell_enabled_light"
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/cell_r12c12"
-        app:layout_constraintStart_toEndOf="@+id/cell_r12c10"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r11c11"
+        app:layout_constraintEnd_toStartOf="@id/cell_r12c12"
+        app:layout_constraintStart_toEndOf="@id/cell_r12c10"
+        app:layout_constraintTop_toBottomOf="@id/cell_r11c11"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 
@@ -3038,8 +3102,8 @@
         app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cell_r12c11"
-        app:layout_constraintTop_toBottomOf="@+id/cell_r11c12"
+        app:layout_constraintStart_toEndOf="@id/cell_r12c11"
+        app:layout_constraintTop_toBottomOf="@id/cell_r11c12"
         app:strokeColor="@color/material_on_surface_emphasis_medium"
         app:strokeWidth="0.5dp" />
 

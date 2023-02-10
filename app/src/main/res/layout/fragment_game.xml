@@ -139,7 +139,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Word"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/horizontal_barrier"
             app:layout_constraintEnd_toStartOf="@+id/word_button_11"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/word_button_7" />
@@ -150,7 +150,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Word"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/horizontal_barrier"
             app:layout_constraintEnd_toStartOf="@+id/word_button_12"
             app:layout_constraintStart_toEndOf="@+id/word_button_10"
             app:layout_constraintTop_toBottomOf="@+id/word_button_8" />
@@ -161,9 +161,45 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Word"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/horizontal_barrier"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/word_button_11"
             app:layout_constraintTop_toBottomOf="@+id/word_button_9" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/horizontal_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom" />
+
+        <Button
+            android:id="@+id/erase_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/erase"
+            android:textColor="?attr/colorOnTertiaryContainer"
+            app:backgroundTint="?attr/colorTertiaryContainer"
+            app:icon="@drawable/ic_delete_outline_24dp"
+            app:iconTint="?attr/colorOnTertiaryContainer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/notes_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/horizontal_barrier" />
+
+        <Button
+            android:id="@+id/notes_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/notes"
+            android:textColor="?attr/colorOnTertiaryContainer"
+            app:backgroundTint="?attr/colorTertiaryContainer"
+            app:icon="@drawable/ic_pencil_outline_24dp"
+            app:iconTint="?attr/colorOnTertiaryContainer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/erase_button"
+            app:layout_constraintTop_toTopOf="@+id/horizontal_barrier" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

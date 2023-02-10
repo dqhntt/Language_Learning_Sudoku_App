@@ -32,96 +32,138 @@
         <!-- Word buttons. -->
 
         <Button
-            android:id="@+id/wordButton1"
+            android:id="@+id/word_button_1"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/placeholder"
-            app:layout_constraintBottom_toTopOf="@+id/wordButton4"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_marginTop="10dp"
+            android:text="Word"
+            app:layout_constraintBottom_toTopOf="@+id/word_button_4"
+            app:layout_constraintEnd_toStartOf="@+id/word_button_2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/game_board" />
 
         <Button
-            android:id="@+id/wordButton2"
+            android:id="@+id/word_button_2"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/placeholder"
-            app:layout_constraintBottom_toTopOf="@+id/wordButton5"
-            app:layout_constraintEnd_toStartOf="@+id/wordButton3"
-            app:layout_constraintStart_toEndOf="@+id/wordButton1" />
+            android:layout_marginTop="10dp"
+            android:text="Word"
+            app:layout_constraintBottom_toTopOf="@+id/word_button_5"
+            app:layout_constraintEnd_toStartOf="@+id/word_button_3"
+            app:layout_constraintStart_toEndOf="@+id/word_button_1"
+            app:layout_constraintTop_toBottomOf="@id/game_board" />
 
         <Button
-            android:id="@+id/wordButton3"
+            android:id="@+id/word_button_3"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/placeholder"
-            app:layout_constraintBottom_toTopOf="@+id/wordButton6"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:layout_marginTop="10dp"
+            android:text="Word"
+            app:layout_constraintBottom_toTopOf="@+id/word_button_6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/word_button_2"
+            app:layout_constraintTop_toBottomOf="@id/game_board" />
 
         <Button
-            android:id="@+id/wordButton4"
+            android:id="@+id/word_button_4"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/placeholder"
-            app:layout_constraintBottom_toTopOf="@+id/wordButton7"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:text="Word"
+            app:layout_constraintBottom_toTopOf="@+id/word_button_7"
+            app:layout_constraintEnd_toStartOf="@+id/word_button_5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/word_button_1" />
 
         <Button
-            android:id="@+id/wordButton5"
+            android:id="@+id/word_button_5"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/placeholder"
-            app:layout_constraintBottom_toTopOf="@+id/wordButton8"
-            app:layout_constraintEnd_toStartOf="@+id/wordButton6"
-            app:layout_constraintStart_toEndOf="@+id/wordButton4" />
+            android:text="Word"
+            app:layout_constraintBottom_toTopOf="@+id/word_button_8"
+            app:layout_constraintEnd_toStartOf="@+id/word_button_6"
+            app:layout_constraintStart_toEndOf="@+id/word_button_4"
+            app:layout_constraintTop_toBottomOf="@+id/word_button_2" />
 
         <Button
-            android:id="@+id/wordButton6"
+            android:id="@+id/word_button_6"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/placeholder"
-            app:layout_constraintBottom_toTopOf="@+id/wordButton9"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:text="Word"
+            app:layout_constraintBottom_toTopOf="@+id/word_button_9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/word_button_5"
+            app:layout_constraintTop_toBottomOf="@+id/word_button_3" />
 
         <Button
-            android:id="@+id/wordButton7"
+            android:id="@+id/word_button_7"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/placeholder"
+            android:text="Word"
+            app:layout_constraintBottom_toTopOf="@+id/word_button_10"
+            app:layout_constraintEnd_toStartOf="@+id/word_button_8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/word_button_4" />
+
+        <Button
+            android:id="@+id/word_button_8"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Word"
+            app:layout_constraintBottom_toTopOf="@+id/word_button_11"
+            app:layout_constraintEnd_toStartOf="@+id/word_button_9"
+            app:layout_constraintStart_toEndOf="@+id/word_button_7"
+            app:layout_constraintTop_toBottomOf="@+id/word_button_5" />
+
+        <Button
+            android:id="@+id/word_button_9"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Word"
+            app:layout_constraintBottom_toTopOf="@+id/word_button_12"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/word_button_8"
+            app:layout_constraintTop_toBottomOf="@+id/word_button_6" />
+
+        <Button
+            android:id="@+id/word_button_10"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Word"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintEnd_toStartOf="@+id/word_button_11"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/word_button_7" />
 
         <Button
-            android:id="@+id/wordButton8"
+            android:id="@+id/word_button_11"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/placeholder"
+            android:text="Word"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/wordButton9"
-            app:layout_constraintStart_toEndOf="@+id/wordButton7" />
+            app:layout_constraintEnd_toStartOf="@+id/word_button_12"
+            app:layout_constraintStart_toEndOf="@+id/word_button_10"
+            app:layout_constraintTop_toBottomOf="@+id/word_button_8" />
 
         <Button
-            android:id="@+id/wordButton9"
+            android:id="@+id/word_button_12"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/placeholder"
+            android:text="Word"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/word_button_11"
+            app:layout_constraintTop_toBottomOf="@+id/word_button_9" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

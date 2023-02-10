@@ -25,7 +25,7 @@ public class GameFragment extends Fragment {
         binding = FragmentGameBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textviewGame;
+        final TextView textView = binding.gameQuickCellView;
         gameViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }

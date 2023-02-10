@@ -9,30 +9,27 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="@dimen/activity_horizontal_margin"
         android:paddingBottom="@dimen/activity_vertical_margin">
 
-        <!-- TODO: Game's board, words, and buttons -->
 
+        <!-- Quick cell view. -->
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/game_quick_cell_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="@string/lorem_ipsum"
-            app:layout_constraintBottom_toTopOf="@id/textview_game"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/textview_game"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
             android:text="@string/placeholder"
-            app:layout_constraintBottom_toTopOf="@+id/wordButton2"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+            app:layout_constraintBottom_toTopOf="@id/game_board"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <!-- Game board. -->
+        <include layout="@layout/game_board_cells" />
+
+
+        <!-- Word buttons. -->
 
         <Button
             android:id="@+id/wordButton1"

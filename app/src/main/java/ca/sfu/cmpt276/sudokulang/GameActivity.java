@@ -36,8 +36,7 @@ public class GameActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_game, R.id.navigation_home, R.id.navigation_help,
-                R.id.navigation_settings, R.id.navigation_translation)
+                R.id.navigation_game, R.id.navigation_home, R.id.navigation_help, R.id.navigation_translation)
                 .build();
         // Cite: https://stackoverflow.com/a/60597670
         NavController navController = ((NavHostFragment) Objects.requireNonNull(
@@ -63,19 +62,15 @@ public class GameActivity extends AppCompatActivity {
             } else if (id == R.id.navigation_help) {
                 navController.navigate(R.id.navigation_help);
                 return true;
-            } // else if (id == R.id.navigation_settings) {
-            //  navController.navigate(R.id.navigation_settings);
-            //  return true;
-            // } else {
+            }
             return false;
-            // }
         });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_game, menu);
         return true;
     }
 

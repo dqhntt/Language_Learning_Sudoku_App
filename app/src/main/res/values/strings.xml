@@ -47,7 +47,6 @@
 
     </string-array>
 
-    <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="home">Home</string>
     <string name="undo">Undo</string>
@@ -61,7 +60,6 @@
     <string name="title_help">Help</string>
     <string name="title_translation">Translation</string>
 
-    <string name="placeholder">Placeholder</string>
     <string name="erase">Erase</string>
     <string name="notes">Notes</string>
 </resources>

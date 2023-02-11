@@ -3,7 +3,6 @@ package ca.sfu.cmpt276.sudokulang;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -45,13 +44,8 @@ public class GameActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.topAppToolbar, navController);
 
-        binding.fab.setOnClickListener(view -> Snackbar.make(view, "Pause FAB snackbar", Snackbar.LENGTH_SHORT)
+        binding.fab.setOnClickListener(view -> Snackbar.make(view, "Pause FAB", Snackbar.LENGTH_SHORT)
                 .setAction("Action", null).show());
-
-        binding.bottomAppBar.setNavigationOnClickListener(view -> Toast.makeText(this,
-                        "Picnic with toast and snacks",
-                        Toast.LENGTH_SHORT)
-                .show());
 
         // See: https://github.com/material-components/material-components-android/blob/master/docs/components/BottomAppBar.md
         binding.bottomAppBar.setOnMenuItemClickListener(menuItem -> {

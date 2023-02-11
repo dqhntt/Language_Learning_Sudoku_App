@@ -77,6 +77,7 @@ public class HomePage2 extends AppCompatActivity {
         nextImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(HomePage2.this, "Loading....", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(HomePage2.this, GameActivity.class));
             }
         });
@@ -104,7 +105,7 @@ public class HomePage2 extends AppCompatActivity {
             }
         });
 
-        helpImageButton=(ImageButton) findViewById(R.id.image_button_history);
+        helpImageButton = (ImageButton) findViewById(R.id.image_button_help);
         helpImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -166,11 +166,31 @@
             app:layout_constraintStart_toEndOf="@+id/word_button_11"
             app:layout_constraintTop_toBottomOf="@+id/word_button_9" />
 
+
+        <!-- Helper widgets. -->
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/word_buttons_extension_6_to_9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="word_button_7,word_button_8,word_button_9" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/word_buttons_extension_9_to_12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="word_button_10,word_button_11,word_button_12" />
+
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/horizontal_barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom" />
+
+
+        <!-- Erase and Notes buttons. -->
 
         <Button
             android:id="@+id/erase_button"

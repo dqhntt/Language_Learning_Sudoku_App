@@ -7,11 +7,11 @@
     <!--Colours of game cells in light theme-->
     <!--Should consider replacing these hardcoded values with themes later-->
     <color name="cell_text_prefilled_light">#465227</color>
-    <color name="cell_text_user_light">#964B00</color>
-    <color name="cell_enabled_light">#E3ECFA</color>
-    <color name="cell_focused_light">#D1DEF6</color>
-    <color name="cell_pressed_light">#BAD0F2</color>
-    <color name="error_cell_focused_light">#FBE8E7</color>
-    <color name="error_cell_pressed_light">#F9DEDC</color>
+    <color name="cell_text_user_fillable_light">#964B00</color>
+    <color name="cell_normal_light">#E3ECFA</color>
+    <color name="cell_semi_highlighted_light">#D1DEF6</color>
+    <color name="cell_highlighted_light">#BAD0F2</color>
+    <color name="error_cell_semi_highlighted_light">#FBE8E7</color>
+    <color name="error_cell_highlighted_light">#F9DEDC</color>
 
 </resources>

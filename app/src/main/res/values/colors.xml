@@ -6,12 +6,15 @@
 
     <!--Colours of game cells in light theme-->
     <!--Should consider replacing these hardcoded values with themes later-->
-    <color name="cell_text_prefilled_light">#465227</color>
-    <color name="cell_text_user_fillable_light">#964B00</color>
-    <color name="cell_normal_light">#E3ECFA</color>
-    <color name="cell_semi_highlighted_light">#D1DEF6</color>
-    <color name="cell_highlighted_light">#BAD0F2</color>
-    <color name="error_cell_semi_highlighted_light">#FBE8E7</color>
-    <color name="error_cell_highlighted_light">#F9DEDC</color>
+    <color name="cell_text_prefilled">#465227</color>
+    <color name="cell_text_user_fillable">#964B00</color>
+    <color name="cell_normal">#E3ECFA</color>
+    <color name="cell_semi_highlighted">#D1DEF6</color>
+    <color name="cell_selected">#BAD0F2</color>
+    <color name="error_cell_semi_highlighted">#FBE8E7</color>
+    <color name="error_cell_selected">#F9DEDC</color>
+
+    <color name="cell_border_stroke">#79747E</color>
+    <color name="grid_divider">#313033</color>
 
 </resources>

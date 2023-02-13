@@ -48,7 +48,7 @@ public class SudokuCell extends TextView {
         setProperties(true, State.NORMAL, "Cell");
         setRowIndex(-1);
         setColIndex(-1);
-//        setId(generateViewId());
+        setId(generateViewId());
     }
 
     public void setProperties(boolean prefilled, State state, String text) {

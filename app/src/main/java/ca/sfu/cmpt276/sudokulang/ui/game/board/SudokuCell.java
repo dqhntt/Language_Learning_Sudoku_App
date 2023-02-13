@@ -1,13 +1,10 @@
 package ca.sfu.cmpt276.sudokulang.ui.game.board;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.TextView;
 
-import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -72,31 +69,23 @@ public class SudokuCell extends TextView {
      */
     public void setState(State state) {
         mState = state;
-        var drawable = new GradientDrawable();
-        drawable.setShape(GradientDrawable.RECTANGLE);
-        // Draw borders.
-        drawable.setStroke(Util.dpToPx(0.5f), getResources().getColor(R.color.cell_border_stroke));
-        // Set background color.
-        @ColorRes int cellColorResId = 0;
         switch (state) {
             case NORMAL:
-                cellColorResId = R.color.cell_normal;
+                setBackgroundResource(R.drawable.cell_normal);
                 break;
             case SEMI_HIGHLIGHTED:
-                cellColorResId = R.color.cell_semi_highlighted;
+                setBackgroundResource(R.drawable.cell_semi_highlighted);
                 break;
             case SELECTED:
-                cellColorResId = R.color.cell_selected;
+                setBackgroundResource(R.drawable.cell_selected);
                 break;
             case ERROR_SEMI_HIGHLIGHTED:
-                cellColorResId = R.color.error_cell_semi_highlighted;
+                setBackgroundResource(R.drawable.error_cell_semi_highlighted);
                 break;
             case ERROR_SELECTED:
-                cellColorResId = R.color.error_cell_selected;
+                setBackgroundResource(R.drawable.error_cell_selected);
                 break;
         }
-        drawable.setColor(ColorStateList.valueOf(getResources().getColor(cellColorResId)));
-        setBackground(drawable);
     }
 
     public int getRowIndex() {
@@ -122,9 +111,9 @@ public class SudokuCell extends TextView {
     public void setPrefilled(boolean prefilled) {
         mIsPrefilled = prefilled;
         if (prefilled) {
-            setTextColor(getResources().getColor(R.color.cell_text_prefilled));
+            setTextColor(getResources().getColor(R.color.cell_text_prefilled, null));
         } else {
-            setTextColor(getResources().getColor(R.color.cell_text_user_fillable));
+            setTextColor(getResources().getColor(R.color.cell_text_user_fillable, null));
         }
 
     }

@@ -28,13 +28,10 @@ public class SudokuCell extends TextView {
     }
 
     private void init() {
-        // Make it square.
+        // Make it fill all available layout space, considering other weights.
         var layoutParams = new ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.MATCH_CONSTRAINT,
                 ConstraintLayout.LayoutParams.MATCH_CONSTRAINT);
-        layoutParams.dimensionRatio = "1:1";
-
-        // Make it fill all available layout space, considering other weights.
         layoutParams.horizontalWeight = layoutParams.verticalWeight = 1f;
         setLayoutParams(layoutParams);
 

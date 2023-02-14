@@ -4,11 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import ca.sfu.cmpt276.sudokulang.databinding.FragmentGameBinding;
 import ca.sfu.cmpt276.sudokulang.ui.game.board.SudokuCell;
@@ -31,17 +30,32 @@ public class GameFragment extends Fragment {
 //        return root;
 //    }
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentGameBinding.inflate(inflater, container, false);
 
-        final var gameBoard = binding.gameBoard;
-        final var quickCellView = binding.gameQuickCellView;
-        gameBoard.setOnclickListenersForAllCells(view -> {
+        binding.gameBoard.setOnclickListenersForAllCells(view -> {
             final var cell = (SudokuCell) view;
-            gameBoard.setSelectedCell(cell.getRowIndex(), cell.getColIndex(), true);
-            quickCellView.setText(cell.getText());
+            binding.gameBoard.setSelectedCell(cell.getRowIndex(), cell.getColIndex(), true);
+            binding.gameQuickCellView.setText(cell.getText());
         });
+        final var wordButtonOnClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final var button = (Button) v;
+                binding.gameQuickCellView.setText(button.getText());
+            }
+        };
+        binding.wordButton1.setOnClickListener(wordButtonOnClickListener);
+        binding.wordButton2.setOnClickListener(wordButtonOnClickListener);
+        binding.wordButton3.setOnClickListener(wordButtonOnClickListener);
+        binding.wordButton4.setOnClickListener(wordButtonOnClickListener);
+        binding.wordButton5.setOnClickListener(wordButtonOnClickListener);
+        binding.wordButton6.setOnClickListener(wordButtonOnClickListener);
+        binding.wordButton7.setOnClickListener(wordButtonOnClickListener);
+        binding.wordButton8.setOnClickListener(wordButtonOnClickListener);
+        binding.wordButton9.setOnClickListener(wordButtonOnClickListener);
 
         return binding.getRoot();
     }

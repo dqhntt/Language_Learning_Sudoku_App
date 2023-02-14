@@ -64,7 +64,7 @@ public class SudokuCell extends TextView {
      * @param state Game state of the cell.
      * @cite <a href="https://stackoverflow.com/a/29445079">Put border around TextView with a shape drawable</a>
      */
-    public void setState(State state) {
+    public void setState(@NonNull State state) {
         mState = state;
         switch (state) {
             case NORMAL:
@@ -82,6 +82,8 @@ public class SudokuCell extends TextView {
             case ERROR_SELECTED:
                 setBackgroundResource(R.drawable.error_cell_selected);
                 break;
+            default:
+                throw new IllegalArgumentException("Unknown cell state");
         }
     }
 

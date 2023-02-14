@@ -11,23 +11,39 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import ca.sfu.cmpt276.sudokulang.databinding.FragmentGameBinding;
+import ca.sfu.cmpt276.sudokulang.ui.game.board.SudokuCell;
 
 // See: https://developer.android.com/topic/libraries/architecture/viewmodel
 public class GameFragment extends Fragment {
 
     private FragmentGameBinding binding;
 
+//    public View onCreateView(@NonNull LayoutInflater inflater,
+//                             ViewGroup container, Bundle savedInstanceState) {
+//        GameViewModel gameViewModel =
+//                new ViewModelProvider(this).get(GameViewModel.class);
+//
+//        binding = FragmentGameBinding.inflate(inflater, container, false);
+//        View root = binding.getRoot();
+//
+//        final TextView textView = binding.gameQuickCellView;
+//        gameViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+//        return root;
+//    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        GameViewModel gameViewModel =
-                new ViewModelProvider(this).get(GameViewModel.class);
-
         binding = FragmentGameBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
 
-        final TextView textView = binding.gameQuickCellView;
-        gameViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-        return root;
+        final var gameBoard = binding.gameBoard;
+        final var quickCellView = binding.gameQuickCellView;
+        gameBoard.setOnclickListenersForAllCells(view -> {
+            final var cell = (SudokuCell) view;
+            gameBoard.setSelectedCell(cell.getRowIndex(), cell.getColIndex(), true);
+            quickCellView.setText(cell.getText());
+        });
+
+        return binding.getRoot();
     }
 
     @Override

@@ -19,6 +19,7 @@ import ca.sfu.cmpt276.sudokulang.ui.Util;
 public class SudokuBoard extends ConstraintLayout {
 
     private int mBoardSize, mSubgridHeight, mSubgridWidth;
+    private SudokuCell mSelectedCell;
     private SudokuCell[][] mCells;
 
     public SudokuBoard(@NonNull Context context) {
@@ -35,11 +36,10 @@ public class SudokuBoard extends ConstraintLayout {
         setProperties(9, 3, 3);
 
         // TODO: Move the listener to the parent view so that other components can be updated accordingly.
-        setOnclickListenersForAllCells(view -> {
-            var cell = (SudokuCell) view;
-            this.resetBoardColors();
-            this.highlightRelatedCells(cell.getRowIndex(), cell.getColIndex());
-        });
+//        setOnclickListenersForAllCells(view -> {
+//            var cell = (SudokuCell) view;
+//            setSelectedCell(cell.getRowIndex(), cell.getColIndex(), true);
+//        });
     }
 
     /**
@@ -224,12 +224,35 @@ public class SudokuBoard extends ConstraintLayout {
     }
 
     /**
+     * @return The selected cell, {@code null} if none.
+     */
+    public @Nullable SudokuCell getSelectedCell() {
+        return mSelectedCell;
+    }
+
+    /**
+     * Set a cell as selected.
+     *
+     * @param rowIndex             Row index of the cell, -1 if none.
+     * @param colIndex             Column index of the cell, -1 if none.
+     * @param highlightRelatedCell Whether to highlight the colors of related cells.
+     */
+    public void setSelectedCell(int rowIndex, int colIndex, boolean highlightRelatedCell) {
+        assert (rowIndex >= -1 && rowIndex < mBoardSize);
+        assert (colIndex >= -1 && colIndex < mBoardSize);
+        mSelectedCell = (rowIndex == -1 || colIndex == -1)
+                ? null
+                : mCells[rowIndex][colIndex];
+        highlightRelatedCells(rowIndex, colIndex);
+    }
+
+    /**
      * Highlight the column, row, and sub-grid related to a cell and only that cell.
      *
      * @param rowIndex Row index of that cell.
      * @param colIndex Column index of that cell.
      */
-    public void highlightRelatedCells(int rowIndex, int colIndex) {
+    private void highlightRelatedCells(int rowIndex, int colIndex) {
         assert (rowIndex >= 0 && rowIndex < mBoardSize);
         assert (colIndex >= 0 && colIndex < mBoardSize);
         resetBoardColors();

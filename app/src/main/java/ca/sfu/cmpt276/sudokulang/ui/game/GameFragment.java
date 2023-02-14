@@ -40,11 +40,17 @@ public class GameFragment extends Fragment {
             binding.gameBoard.setSelectedCell(cell.getRowIndex(), cell.getColIndex(), true);
             binding.gameQuickCellView.setText(cell.getText());
         });
+
+        // TODO: Implement error checking.
         final var wordButtonOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final var button = (Button) v;
                 binding.gameQuickCellView.setText(button.getText());
+                final var selectedCell = binding.gameBoard.getSelectedCell();
+                if (selectedCell != null) {
+                    selectedCell.setText(button.getText());
+                }
             }
         };
         binding.wordButton1.setOnClickListener(wordButtonOnClickListener);

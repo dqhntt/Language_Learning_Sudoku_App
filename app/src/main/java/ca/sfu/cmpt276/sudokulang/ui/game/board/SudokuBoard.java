@@ -33,10 +33,12 @@ public class SudokuBoard extends ConstraintLayout {
 
     private void init() {
         setProperties(9, 3, 3);
+
+        // TODO: Move the listener to the parent view so that other components can be updated accordingly.
         setOnclickListenersForAllCells(view -> {
             var cell = (SudokuCell) view;
             this.resetBoardColors();
-            this.highlightRelatedCells(cell.getRowIndex(), cell.getColIndex(), false);
+            this.highlightRelatedCells(cell.getRowIndex(), cell.getColIndex());
         });
     }
 
@@ -213,66 +215,63 @@ public class SudokuBoard extends ConstraintLayout {
         mCells[rowIndex][colIndex].setText(value);
     }
 
-    public void setState(int rowIndex, int colIndex, SudokuCell.State state) {
-        mCells[rowIndex][colIndex].setState(state);
+    public void setAsErrorCell(int rowIndex, int colIndex, boolean isErrorCell) {
+        mCells[rowIndex][colIndex].setAsErrorCell(isErrorCell);
     }
 
-    public void setPrefilled(int rowIndex, int colIndex, boolean prefilled) {
-        mCells[rowIndex][colIndex].setPrefilled(prefilled);
-    }
-
-    public void setProperties(int rowIndex, int colIndex, boolean prefilled, SudokuCell.State state, String text) {
-        mCells[rowIndex][colIndex].setProperties(prefilled, state, text);
+    public void setProperties(int rowIndex, int colIndex, boolean prefilled, boolean isErrorCell, String text) {
+        mCells[rowIndex][colIndex].setProperties(prefilled, isErrorCell, text);
     }
 
     /**
-     * Highlight the column, row, and sub-grid related to a cell. Also makes that cell stand out.
+     * Highlight the column, row, and sub-grid related to a cell and only that cell.
      *
-     * @param rowIndex    Row index of that cell.
-     * @param colIndex    Column index of that cell.
-     * @param isErrorCell Whether that cell should have an error background color.
+     * @param rowIndex Row index of that cell.
+     * @param colIndex Column index of that cell.
      */
-    public void highlightRelatedCells(int rowIndex, int colIndex, boolean isErrorCell) {
+    public void highlightRelatedCells(int rowIndex, int colIndex) {
         assert (rowIndex >= 0 && rowIndex < mBoardSize);
         assert (colIndex >= 0 && colIndex < mBoardSize);
+        resetBoardColors();
+        final boolean isErrorCell = mCells[rowIndex][colIndex].isErrorCell();
         highlightRow(rowIndex, isErrorCell);
         highlightColumn(colIndex, isErrorCell);
-        highlightSubgrid(rowIndex, colIndex, isErrorCell);
-        final var cellState = isErrorCell
-                ? SudokuCell.State.ERROR_SELECTED
-                : SudokuCell.State.SELECTED;
-        mCells[rowIndex][colIndex].setState(cellState);
+        highlightSubgrid(rowIndex, colIndex);
+        final var cellColor = isErrorCell
+                ? SudokuCell.Color.ERROR_SELECTED
+                : SudokuCell.Color.SELECTED;
+        mCells[rowIndex][colIndex].setColor(cellColor);
     }
 
     private void highlightColumn(int colIndex, boolean isErrorCell) {
-        final var state = isErrorCell
-                ? SudokuCell.State.ERROR_SEMI_HIGHLIGHTED
-                : SudokuCell.State.SEMI_HIGHLIGHTED;
+        final var color = isErrorCell
+                ? SudokuCell.Color.ERROR_SEMI_HIGHLIGHTED
+                : SudokuCell.Color.SEMI_HIGHLIGHTED;
         for (int i = 0; i < mBoardSize; i++) {
-            mCells[i][colIndex].setState(state);
+            mCells[i][colIndex].setColor(color);
         }
     }
 
     private void highlightRow(int rowIndex, boolean isErrorCell) {
-        final var state = isErrorCell
-                ? SudokuCell.State.ERROR_SEMI_HIGHLIGHTED
-                : SudokuCell.State.SEMI_HIGHLIGHTED;
+        final var color = isErrorCell
+                ? SudokuCell.Color.ERROR_SEMI_HIGHLIGHTED
+                : SudokuCell.Color.SEMI_HIGHLIGHTED;
         for (int j = 0; j < mBoardSize; j++) {
-            mCells[rowIndex][j].setState(state);
+            mCells[rowIndex][j].setColor(color);
         }
     }
 
-    private void highlightSubgrid(int rowIndex, int colIndex, boolean isErrorCell) {
-        final var state = isErrorCell
-                ? SudokuCell.State.ERROR_SEMI_HIGHLIGHTED
-                : SudokuCell.State.SEMI_HIGHLIGHTED;
+    private void highlightSubgrid(int rowIndex, int colIndex) {
+        final var color = mCells[rowIndex][colIndex].isErrorCell()
+                ? SudokuCell.Color.ERROR_SEMI_HIGHLIGHTED
+                : SudokuCell.Color.SEMI_HIGHLIGHTED;
         final int startRowIndex = rowIndex - rowIndex % mSubgridHeight;
         final int startColIndex = colIndex - colIndex % mSubgridWidth;
         final int endRowIndex = startRowIndex + mSubgridHeight - 1;
         final int endColIndex = startColIndex + mSubgridWidth - 1;
         for (int i = startRowIndex; i <= endRowIndex; i++) {
             for (int j = startColIndex; j <= endColIndex; j++) {
-                mCells[i][j].setState(state);
+                mCells[i][j].setColor(color);
             }
         }
     }
@@ -283,17 +282,17 @@ public class SudokuBoard extends ConstraintLayout {
      * @param l The callback that will run.
      */
     public void setOnclickListenersForAllCells(OnClickListener l) {
-        for (int i = 0; i < mBoardSize; i++) {
-            for (int j = 0; j < mBoardSize; j++) {
-                mCells[i][j].setOnClickListener(l);
+        for (var row : mCells) {
+            for (var cell : row) {
+                cell.setOnClickListener(l);
             }
         }
     }
 
     public void resetBoardColors() {
-        for (int i = 0; i < mBoardSize; i++) {
-            for (int j = 0; j < mBoardSize; j++) {
-                mCells[i][j].setState(SudokuCell.State.NORMAL);
+        for (var row : mCells) {
+            for (var cell : row) {
+                cell.setColor(SudokuCell.Color.NORMAL);
             }
         }
     }

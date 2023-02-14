@@ -14,8 +14,8 @@ import ca.sfu.cmpt276.sudokulang.ui.Util;
 
 public class SudokuCell extends TextView {
     private int mRowIndex, mColIndex;
-    private boolean mIsPrefilled;
-    private State mState;
+    private boolean mIsPrefilled, mIsErrorCell;
+    private Color mColor;
 
     public SudokuCell(@NonNull Context context) {
         super(context);
@@ -42,31 +42,27 @@ public class SudokuCell extends TextView {
         setGravity(Gravity.CENTER);
         setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelSmall);
 
-        setProperties(true, State.NORMAL, "Cell");
+        setProperties(true, false, "Cell");
+        setColor(Color.NORMAL);
         setRowIndex(-1);
         setColIndex(-1);
         setId(generateViewId());
     }
 
-    public void setProperties(boolean prefilled, State state, String text) {
+    public void setProperties(boolean prefilled, boolean isErrorCell, String text) {
         setPrefilled(prefilled);
-        setState(state);
+        setAsErrorCell(isErrorCell);
         setText(text);
     }
 
-    public State getState() {
-        return mState;
+    Color getColor() {
+        return mColor;
     }
 
-    /**
-     * Set the background color and cell state to the provided argument.
-     *
-     * @param state Game state of the cell.
-     * @cite <a href="https://stackoverflow.com/a/29445079">Put border around TextView with a shape drawable</a>
-     */
-    public void setState(@NonNull State state) {
-        mState = state;
-        switch (state) {
+    // Cite: https://stackoverflow.com/a/29445079
+    void setColor(@NonNull Color color) {
+        mColor = color;
+        switch (color) {
             case NORMAL:
                 setBackgroundResource(R.drawable.cell_normal);
                 break;
@@ -80,10 +76,11 @@ public class SudokuCell extends TextView {
                 setBackgroundResource(R.drawable.error_cell_semi_highlighted);
                 break;
             case ERROR_SELECTED:
+                assert (mIsErrorCell);
                 setBackgroundResource(R.drawable.error_cell_selected);
                 break;
             default:
-                throw new IllegalArgumentException("Unknown cell state");
+                throw new IllegalArgumentException("Unknown cell color");
         }
     }
 
@@ -103,19 +100,32 @@ public class SudokuCell extends TextView {
         mColIndex = colIndex;
     }
 
+    public boolean isErrorCell() {
+        return mIsErrorCell;
+    }
+
+    public void setAsErrorCell(boolean isErrorCell) {
+        if (isErrorCell) {
+            assert (!mIsPrefilled);
+        }
+        mIsErrorCell = isErrorCell;
+    }
+
     public boolean isPrefilled() {
         return mIsPrefilled;
     }
 
     public void setPrefilled(boolean prefilled) {
+        if (mIsErrorCell) {
+            assert (!prefilled);
+        }
         mIsPrefilled = prefilled;
         if (prefilled) {
             setTextColor(getResources().getColor(R.color.cell_text_prefilled, null));
         } else {
             setTextColor(getResources().getColor(R.color.cell_text_user_fillable, null));
         }
-
     }
 
-    public enum State {NORMAL, SEMI_HIGHLIGHTED, SELECTED, ERROR_SEMI_HIGHLIGHTED, ERROR_SELECTED}
+    enum Color {NORMAL, SEMI_HIGHLIGHTED, SELECTED, ERROR_SEMI_HIGHLIGHTED, ERROR_SELECTED}
 }

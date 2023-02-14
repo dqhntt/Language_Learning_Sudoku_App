@@ -34,12 +34,6 @@ public class SudokuBoard extends ConstraintLayout {
 
     private void init() {
         setProperties(9, 3, 3);
-
-        // TODO: Move the listener to the parent view so that other components can be updated accordingly.
-//        setOnclickListenersForAllCells(view -> {
-//            var cell = (SudokuCell) view;
-//            setSelectedCell(cell.getRowIndex(), cell.getColIndex(), true);
-//        });
     }
 
     /**
@@ -314,7 +308,7 @@ public class SudokuBoard extends ConstraintLayout {
         }
     }
 
-    public void resetBoardColors() {
+    private void resetBoardColors() {
         for (var row : mCells) {
             for (var cell : row) {
                 cell.setColor(SudokuCell.Color.NORMAL);

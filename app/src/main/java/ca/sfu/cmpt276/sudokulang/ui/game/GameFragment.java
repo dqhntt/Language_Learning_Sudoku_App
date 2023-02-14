@@ -35,6 +35,12 @@ public class GameFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentGameBinding.inflate(inflater, container, false);
 
+        // Set OnClickListener for parent view of game board.
+        ((View) binding.gameBoard.getParent()).setOnClickListener(view -> {
+            binding.gameBoard.setSelectedCell(-1, -1);
+            binding.gameQuickCellView.setText("");
+        });
+
         binding.gameBoard.setOnclickListenersForAllCells(view -> {
             final var cell = (SudokuCell) view;
             binding.gameBoard.setSelectedCell(cell.getRowIndex(), cell.getColIndex());

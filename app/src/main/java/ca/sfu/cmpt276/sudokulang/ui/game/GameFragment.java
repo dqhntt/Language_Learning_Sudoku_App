@@ -37,7 +37,7 @@ public class GameFragment extends Fragment {
 
         binding.gameBoard.setOnclickListenersForAllCells(view -> {
             final var cell = (SudokuCell) view;
-            binding.gameBoard.setSelectedCell(cell.getRowIndex(), cell.getColIndex(), true);
+            binding.gameBoard.setSelectedCell(cell.getRowIndex(), cell.getColIndex());
             binding.gameQuickCellView.setText(cell.getText());
         });
 

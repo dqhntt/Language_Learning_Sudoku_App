@@ -233,17 +233,19 @@ public class SudokuBoard extends ConstraintLayout {
     /**
      * Set a cell as selected.
      *
-     * @param rowIndex             Row index of the cell, -1 if none.
-     * @param colIndex             Column index of the cell, -1 if none.
-     * @param highlightRelatedCell Whether to highlight the colors of related cells.
+     * @param rowIndex Row index of the cell, -1 if none.
+     * @param colIndex Column index of the cell, -1 if none.
      */
-    public void setSelectedCell(int rowIndex, int colIndex, boolean highlightRelatedCell) {
+    public void setSelectedCell(int rowIndex, int colIndex) {
         assert (rowIndex >= -1 && rowIndex < mBoardSize);
         assert (colIndex >= -1 && colIndex < mBoardSize);
-        mSelectedCell = (rowIndex == -1 || colIndex == -1)
-                ? null
-                : mCells[rowIndex][colIndex];
-        highlightRelatedCells(rowIndex, colIndex);
+        if (rowIndex == -1 || colIndex == -1) {
+            mSelectedCell = null;
+            resetBoardColors();
+        } else {
+            mSelectedCell = mCells[rowIndex][colIndex];
+            highlightRelatedCells(rowIndex, colIndex);
+        }
     }
 
     /**

@@ -58,7 +58,7 @@ public class SudokuCell extends TextView {
         setId(generateViewId());
     }
 
-    public void setProperties(String text, boolean prefilled, boolean isErrorCell) {
+    void setProperties(String text, boolean prefilled, boolean isErrorCell) {
         setText(text);
         setPrefilled(prefilled);
         setAsErrorCell(isErrorCell);

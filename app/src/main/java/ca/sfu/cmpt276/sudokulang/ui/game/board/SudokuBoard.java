@@ -232,7 +232,7 @@ public class SudokuBoard extends ConstraintLayout {
         }
     }
 
-    public void setAsErrorCell(int rowIndex, int colIndex, boolean isErrorCell) {
+    public void setErrorCell(int rowIndex, int colIndex, boolean isErrorCell) {
         mCells[rowIndex][colIndex].setAsErrorCell(isErrorCell);
     }
 
@@ -264,6 +264,10 @@ public class SudokuBoard extends ConstraintLayout {
             mSelectedCell = mCells[rowIndex][colIndex];
             highlightRelatedCells(rowIndex, colIndex);
         }
+    }
+
+    public void unselectCell() {
+        setSelectedCell(-1, -1);
     }
 
     public void highlightRelatedCells(@NonNull SudokuCell cell) {

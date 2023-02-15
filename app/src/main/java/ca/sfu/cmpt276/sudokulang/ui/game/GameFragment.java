@@ -9,7 +9,11 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import ca.sfu.cmpt276.sudokulang.databinding.FragmentGameBinding;
+import ca.sfu.cmpt276.sudokulang.ui.game.board.SudokuBoard;
 import ca.sfu.cmpt276.sudokulang.ui.game.board.SudokuCell;
 
 // See: https://developer.android.com/topic/libraries/architecture/viewmodel
@@ -40,7 +44,7 @@ public class GameFragment extends Fragment {
 
         // Set OnClickListener for parent view of game board.
         ((View) binding.gameBoard.getParent()).setOnClickListener(view -> {
-            binding.gameBoard.setSelectedCell(-1, -1);
+            binding.gameBoard.unselectCell();
             binding.gameQuickCellView.setText("");
         });
 
@@ -50,29 +54,59 @@ public class GameFragment extends Fragment {
             binding.gameQuickCellView.setText(cell.getText());
         });
 
-        // TODO: Implement error checking.
-        final var wordButtonOnClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final var button = (Button) v;
-                binding.gameQuickCellView.setText(button.getText());
-                final var selectedCell = binding.gameBoard.getSelectedCell();
-                if (selectedCell != null) {
-                    selectedCell.setText(button.getText());
-                }
-            }
-        };
-        binding.wordButton1.setOnClickListener(wordButtonOnClickListener);
-        binding.wordButton2.setOnClickListener(wordButtonOnClickListener);
-        binding.wordButton3.setOnClickListener(wordButtonOnClickListener);
-        binding.wordButton4.setOnClickListener(wordButtonOnClickListener);
-        binding.wordButton5.setOnClickListener(wordButtonOnClickListener);
-        binding.wordButton6.setOnClickListener(wordButtonOnClickListener);
-        binding.wordButton7.setOnClickListener(wordButtonOnClickListener);
-        binding.wordButton8.setOnClickListener(wordButtonOnClickListener);
-        binding.wordButton9.setOnClickListener(wordButtonOnClickListener);
+        final var wordButtonOnClickListener = new WordButtonOnClickListener();
+        for (var button : getAllWordButtons()) {
+            button.setOnClickListener(wordButtonOnClickListener);
+        }
 
         return binding.getRoot();
+    }
+
+    private Button[] getAllWordButtons() {
+        var buttons = new ArrayList<Button>();
+        buttons.add(binding.wordButton1);
+        buttons.add(binding.wordButton2);
+        buttons.add(binding.wordButton3);
+        buttons.add(binding.wordButton4);
+        buttons.add(binding.wordButton5);
+        buttons.add(binding.wordButton6);
+        buttons.add(binding.wordButton7);
+        buttons.add(binding.wordButton8);
+        buttons.add(binding.wordButton9);
+        return buttons.toArray(new Button[0]);
+    }
+
+    private boolean validate(SudokuBoard gameBoard) {
+        // TODO: Validate entire board.
+        return true;
+    }
+
+    private boolean validate(String value, SudokuCell cell, @NonNull SudokuBoard gameBoard) {
+        assert (binding.gameBoard.existsCell(cell));
+        // TODO
+        return new Random().nextBoolean();
+    }
+
+    // TODO: Implement error checking.
+    private class WordButtonOnClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            final var button = (Button) v;
+            final String choice = (String) button.getText();
+            binding.gameQuickCellView.setText(choice);
+            final var selectedCell = binding.gameBoard.getSelectedCell();
+            if (selectedCell != null && !selectedCell.isPrefilled()) {
+                binding.gameBoard.setValue(selectedCell, choice);
+                selectedCell.setAsErrorCell(!validate(choice, selectedCell, binding.gameBoard));
+                binding.gameBoard.highlightRelatedCells(selectedCell);
+                if (binding.gameBoard.getNumEmptyCells() == 0 && validate(binding.gameBoard)) {
+                    // TODO: Disable buttons, end game.
+                    for (var b : getAllWordButtons()) {
+                        b.setEnabled(false);
+                    }
+                }
+            }
+        }
     }
 
     @Override

@@ -9,6 +9,8 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -76,13 +78,29 @@ public class GameFragment extends Fragment {
         return buttons.toArray(new Button[0]);
     }
 
-    private boolean validate(SudokuBoard gameBoard) {
-        // TODO: Validate entire board.
+    // TODO: Disable buttons, end game.
+    private void endGame() {
+        for (var button : getAllWordButtons()) {
+            button.setEnabled(false);
+        }
+        binding.eraseButton.setEnabled(false);
+        binding.notesButton.setEnabled(false);
+        Snackbar.make(binding.getRoot(), "Game completed. Well done!", Snackbar.LENGTH_LONG).show();
+    }
+
+    private boolean validate(@NonNull SudokuBoard gameBoard) {
+        for (var row : gameBoard.getCells()) {
+            for (var cell : row) {
+                if (cell.isErrorCell()) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
     private boolean validate(String value, SudokuCell cell, @NonNull SudokuBoard gameBoard) {
-        assert (binding.gameBoard.existsCell(cell));
+        assert (gameBoard.existsCell(cell));
         // TODO
         return new Random().nextBoolean();
     }
@@ -100,10 +118,7 @@ public class GameFragment extends Fragment {
                 selectedCell.setAsErrorCell(!validate(choice, selectedCell, binding.gameBoard));
                 binding.gameBoard.highlightRelatedCells(selectedCell);
                 if (binding.gameBoard.getNumEmptyCells() == 0 && validate(binding.gameBoard)) {
-                    // TODO: Disable buttons, end game.
-                    for (var b : getAllWordButtons()) {
-                        b.setEnabled(false);
-                    }
+                    endGame();
                 }
             }
         }

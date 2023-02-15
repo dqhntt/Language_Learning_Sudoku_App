@@ -61,6 +61,16 @@ public class GameFragment extends Fragment {
             button.setOnClickListener(wordButtonOnClickListener);
         }
 
+        binding.eraseButton.setOnClickListener(view -> {
+            var selectedCell = binding.gameBoard.getSelectedCell();
+            if (selectedCell != null && !selectedCell.isPrefilled()) {
+                binding.gameBoard.setValue(selectedCell, "");
+                selectedCell.setAsErrorCell(false);
+                binding.gameBoard.highlightRelatedCells(selectedCell);
+                binding.gameQuickCellView.setText("");
+            }
+        });
+
         return binding.getRoot();
     }
 
@@ -78,7 +88,6 @@ public class GameFragment extends Fragment {
         return buttons.toArray(new Button[0]);
     }
 
-    // TODO: Disable buttons, end game.
     private void endGame() {
         for (var button : getAllWordButtons()) {
             button.setEnabled(false);
@@ -105,7 +114,6 @@ public class GameFragment extends Fragment {
         return new Random().nextBoolean();
     }
 
-    // TODO: Implement error checking.
     private class WordButtonOnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {

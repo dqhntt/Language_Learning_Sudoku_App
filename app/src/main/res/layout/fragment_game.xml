@@ -18,7 +18,7 @@
             android:id="@+id/game_quick_cell_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cell view"
+            android:text="Quick view"
             android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
             app:layout_constraintBottom_toTopOf="@id/game_board"
             app:layout_constraintEnd_toEndOf="parent"

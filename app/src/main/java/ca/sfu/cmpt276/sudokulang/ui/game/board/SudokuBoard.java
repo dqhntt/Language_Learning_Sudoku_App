@@ -19,6 +19,7 @@ import ca.sfu.cmpt276.sudokulang.ui.Util;
 public class SudokuBoard extends ConstraintLayout {
 
     private int mBoardSize, mSubgridHeight, mSubgridWidth;
+    private int mNumEmptyCells;
     private SudokuCell mSelectedCell;
     private SudokuCell[][] mCells;
 
@@ -45,7 +46,9 @@ public class SudokuBoard extends ConstraintLayout {
      *                      Equals {@code boardSize} if no sub-grid.
      * @param subgridWidth  Number of cells in each sub-grid's row.
      *                      Equals {@code boardSize} if no sub-grid.
-     * @implNote This function creates new cells, thus clearing all OnClickListeners present.
+     * @implNote This function creates new cells, thus clearing all OnClickListeners present. <p>
+     * !! DO NOT call {@code setText()} on the cell directly,
+     * otherwise {@code getNumEmptyCells()} will be incorrect. !!
      */
     public void setProperties(int boardSize, int subgridHeight, int subgridWidth) {
         assert (boardSize > 0);
@@ -57,6 +60,7 @@ public class SudokuBoard extends ConstraintLayout {
         mSubgridWidth = subgridWidth;
 
         mCells = new SudokuCell[boardSize][boardSize];
+        mNumEmptyCells = boardSize * boardSize;
 
         // Create and add cells to layout.
         // Cite: https://stackoverflow.com/a/40527407
@@ -160,6 +164,10 @@ public class SudokuBoard extends ConstraintLayout {
                 colChainIds, null, chainStyle);
     }
 
+    public int getNumEmptyCells() {
+        return mNumEmptyCells;
+    }
+
     public int getBoardSize() {
         return mBoardSize;
     }
@@ -197,17 +205,31 @@ public class SudokuBoard extends ConstraintLayout {
     }
 
     public void setValues(@NonNull String[][] values) {
+        mNumEmptyCells = 0;
         for (int i = 0; i < mBoardSize; i++) {
             for (int j = 0; j < mBoardSize; j++) {
                 final var value = values[i][j];
-                assert (value != null);
                 setValue(i, j, value);
+                if (value.isBlank()) {
+                    mNumEmptyCells++;
+                }
             }
         }
     }
 
+    public void setValue(SudokuCell cell, String value) {
+        assert (existsCell(cell));
+        setValue(cell.getRowIndex(), cell.getColIndex(), value);
+    }
+
     public void setValue(int rowIndex, int colIndex, String value) {
+        final String oldValue = (String) mCells[rowIndex][colIndex].getText();
         mCells[rowIndex][colIndex].setText(value);
+        if (oldValue.isBlank() && !value.isBlank()) {
+            mNumEmptyCells--;
+        } else if (!oldValue.isBlank() && value.isBlank()) {
+            mNumEmptyCells++;
+        }
     }
 
     public void setAsErrorCell(int rowIndex, int colIndex, boolean isErrorCell) {
@@ -215,6 +237,7 @@ public class SudokuBoard extends ConstraintLayout {
     }
 
     public void setCellProperties(int rowIndex, int colIndex, String text, boolean prefilled, boolean isErrorCell) {
+        setValue(rowIndex, colIndex, text);
         mCells[rowIndex][colIndex].setProperties(text, prefilled, isErrorCell);
     }
 
@@ -241,6 +264,11 @@ public class SudokuBoard extends ConstraintLayout {
             mSelectedCell = mCells[rowIndex][colIndex];
             highlightRelatedCells(rowIndex, colIndex);
         }
+    }
+
+    public void highlightRelatedCells(@NonNull SudokuCell cell) {
+        assert (existsCell(cell));
+        highlightRelatedCells(cell.getRowIndex(), cell.getColIndex());
     }
 
     /**
@@ -329,6 +357,10 @@ public class SudokuBoard extends ConstraintLayout {
                         : SudokuCell.Color.NORMAL);
             }
         }
+    }
+
+    public static boolean existsCellInBoard(@NonNull SudokuCell cell, @NonNull SudokuBoard board) {
+        return (cell == board.getCells()[cell.getRowIndex()][cell.getColIndex()]);
     }
 
     public boolean existsCell(@NonNull SudokuCell cell) {

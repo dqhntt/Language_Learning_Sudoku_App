@@ -264,34 +264,46 @@ public class SudokuBoard extends ConstraintLayout {
     }
 
     private void highlightColumn(int colIndex, boolean isErrorCell) {
-        final var color = isErrorCell
-                ? SudokuCell.Color.ERROR_SEMI_HIGHLIGHTED
-                : SudokuCell.Color.SEMI_HIGHLIGHTED;
         for (int i = 0; i < mBoardSize; i++) {
-            mCells[i][colIndex].setColor(color);
+            var currentCell = mCells[i][colIndex];
+            if (currentCell.isErrorCell()) {
+                currentCell.setColor(SudokuCell.Color.ERROR_NOT_SELECTED);
+            } else {
+                currentCell.setColor(isErrorCell
+                        ? SudokuCell.Color.ERROR_SEMI_HIGHLIGHTED
+                        : SudokuCell.Color.SEMI_HIGHLIGHTED);
+            }
         }
     }
 
     private void highlightRow(int rowIndex, boolean isErrorCell) {
-        final var color = isErrorCell
-                ? SudokuCell.Color.ERROR_SEMI_HIGHLIGHTED
-                : SudokuCell.Color.SEMI_HIGHLIGHTED;
         for (int j = 0; j < mBoardSize; j++) {
-            mCells[rowIndex][j].setColor(color);
+            var currentCell = mCells[rowIndex][j];
+            if (currentCell.isErrorCell()) {
+                currentCell.setColor(SudokuCell.Color.ERROR_NOT_SELECTED);
+            } else {
+                currentCell.setColor(isErrorCell
+                        ? SudokuCell.Color.ERROR_SEMI_HIGHLIGHTED
+                        : SudokuCell.Color.SEMI_HIGHLIGHTED);
+            }
         }
     }
 
     private void highlightSubgrid(int rowIndex, int colIndex) {
-        final var color = mCells[rowIndex][colIndex].isErrorCell()
-                ? SudokuCell.Color.ERROR_SEMI_HIGHLIGHTED
-                : SudokuCell.Color.SEMI_HIGHLIGHTED;
         final int startRowIndex = rowIndex - rowIndex % mSubgridHeight;
         final int startColIndex = colIndex - colIndex % mSubgridWidth;
         final int endRowIndex = startRowIndex + mSubgridHeight - 1;
         final int endColIndex = startColIndex + mSubgridWidth - 1;
         for (int i = startRowIndex; i <= endRowIndex; i++) {
             for (int j = startColIndex; j <= endColIndex; j++) {
-                mCells[i][j].setColor(color);
+                var currentCell = mCells[i][j];
+                if (currentCell.isErrorCell()) {
+                    currentCell.setColor(SudokuCell.Color.ERROR_NOT_SELECTED);
+                } else {
+                    currentCell.setColor(mCells[rowIndex][colIndex].isErrorCell()
+                            ? SudokuCell.Color.ERROR_SEMI_HIGHLIGHTED
+                            : SudokuCell.Color.SEMI_HIGHLIGHTED);
+                }
             }
         }
     }
@@ -312,9 +324,15 @@ public class SudokuBoard extends ConstraintLayout {
     private void resetBoardColors() {
         for (var row : mCells) {
             for (var cell : row) {
-                cell.setColor(SudokuCell.Color.NORMAL);
+                cell.setColor(cell.isErrorCell()
+                        ? SudokuCell.Color.ERROR_NOT_SELECTED
+                        : SudokuCell.Color.NORMAL);
             }
         }
+    }
+
+    public boolean existsCell(@NonNull SudokuCell cell) {
+        return existsCellInBoard(cell, this);
     }
 
     private @NonNull View[][] transpose(@NonNull View[][] matrix) {

@@ -88,6 +88,10 @@ public class SudokuCell extends TextView {
                 assert (mIsErrorCell);
                 setBackgroundResource(R.drawable.error_cell_selected);
                 break;
+            case ERROR_NOT_SELECTED:
+                assert (mIsErrorCell);
+                setBackgroundResource(R.drawable.error_cell_not_selected);
+                break;
             default:
                 throw new IllegalArgumentException("Unknown cell color");
         }
@@ -136,5 +140,5 @@ public class SudokuCell extends TextView {
         }
     }
 
-    enum Color {NORMAL, SEMI_HIGHLIGHTED, SELECTED, ERROR_SEMI_HIGHLIGHTED, ERROR_SELECTED}
+    enum Color {NORMAL, SEMI_HIGHLIGHTED, SELECTED, ERROR_SEMI_HIGHLIGHTED, ERROR_SELECTED, ERROR_NOT_SELECTED}
 }

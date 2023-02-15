@@ -12,7 +12,8 @@
     <color name="cell_semi_highlighted">#D1DEF6</color>
     <color name="cell_selected">#BAD0F2</color>
     <color name="error_cell_semi_highlighted">#FBE8E7</color>
-    <color name="error_cell_selected">#F9DEDC</color>
+    <color name="error_cell_selected">#F8D0D0</color>
+    <color name="error_cell_not_selected">#E2B8D8</color>
 
     <color name="cell_border_stroke">#79747E</color>
     <color name="grid_divider">#313033</color>

@@ -44,7 +44,7 @@ public class GameFragment extends Fragment {
 
         // Set OnClickListener for parent view of game board.
         ((View) binding.gameBoard.getParent()).setOnClickListener(view -> {
-            binding.gameBoard.unselectCell();
+            binding.gameBoard.setNoSelectedCell();
             binding.gameQuickCellView.setText("");
         });
 

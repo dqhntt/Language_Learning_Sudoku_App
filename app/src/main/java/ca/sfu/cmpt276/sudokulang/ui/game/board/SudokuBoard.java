@@ -198,7 +198,7 @@ public class SudokuBoard extends ConstraintLayout {
         var values = new String[mBoardSize][mBoardSize];
         for (int i = 0; i < mBoardSize; i++) {
             for (int j = 0; j < mBoardSize; j++) {
-                values[i][j] = (String) mCells[i][j].getText();
+                values[i][j] = mCells[i][j].getText();
             }
         }
         return values;
@@ -223,17 +223,13 @@ public class SudokuBoard extends ConstraintLayout {
     }
 
     public void setValue(int rowIndex, int colIndex, String value) {
-        final String oldValue = (String) mCells[rowIndex][colIndex].getText();
+        final String oldValue = mCells[rowIndex][colIndex].getText();
         mCells[rowIndex][colIndex].setText(value);
         if (oldValue.isBlank() && !value.isBlank()) {
             mNumEmptyCells--;
         } else if (!oldValue.isBlank() && value.isBlank()) {
             mNumEmptyCells++;
         }
-    }
-
-    public void setErrorCell(int rowIndex, int colIndex, boolean isErrorCell) {
-        mCells[rowIndex][colIndex].setAsErrorCell(isErrorCell);
     }
 
     public void setCellProperties(int rowIndex, int colIndex, String text, boolean prefilled, boolean isErrorCell) {
@@ -266,7 +262,7 @@ public class SudokuBoard extends ConstraintLayout {
         }
     }
 
-    public void unselectCell() {
+    public void setNoSelectedCell() {
         setSelectedCell(-1, -1);
     }
 

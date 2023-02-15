@@ -1,5 +1,6 @@
 package ca.sfu.cmpt276.sudokulang.ui.game.board;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -21,6 +22,7 @@ import ca.sfu.cmpt276.sudokulang.ui.Util;
  * Is user fillable.
  * Is not an error cell.
  */
+@SuppressLint("AppCompatCustomView")
 public class SudokuCell extends TextView {
     private int mRowIndex, mColIndex;
     private boolean mIsPrefilled, mIsErrorCell;
@@ -95,6 +97,10 @@ public class SudokuCell extends TextView {
             default:
                 throw new IllegalArgumentException("Unknown cell color");
         }
+    }
+
+    public String getText() {
+        return (String) super.getText();
     }
 
     public int getRowIndex() {

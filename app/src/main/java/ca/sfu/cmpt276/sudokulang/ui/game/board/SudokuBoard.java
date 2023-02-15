@@ -45,6 +45,7 @@ public class SudokuBoard extends ConstraintLayout {
      *                      Equals {@code boardSize} if no sub-grid.
      * @param subgridWidth  Number of cells in each sub-grid's row.
      *                      Equals {@code boardSize} if no sub-grid.
+     * @implNote This function creates new cells, thus clearing all OnClickListeners present.
      */
     public void setProperties(int boardSize, int subgridHeight, int subgridWidth) {
         assert (boardSize > 0);
@@ -213,8 +214,8 @@ public class SudokuBoard extends ConstraintLayout {
         mCells[rowIndex][colIndex].setAsErrorCell(isErrorCell);
     }
 
-    public void setProperties(int rowIndex, int colIndex, boolean prefilled, boolean isErrorCell, String text) {
-        mCells[rowIndex][colIndex].setProperties(prefilled, isErrorCell, text);
+    public void setCellProperties(int rowIndex, int colIndex, String text, boolean prefilled, boolean isErrorCell) {
+        mCells[rowIndex][colIndex].setProperties(text, prefilled, isErrorCell);
     }
 
     /**

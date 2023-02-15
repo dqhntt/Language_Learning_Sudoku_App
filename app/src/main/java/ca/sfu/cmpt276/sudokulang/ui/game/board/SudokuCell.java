@@ -12,6 +12,15 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import ca.sfu.cmpt276.sudokulang.R;
 import ca.sfu.cmpt276.sudokulang.ui.Util;
 
+/**
+ * A UI representation of a Sudoku cell.
+ *
+ * @implNote Default state:
+ * Row index = -1.
+ * Column index = -1.
+ * Is user fillable.
+ * Is not an error cell.
+ */
 public class SudokuCell extends TextView {
     private int mRowIndex, mColIndex;
     private boolean mIsPrefilled, mIsErrorCell;
@@ -42,17 +51,17 @@ public class SudokuCell extends TextView {
         setGravity(Gravity.CENTER);
         setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelSmall);
 
-        setProperties(true, false, "Cell");
+        setProperties("", false, false);
         setColor(Color.NORMAL);
         setRowIndex(-1);
         setColIndex(-1);
         setId(generateViewId());
     }
 
-    public void setProperties(boolean prefilled, boolean isErrorCell, String text) {
+    public void setProperties(String text, boolean prefilled, boolean isErrorCell) {
+        setText(text);
         setPrefilled(prefilled);
         setAsErrorCell(isErrorCell);
-        setText(text);
     }
 
     Color getColor() {

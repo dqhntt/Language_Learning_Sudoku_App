@@ -1,42 +1,49 @@
 package ca.sfu.cmpt276.sudokulang.ui.game.board;
 
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import android.content.Context;
-
-import androidx.test.core.app.ApplicationProvider;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class SudokuCellTest {
+class SudokuCellTest {
 
-    @Test
-    public void getText() {
+    @BeforeEach
+    void setUp() {
     }
 
     @Test
-    public void getRowIndex() {
+    void getText() {
     }
 
     @Test
-    public void getColIndex() {
+    void getRowIndex() {
     }
 
     @Test
-    public void isErrorCell() {
+    void setRowIndex() {
     }
 
     @Test
-    public void setAsErrorCell() {
+    void getColIndex() {
     }
 
     @Test
-    public void isPrefilled() {
+    void setColIndex() {
     }
 
     @Test
-    public void setPrefilled() {
+    void isErrorCell() {
+    }
+
+    @Test
+    void setAsErrorCell() {
+    }
+
+    @Test
+    void isPrefilled() {
+    }
+
+    @Test
+    void setPrefilled() {
     }
 }

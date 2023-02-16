@@ -205,14 +205,10 @@ public class SudokuBoard extends ConstraintLayout {
     }
 
     public void setValues(@NonNull String[][] values) {
-        mNumEmptyCells = 0;
+        assert (values.length == mBoardSize && values[0].length == mBoardSize);
         for (int i = 0; i < mBoardSize; i++) {
             for (int j = 0; j < mBoardSize; j++) {
-                final var value = values[i][j];
-                setValue(i, j, value);
-                if (value.isBlank()) {
-                    mNumEmptyCells++;
-                }
+                setValue(i, j, values[i][j]);
             }
         }
     }

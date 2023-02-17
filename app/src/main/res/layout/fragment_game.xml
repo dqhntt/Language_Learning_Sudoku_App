@@ -15,7 +15,7 @@
         <!-- Quick cell view. -->
 
         <TextView
-            android:id="@+id/game_quick_cell_view"
+            android:id="@+id/quick_cell_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Quick view"
@@ -37,7 +37,7 @@
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/game_quick_cell_view" />
+            app:layout_constraintTop_toBottomOf="@id/quick_cell_view" />
 
 
         <!-- Word buttons. -->

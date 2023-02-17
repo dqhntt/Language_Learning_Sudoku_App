@@ -50,9 +50,9 @@ public class GameFragment extends Fragment {
     private void setupBoard() {
         mSudokuBoardVM.getSelectedCell().observe(mLifecycleOwner, selectedCellVM -> {
             if (selectedCellVM == null) {
-                mBinding.gameQuickCellView.setText("");
+                mBinding.quickCellView.setText("");
             } else {
-                mBinding.gameQuickCellView.setText(selectedCellVM.getText().getValue());
+                mBinding.quickCellView.setText(selectedCellVM.getText().getValue());
             }
             mBinding.gameBoard.highlightRelatedCells(selectedCellVM);
         });
@@ -78,14 +78,19 @@ public class GameFragment extends Fragment {
             mSudokuBoardVM.setSelectedCell(cell.getRowIndex(), cell.getColIndex());
         });
 
-        // Set SudokuCell to observe SudokuCellViewModel.
+        // Set SudokuCell to automatically observe SudokuCellViewModel.
         for (var row : mSudokuBoardVM.getCells().getValue()) {
             for (var cellVM : row) {
                 final int rowIndex = cellVM.getRowIndex().getValue();
                 final int colIndex = cellVM.getColIndex().getValue();
                 final var cellsUIs = mBinding.gameBoard.getCells();
-                cellVM.getText().observe(mLifecycleOwner, cellsUIs[rowIndex][colIndex]::setText);
                 cellVM.isPrefilled().observe(mLifecycleOwner, cellsUIs[rowIndex][colIndex]::setPrefilled);
+                cellVM.getText().observe(mLifecycleOwner, text -> {
+                    cellsUIs[rowIndex][colIndex].setText(text);
+                    if (cellVM == mSudokuBoardVM.getSelectedCell().getValue()) {
+                        mBinding.quickCellView.setText(text);
+                    }
+                });
                 cellVM.isErrorCell().observe(mLifecycleOwner, isError -> {
                     cellsUIs[rowIndex][colIndex].setAsErrorCell(isError);
                     if (cellVM == mSudokuBoardVM.getSelectedCell().getValue()) {
@@ -102,7 +107,6 @@ public class GameFragment extends Fragment {
             if (selectedCellVM != null && !selectedCellVM.isPrefilled().getValue()) {
                 selectedCellVM.setText("");
                 selectedCellVM.setAsErrorCell(false);
-                mBinding.gameQuickCellView.setText("");
             }
         });
     }
@@ -143,7 +147,7 @@ public class GameFragment extends Fragment {
         public void onClick(View v) {
             final var button = (Button) v;
             final String choice = (String) button.getText();
-            mBinding.gameQuickCellView.setText(choice);
+            mBinding.quickCellView.setText(choice);
             final var selectedCell = mSudokuBoardVM.getSelectedCell().getValue();
             if (selectedCell != null && !selectedCell.isPrefilled().getValue()) {
                 selectedCell.setText(choice);

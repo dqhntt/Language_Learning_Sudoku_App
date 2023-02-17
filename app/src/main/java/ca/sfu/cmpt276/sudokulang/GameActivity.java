@@ -18,9 +18,7 @@ import java.util.Objects;
 import ca.sfu.cmpt276.sudokulang.databinding.ActivityGameBinding;
 
 public class GameActivity extends AppCompatActivity {
-
     private AppBarConfiguration appBarConfiguration;
-
     private ActivityGameBinding binding;
 
     @Override
@@ -68,9 +66,6 @@ public class GameActivity extends AppCompatActivity {
         return true;
     }
 
-    // NOTE: No idea what's going on down here.
-    //       Probably has to do with the back button.
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -80,6 +75,7 @@ public class GameActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            // TODO: Navigate to settings activity.
             return true;
         }
 
@@ -88,6 +84,7 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
+        // Handle back button.
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_game);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();

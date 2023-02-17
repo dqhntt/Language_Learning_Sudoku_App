@@ -17,9 +17,9 @@ import ca.sfu.cmpt276.sudokulang.ui.Util;
  * A UI representation of a Sudoku cell.
  *
  * @implNote Default state: <p>
- * Row index = -1.        <p>
- * Column index = -1.     <p>
- * Is user fillable.      <p>
+ * Row index = -1.          <p>
+ * Column index = -1.       <p>
+ * Is user fillable.        <p>
  * Is not an error cell.
  */
 @SuppressLint("AppCompatCustomView")

@@ -130,6 +130,9 @@ public class SudokuBoard extends ConstraintLayout {
 
     // Cite: https://stackoverflow.com/a/23945015
     private void chainRowInLayout(@NonNull View[] row, ConstraintSet constraintSet, int chainStyle) {
+        if (row.length < 1) {
+            return;
+        }
         if (row.length == 1) {
             constraintSet.centerHorizontally(row[0].getId(), ConstraintSet.PARENT_ID);
             return;
@@ -148,6 +151,9 @@ public class SudokuBoard extends ConstraintLayout {
     }
 
     private void chainColumnInLayout(@NonNull View[] column, ConstraintSet constraintSet, int chainStyle) {
+        if (column.length < 1) {
+            return;
+        }
         if (column.length == 1) {
             constraintSet.centerVertically(column[0].getId(), ConstraintSet.PARENT_ID);
             return;
@@ -187,7 +193,9 @@ public class SudokuBoard extends ConstraintLayout {
         final boolean isErrorCell = mCells[rowIndex][colIndex].isErrorCell();
         highlightRow(rowIndex, isErrorCell);
         highlightColumn(colIndex, isErrorCell);
-        highlightSubgrid(rowIndex, colIndex);
+        if (mSubgridWidth != mBoardSize || mSubgridHeight != mBoardSize) {
+            highlightSubgrid(rowIndex, colIndex);
+        }
         final var cellColor = isErrorCell
                 ? SudokuCell.Color.ERROR_SELECTED
                 : SudokuCell.Color.SELECTED;

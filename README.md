@@ -217,7 +217,7 @@
 ---
 <br />
 
-1.  # Iteration 2's New Requirements
+1.  # Iteration 2's New Requirements (for iteration 3)
     DIFFERENT DEVICES
 
 	1.  As a vocabulary learner practicing at home, I want to use my tablet for Sudoku vocabulary practice, so that the words will be conveniently displayed in larger, easier to read fonts. `[ NOT Implemented ]`<br />

@@ -1,10 +1,10 @@
 package ca.sfu.cmpt276.sudokulang.ui.game.board;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@ExtendWith(InstantExecutorExtension.class)
 class SudokuCellViewModelTest {
 
     @BeforeEach

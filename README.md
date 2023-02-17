@@ -224,8 +224,8 @@
 	**Examples:**
 		-	When the app is launched on the tablet, the words will be displayed in a larger size fonts than when it’s displayed on a phone.
 		-	Tablet users, on average, should not have to squint their eyes to read the contents compared to users of smaller devices.
-	<br />
-	<br />
+	<br /><br />
+
 	2.  As a vocabulary learner taking the bus, I want to use my phone in landscape mode for Sudoku vocabulary practice, so that longer words are displayed in a larger font than standard mode. `[ NOT Implemented ]`<br />
 	**Examples:**
 		-   When the app is in landscape mode, longer words are displayed in larger size fonts than in standard portrait mode.
@@ -251,8 +251,8 @@
 			-	Each column of the sub-grids should have 2 cells.
 			-	Each row of the sub-grids should have 3 cells.
 			-	A valid game should have no repeating values in each column, row, or sub-grid of the board.
-	<br />
-	<br />
+	<br /><br />
+
 	4.  As a vocabulary learner who wants an extra challenging mode, I want a 12x12 version of Sudoku to play on my tablet. The overall grid should be divided into rectangles of 12 cells each (3x4). `[ NOT Implemented ]`<br />
 	**Examples:**
 		-	When the game is in 12x12 grid mode,
@@ -264,7 +264,6 @@
 			-	A valid game should have no repeating values in each column, row, or sub-grid of the board.
 		-	When the app is launched on the tablet, the words will be displayed in a larger size fonts than when it’s displayed on a phone.
 		-	These users should, on average, not have to squint their eyes to read the contents compared to users of smaller devices, but may have more difficulty reading compared to tablet users playing with smaller grid sizes.
-
 	<br />
 	<br />
 	<br />
@@ -278,5 +277,7 @@
 	![](docs/images/history_of_games_played.jpg) ![](docs/images/game_play_details.jpg)
 	![](docs/images/favourites_list.jpg) ![](docs/images/tutorial.jpg)
 	![](docs/images/settings.jpg) ![](docs/images/curate_own_word_list.jpg)
-	![](docs/images/import_word_list.jpg)
+	![](docs/images/import_word_list.jpg) ![](docs/images/tablet_mode.png)
+	![](docs/images/landscape_mode.png) ![](docs/images/4x4_mode.png)
+	![](docs/images/6x6_mode.png) ![](docs/images/12x12_mode.png)
 	

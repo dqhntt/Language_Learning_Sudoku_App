@@ -21,7 +21,6 @@ import ca.sfu.cmpt276.sudokulang.ui.game.board.SudokuCell;
 
 // See: https://developer.android.com/topic/libraries/architecture/viewmodel
 public class GameFragment extends Fragment {
-
     private FragmentGameBinding mBinding;
     private SudokuBoardViewModel mSudokuBoardVM;
     private LifecycleOwner mLifecycleOwner;
@@ -39,15 +38,29 @@ public class GameFragment extends Fragment {
         // Set OnClickListener for parent view of game board.
         ((View) mBinding.gameBoard.getParent()).setOnClickListener(view -> mSudokuBoardVM.setNoSelectedCell());
 
-        setupCells();
         setupBoard();
+        setupCells();
         setupWordButtons();
         setupEraseButton();
 
         return mBinding.getRoot();
     }
 
+    private void endGame() {
+        for (var button : getAllWordButtons()) {
+            button.setEnabled(false);
+        }
+        mBinding.eraseButton.setEnabled(false);
+        mBinding.notesButton.setEnabled(false);
+        Snackbar.make(mBinding.getRoot(), "Game completed. Well done!", Snackbar.LENGTH_INDEFINITE).show();
+    }
+
     private void setupBoard() {
+        mBinding.gameBoard.createEmptyBoard(
+                mSudokuBoardVM.getBoardSize().getValue(),
+                mSudokuBoardVM.getSubgridHeight().getValue(),
+                mSudokuBoardVM.getSubgridWidth().getValue());
+        setupBoardDimensionObservers();
         mSudokuBoardVM.getSelectedCell().observe(mLifecycleOwner, selectedCellVM -> {
             if (selectedCellVM == null) {
                 mBinding.quickCellView.setText("");
@@ -63,13 +76,27 @@ public class GameFragment extends Fragment {
         });
     }
 
-    private void endGame() {
-        for (var button : getAllWordButtons()) {
-            button.setEnabled(false);
-        }
-        mBinding.eraseButton.setEnabled(false);
-        mBinding.notesButton.setEnabled(false);
-        Snackbar.make(mBinding.getRoot(), "Game completed. Well done!", Snackbar.LENGTH_INDEFINITE).show();
+    private void setupBoardDimensionObservers() {
+        mSudokuBoardVM.getBoardSize().observe(mLifecycleOwner, boardSize -> {
+            mBinding.gameBoard.createEmptyBoard(boardSize,
+                    mSudokuBoardVM.getSubgridHeight().getValue(),
+                    mSudokuBoardVM.getSubgridWidth().getValue());
+            setupCells();
+        });
+        mSudokuBoardVM.getSubgridHeight().observe(mLifecycleOwner, subgridHeight -> {
+            mBinding.gameBoard.createEmptyBoard(
+                    mSudokuBoardVM.getBoardSize().getValue(),
+                    subgridHeight,
+                    mSudokuBoardVM.getSubgridWidth().getValue());
+            setupCells();
+        });
+        mSudokuBoardVM.getSubgridWidth().observe(mLifecycleOwner, subgridWidth -> {
+            mBinding.gameBoard.createEmptyBoard(
+                    mSudokuBoardVM.getBoardSize().getValue(),
+                    mSudokuBoardVM.getSubgridHeight().getValue(),
+                    subgridWidth);
+            setupCells();
+        });
     }
 
     private void setupCells() {
@@ -77,7 +104,7 @@ public class GameFragment extends Fragment {
             final var cell = (SudokuCell) view;
             mSudokuBoardVM.setSelectedCell(cell.getRowIndex(), cell.getColIndex());
         });
-
+        clearSudokuCellViewModelsObservers();
         // Set SudokuCell to automatically observe SudokuCellViewModel.
         for (var row : mSudokuBoardVM.getCells().getValue()) {
             for (var cellVM : row) {
@@ -97,6 +124,16 @@ public class GameFragment extends Fragment {
                         mBinding.gameBoard.highlightRelatedCells(cellVM);
                     }
                 });
+            }
+        }
+    }
+
+    private void clearSudokuCellViewModelsObservers() {
+        for (var row : mSudokuBoardVM.getCells().getValue()) {
+            for (var cellVM : row) {
+                cellVM.isPrefilled().removeObservers(mLifecycleOwner);
+                cellVM.getText().removeObservers(mLifecycleOwner);
+                cellVM.isErrorCell().removeObservers(mLifecycleOwner);
             }
         }
     }

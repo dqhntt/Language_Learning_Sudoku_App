@@ -13,7 +13,7 @@ import java.util.Random;
 /**
  * State holder for SudokuBoard UI element.
  *
- * @implNote updateNumEmptyCells() must me called right before getNumEmptyCells() for it to work correctly.
+ * @implNote {@code updateNumEmptyCells()} must me called right before {@code getNumEmptyCells()} for it to work correctly.
  * @cite <a href="https://google-developer-training.github.io/android-developer-fundamentals-course-concepts-v2/unit-4-saving-user-data/lesson-10-storing-data-with-room/10-1-c-room-livedata-viewmodel/10-1-c-room-livedata-viewmodel.html#viewmodel">LiveData & ViewModel</a>
  */
 public class SudokuBoardViewModel extends ViewModel {
@@ -22,13 +22,27 @@ public class SudokuBoardViewModel extends ViewModel {
     private MutableLiveData<Integer> mNumEmptyCells;
     private MutableLiveData<SudokuCellViewModel> mSelectedCell;
 
+    /**
+     * @implNote Board dimension when default constructed is undefined.
+     */
     public SudokuBoardViewModel() {
-        this(1, 1, 1);
+        this(9, 3, 3);
     }
 
     public SudokuBoardViewModel(int boardSize, int subgridHeight, int subgridWidth) {
         super();
+        init();
         createEmptyBoard(boardSize, subgridHeight, subgridWidth);
+    }
+
+    // NOTE: This initialization method must not be called again for the same object.
+    private void init() {
+        mBoardSize = new MutableLiveData<>();
+        mSubgridHeight = new MutableLiveData<>();
+        mSubgridWidth = new MutableLiveData<>();
+        mSelectedCell = new MutableLiveData<>();
+        mNumEmptyCells = new MutableLiveData<>();
+        mCells = new MutableLiveData<>();
     }
 
     public Pair<String, String>[] getDataValuePairs() {
@@ -60,7 +74,6 @@ public class SudokuBoardViewModel extends ViewModel {
         final var pair7 = dataValuePairs[6];
         final var pair8 = dataValuePairs[7];
         final var pair9 = dataValuePairs[8];
-        createEmptyBoard(9, 3, 3);
         mCells.getValue()[0][3].setProperties(pair1.second, true, false);
         mCells.getValue()[2][6].setProperties(pair1.second, true, false);
         mCells.getValue()[4][7].setProperties(pair1.second, true, false);
@@ -110,6 +123,8 @@ public class SudokuBoardViewModel extends ViewModel {
         mCells.getValue()[3][6].setProperties(pair9.second, true, false);
         mCells.getValue()[6][3].setProperties(pair9.second, true, false);
         mCells.getValue()[7][7].setProperties(pair9.second, true, false);
+
+        updateNumEmptyCells();
     }
 
     /**
@@ -124,16 +139,16 @@ public class SudokuBoardViewModel extends ViewModel {
      */
     public void createEmptyBoard(int boardSize, int subgridHeight, int subgridWidth) {
         assert (boardSize > 0);
-        mBoardSize = new MutableLiveData<>(boardSize);
+        mBoardSize.setValue(boardSize);
         // Ensure sub-grids are equally divided.
         assert (subgridHeight > 0 && subgridHeight <= boardSize && boardSize % subgridHeight == 0);
-        mSubgridHeight = new MutableLiveData<>(subgridHeight);
+        mSubgridHeight.setValue(subgridHeight);
 
         assert (subgridWidth > 0 && subgridWidth <= boardSize && boardSize % subgridWidth == 0);
-        mSubgridWidth = new MutableLiveData<>(subgridWidth);
+        mSubgridWidth.setValue(subgridWidth);
 
-        mSelectedCell = new MutableLiveData<>(null);
-        mNumEmptyCells = new MutableLiveData<>(boardSize * boardSize);
+        mSelectedCell.setValue(null);
+        mNumEmptyCells.setValue(boardSize * boardSize);
         var cells = new SudokuCellViewModel[boardSize][boardSize];
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
@@ -142,7 +157,7 @@ public class SudokuBoardViewModel extends ViewModel {
                 cells[i][j].setColIndex(j);
             }
         }
-        mCells = new MutableLiveData<>(cells);
+        mCells.setValue(cells);
     }
 
     /**

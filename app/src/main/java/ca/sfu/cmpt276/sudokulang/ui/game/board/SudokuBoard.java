@@ -15,7 +15,10 @@ import java.util.Arrays;
 import ca.sfu.cmpt276.sudokulang.R;
 import ca.sfu.cmpt276.sudokulang.ui.Util;
 
-// NOTE: The layout parameters of this board are set in its XML file.
+/**
+ * @implNote Board dimension when default constructed is undefined. <p/>
+ * The layout parameters of this board are set in its XML file.
+ */
 public class SudokuBoard extends ConstraintLayout {
 
     private int mBoardSize, mSubgridHeight, mSubgridWidth;

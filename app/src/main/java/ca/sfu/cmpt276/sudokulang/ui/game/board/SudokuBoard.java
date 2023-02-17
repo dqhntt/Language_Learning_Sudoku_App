@@ -15,7 +15,10 @@ import java.util.Arrays;
 import ca.sfu.cmpt276.sudokulang.R;
 import ca.sfu.cmpt276.sudokulang.ui.Util;
 
-// NOTE: The layout parameters of this board are set in its XML file.
+/**
+ * @implNote Board dimension when default constructed is undefined. <p/>
+ * The layout parameters of this board are set in its XML file.
+ */
 public class SudokuBoard extends ConstraintLayout {
 
     private int mBoardSize, mSubgridHeight, mSubgridWidth;
@@ -32,20 +35,21 @@ public class SudokuBoard extends ConstraintLayout {
     }
 
     private void init() {
-        setProperties(9, 3, 3);
+        createEmptyBoard(9, 3, 3);
     }
 
     /**
      * Set the size of the Sudoku board and of its sub-grids.
-     * Example: For a typical 9x9 board with 3x3 sub-grids, do: setProperties(9,3,3)
+     * Example: For a typical 9x9 board with 3x3 sub-grids, do: createEmptyBoard(9,3,3)
      *
      * @param boardSize     Number of cells in each column or row.
      * @param subgridHeight Number of cells in each sub-grid's column.
      *                      Equals {@code boardSize} if no sub-grid.
      * @param subgridWidth  Number of cells in each sub-grid's row.
      *                      Equals {@code boardSize} if no sub-grid.
+     * @implNote This function creates new cells, thus clearing all OnClickListeners present.
      */
-    public void setProperties(int boardSize, int subgridHeight, int subgridWidth) {
+    public void createEmptyBoard(int boardSize, int subgridHeight, int subgridWidth) {
         assert (boardSize > 0);
         mBoardSize = boardSize;
         // Ensure sub-grids are equally divided.
@@ -129,10 +133,11 @@ public class SudokuBoard extends ConstraintLayout {
 
     // Cite: https://stackoverflow.com/a/23945015
     private void chainRowInLayout(@NonNull View[] row, ConstraintSet constraintSet, int chainStyle) {
+        if (row.length < 1) {
+            return;
+        }
         if (row.length == 1) {
-            @IdRes int id = row[0].getId();
-            constraintSet.centerHorizontally(id, ConstraintSet.PARENT_ID);
-            constraintSet.centerVertically(id, ConstraintSet.PARENT_ID);
+            constraintSet.centerHorizontally(row[0].getId(), ConstraintSet.PARENT_ID);
             return;
         }
         @IdRes int[] rowChainIds = Arrays.stream(row).mapToInt(View::getId).toArray();
@@ -149,10 +154,11 @@ public class SudokuBoard extends ConstraintLayout {
     }
 
     private void chainColumnInLayout(@NonNull View[] column, ConstraintSet constraintSet, int chainStyle) {
+        if (column.length < 1) {
+            return;
+        }
         if (column.length == 1) {
-            @IdRes int id = column[0].getId();
-            constraintSet.centerVertically(id, ConstraintSet.PARENT_ID);
-            constraintSet.centerHorizontally(id, ConstraintSet.PARENT_ID);
+            constraintSet.centerVertically(column[0].getId(), ConstraintSet.PARENT_ID);
             return;
         }
         @IdRes int[] colChainIds = Arrays.stream(column).mapToInt(View::getId).toArray();
@@ -162,50 +168,109 @@ public class SudokuBoard extends ConstraintLayout {
                 colChainIds, null, chainStyle);
     }
 
-    public String[][] getValues() {
-        var values = new String[mBoardSize][mBoardSize];
-        for (int i = 0; i < mBoardSize; i++) {
-            for (int j = 0; j < mBoardSize; j++) {
-                values[i][j] = (String) mCells[i][j].getText();
-            }
-        }
-        return values;
-    }
-
-    public void setValues(@NonNull String[][] values) {
-        for (int i = 0; i < mBoardSize; i++) {
-            for (int j = 0; j < mBoardSize; j++) {
-                final var value = values[i][j];
-                assert (value != null);
-                mCells[i][j].setText(value);
-            }
-        }
-    }
-
-    public int getBoardSize() {
-        return mBoardSize;
-    }
-
-    public int getSubgridHeight() {
-        return mSubgridHeight;
-    }
-
-    public int getSubgridWidth() {
-        return mSubgridWidth;
-    }
-
     public SudokuCell[][] getCells() {
         return mCells;
     }
 
-    public @IdRes int[][] getCellsIds() {
-        var ids = new int[mBoardSize][mBoardSize];
+    public void highlightRelatedCells(@Nullable SudokuCellViewModel cell) {
+        if (cell == null) {
+            highlightRelatedCells(-1, -1);
+        } else {
+            highlightRelatedCells(cell.getRowIndex().getValue(), cell.getColIndex().getValue());
+        }
+    }
+
+    /**
+     * Highlight the column, row, and sub-grid related to a cell and only that cell.
+     *
+     * @param rowIndex Row index of that cell, -1 if none.
+     * @param colIndex Column index of that cell, -1 if none.
+     */
+    private void highlightRelatedCells(int rowIndex, int colIndex) {
+        final boolean validIndexes = (rowIndex >= 0 && rowIndex < mBoardSize)
+                && (colIndex >= 0 && colIndex < mBoardSize);
+        resetBoardColors();
+        if (!validIndexes) {
+            return;
+        }
+        final boolean isErrorCell = mCells[rowIndex][colIndex].isErrorCell();
+        highlightRow(rowIndex, isErrorCell);
+        highlightColumn(colIndex, isErrorCell);
+        if (mSubgridWidth != mBoardSize || mSubgridHeight != mBoardSize) {
+            highlightSubgrid(rowIndex, colIndex);
+        }
+        final var cellColor = isErrorCell
+                ? SudokuCell.Color.ERROR_SELECTED
+                : SudokuCell.Color.SELECTED;
+        mCells[rowIndex][colIndex].setColor(cellColor);
+    }
+
+    private void highlightColumn(int colIndex, boolean isErrorCell) {
         for (int i = 0; i < mBoardSize; i++) {
-            for (int j = 0; j < mBoardSize; j++) {
-                ids[i][j] = mCells[i][j].getId();
+            var currentCell = mCells[i][colIndex];
+            if (currentCell.isErrorCell()) {
+                currentCell.setColor(SudokuCell.Color.ERROR_NOT_SELECTED);
+            } else {
+                currentCell.setColor(isErrorCell
+                        ? SudokuCell.Color.ERROR_SEMI_HIGHLIGHTED
+                        : SudokuCell.Color.SEMI_HIGHLIGHTED);
             }
         }
-        return ids;
+    }
+
+    private void highlightRow(int rowIndex, boolean isErrorCell) {
+        for (int j = 0; j < mBoardSize; j++) {
+            var currentCell = mCells[rowIndex][j];
+            if (currentCell.isErrorCell()) {
+                currentCell.setColor(SudokuCell.Color.ERROR_NOT_SELECTED);
+            } else {
+                currentCell.setColor(isErrorCell
+                        ? SudokuCell.Color.ERROR_SEMI_HIGHLIGHTED
+                        : SudokuCell.Color.SEMI_HIGHLIGHTED);
+            }
+        }
+    }
+
+    private void highlightSubgrid(int rowIndex, int colIndex) {
+        final int startRowIndex = rowIndex - rowIndex % mSubgridHeight;
+        final int startColIndex = colIndex - colIndex % mSubgridWidth;
+        final int endRowIndex = startRowIndex + mSubgridHeight - 1;
+        final int endColIndex = startColIndex + mSubgridWidth - 1;
+        for (int i = startRowIndex; i <= endRowIndex; i++) {
+            for (int j = startColIndex; j <= endColIndex; j++) {
+                var currentCell = mCells[i][j];
+                if (currentCell.isErrorCell()) {
+                    currentCell.setColor(SudokuCell.Color.ERROR_NOT_SELECTED);
+                } else {
+                    currentCell.setColor(mCells[rowIndex][colIndex].isErrorCell()
+                            ? SudokuCell.Color.ERROR_SEMI_HIGHLIGHTED
+                            : SudokuCell.Color.SEMI_HIGHLIGHTED);
+                }
+            }
+        }
+    }
+
+    /**
+     * Register a callback to be invoked when each cell is clicked.
+     *
+     * @param l The callback that will run.
+     */
+    public void setOnclickListenersForAllCells(OnClickListener l) {
+        for (var row : mCells) {
+            for (var cell : row) {
+                cell.setOnClickListener(l);
+            }
+        }
+    }
+
+    private void resetBoardColors() {
+        for (var row : mCells) {
+            for (var cell : row) {
+                cell.setColor(cell.isErrorCell()
+                        ? SudokuCell.Color.ERROR_NOT_SELECTED
+                        : SudokuCell.Color.NORMAL);
+            }
+        }
     }
 
     private @NonNull View[][] transpose(@NonNull View[][] matrix) {

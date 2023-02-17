@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.HashMap;
 
 /**
  * State holder for SudokuBoard UI element.
@@ -230,9 +230,76 @@ public class SudokuBoardViewModel extends ViewModel {
         return true;
     }
 
-    public boolean isValidValueForCell(String value, @NonNull SudokuCellViewModel cell) {
-        assert (value != null && !value.isBlank());
-        // TODO
-        return new Random().nextBoolean();
+    public boolean isValidValueForCell(String buttonValue, @NonNull SudokuCellViewModel cell) {
+        assert (buttonValue != null && !buttonValue.isBlank());
+        return isValidValueForCell(buttonValue,
+                cell.getRowIndex().getValue(),
+                cell.getColIndex().getValue());
+    }
+
+    public boolean isValidValueForCell(String buttonValue, int rowIndex, int colIndex) {
+        if (mSubgridWidth.getValue().intValue() != mBoardSize.getValue().intValue()
+                || mSubgridHeight.getValue().intValue() != mBoardSize.getValue().intValue()) {
+            return isValidValueForCellInRowAndColumn(buttonValue, rowIndex, colIndex)
+                    && isValidValueForCellInSubgrid(buttonValue, rowIndex, colIndex);
+        } else {
+            return isValidValueForCellInRowAndColumn(buttonValue, rowIndex, colIndex);
+        }
+    }
+
+    private boolean isValidValueForCellInRowAndColumn(String buttonValue, int rowIndex, int colIndex) {
+        final var boardSize = mBoardSize.getValue();
+        var buttonToCellValueMap = new HashMap<String, String>(boardSize);
+        for (var pair : getDataValuePairs()) {
+            buttonToCellValueMap.put(pair.first, pair.second);
+        }
+        final var cells = mCells.getValue();
+        for (int i = 0; i < boardSize; i++) {
+            if (i == rowIndex) {
+                continue;
+            }
+            final var cellValue = cells[i][colIndex].getText().getValue();
+            if (cellValue.equals(buttonValue)
+                    || cellValue.equals(buttonToCellValueMap.get(buttonValue))) {
+                return false;
+            }
+        }
+        for (int j = 0; j < boardSize; j++) {
+            if (j == colIndex) {
+                continue;
+            }
+            final var cellValue = cells[rowIndex][j].getText().getValue();
+            if (cellValue.equals(buttonValue)
+                    || cellValue.equals(buttonToCellValueMap.get(buttonValue))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isValidValueForCellInSubgrid(String buttonValue, int rowIndex, int colIndex) {
+        final var boardSize = mBoardSize.getValue();
+        var buttonToCellValueMap = new HashMap<String, String>(boardSize);
+        for (var pair : getDataValuePairs()) {
+            buttonToCellValueMap.put(pair.first, pair.second);
+        }
+        final int startRowIndex = rowIndex - rowIndex % mSubgridHeight.getValue();
+        final int startColIndex = colIndex - colIndex % mSubgridWidth.getValue();
+        final int endRowIndex = startRowIndex + mSubgridHeight.getValue() - 1;
+        final int endColIndex = startColIndex + mSubgridWidth.getValue() - 1;
+        final var cells = mCells.getValue();
+        for (int i = startRowIndex; i <= endRowIndex; i++) {
+            for (int j = startColIndex; j <= endColIndex; j++) {
+                if (i == rowIndex && j == colIndex) {
+                    continue;
+                }
+                final var cellValue = cells[i][j].getText().getValue();
+                if (cellValue.equals(buttonValue)
+                        || cellValue.equals(buttonToCellValueMap.get(buttonValue))) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

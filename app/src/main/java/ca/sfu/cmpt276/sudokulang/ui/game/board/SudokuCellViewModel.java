@@ -8,9 +8,9 @@ import androidx.lifecycle.ViewModel;
  * State holder for SudokuCell UI element.
  *
  * @implNote Default state: <p>
- * Row index = -1.        <p>
- * Column index = -1.     <p>
- * Is user fillable.      <p>
+ * Row index = -1.          <p>
+ * Column index = -1.       <p>
+ * Is user fillable.        <p>
  * Is not an error cell.
  */
 public class SudokuCellViewModel extends ViewModel {

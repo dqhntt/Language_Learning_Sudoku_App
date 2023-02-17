@@ -5,14 +5,22 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class SudokuCellTest {
+class SudokuCellViewModelTest {
 
     @BeforeEach
     void setUp() {
     }
 
     @Test
+    void setProperties() {
+    }
+
+    @Test
     void getText() {
+    }
+
+    @Test
+    void setText() {
     }
 
     @Test

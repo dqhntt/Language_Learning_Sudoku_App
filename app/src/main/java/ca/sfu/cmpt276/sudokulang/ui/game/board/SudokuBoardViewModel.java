@@ -2,6 +2,7 @@ package ca.sfu.cmpt276.sudokulang.ui.game.board;
 
 import android.util.Pair;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -12,6 +13,7 @@ import java.util.Random;
 /**
  * State holder for SudokuBoard UI element.
  *
+ * @implNote updateNumEmptyCells() must me called right before getNumEmptyCells() for it to work correctly.
  * @cite <a href="https://google-developer-training.github.io/android-developer-fundamentals-course-concepts-v2/unit-4-saving-user-data/lesson-10-storing-data-with-room/10-1-c-room-livedata-viewmodel/10-1-c-room-livedata-viewmodel.html#viewmodel">LiveData & ViewModel</a>
  */
 public class SudokuBoardViewModel extends ViewModel {
@@ -213,7 +215,8 @@ public class SudokuBoardViewModel extends ViewModel {
         return true;
     }
 
-    public boolean isValidValueForCell(String value, SudokuCellViewModel cell) {
+    public boolean isValidValueForCell(String value, @NonNull SudokuCellViewModel cell) {
+        assert (value != null && !value.isBlank());
         // TODO
         return new Random().nextBoolean();
     }

@@ -35,7 +35,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView_Indian_states"
+        android:id="@+id/textView_Learning_lang"
         android:layout_below="@+id/welcome_text"
         android:layout_marginTop="55dp"
         android:padding="6dp"
@@ -44,20 +44,21 @@
         android:text="@string/I_want_to_learn"
 
         />
+
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:id="@+id/spinner_indian_states"
-        android:layout_below="@id/textView_Indian_states"
+        android:id="@+id/spinner_learning_lang"
+        android:layout_below="@id/textView_Learning_lang"
 
         />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView_Indian_districts"
-        android:layout_below="@+id/spinner_indian_states"
+        android:id="@+id/textView_Native_lang"
+        android:layout_below="@+id/spinner_learning_lang"
         android:layout_marginTop="40dp"
         android:padding="6dp"
         android:textSize="15sp"
@@ -70,8 +71,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:id="@+id/spinner_indian_districts"
-        android:layout_below="@id/textView_Indian_districts"
+        android:id="@+id/textView_native_lang"
+        android:layout_below="@id/textView_Native_lang"
 
         />
 
@@ -80,7 +81,7 @@
         android:id="@+id/textView_Grid_Sizes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/spinner_indian_districts"
+        android:layout_below="@+id/textView_native_lang"
         android:layout_marginTop="40dp"
         android:padding="6dp"
         android:text="@string/GridSize"

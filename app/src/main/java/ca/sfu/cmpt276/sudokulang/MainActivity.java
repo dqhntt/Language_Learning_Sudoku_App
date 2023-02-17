@@ -14,16 +14,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String selectedState,selectedDistrict ,selectedGridSize; //vars to hold the values of state and district
-    private TextView tvStateSpinner, tvDistrictSpinner ,tvGridSizeSpinner; //declaring text view to show errors
-    private Spinner stateSpinner, districtSpinner, GridSizeSpinner;
-    private ArrayAdapter<CharSequence> stateAdapter, districtAdapter, GridSizeAdapter;
+    ImageButton nextImageButton, favouritesImageButton, settingsImageButton,
+            helpImageButton, tutorialImageButton, historyImageButton;
+    private String selectedState, selectedDistrict, selectedGridSize; //vars to hold the values of state and district
+    private TextView tvLearningLangSpinner, tvNativeLangSpinner, tvGridSizeSpinner; //declaring text view to show errors
+    private Spinner learninglanSpinner, nativelangSpinner, GridSizeSpinner;
 
 
     View view;
-    ImageButton nextImageButton, favouritesImageButton, settingsImageButton,
-            helpImageButton, tutorialImageButton,historyImageButton;
-
+    private ArrayAdapter<CharSequence> learninglangAdapter, nativelangAdapter, GridSizeAdapter;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -31,29 +30,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        view=this.getWindow().getDecorView();
+        view = this.getWindow().getDecorView();
         view.setBackgroundResource(R.color.blue);
         //State spinner Initialization
-        stateSpinner = findViewById(R.id.spinner_indian_states);
-        districtSpinner= findViewById(R.id.spinner_indian_districts);
+        learninglanSpinner = findViewById(R.id.spinner_learning_lang);
+        nativelangSpinner = findViewById(R.id.textView_native_lang);
         GridSizeSpinner = findViewById(R.id.spinner_grid_size);
 
         //Populate ArrayAdapter using string array and a spinner layout that we will define
-        stateAdapter = ArrayAdapter.createFromResource(this,R.array.array_indian_states,R.layout.spinner_layout);
-        districtAdapter= ArrayAdapter.createFromResource(this,R.array.array_indian_districts,R.layout.spinner_layout);
-        GridSizeAdapter = ArrayAdapter.createFromResource(this,R.array.array_grid_size,R.layout.spinner_layout);
+        learninglangAdapter = ArrayAdapter.createFromResource(this, R.array.array_learning_lang, R.layout.spinner_layout);
+        nativelangAdapter = ArrayAdapter.createFromResource(this, R.array.array_native_lang, R.layout.spinner_layout);
+        GridSizeAdapter = ArrayAdapter.createFromResource(this, R.array.array_grid_size, R.layout.spinner_layout);
 
         //Specify the layout to use when the list of choices appear
-        stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        districtAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        learninglangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        nativelangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         GridSizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         //set the adapter to the spinner to populate State Spinner
-        stateSpinner.setAdapter(stateAdapter);
-        districtSpinner.setAdapter(districtAdapter);
+        learninglanSpinner.setAdapter(learninglangAdapter);
+        nativelangSpinner.setAdapter(nativelangAdapter);
         GridSizeSpinner.setAdapter(GridSizeAdapter);
 
-       nextImageButton= (ImageButton) findViewById(R.id.image_button_next);
+        nextImageButton = (ImageButton) findViewById(R.id.image_button_next);
 
         nextImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        helpImageButton=(ImageButton) findViewById(R.id.image_button_history);
+        helpImageButton = (ImageButton) findViewById(R.id.image_button_help);
         helpImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

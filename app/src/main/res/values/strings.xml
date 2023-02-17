@@ -9,7 +9,7 @@
     <string name="I_want_to_learn"><b>I want to learn</b></string>
     <string name="I_already_know"><b>I already know</b></string>
 
-    <string-array name="array_indian_states">
+    <string-array name="array_learning_lang">
         <item><i>Select Learning Language</i></item>
         <item>Danish</item>
         <item>German</item>
@@ -17,7 +17,7 @@
         <item>Italian</item>
     </string-array>
 
-    <string-array name="array_indian_districts">
+    <string-array name="array_native_lang">
         <item><i>Select Native Language</i></item>
         <item>English</item>
         <item>German</item>

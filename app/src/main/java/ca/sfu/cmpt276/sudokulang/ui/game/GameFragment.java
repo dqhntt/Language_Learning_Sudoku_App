@@ -8,110 +8,134 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import ca.sfu.cmpt276.sudokulang.databinding.FragmentGameBinding;
-import ca.sfu.cmpt276.sudokulang.ui.game.board.SudokuBoard;
+import ca.sfu.cmpt276.sudokulang.ui.game.board.SudokuBoardViewModel;
 import ca.sfu.cmpt276.sudokulang.ui.game.board.SudokuCell;
 
 // See: https://developer.android.com/topic/libraries/architecture/viewmodel
 public class GameFragment extends Fragment {
 
-    private FragmentGameBinding binding;
-
-//    public View onCreateView(@NonNull LayoutInflater inflater,
-//                             ViewGroup container, Bundle savedInstanceState) {
-//        GameViewModel gameViewModel =
-//                new ViewModelProvider(this).get(GameViewModel.class);
-//
-//        binding = FragmentGameBinding.inflate(inflater, container, false);
-//        View root = binding.getRoot();
-//
-//        final TextView textView = binding.gameQuickCellView;
-//        gameViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-//        return root;
-//    }
+    private FragmentGameBinding mBinding;
+    private SudokuBoardViewModel mSudokuBoardVM;
+    private LifecycleOwner mLifecycleOwner;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentGameBinding.inflate(inflater, container, false);
+        mBinding = FragmentGameBinding.inflate(inflater, container, false);
+        mLifecycleOwner = getViewLifecycleOwner();
 
-        // TODO: Replace this.
-        setupTestGame();
+        mSudokuBoardVM = new ViewModelProvider(this).get(SudokuBoardViewModel.class);
+        mSudokuBoardVM.createEmptyBoard(9, 3, 3);
+        mSudokuBoardVM.generateBoardData();
 
         // Set OnClickListener for parent view of game board.
-        ((View) binding.gameBoard.getParent()).setOnClickListener(view -> {
-            binding.gameBoard.setNoSelectedCell();
-            binding.gameQuickCellView.setText("");
-        });
+        ((View) mBinding.gameBoard.getParent()).setOnClickListener(view -> mSudokuBoardVM.setNoSelectedCell());
 
-        binding.gameBoard.setOnclickListenersForAllCells(view -> {
-            final var cell = (SudokuCell) view;
-            binding.gameBoard.setSelectedCell(cell.getRowIndex(), cell.getColIndex());
-            binding.gameQuickCellView.setText(cell.getText());
-        });
+        setupCells();
+        setupBoard();
+        setupWordButtons();
+        setupEraseButton();
 
-        final var wordButtonOnClickListener = new WordButtonOnClickListener();
-        for (var button : getAllWordButtons()) {
-            button.setOnClickListener(wordButtonOnClickListener);
-        }
-
-        binding.eraseButton.setOnClickListener(view -> {
-            var selectedCell = binding.gameBoard.getSelectedCell();
-            if (selectedCell != null && !selectedCell.isPrefilled()) {
-                binding.gameBoard.setValue(selectedCell, "");
-                selectedCell.setAsErrorCell(false);
-                binding.gameBoard.highlightRelatedCells(selectedCell);
-                binding.gameQuickCellView.setText("");
-            }
-        });
-
-        return binding.getRoot();
+        return mBinding.getRoot();
     }
 
-    private Button[] getAllWordButtons() {
-        var buttons = new ArrayList<Button>();
-        buttons.add(binding.wordButton1);
-        buttons.add(binding.wordButton2);
-        buttons.add(binding.wordButton3);
-        buttons.add(binding.wordButton4);
-        buttons.add(binding.wordButton5);
-        buttons.add(binding.wordButton6);
-        buttons.add(binding.wordButton7);
-        buttons.add(binding.wordButton8);
-        buttons.add(binding.wordButton9);
-        return buttons.toArray(new Button[0]);
+    private void setupBoard() {
+        mSudokuBoardVM.getSelectedCell().observe(mLifecycleOwner, selectedCellVM -> {
+            if (selectedCellVM == null) {
+                mBinding.gameQuickCellView.setText("");
+            } else {
+                mBinding.gameQuickCellView.setText(selectedCellVM.getText().getValue());
+            }
+            mBinding.gameBoard.highlightRelatedCells(selectedCellVM);
+        });
+        mSudokuBoardVM.getNumEmptyCells().observe(mLifecycleOwner, numEmptyCells -> {
+            if (numEmptyCells == 0 && mSudokuBoardVM.isValidBoard()) {
+                endGame();
+            }
+        });
     }
 
     private void endGame() {
         for (var button : getAllWordButtons()) {
             button.setEnabled(false);
         }
-        binding.eraseButton.setEnabled(false);
-        binding.notesButton.setEnabled(false);
-        Snackbar.make(binding.getRoot(), "Game completed. Well done!", Snackbar.LENGTH_LONG).show();
+        mBinding.eraseButton.setEnabled(false);
+        mBinding.notesButton.setEnabled(false);
+        Snackbar.make(mBinding.getRoot(), "Game completed. Well done!", Snackbar.LENGTH_INDEFINITE).show();
     }
 
-    private boolean validate(@NonNull SudokuBoard gameBoard) {
-        for (var row : gameBoard.getCells()) {
-            for (var cell : row) {
-                if (cell.isErrorCell()) {
-                    return false;
-                }
+    private void setupCells() {
+        mBinding.gameBoard.setOnclickListenersForAllCells(view -> {
+            final var cell = (SudokuCell) view;
+            mSudokuBoardVM.setSelectedCell(cell.getRowIndex(), cell.getColIndex());
+        });
+
+        // Set SudokuCell to observe SudokuCellViewModel.
+        for (var row : mSudokuBoardVM.getCells().getValue()) {
+            for (var cellVM : row) {
+                final int rowIndex = cellVM.getRowIndex().getValue();
+                final int colIndex = cellVM.getColIndex().getValue();
+                final var cellsUIs = mBinding.gameBoard.getCells();
+                cellVM.getText().observe(mLifecycleOwner, cellsUIs[rowIndex][colIndex]::setText);
+                cellVM.isPrefilled().observe(mLifecycleOwner, cellsUIs[rowIndex][colIndex]::setPrefilled);
+                cellVM.isErrorCell().observe(mLifecycleOwner, isError -> {
+                    cellsUIs[rowIndex][colIndex].setAsErrorCell(isError);
+                    if (cellVM == mSudokuBoardVM.getSelectedCell().getValue()) {
+                        mBinding.gameBoard.highlightRelatedCells(cellVM);
+                    }
+                });
             }
         }
-        return true;
     }
 
-    private boolean validate(String value, SudokuCell cell, @NonNull SudokuBoard gameBoard) {
-        assert (gameBoard.existsCell(cell));
-        // TODO
-        return new Random().nextBoolean();
+    private void setupEraseButton() {
+        mBinding.eraseButton.setOnClickListener(v -> {
+            var selectedCellVM = mSudokuBoardVM.getSelectedCell().getValue();
+            if (selectedCellVM != null && !selectedCellVM.isPrefilled().getValue()) {
+                selectedCellVM.setText("");
+                selectedCellVM.setAsErrorCell(false);
+                mBinding.gameQuickCellView.setText("");
+            }
+        });
+    }
+
+    private void setupWordButtons() {
+        final var wordButtonOnClickListener = new WordButtonOnClickListener();
+        final var wordButtons = getAllWordButtons();
+        final var dataValuePairs = mSudokuBoardVM.getDataValuePairs();
+        assert (wordButtons.length == dataValuePairs.length);
+        for (int i = 0; i < wordButtons.length; i++) {
+            wordButtons[i].setOnClickListener(wordButtonOnClickListener);
+            wordButtons[i].setText(dataValuePairs[i].first);
+        }
+    }
+
+    private Button[] getAllWordButtons() {
+        var buttons = new ArrayList<Button>();
+        buttons.add(mBinding.wordButton1);
+        buttons.add(mBinding.wordButton2);
+        buttons.add(mBinding.wordButton3);
+        buttons.add(mBinding.wordButton4);
+        buttons.add(mBinding.wordButton5);
+        buttons.add(mBinding.wordButton6);
+        buttons.add(mBinding.wordButton7);
+        buttons.add(mBinding.wordButton8);
+        buttons.add(mBinding.wordButton9);
+        return buttons.toArray(new Button[0]);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mBinding = null;
     }
 
     private class WordButtonOnClickListener implements View.OnClickListener {
@@ -119,81 +143,13 @@ public class GameFragment extends Fragment {
         public void onClick(View v) {
             final var button = (Button) v;
             final String choice = (String) button.getText();
-            binding.gameQuickCellView.setText(choice);
-            final var selectedCell = binding.gameBoard.getSelectedCell();
-            if (selectedCell != null && !selectedCell.isPrefilled()) {
-                binding.gameBoard.setValue(selectedCell, choice);
-                selectedCell.setAsErrorCell(!validate(choice, selectedCell, binding.gameBoard));
-                binding.gameBoard.highlightRelatedCells(selectedCell);
-                if (binding.gameBoard.getNumEmptyCells() == 0 && validate(binding.gameBoard)) {
-                    endGame();
-                }
+            mBinding.gameQuickCellView.setText(choice);
+            final var selectedCell = mSudokuBoardVM.getSelectedCell().getValue();
+            if (selectedCell != null && !selectedCell.isPrefilled().getValue()) {
+                selectedCell.setText(choice);
+                selectedCell.setAsErrorCell(!mSudokuBoardVM.isValidValueForCell(choice, selectedCell));
             }
+            mSudokuBoardVM.updateNumEmptyCells();
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
-
-    /**
-     * For TESTING only.
-     * <p>
-     * TODO: Replace this manual test with a database.
-     */
-    private void setupTestGame() {
-        binding.wordButton1.setText("Ag");
-        binding.wordButton2.setText("Br");
-        binding.wordButton3.setText("Ca");
-        binding.wordButton4.setText("Fe");
-        binding.wordButton5.setText("He");
-        binding.wordButton6.setText("Kr");
-        binding.wordButton7.setText("Li");
-        binding.wordButton8.setText("Pb");
-        binding.wordButton9.setText("Se");
-        binding.gameBoard.setProperties(9, 3, 3);
-        binding.gameBoard.setCellProperties(0, 3, "Silver", true, false);
-        binding.gameBoard.setCellProperties(2, 6, "Silver", true, false);
-        binding.gameBoard.setCellProperties(4, 7, "Silver", true, false);
-        binding.gameBoard.setCellProperties(6, 5, "Silver", true, false);
-        binding.gameBoard.setCellProperties(7, 1, "Silver", true, false);
-        binding.gameBoard.setCellProperties(0, 2, "Bromine", true, false);
-        binding.gameBoard.setCellProperties(1, 4, "Bromine", true, false);
-        binding.gameBoard.setCellProperties(3, 1, "Bromine", true, false);
-        binding.gameBoard.setCellProperties(6, 7, "Bromine", true, false);
-        binding.gameBoard.setCellProperties(7, 0, "Bromine", true, false);
-        binding.gameBoard.setCellProperties(1, 1, "Calcium", true, false);
-        binding.gameBoard.setCellProperties(4, 2, "Calcium", true, false);
-        binding.gameBoard.setCellProperties(5, 8, "Calcium", true, false);
-        binding.gameBoard.setCellProperties(7, 3, "Calcium", true, false);
-        binding.gameBoard.setCellProperties(8, 6, "Calcium", true, false);
-        binding.gameBoard.setCellProperties(1, 6, "Iron", true, false);
-        binding.gameBoard.setCellProperties(2, 4, "Iron", true, false);
-        binding.gameBoard.setCellProperties(4, 1, "Iron", true, false);
-        binding.gameBoard.setCellProperties(5, 7, "Iron", true, false);
-        binding.gameBoard.setCellProperties(6, 2, "Iron", true, false);
-        binding.gameBoard.setCellProperties(0, 6, "Helium", true, false);
-        binding.gameBoard.setCellProperties(2, 0, "Helium", true, false);
-        binding.gameBoard.setCellProperties(3, 7, "Helium", true, false);
-        binding.gameBoard.setCellProperties(4, 5, "Helium", true, false);
-        binding.gameBoard.setCellProperties(5, 1, "Helium", true, false);
-        binding.gameBoard.setCellProperties(3, 2, "Krypton", true, false);
-        binding.gameBoard.setCellProperties(4, 4, "Krypton", true, false);
-        binding.gameBoard.setCellProperties(5, 6, "Krypton", true, false);
-        binding.gameBoard.setCellProperties(7, 5, "Krypton", true, false);
-        binding.gameBoard.setCellProperties(8, 7, "Krypton", true, false);
-        binding.gameBoard.setCellProperties(0, 1, "Lithium", true, false);
-        binding.gameBoard.setCellProperties(2, 5, "Lithium", true, false);
-        binding.gameBoard.setCellProperties(3, 3, "Lithium", true, false);
-        binding.gameBoard.setCellProperties(5, 2, "Lithium", true, false);
-        binding.gameBoard.setCellProperties(6, 4, "Lithium", true, false);
-        binding.gameBoard.setCellProperties(2, 1, "Lead", true, false);
-        binding.gameBoard.setCellProperties(7, 4, "Lead", true, false);
-        binding.gameBoard.setCellProperties(1, 8, "Selenium", true, false);
-        binding.gameBoard.setCellProperties(3, 6, "Selenium", true, false);
-        binding.gameBoard.setCellProperties(6, 3, "Selenium", true, false);
-        binding.gameBoard.setCellProperties(7, 7, "Selenium", true, false);
     }
 }

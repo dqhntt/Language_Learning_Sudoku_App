@@ -16,17 +16,16 @@ import ca.sfu.cmpt276.sudokulang.ui.Util;
 /**
  * A UI representation of a Sudoku cell.
  *
- * @implNote Default state:
- * Row index = -1.
- * Column index = -1.
- * Is user fillable.
+ * @implNote Default state: <p>
+ * Row index = -1.        <p>
+ * Column index = -1.     <p>
+ * Is user fillable.      <p>
  * Is not an error cell.
  */
 @SuppressLint("AppCompatCustomView")
 public class SudokuCell extends TextView {
     private int mRowIndex, mColIndex;
     private boolean mIsPrefilled, mIsErrorCell;
-    private Color mColor;
 
     public SudokuCell(@NonNull Context context) {
         super(context);
@@ -53,26 +52,15 @@ public class SudokuCell extends TextView {
         setGravity(Gravity.CENTER);
         setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelSmall);
 
-        setProperties("", false, false);
+        setText("");
         setColor(Color.NORMAL);
         setRowIndex(-1);
         setColIndex(-1);
         setId(generateViewId());
     }
 
-    void setProperties(String text, boolean prefilled, boolean isErrorCell) {
-        setText(text);
-        setPrefilled(prefilled);
-        setAsErrorCell(isErrorCell);
-    }
-
-    Color getColor() {
-        return mColor;
-    }
-
     // Cite: https://stackoverflow.com/a/29445079
     void setColor(@NonNull Color color) {
-        mColor = color;
         switch (color) {
             case NORMAL:
                 setBackgroundResource(R.drawable.cell_normal);
@@ -87,11 +75,9 @@ public class SudokuCell extends TextView {
                 setBackgroundResource(R.drawable.error_cell_semi_highlighted);
                 break;
             case ERROR_SELECTED:
-                assert (mIsErrorCell);
                 setBackgroundResource(R.drawable.error_cell_selected);
                 break;
             case ERROR_NOT_SELECTED:
-                assert (mIsErrorCell);
                 setBackgroundResource(R.drawable.error_cell_not_selected);
                 break;
             default:
@@ -124,9 +110,6 @@ public class SudokuCell extends TextView {
     }
 
     public void setAsErrorCell(boolean isErrorCell) {
-        if (isErrorCell) {
-            assert (!mIsPrefilled);
-        }
         mIsErrorCell = isErrorCell;
     }
 
@@ -135,9 +118,6 @@ public class SudokuCell extends TextView {
     }
 
     public void setPrefilled(boolean prefilled) {
-        if (mIsErrorCell) {
-            assert (!prefilled);
-        }
         mIsPrefilled = prefilled;
         if (prefilled) {
             setTextColor(getResources().getColor(R.color.cell_text_prefilled, null));

@@ -1,5 +1,6 @@
 package ca.sfu.cmpt276.sudokulang.ui.game.board;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -22,7 +23,7 @@ public class SudokuCellViewModel extends ViewModel {
         this("", false, false);
     }
 
-    SudokuCellViewModel(String text, boolean prefilled, boolean isErrorCell) {
+    SudokuCellViewModel(@NonNull String text, boolean prefilled, boolean isErrorCell) {
         super();
         mRowIndex = new MutableLiveData<>(-1);
         mColIndex = new MutableLiveData<>(-1);
@@ -31,7 +32,7 @@ public class SudokuCellViewModel extends ViewModel {
         mIsErrorCell = new MutableLiveData<>(isErrorCell);
     }
 
-    void setProperties(String text, boolean prefilled, boolean isErrorCell) {
+    void setProperties(@NonNull String text, boolean prefilled, boolean isErrorCell) {
         setText(text);
         setPrefilled(prefilled);
         setAsErrorCell(isErrorCell);
@@ -41,7 +42,7 @@ public class SudokuCellViewModel extends ViewModel {
         return mText;
     }
 
-    public void setText(String value) {
+    public void setText(@NonNull String value) {
         mText.setValue(value);
     }
 

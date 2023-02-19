@@ -124,7 +124,7 @@ public class SudokuBoardViewModel extends ViewModel {
         mCells.getValue()[6][3].setProperties(pair9.second, true, false);
         mCells.getValue()[7][7].setProperties(pair9.second, true, false);
 
-        updateNumEmptyCells();
+//        updateNumEmptyCells();
     }
 
     /**

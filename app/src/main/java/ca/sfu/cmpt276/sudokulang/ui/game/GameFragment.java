@@ -32,8 +32,6 @@ public class GameFragment extends Fragment {
         mLifecycleOwner = getViewLifecycleOwner();
 
         mSudokuBoardVM = new ViewModelProvider(this).get(SudokuBoardViewModel.class);
-        mSudokuBoardVM.createEmptyBoard(9, 3, 3);
-        mSudokuBoardVM.generateBoardData();
 
         // Set OnClickListener for parent view of game board.
         ((View) mBinding.gameBoard.getParent()).setOnClickListener(view -> mSudokuBoardVM.setNoSelectedCell());
@@ -106,7 +104,7 @@ public class GameFragment extends Fragment {
         });
         clearSudokuCellViewModelsObservers();
         // Set SudokuCell to automatically observe SudokuCellViewModel.
-        for (var row : mSudokuBoardVM.getCells().getValue()) {
+        for (var row : mSudokuBoardVM.getCells()) {
             for (var cellVM : row) {
                 final int rowIndex = cellVM.getRowIndex().getValue();
                 final int colIndex = cellVM.getColIndex().getValue();
@@ -129,7 +127,7 @@ public class GameFragment extends Fragment {
     }
 
     private void clearSudokuCellViewModelsObservers() {
-        for (var row : mSudokuBoardVM.getCells().getValue()) {
+        for (var row : mSudokuBoardVM.getCells()) {
             for (var cellVM : row) {
                 cellVM.isPrefilled().removeObservers(mLifecycleOwner);
                 cellVM.getText().removeObservers(mLifecycleOwner);

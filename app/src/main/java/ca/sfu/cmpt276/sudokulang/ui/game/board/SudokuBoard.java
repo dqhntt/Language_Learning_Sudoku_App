@@ -35,7 +35,7 @@ public class SudokuBoard extends ConstraintLayout {
     }
 
     private void init() {
-        createEmptyBoard(9, 3, 3);
+        createEmptyBoard(1, 1, 1);
     }
 
     /**

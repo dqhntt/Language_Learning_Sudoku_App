@@ -1,5 +1,7 @@
 package ca.sfu.cmpt276.sudokulang.ui.game.board;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,14 +18,24 @@ class SudokuCellViewModelTest {
 
     @Test
     void setProperties() {
-        cell.setProperties("", false, false);
-        assertEquals("", cell.getText().getValue());
-        assertEquals(false, cell.isPrefilled().getValue());
-        assertEquals(false, cell.isErrorCell().getValue());
-        cell.setProperties("Not_Empty", true, false);
-        assertEquals("Not_Empty", cell.getText().getValue());
-        assertEquals(true, cell.isPrefilled().getValue());
-        assertEquals(false, cell.isErrorCell().getValue());
+        final var texts = new String[]{"", " ", ".", " . . ", " Cell", "llec", "CELL "};
+        final var prefilledVals = new boolean[]{true, false};
+        final var errorVals = new boolean[]{false, true};
+        for (var text : texts) {
+            for (var prefilled : prefilledVals) {
+                for (var error : errorVals) {
+                    if (error && prefilled) {
+                        assertThrows(IllegalArgumentException.class, () ->
+                                cell.setProperties(text, prefilled, error));
+                    } else {
+                        cell.setProperties(text, prefilled, error);
+                        assertEquals(text, cell.getText().getValue());
+                        assertEquals(prefilled, cell.isPrefilled().getValue());
+                        assertEquals(error, cell.isErrorCell().getValue());
+                    }
+                }
+            }
+        }
     }
 
     @Test

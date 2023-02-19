@@ -27,15 +27,19 @@ public class SudokuCellViewModel extends ViewModel {
         super();
         mRowIndex = new MutableLiveData<>(-1);
         mColIndex = new MutableLiveData<>(-1);
-        mText = new MutableLiveData<>(text);
-        mIsPrefilled = new MutableLiveData<>(prefilled);
-        mIsErrorCell = new MutableLiveData<>(isErrorCell);
+        mText = new MutableLiveData<>();
+        mIsPrefilled = new MutableLiveData<>();
+        mIsErrorCell = new MutableLiveData<>();
+        setProperties(text, prefilled, isErrorCell);
     }
 
     void setProperties(@NonNull String text, boolean prefilled, boolean isErrorCell) {
+        if (prefilled && isErrorCell) {
+            throw new IllegalArgumentException("Prefilled cells cannot be error cells");
+        }
         setText(text);
-        setPrefilled(prefilled);
-        setAsErrorCell(isErrorCell);
+        mIsPrefilled.setValue(prefilled);
+        mIsErrorCell.setValue(isErrorCell);
     }
 
     public LiveData<String> getText() {
@@ -67,8 +71,8 @@ public class SudokuCellViewModel extends ViewModel {
     }
 
     public void setAsErrorCell(boolean isErrorCell) {
-        if (isErrorCell) {
-            assert (!mIsPrefilled.getValue());
+        if (isErrorCell && mIsPrefilled.getValue()) {
+            throw new IllegalArgumentException("Prefilled cells cannot be error cells");
         }
         mIsErrorCell.setValue(isErrorCell);
     }
@@ -78,8 +82,8 @@ public class SudokuCellViewModel extends ViewModel {
     }
 
     public void setPrefilled(boolean prefilled) {
-        if (mIsErrorCell.getValue()) {
-            assert (!prefilled);
+        if (prefilled && mIsErrorCell.getValue()) {
+            throw new IllegalArgumentException("Prefilled cells cannot be error cells");
         }
         mIsPrefilled.setValue(prefilled);
     }

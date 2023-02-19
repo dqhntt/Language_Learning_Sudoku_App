@@ -36,7 +36,7 @@ public class SudokuBoardViewModel extends ViewModel {
         mSubgridWidth = new MutableLiveData<>();
         mSelectedCell = new MutableLiveData<>();
         mNumEmptyCells = new MutableLiveData<>();
-        mCells = new SudokuCellViewModel[][]{};
+        mCells = null;
         generateNewBoard(boardSize, subgridHeight, subgridWidth);
     }
 
@@ -59,7 +59,6 @@ public class SudokuBoardViewModel extends ViewModel {
         mBoardSize.setValue(boardSize);
         mSubgridHeight.setValue(subgridHeight);
         mSubgridWidth.setValue(subgridWidth);
-
         mSelectedCell.setValue(null);
         mNumEmptyCells.setValue(boardSize * boardSize);
         mCells = new SudokuCellViewModel[boardSize][boardSize];
@@ -148,14 +147,13 @@ public class SudokuBoardViewModel extends ViewModel {
         return true;
     }
 
-    public boolean isValidValueForCell(String buttonValue, @NonNull SudokuCellViewModel cell) {
-        assert (buttonValue != null && !buttonValue.isBlank());
+    public boolean isValidValueForCell(@NonNull String buttonValue, @NonNull SudokuCellViewModel cell) {
         return isValidValueForCell(buttonValue,
                 cell.getRowIndex().getValue(),
                 cell.getColIndex().getValue());
     }
 
-    public boolean isValidValueForCell(String buttonValue, int rowIndex, int colIndex) {
+    public boolean isValidValueForCell(@NonNull String buttonValue, int rowIndex, int colIndex) {
         if (mSubgridWidth.getValue().intValue() != mBoardSize.getValue().intValue()
                 || mSubgridHeight.getValue().intValue() != mBoardSize.getValue().intValue()) {
             return isValidValueForCellInRowAndColumn(buttonValue, rowIndex, colIndex)
@@ -165,7 +163,7 @@ public class SudokuBoardViewModel extends ViewModel {
         }
     }
 
-    private boolean isValidValueForCellInRowAndColumn(String buttonValue, int rowIndex, int colIndex) {
+    private boolean isValidValueForCellInRowAndColumn(@NonNull String buttonValue, int rowIndex, int colIndex) {
         final var boardSize = mBoardSize.getValue();
         var buttonToCellValueMap = new HashMap<String, String>(boardSize);
         for (var pair : getDataValuePairs()) {
@@ -194,7 +192,7 @@ public class SudokuBoardViewModel extends ViewModel {
         return true;
     }
 
-    private boolean isValidValueForCellInSubgrid(String buttonValue, int rowIndex, int colIndex) {
+    private boolean isValidValueForCellInSubgrid(@NonNull String buttonValue, int rowIndex, int colIndex) {
         final var boardSize = mBoardSize.getValue();
         var buttonToCellValueMap = new HashMap<String, String>(boardSize);
         for (var pair : getDataValuePairs()) {

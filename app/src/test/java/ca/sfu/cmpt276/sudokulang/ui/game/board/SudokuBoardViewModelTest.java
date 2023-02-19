@@ -114,4 +114,22 @@ class SudokuBoardViewModelTest {
 //        assertEquals(true, board.isValidValueForCell("Br",5,5));
 //        assertEquals(false, board.isValidValueForCell("Ag",5,5));
 //    }
+
+    @Test
+    void getCells() {
+        final var cells = board.getCells().getValue();
+        final var boardSize = board.getBoardSize().getValue();
+        assertEquals(boardSize, cells.length);
+        assertEquals(boardSize, cells[0].length);
+    }
+
+    @Test
+    void getDataValuePairs() {
+        assertEquals(board.getBoardSize().getValue(), board.getDataValuePairs().length);
+    }
+
+//    @Test
+//    void generateBoardData() {
+//        assertDoesNotThrow(() -> board.generateBoardData());
+//    }
 }

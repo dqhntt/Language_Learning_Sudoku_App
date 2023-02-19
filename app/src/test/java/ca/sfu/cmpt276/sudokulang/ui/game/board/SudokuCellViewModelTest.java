@@ -7,6 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.util.Random;
+
+import ca.sfu.cmpt276.sudokulang.ui.InstantExecutorExtension;
+
 @ExtendWith(InstantExecutorExtension.class)
 class SudokuCellViewModelTest {
     private SudokuCellViewModel cell;
@@ -17,13 +21,31 @@ class SudokuCellViewModelTest {
     }
 
     @Test
+    void init() {
+        for (var text : TestData.STRINGS) {
+            for (var prefilled : TestData.BOOLEANS) {
+                for (var error : TestData.BOOLEANS) {
+                    if (error && prefilled) {
+                        assertThrows(IllegalArgumentException.class, () ->
+                                cell = new SudokuCellViewModel(text, prefilled, error));
+                    } else {
+                        cell = new SudokuCellViewModel(text, prefilled, error);
+                        assertEquals(text, cell.getText().getValue());
+                        assertEquals(prefilled, cell.isPrefilled().getValue());
+                        assertEquals(error, cell.isErrorCell().getValue());
+                        assertEquals(-1, cell.getRowIndex().getValue());
+                        assertEquals(-1, cell.getColIndex().getValue());
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
     void setProperties() {
-        final var texts = new String[]{"", " ", ".", " . . ", " Cell", "llec", "CELL "};
-        final var prefilledVals = new boolean[]{true, false};
-        final var errorVals = new boolean[]{false, true};
-        for (var text : texts) {
-            for (var prefilled : prefilledVals) {
-                for (var error : errorVals) {
+        for (var text : TestData.STRINGS) {
+            for (var prefilled : TestData.BOOLEANS) {
+                for (var error : TestData.BOOLEANS) {
                     if (error && prefilled) {
                         assertThrows(IllegalArgumentException.class, () ->
                                 cell.setProperties(text, prefilled, error));
@@ -32,6 +54,8 @@ class SudokuCellViewModelTest {
                         assertEquals(text, cell.getText().getValue());
                         assertEquals(prefilled, cell.isPrefilled().getValue());
                         assertEquals(error, cell.isErrorCell().getValue());
+                        assertEquals(-1, cell.getRowIndex().getValue());
+                        assertEquals(-1, cell.getColIndex().getValue());
                     }
                 }
             }
@@ -39,90 +63,68 @@ class SudokuCellViewModelTest {
     }
 
     @Test
-    void getText() {
-        cell.setText("");
-        assertEquals("", cell.getText().getValue());
-        cell.setText("Not_Empty");
-        assertEquals("Not_Empty", cell.getText().getValue());
-    }
-
-    @Test
     void setText() {
-        cell.setText("");
-        assertEquals("", cell.getText().getValue());
-        cell.setText("Null");
-        assertEquals("Null", cell.getText().getValue());
-    }
-
-    @Test
-    void getRowIndex() {
-        cell.setRowIndex(0);
-        assertEquals(0, cell.getRowIndex().getValue());
-        cell.setRowIndex(3);
-        assertEquals(3, cell.getRowIndex().getValue());
-        cell.setRowIndex(-1);
-        assertEquals(-1, cell.getRowIndex().getValue());
+        for (var text : TestData.STRINGS) {
+            cell.setText(text);
+            assertEquals(text, cell.getText().getValue());
+        }
     }
 
     @Test
     void setRowIndex() {
-        cell.setRowIndex(0);
-        assertEquals(0, cell.getRowIndex().getValue());
-        cell.setRowIndex(5);
-        assertEquals(5, cell.getRowIndex().getValue());
-        cell.setRowIndex(-1);
-        assertEquals(-1, cell.getRowIndex().getValue());
-    }
-
-    @Test
-    void getColIndex() {
-        cell.setColIndex(0);
-        assertEquals(0, cell.getColIndex().getValue());
-        cell.setColIndex(5);
-        assertEquals(5, cell.getColIndex().getValue());
-        cell.setColIndex(-1);
-        assertEquals(-1, cell.getColIndex().getValue());
+        for (var index : TestData.INTEGERS) {
+            cell.setRowIndex(index);
+            assertEquals(index, cell.getRowIndex().getValue());
+        }
+        for (var n : new Random().ints(100).toArray()) {
+            cell.setRowIndex(n);
+            assertEquals(n, cell.getRowIndex().getValue());
+        }
     }
 
     @Test
     void setColIndex() {
-        cell.setColIndex(0);
-        assertEquals(0, cell.getColIndex().getValue());
-        cell.setColIndex(3);
-        assertEquals(3, cell.getColIndex().getValue());
-        cell.setColIndex(-1);
-        assertEquals(-1, cell.getColIndex().getValue());
-    }
-
-    @Test
-    void isErrorCell() {
-        cell.setAsErrorCell(false);
-        assertEquals(false, cell.isErrorCell().getValue());
-        cell.setAsErrorCell(true);
-        assertEquals(true, cell.isErrorCell().getValue());
+        for (var index : TestData.INTEGERS) {
+            cell.setColIndex(index);
+            assertEquals(index, cell.getColIndex().getValue());
+        }
+        for (var n : new Random().ints(100).toArray()) {
+            cell.setColIndex(n);
+            assertEquals(n, cell.getColIndex().getValue());
+        }
     }
 
     @Test
     void setAsErrorCell() {
-        cell.setAsErrorCell(true);
-        assertEquals(true, cell.isErrorCell().getValue());
-        cell.setAsErrorCell(false);
-        assertEquals(false, cell.isErrorCell().getValue());
-    }
-
-    @Test
-    void isPrefilled() {
-        cell.setPrefilled(false);
-        assertEquals(false, cell.isPrefilled().getValue());
-        cell.setPrefilled(true);
-        assertEquals(true, cell.isPrefilled().getValue());
+        for (var prefilled : TestData.BOOLEANS) {
+            cell.setProperties("", false, false);
+            cell.setPrefilled(prefilled);
+            for (var error : TestData.BOOLEANS) {
+                if (error && prefilled) {
+                    assertThrows(IllegalArgumentException.class, () ->
+                            cell.setAsErrorCell(error));
+                } else {
+                    cell.setAsErrorCell(error);
+                    assertEquals(error, cell.isErrorCell().getValue());
+                }
+            }
+        }
     }
 
     @Test
     void setPrefilled() {
-        cell.setPrefilled(true);
-        assertEquals(true, cell.isPrefilled().getValue());
-        cell.setPrefilled(false);
-        assertEquals(false, cell.isPrefilled().getValue());
+        for (var error : TestData.BOOLEANS) {
+            cell.setProperties("", false, false);
+            cell.setAsErrorCell(error);
+            for (var prefilled : TestData.BOOLEANS) {
+                if (prefilled && error) {
+                    assertThrows(IllegalArgumentException.class, () ->
+                            cell.setPrefilled(prefilled));
+                } else {
+                    cell.setPrefilled(prefilled);
+                    assertEquals(prefilled, cell.isPrefilled().getValue());
+                }
+            }
+        }
     }
 }

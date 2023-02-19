@@ -9,6 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import ca.sfu.cmpt276.sudokulang.ui.InstantExecutorExtension;
+
 @ExtendWith(InstantExecutorExtension.class)
 class SudokuBoardViewModelTest {
     private SudokuBoardViewModel board;

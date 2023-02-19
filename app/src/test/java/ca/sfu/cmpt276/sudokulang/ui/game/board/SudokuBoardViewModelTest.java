@@ -1,5 +1,6 @@
 package ca.sfu.cmpt276.sudokulang.ui.game.board;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -107,14 +108,6 @@ class SudokuBoardViewModelTest {
         assertFalse(board.isValidBoard());
     }
 
-//    @Test
-//    void isValidValueForCell() {
-//        board.createEmptyBoard(9,3,3);
-//        board.generateBoardData();
-//        assertEquals(true, board.isValidValueForCell("Br",5,5));
-//        assertEquals(false, board.isValidValueForCell("Ag",5,5));
-//    }
-
     @Test
     void getCells() {
         final var cells = board.getCells().getValue();
@@ -128,8 +121,31 @@ class SudokuBoardViewModelTest {
         assertEquals(board.getBoardSize().getValue(), board.getDataValuePairs().length);
     }
 
-//    @Test
-//    void generateBoardData() {
-//        assertDoesNotThrow(() -> board.generateBoardData());
-//    }
+    @Test
+    void generateBoardData() {
+        assertDoesNotThrow(() -> board.generateBoardData());
+    }
+
+    @Test
+    void isValidValueForCell() {
+        board.createEmptyBoard(9, 3, 3);
+        board.setSelectedCell(5, 5);
+        var selectedCell = board.getSelectedCell().getValue();
+        selectedCell.setText("Br");
+        assertTrue(board.isValidValueForCell("Ca", 5, 4));
+        assertFalse(board.isValidValueForCell("Br", 7, 5));
+        assertFalse(board.isValidValueForCell("Br", 5, 0));
+        assertFalse(board.isValidValueForCell("Br", 3, 3));
+
+        board.setSelectedCell(4, 5);
+        selectedCell = board.getSelectedCell().getValue();
+        assertFalse(board.isValidValueForCell("Br", selectedCell));
+
+        board.createEmptyBoard(4, 4, 4);
+        board.setSelectedCell(0, 0);
+        selectedCell = board.getSelectedCell().getValue();
+        selectedCell.setText("Kr");
+        assertTrue(board.isValidValueForCell("Ca", 0, 3));
+        assertFalse(board.isValidValueForCell("Kr", 3, 0));
+    }
 }

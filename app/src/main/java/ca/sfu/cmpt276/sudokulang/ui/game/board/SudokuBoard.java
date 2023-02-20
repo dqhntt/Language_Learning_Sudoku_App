@@ -95,8 +95,8 @@ public class SudokuBoard extends ConstraintLayout {
         constraintSet.clone(this);
 
         // Chain cells to each other.
-        chainRowsInLayout(mCells, constraintSet, ConstraintSet.CHAIN_SPREAD);
-        chainColumnsInLayout(mCells, constraintSet, ConstraintSet.CHAIN_SPREAD);
+        chainRowsInLayout(mCells, constraintSet);
+        chainColumnsInLayout(mCells, constraintSet);
 
         // Constrain cells to dividers
         // and dividers to cells, temporarily.
@@ -118,21 +118,21 @@ public class SudokuBoard extends ConstraintLayout {
         }
 
         // Chain dividers to each other.
-        chainRowInLayout(vertDividers, constraintSet, ConstraintSet.CHAIN_SPREAD);
-        chainColumnInLayout(horDividers, constraintSet, ConstraintSet.CHAIN_SPREAD);
+        chainRowInLayout(vertDividers, constraintSet);
+        chainColumnInLayout(horDividers, constraintSet);
 
         constraintSet.applyTo(this);
     }
 
     // See: https://constraintlayout.com/basics/create_chains.html
-    private void chainRowsInLayout(@NonNull View[][] matrix, ConstraintSet constraintSet, int chainStyle) {
+    private void chainRowsInLayout(@NonNull View[][] matrix, ConstraintSet constraintSet) {
         for (var row : matrix) {
-            chainRowInLayout(row, constraintSet, chainStyle);
+            chainRowInLayout(row, constraintSet);
         }
     }
 
     // Cite: https://stackoverflow.com/a/23945015
-    private void chainRowInLayout(@NonNull View[] row, ConstraintSet constraintSet, int chainStyle) {
+    private void chainRowInLayout(@NonNull View[] row, ConstraintSet constraintSet) {
         if (row.length < 1) {
             return;
         }
@@ -144,16 +144,16 @@ public class SudokuBoard extends ConstraintLayout {
         constraintSet.createHorizontalChain(
                 ConstraintSet.PARENT_ID, ConstraintSet.LEFT,
                 ConstraintSet.PARENT_ID, ConstraintSet.RIGHT,
-                rowChainIds, null, chainStyle);
+                rowChainIds, null, ConstraintSet.CHAIN_SPREAD);
     }
 
-    private void chainColumnsInLayout(@NonNull View[][] matrix, ConstraintSet constraintSet, int chainStyle) {
+    private void chainColumnsInLayout(@NonNull View[][] matrix, ConstraintSet constraintSet) {
         for (var column : transpose(matrix)) {
-            chainColumnInLayout(column, constraintSet, chainStyle);
+            chainColumnInLayout(column, constraintSet);
         }
     }
 
-    private void chainColumnInLayout(@NonNull View[] column, ConstraintSet constraintSet, int chainStyle) {
+    private void chainColumnInLayout(@NonNull View[] column, ConstraintSet constraintSet) {
         if (column.length < 1) {
             return;
         }
@@ -165,7 +165,7 @@ public class SudokuBoard extends ConstraintLayout {
         constraintSet.createVerticalChain(
                 ConstraintSet.PARENT_ID, ConstraintSet.TOP,
                 ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM,
-                colChainIds, null, chainStyle);
+                colChainIds, null, ConstraintSet.CHAIN_SPREAD);
     }
 
     public SudokuCell[][] getCells() {

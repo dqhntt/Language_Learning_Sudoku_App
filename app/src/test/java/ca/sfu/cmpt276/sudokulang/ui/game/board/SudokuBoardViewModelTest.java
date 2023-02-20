@@ -35,8 +35,8 @@ class SudokuBoardViewModelTest {
         board.generateNewBoard(4, 2, 2);
         board.setSelectedCell(0, 2);
         var selectedCell = board.getSelectedCell().getValue();
-        assertEquals(0, selectedCell.getRowIndex().getValue());
-        assertEquals(2, selectedCell.getColIndex().getValue());
+        assertEquals(0, selectedCell.getRowIndex());
+        assertEquals(2, selectedCell.getColIndex());
     }
 
     @Test
@@ -44,8 +44,8 @@ class SudokuBoardViewModelTest {
         board.generateNewBoard(9, 3, 3);
         board.setSelectedCell(0, 3);
         var selectedCell = board.getSelectedCell().getValue();
-        assertEquals(0, selectedCell.getRowIndex().getValue());
-        assertEquals(3, selectedCell.getColIndex().getValue());
+        assertEquals(0, selectedCell.getRowIndex());
+        assertEquals(3, selectedCell.getColIndex());
 
     }
 

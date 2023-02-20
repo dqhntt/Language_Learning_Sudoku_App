@@ -89,8 +89,8 @@ public class GameFragment extends Fragment {
         // Set SudokuCell to automatically observe SudokuCellViewModel.
         for (var row : mSudokuBoardVM.getCells()) {
             for (var cellVM : row) {
-                final int rowIndex = cellVM.getRowIndex().getValue();
-                final int colIndex = cellVM.getColIndex().getValue();
+                final int rowIndex = cellVM.getRowIndex();
+                final int colIndex = cellVM.getColIndex();
                 final var cellsUIs = mBinding.gameBoard.getCells();
                 cellVM.isPrefilled().observe(mLifecycleOwner, cellsUIs[rowIndex][colIndex]::setPrefilled);
                 cellVM.getText().observe(mLifecycleOwner, text -> {

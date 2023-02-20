@@ -7,8 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import java.util.Random;
-
 import ca.sfu.cmpt276.sudokulang.ui.InstantExecutorExtension;
 
 @ExtendWith(InstantExecutorExtension.class)
@@ -33,10 +31,17 @@ class SudokuCellViewModelTest {
                         assertEquals(text, cell.getText().getValue());
                         assertEquals(prefilled, cell.isPrefilled().getValue());
                         assertEquals(error, cell.isErrorCell().getValue());
-                        assertEquals(-1, cell.getRowIndex().getValue());
-                        assertEquals(-1, cell.getColIndex().getValue());
+                        assertEquals(-1, cell.getRowIndex());
+                        assertEquals(-1, cell.getColIndex());
                     }
                 }
+            }
+        }
+        for (var rowIndex : TestData.INTEGERS) {
+            for (var colIndex : TestData.INTEGERS) {
+                cell = new SudokuCellViewModel(rowIndex, colIndex);
+                assertEquals(rowIndex, cell.getRowIndex());
+                assertEquals(colIndex, cell.getColIndex());
             }
         }
     }
@@ -54,8 +59,8 @@ class SudokuCellViewModelTest {
                         assertEquals(text, cell.getText().getValue());
                         assertEquals(prefilled, cell.isPrefilled().getValue());
                         assertEquals(error, cell.isErrorCell().getValue());
-                        assertEquals(-1, cell.getRowIndex().getValue());
-                        assertEquals(-1, cell.getColIndex().getValue());
+                        assertEquals(-1, cell.getRowIndex());
+                        assertEquals(-1, cell.getColIndex());
                     }
                 }
             }
@@ -67,30 +72,6 @@ class SudokuCellViewModelTest {
         for (var text : TestData.STRINGS) {
             cell.setText(text);
             assertEquals(text, cell.getText().getValue());
-        }
-    }
-
-    @Test
-    void setRowIndex() {
-        for (var index : TestData.INTEGERS) {
-            cell.setRowIndex(index);
-            assertEquals(index, cell.getRowIndex().getValue());
-        }
-        for (var n : new Random().ints(100).toArray()) {
-            cell.setRowIndex(n);
-            assertEquals(n, cell.getRowIndex().getValue());
-        }
-    }
-
-    @Test
-    void setColIndex() {
-        for (var index : TestData.INTEGERS) {
-            cell.setColIndex(index);
-            assertEquals(index, cell.getColIndex().getValue());
-        }
-        for (var n : new Random().ints(100).toArray()) {
-            cell.setColIndex(n);
-            assertEquals(n, cell.getColIndex().getValue());
         }
     }
 

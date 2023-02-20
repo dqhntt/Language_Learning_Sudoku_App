@@ -60,9 +60,7 @@ public class SudokuBoardViewModel extends ViewModel {
         mCells = new SudokuCellViewModel[boardSize][boardSize];
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
-                mCells[i][j] = new SudokuCellViewModel();
-                mCells[i][j].setRowIndex(i);
-                mCells[i][j].setColIndex(j);
+                mCells[i][j] = new SudokuCellViewModel(i, j);
             }
         }
     }
@@ -148,9 +146,7 @@ public class SudokuBoardViewModel extends ViewModel {
     }
 
     public boolean isValidValueForCell(@NonNull String buttonValue, @NonNull SudokuCellViewModel cell) {
-        return isValidValueForCell(buttonValue,
-                cell.getRowIndex().getValue(),
-                cell.getColIndex().getValue());
+        return isValidValueForCell(buttonValue, cell.getRowIndex(), cell.getColIndex());
     }
 
     public boolean isValidValueForCell(@NonNull String buttonValue, int rowIndex, int colIndex) {

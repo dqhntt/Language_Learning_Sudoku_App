@@ -15,21 +15,29 @@ import androidx.lifecycle.ViewModel;
  * Is not an error cell.
  */
 public class SudokuCellViewModel extends ViewModel {
-    private final MutableLiveData<Integer> mRowIndex, mColIndex;
+    private final int mRowIndex, mColIndex;
     private final MutableLiveData<Boolean> mIsPrefilled, mIsErrorCell;
     private final MutableLiveData<String> mText;
 
     SudokuCellViewModel() {
-        this("", false, false);
+        this(-1, -1);
+    }
+
+    SudokuCellViewModel(int rowIndex, int colIndex) {
+        this("", false, false, rowIndex, colIndex);
     }
 
     SudokuCellViewModel(@NonNull String text, boolean prefilled, boolean isErrorCell) {
+        this(text, prefilled, isErrorCell, -1, -1);
+    }
+
+    private SudokuCellViewModel(@NonNull String text, boolean prefilled, boolean isErrorCell, int rowIndex, int colIndex) {
         super();
-        mRowIndex = new MutableLiveData<>(-1);
-        mColIndex = new MutableLiveData<>(-1);
         mText = new MutableLiveData<>();
         mIsPrefilled = new MutableLiveData<>();
         mIsErrorCell = new MutableLiveData<>();
+        mRowIndex = rowIndex;
+        mColIndex = colIndex;
         setProperties(text, prefilled, isErrorCell);
     }
 
@@ -50,20 +58,12 @@ public class SudokuCellViewModel extends ViewModel {
         mText.setValue(value);
     }
 
-    public LiveData<Integer> getRowIndex() {
+    public int getRowIndex() {
         return mRowIndex;
     }
 
-    void setRowIndex(int rowIndex) {
-        mRowIndex.setValue(rowIndex);
-    }
-
-    public LiveData<Integer> getColIndex() {
+    public int getColIndex() {
         return mColIndex;
-    }
-
-    void setColIndex(int colIndex) {
-        mColIndex.setValue(colIndex);
     }
 
     public LiveData<Boolean> isErrorCell() {

@@ -176,7 +176,7 @@ public class SudokuBoard extends ConstraintLayout {
         if (cell == null) {
             highlightRelatedCells(-1, -1);
         } else {
-            highlightRelatedCells(cell.getRowIndex().getValue(), cell.getColIndex().getValue());
+            highlightRelatedCells(cell.getRowIndex(), cell.getColIndex());
         }
     }
 

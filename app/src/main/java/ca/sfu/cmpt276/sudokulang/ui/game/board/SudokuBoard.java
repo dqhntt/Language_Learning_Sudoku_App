@@ -148,7 +148,7 @@ public class SudokuBoard extends ConstraintLayout {
     }
 
     private void chainColumnsInLayout(@NonNull View[][] matrix, ConstraintSet constraintSet) {
-        for (var column : transpose(matrix)) {
+        for (var column : Util.transpose(matrix)) {
             chainColumnInLayout(column, constraintSet);
         }
     }
@@ -271,18 +271,6 @@ public class SudokuBoard extends ConstraintLayout {
                         : SudokuCell.Color.NORMAL);
             }
         }
-    }
-
-    private @NonNull View[][] transpose(@NonNull View[][] matrix) {
-        final int nRows = matrix.length;
-        final int nCols = matrix[0].length;
-        var transposedMatrix = new View[nCols][nRows];
-        for (int i = 0; i < nRows; i++) {
-            for (int j = 0; j < nCols; j++) {
-                transposedMatrix[j][i] = matrix[i][j];
-            }
-        }
-        return transposedMatrix;
     }
 
     private static class Divider extends View {

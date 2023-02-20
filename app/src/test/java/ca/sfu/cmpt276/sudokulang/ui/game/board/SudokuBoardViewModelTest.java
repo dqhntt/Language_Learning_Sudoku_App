@@ -24,9 +24,9 @@ class SudokuBoardViewModelTest {
     @Test
     void generateNewBoard() {
         board.generateNewBoard(9, 3, 3);
-        assertEquals(9, board.getBoardSize().getValue());
-        assertEquals(3, board.getSubgridHeight().getValue());
-        assertEquals(3, board.getSubgridWidth().getValue());
+        assertEquals(9, board.getBoardSize());
+        assertEquals(3, board.getSubgridHeight());
+        assertEquals(3, board.getSubgridWidth());
         assertThrows(IllegalArgumentException.class, () -> board.generateNewBoard(9, 2, 5));
     }
 
@@ -81,21 +81,33 @@ class SudokuBoardViewModelTest {
     }
 
     @Test
+    void getBoardDimension() {
+        board.generateNewBoard(12, 3, 4);
+        final var dimension = board.getBoardDimension().getValue();
+        assertEquals(12, dimension.boardSize);
+        assertEquals(3, dimension.subgridHeight);
+        assertEquals(4, dimension.subgridWidth);
+        assertEquals(board.getBoardSize(), dimension.boardSize);
+        assertEquals(board.getSubgridHeight(), dimension.subgridHeight);
+        assertEquals(board.getSubgridWidth(), dimension.subgridWidth);
+    }
+
+    @Test
     void getBoardSize() {
         board.generateNewBoard(4, 2, 2);
-        assertEquals(4, board.getBoardSize().getValue());
+        assertEquals(4, board.getBoardSize());
     }
 
     @Test
     void getSubgridHeight() {
         board.generateNewBoard(4, 1, 4);
-        assertEquals(1, board.getSubgridHeight().getValue());
+        assertEquals(1, board.getSubgridHeight());
     }
 
     @Test
     void getSubgridWidth() {
         board.generateNewBoard(4, 1, 4);
-        assertEquals(4, board.getSubgridWidth().getValue());
+        assertEquals(4, board.getSubgridWidth());
     }
 
     @Test
@@ -112,14 +124,14 @@ class SudokuBoardViewModelTest {
     @Test
     void getCells() {
         final var cells = board.getCells();
-        final var boardSize = board.getBoardSize().getValue();
+        final var boardSize = board.getBoardSize();
         assertEquals(boardSize, cells.length);
         assertEquals(boardSize, cells[0].length);
     }
 
     @Test
     void getDataValuePairs() {
-        assertEquals(board.getBoardSize().getValue(), board.getDataValuePairs().length);
+        assertEquals(board.getBoardSize(), board.getDataValuePairs().length);
     }
 
 //    @Test

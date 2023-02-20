@@ -30,7 +30,6 @@ public class GameFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         mBinding = FragmentGameBinding.inflate(inflater, container, false);
         mLifecycleOwner = getViewLifecycleOwner();
-
         mSudokuBoardVM = new ViewModelProvider(this).get(SudokuBoardViewModel.class);
 
         // Set OnClickListener for parent view of game board.
@@ -55,10 +54,17 @@ public class GameFragment extends Fragment {
 
     private void setupBoard() {
         mBinding.gameBoard.createEmptyBoard(
-                mSudokuBoardVM.getBoardSize().getValue(),
-                mSudokuBoardVM.getSubgridHeight().getValue(),
-                mSudokuBoardVM.getSubgridWidth().getValue());
-        setupBoardDimensionObservers();
+                mSudokuBoardVM.getBoardSize(),
+                mSudokuBoardVM.getSubgridHeight(),
+                mSudokuBoardVM.getSubgridWidth());
+        // Set up observers.
+        mSudokuBoardVM.getBoardDimension().observe(mLifecycleOwner, boardDimension -> {
+            mBinding.gameBoard.createEmptyBoard(
+                    boardDimension.boardSize,
+                    boardDimension.subgridHeight,
+                    boardDimension.subgridWidth);
+            setupCells();
+        });
         mSudokuBoardVM.getSelectedCell().observe(mLifecycleOwner, selectedCellVM -> {
             if (selectedCellVM == null) {
                 mBinding.quickCellView.setText("");
@@ -71,29 +77,6 @@ public class GameFragment extends Fragment {
             if (numEmptyCells == 0 && mSudokuBoardVM.isValidBoard()) {
                 endGame();
             }
-        });
-    }
-
-    private void setupBoardDimensionObservers() {
-        mSudokuBoardVM.getBoardSize().observe(mLifecycleOwner, boardSize -> {
-            mBinding.gameBoard.createEmptyBoard(boardSize,
-                    mSudokuBoardVM.getSubgridHeight().getValue(),
-                    mSudokuBoardVM.getSubgridWidth().getValue());
-            setupCells();
-        });
-        mSudokuBoardVM.getSubgridHeight().observe(mLifecycleOwner, subgridHeight -> {
-            mBinding.gameBoard.createEmptyBoard(
-                    mSudokuBoardVM.getBoardSize().getValue(),
-                    subgridHeight,
-                    mSudokuBoardVM.getSubgridWidth().getValue());
-            setupCells();
-        });
-        mSudokuBoardVM.getSubgridWidth().observe(mLifecycleOwner, subgridWidth -> {
-            mBinding.gameBoard.createEmptyBoard(
-                    mSudokuBoardVM.getBoardSize().getValue(),
-                    mSudokuBoardVM.getSubgridHeight().getValue(),
-                    subgridWidth);
-            setupCells();
         });
     }
 

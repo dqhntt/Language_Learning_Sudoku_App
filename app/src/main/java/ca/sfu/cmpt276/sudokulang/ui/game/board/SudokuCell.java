@@ -24,17 +24,20 @@ import ca.sfu.cmpt276.sudokulang.ui.UiUtil;
  */
 @SuppressLint("AppCompatCustomView")
 public class SudokuCell extends TextView {
-    private int mRowIndex, mColIndex;
+    private final int mRowIndex, mColIndex;
     private boolean mIsPrefilled, mIsErrorCell;
 
-    public SudokuCell(@NonNull Context context) {
+    public SudokuCell(@NonNull Context context, int rowIndex, int colIndex) {
         super(context);
         init();
+        mRowIndex = rowIndex;
+        mColIndex = colIndex;
     }
 
     public SudokuCell(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
+        mRowIndex = mColIndex = -1;
     }
 
     private void init() {
@@ -54,8 +57,6 @@ public class SudokuCell extends TextView {
 
         setText("");
         setColor(Color.NORMAL);
-        setRowIndex(-1);
-        setColIndex(-1);
         setId(generateViewId());
     }
 
@@ -93,16 +94,8 @@ public class SudokuCell extends TextView {
         return mRowIndex;
     }
 
-    void setRowIndex(int rowIndex) {
-        mRowIndex = rowIndex;
-    }
-
     public int getColIndex() {
         return mColIndex;
-    }
-
-    void setColIndex(int colIndex) {
-        mColIndex = colIndex;
     }
 
     public boolean isErrorCell() {

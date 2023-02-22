@@ -24,11 +24,6 @@ public class SudokuBoard extends ConstraintLayout {
     private int mBoardSize, mSubgridHeight, mSubgridWidth;
     private SudokuCell[][] mCells;
 
-    public SudokuBoard(@NonNull Context context) {
-        super(context);
-        init();
-    }
-
     public SudokuBoard(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
@@ -63,11 +58,9 @@ public class SudokuBoard extends ConstraintLayout {
         // Create and add cells to layout.
         // Cite: https://stackoverflow.com/a/40527407
         for (int n = 0; n < boardSize * boardSize; n++) {
-            var cell = new SudokuCell(getContext());
             final int rowIndex = n / boardSize;
             final int colIndex = n % boardSize;
-            cell.setRowIndex(rowIndex);
-            cell.setColIndex(colIndex);
+            final var cell = new SudokuCell(getContext(), rowIndex, colIndex);
             mCells[rowIndex][colIndex] = cell;
             addView(cell);
         }

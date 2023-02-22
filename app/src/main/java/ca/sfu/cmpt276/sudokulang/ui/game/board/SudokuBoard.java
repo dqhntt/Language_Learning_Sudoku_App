@@ -13,7 +13,7 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import java.util.Arrays;
 
 import ca.sfu.cmpt276.sudokulang.R;
-import ca.sfu.cmpt276.sudokulang.ui.Util;
+import ca.sfu.cmpt276.sudokulang.ui.UiUtil;
 
 /**
  * @implNote Board dimension when default constructed is undefined. <p/>
@@ -148,7 +148,7 @@ public class SudokuBoard extends ConstraintLayout {
     }
 
     private void chainColumnsInLayout(@NonNull View[][] matrix, ConstraintSet constraintSet) {
-        for (var column : Util.transpose(matrix)) {
+        for (var column : UiUtil.transpose(matrix)) {
             chainColumnInLayout(column, constraintSet);
         }
     }
@@ -285,7 +285,7 @@ public class SudokuBoard extends ConstraintLayout {
         }
 
         protected void setOrientation(boolean horizontal) {
-            final int thickness = Util.dpToPx(1);
+            final int thickness = UiUtil.dpToPx(1);
             var layoutParams = horizontal
                     ? new ConstraintLayout.LayoutParams(0, thickness)
                     : new ConstraintLayout.LayoutParams(thickness, 0);

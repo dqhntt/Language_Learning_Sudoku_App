@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import ca.sfu.cmpt276.sudokulang.R;
-import ca.sfu.cmpt276.sudokulang.ui.Util;
+import ca.sfu.cmpt276.sudokulang.ui.UiUtil;
 
 /**
  * A UI representation of a Sudoku cell.
@@ -46,7 +46,7 @@ public class SudokuCell extends TextView {
         setLayoutParams(layoutParams);
 
         // Make text stay 2dp away from borders.
-        final int padding = Util.dpToPx(2);
+        final int padding = UiUtil.dpToPx(2);
         setPadding(padding, padding, padding, padding);
 
         setGravity(Gravity.CENTER);

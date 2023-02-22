@@ -284,9 +284,9 @@ public class SudokuBoard extends ConstraintLayout {
             setBackgroundResource(R.color.grid_divider);
         }
 
-        protected void setOrientation(boolean horizontal) {
+        protected void setHorizontalOrientation(boolean isHorizontal) {
             final int thickness = UiUtil.dpToPx(1);
-            var layoutParams = horizontal
+            var layoutParams = isHorizontal
                     ? new ConstraintLayout.LayoutParams(0, thickness)
                     : new ConstraintLayout.LayoutParams(thickness, 0);
             setLayoutParams(layoutParams);
@@ -296,14 +296,14 @@ public class SudokuBoard extends ConstraintLayout {
     private static class HorizontalDivider extends Divider {
         public HorizontalDivider(@NonNull Context context) {
             super(context);
-            setOrientation(true);
+            setHorizontalOrientation(true);
         }
     }
 
     private static class VerticalDivider extends Divider {
         public VerticalDivider(@NonNull Context context) {
             super(context);
-            setOrientation(false);
+            setHorizontalOrientation(false);
         }
     }
 }

@@ -15,29 +15,25 @@ import ca.sfu.cmpt276.sudokulang.ui.UiUtil;
 
 /**
  * A UI representation of a Sudoku cell.
- *
- * @implNote Default state: <p>
- * Row index = -1.          <p>
- * Column index = -1.       <p>
- * Is user fillable.        <p>
- * Is not an error cell.
  */
 @SuppressLint("AppCompatCustomView")
 public class SudokuCell extends TextView {
+    private @NonNull CellUiState mUiState;
     private final int mRowIndex, mColIndex;
-    private boolean mIsPrefilled, mIsErrorCell;
 
     public SudokuCell(@NonNull Context context, int rowIndex, int colIndex) {
         super(context);
-        init();
         mRowIndex = rowIndex;
         mColIndex = colIndex;
+        mUiState = new CellUiState();
+        init();
     }
 
     public SudokuCell(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init();
         mRowIndex = mColIndex = -1;
+        mUiState = new CellUiState();
+        init();
     }
 
     private void init() {
@@ -52,10 +48,11 @@ public class SudokuCell extends TextView {
         final int padding = UiUtil.dpToPx(2);
         setPadding(padding, padding, padding, padding);
 
+        // Center text inside cell.
         setGravity(Gravity.CENTER);
         setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelSmall);
 
-        setText("");
+        setText(mUiState.getText());
         setColor(Color.NORMAL);
         setId(generateViewId());
     }
@@ -86,8 +83,14 @@ public class SudokuCell extends TextView {
         }
     }
 
-    public String getText() {
-        return (String) super.getText();
+    void updateState(@NonNull CellUiState uiState) {
+        mUiState = uiState;
+        setText(uiState.getText());
+        if (uiState.isPrefilled()) {
+            setTextColor(getResources().getColor(R.color.cell_text_prefilled, null));
+        } else {
+            setTextColor(getResources().getColor(R.color.cell_text_user_fillable, null));
+        }
     }
 
     public int getRowIndex() {
@@ -96,27 +99,6 @@ public class SudokuCell extends TextView {
 
     public int getColIndex() {
         return mColIndex;
-    }
-
-    public boolean isErrorCell() {
-        return mIsErrorCell;
-    }
-
-    public void setAsErrorCell(boolean isErrorCell) {
-        mIsErrorCell = isErrorCell;
-    }
-
-    public boolean isPrefilled() {
-        return mIsPrefilled;
-    }
-
-    public void setPrefilled(boolean prefilled) {
-        mIsPrefilled = prefilled;
-        if (prefilled) {
-            setTextColor(getResources().getColor(R.color.cell_text_prefilled, null));
-        } else {
-            setTextColor(getResources().getColor(R.color.cell_text_user_fillable, null));
-        }
     }
 
     enum Color {NORMAL, SEMI_HIGHLIGHTED, SELECTED, ERROR_SEMI_HIGHLIGHTED, ERROR_SELECTED, ERROR_NOT_SELECTED}

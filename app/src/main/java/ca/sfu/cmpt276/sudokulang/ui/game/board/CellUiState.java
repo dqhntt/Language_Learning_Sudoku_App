@@ -10,7 +10,7 @@ public final class CellUiState {
     private final boolean mIsPrefilled, mIsErrorCell;
 
     /**
-     * @implNote Default state:                  <p>
+     * @implNote Default state:        <p>
      * {@code getText() == ""}         <p>
      * {@code isPrefilled() == false}  <p>
      * {@code isErrorCell() == false}

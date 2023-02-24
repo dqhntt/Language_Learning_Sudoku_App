@@ -18,8 +18,9 @@ import ca.sfu.cmpt276.sudokulang.ui.UiUtil;
  */
 @SuppressLint("AppCompatCustomView")
 public class SudokuCell extends TextView {
-    private @NonNull CellUiState mUiState;
+    private final static int mPadding = UiUtil.dpToPx(2);
     private final int mRowIndex, mColIndex;
+    private @NonNull CellUiState mUiState;
 
     public SudokuCell(@NonNull Context context, int rowIndex, int colIndex) {
         super(context);
@@ -45,8 +46,7 @@ public class SudokuCell extends TextView {
         setLayoutParams(layoutParams);
 
         // Make text stay 2dp away from borders.
-        final int padding = UiUtil.dpToPx(2);
-        setPadding(padding, padding, padding, padding);
+        setPadding(mPadding, mPadding, mPadding, mPadding);
 
         // Center text inside cell.
         setGravity(Gravity.CENTER);

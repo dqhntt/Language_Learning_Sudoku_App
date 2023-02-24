@@ -1,67 +1,115 @@
 package ca.sfu.cmpt276.sudokulang;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.google.android.material.snackbar.Snackbar;
-
-import ca.sfu.cmpt276.sudokulang.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    private AppBarConfiguration appBarConfiguration;
-    private ActivityMainBinding binding;
+    ImageButton nextImageButton, favouritesImageButton, settingsImageButton,
+            helpImageButton, tutorialImageButton, historyImageButton;
+    private String selectedState, selectedDistrict, selectedGridSize; //vars to hold the values of state and district
+    private TextView tvLearningLangSpinner, tvNativeLangSpinner, tvGridSizeSpinner; //declaring text view to show errors
+    private Spinner learninglanSpinner, nativelangSpinner, GridSizeSpinner;
 
+
+    View view;
+    private ArrayAdapter<CharSequence> learninglangAdapter, nativelangAdapter, GridSizeAdapter;
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        view = this.getWindow().getDecorView();
+        view.setBackgroundResource(R.color.blue);
+        //State spinner Initialization
+        learninglanSpinner = findViewById(R.id.spinner_learning_lang);
+        nativelangSpinner = findViewById(R.id.textView_native_lang);
+        GridSizeSpinner = findViewById(R.id.spinner_grid_size);
 
-        setSupportActionBar(binding.toolbar);
+        //Populate ArrayAdapter using string array and a spinner layout that we will define
+        learninglangAdapter = ArrayAdapter.createFromResource(this, R.array.array_learning_lang, R.layout.spinner_layout);
+        nativelangAdapter = ArrayAdapter.createFromResource(this, R.array.array_native_lang, R.layout.spinner_layout);
+        GridSizeAdapter = ArrayAdapter.createFromResource(this, R.array.array_grid_size, R.layout.spinner_layout);
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        //Specify the layout to use when the list of choices appear
+        learninglangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        nativelangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        GridSizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        binding.fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+        //set the adapter to the spinner to populate State Spinner
+        learninglanSpinner.setAdapter(learninglangAdapter);
+        nativelangSpinner.setAdapter(nativelangAdapter);
+        GridSizeSpinner.setAdapter(GridSizeAdapter);
+
+        nextImageButton = (ImageButton) findViewById(R.id.image_button_next);
+
+        nextImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Toast.makeText(MainActivity.this, "this works", Toast.LENGTH_SHORT).show();
+                openHomePage2();
+            }
+        });
+
+
+
+        favouritesImageButton= (ImageButton) findViewById(R.id.image_button_favourites);
+        favouritesImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "this works", Toast.LENGTH_SHORT).show();
+            }
+        });
+        settingsImageButton=(ImageButton) findViewById(R.id.image_button_settings);
+        settingsImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "this works", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        historyImageButton=(ImageButton) findViewById(R.id.image_button_history);
+        historyImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "this works", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        helpImageButton = (ImageButton) findViewById(R.id.image_button_help);
+        helpImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "it works", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+       tutorialImageButton=(ImageButton) findViewById(R.id.image_button_tutorial);
+       tutorialImageButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               Toast.makeText(MainActivity.this, "this works", Toast.LENGTH_SHORT).show();
+           }
+       });
+
+
+
+
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
+    public void openHomePage2(){
+        Intent intent = new Intent(this, HomePage2.class);
+        startActivity(intent);
     }
 }

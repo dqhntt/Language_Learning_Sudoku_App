@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.game.GameFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin">
+
+
+        <!-- Quick cell view. -->
+
+        <TextView
+            android:id="@+id/quick_cell_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quick view"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+            app:layout_constraintBottom_toTopOf="@id/game_board"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <!-- Game board. -->
+
+        <ca.sfu.cmpt276.sudokulang.ui.game.board.SudokuBoard
+            android:id="@+id/game_board"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="10dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/quick_cell_view" />
+
+
+        <!-- Word buttons. -->
+
+        <Button
+            android:id="@+id/word_button_1"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Word"
+            app:layout_constraintBottom_toTopOf="@+id/word_button_4"
+            app:layout_constraintEnd_toStartOf="@+id/word_button_2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/game_board" />
+
+        <Button
+            android:id="@+id/word_button_2"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Word"
+            app:layout_constraintBottom_toTopOf="@+id/word_button_5"
+            app:layout_constraintEnd_toStartOf="@+id/word_button_3"
+            app:layout_constraintStart_toEndOf="@+id/word_button_1"
+            app:layout_constraintTop_toBottomOf="@id/game_board" />
+
+        <Button
+            android:id="@+id/word_button_3"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Word"
+            app:layout_constraintBottom_toTopOf="@+id/word_button_6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/word_button_2"
+            app:layout_constraintTop_toBottomOf="@id/game_board" />
+
+        <Button
+            android:id="@+id/word_button_4"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Word"
+            app:layout_constraintBottom_toTopOf="@+id/word_button_7"
+            app:layout_constraintEnd_toStartOf="@+id/word_button_5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/word_button_1" />
+
+        <Button
+            android:id="@+id/word_button_5"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Word"
+            app:layout_constraintBottom_toTopOf="@+id/word_button_8"
+            app:layout_constraintEnd_toStartOf="@+id/word_button_6"
+            app:layout_constraintStart_toEndOf="@+id/word_button_4"
+            app:layout_constraintTop_toBottomOf="@+id/word_button_2" />
+
+        <Button
+            android:id="@+id/word_button_6"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Word"
+            app:layout_constraintBottom_toTopOf="@+id/word_button_9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/word_button_5"
+            app:layout_constraintTop_toBottomOf="@+id/word_button_3" />
+
+        <Button
+            android:id="@+id/word_button_7"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Word"
+            app:layout_constraintBottom_toTopOf="@+id/word_button_10"
+            app:layout_constraintEnd_toStartOf="@+id/word_button_8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/word_button_4" />
+
+        <Button
+            android:id="@+id/word_button_8"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Word"
+            app:layout_constraintBottom_toTopOf="@+id/word_button_11"
+            app:layout_constraintEnd_toStartOf="@+id/word_button_9"
+            app:layout_constraintStart_toEndOf="@+id/word_button_7"
+            app:layout_constraintTop_toBottomOf="@+id/word_button_5" />
+
+        <Button
+            android:id="@+id/word_button_9"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Word"
+            app:layout_constraintBottom_toTopOf="@+id/word_button_12"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/word_button_8"
+            app:layout_constraintTop_toBottomOf="@+id/word_button_6" />
+
+        <Button
+            android:id="@+id/word_button_10"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Word"
+            app:layout_constraintBottom_toTopOf="@+id/horizontal_barrier"
+            app:layout_constraintEnd_toStartOf="@+id/word_button_11"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/word_button_7" />
+
+        <Button
+            android:id="@+id/word_button_11"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Word"
+            app:layout_constraintBottom_toTopOf="@+id/horizontal_barrier"
+            app:layout_constraintEnd_toStartOf="@+id/word_button_12"
+            app:layout_constraintStart_toEndOf="@+id/word_button_10"
+            app:layout_constraintTop_toBottomOf="@+id/word_button_8" />
+
+        <Button
+            android:id="@+id/word_button_12"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Word"
+            app:layout_constraintBottom_toTopOf="@+id/horizontal_barrier"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/word_button_11"
+            app:layout_constraintTop_toBottomOf="@+id/word_button_9" />
+
+
+        <!-- Helper widgets. -->
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/word_buttons_extension_6_to_9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="word_button_7,word_button_8,word_button_9" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/word_buttons_extension_9_to_12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="word_button_10,word_button_11,word_button_12" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/horizontal_barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom" />
+
+
+        <!-- Erase and Notes buttons. -->
+
+        <Button
+            android:id="@+id/erase_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/erase"
+            android:textColor="?attr/colorOnTertiaryContainer"
+            app:backgroundTint="?attr/colorTertiaryContainer"
+            app:icon="@drawable/ic_delete_outline_24dp"
+            app:iconTint="?attr/colorOnTertiaryContainer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/notes_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/horizontal_barrier" />
+
+        <Button
+            android:id="@+id/notes_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/notes"
+            android:textColor="?attr/colorOnTertiaryContainer"
+            app:backgroundTint="?attr/colorTertiaryContainer"
+            app:icon="@drawable/ic_pencil_outline_24dp"
+            app:iconTint="?attr/colorOnTertiaryContainer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/erase_button"
+            app:layout_constraintTop_toTopOf="@+id/horizontal_barrier" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

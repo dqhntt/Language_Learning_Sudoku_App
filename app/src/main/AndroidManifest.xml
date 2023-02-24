@@ -12,10 +12,14 @@
         android:theme="@style/Theme.SudokuLanguagePracticeApp"
         tools:targetApi="31">
         <activity
+            android:name=".GameActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomePage2"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.SudokuLanguagePracticeApp">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -2,4 +2,20 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="blue">#deeff5</color>
+
+    <!--Colours of game cells in light theme-->
+    <!--Should consider replacing these hardcoded values with themes later-->
+    <color name="cell_text_prefilled">#465227</color>
+    <color name="cell_text_user_fillable">#964B00</color>
+    <color name="cell_normal">#E3ECFA</color>
+    <color name="cell_semi_highlighted">#D1DEF6</color>
+    <color name="cell_selected">#BAD0F2</color>
+    <color name="error_cell_semi_highlighted">#FBE8E7</color>
+    <color name="error_cell_selected">#F8D0D0</color>
+    <color name="error_cell_not_selected">#E2B8D8</color>
+
+    <color name="cell_border_stroke">#79747E</color>
+    <color name="grid_divider">#313033</color>
+
 </resources>

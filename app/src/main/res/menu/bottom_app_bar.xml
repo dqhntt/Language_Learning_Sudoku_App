@@ -1,0 +1,35 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="ca.sfu.cmpt276.sudokulang.GameActivity">
+
+    <item
+        android:id="@+id/navigation_game"
+        android:title=""
+        android:visible="false" />
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_outline_24dp"
+        android:title="@string/home"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/navigation_help"
+        android:icon="@drawable/ic_help_outline_24dp"
+        android:title="@string/help"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/navigation_undo"
+        android:icon="@drawable/ic_undo_24dp"
+        android:title="@string/undo"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/navigation_redo"
+        android:icon="@drawable/ic_redo_24dp"
+        android:title="@string/redo"
+        app:showAsAction="ifRoom" />
+
+</menu>

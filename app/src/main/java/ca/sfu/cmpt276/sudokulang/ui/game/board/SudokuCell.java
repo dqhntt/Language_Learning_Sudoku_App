@@ -3,6 +3,7 @@ package ca.sfu.cmpt276.sudokulang.ui.game.board;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.TextView;
 
@@ -18,8 +19,9 @@ import ca.sfu.cmpt276.sudokulang.ui.UiUtil;
  */
 @SuppressLint("AppCompatCustomView")
 public class SudokuCell extends TextView {
-    private @NonNull CellUiState mUiState;
+    private final static int mPadding = UiUtil.dpToPx(2);
     private final int mRowIndex, mColIndex;
+    private @NonNull CellUiState mUiState;
 
     public SudokuCell(@NonNull Context context, int rowIndex, int colIndex) {
         super(context);
@@ -45,12 +47,16 @@ public class SudokuCell extends TextView {
         setLayoutParams(layoutParams);
 
         // Make text stay 2dp away from borders.
-        final int padding = UiUtil.dpToPx(2);
-        setPadding(padding, padding, padding, padding);
+        setPadding(mPadding, mPadding, mPadding, mPadding);
 
         // Center text inside cell.
         setGravity(Gravity.CENTER);
         setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelSmall);
+
+        // Set text size (sp) == 28% view's height (dp).
+        addOnLayoutChangeListener((view, left, top, right, bottom,
+                                   oldLeft, oldTop, oldRight, oldBottom) ->
+                setTextSize(TypedValue.COMPLEX_UNIT_SP, 0.28f * UiUtil.pxToDp(bottom - top)));
 
         setText(mUiState.getText());
         setColor(Color.NORMAL);

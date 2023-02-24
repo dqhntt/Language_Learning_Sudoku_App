@@ -1,6 +1,7 @@
 package ca.sfu.cmpt276.sudokulang.ui;
 
 import android.content.res.Resources;
+import android.util.TypedValue;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -8,11 +9,15 @@ import androidx.annotation.NonNull;
 /**
  * Utility functions for working with UI elements.
  *
- * @cite <a href="https://stackoverflow.com/a/34763668">Convert dp to px</a>
+ * @cite <a href="https://stackoverflow.com/q/29664993">Convert among dp, px, and sp</a>
  */
 public class UiUtil {
     public static int dpToPx(float dp) {
-        return Math.round(dp * Resources.getSystem().getDisplayMetrics().density);
+        return Math.round(TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp,
+                Resources.getSystem().getDisplayMetrics()
+        ));
     }
 
     public static int pxToDp(float px) {

@@ -1,8 +1,7 @@
 package ca.sfu.cmpt276.sudokulang.ui.game;
 
-import android.util.Pair;
-
 import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -223,7 +222,7 @@ public class GameViewModel extends ViewModel {
         final int boardSize = mBoardUiState.getValue().getBoardSize();
         final int subgridHeight = mBoardUiState.getValue().getSubgridHeight();
         final int subgridWidth = mBoardUiState.getValue().getSubgridWidth();
-        if (boardSize != 9 && subgridHeight != 3 && subgridWidth != 3) {
+        if (boardSize != 9 || subgridHeight != 3 || subgridWidth != 3) {
             return;
         }
         final var dataValuePairs = getDataValuePairs();

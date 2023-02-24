@@ -11,29 +11,28 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import ca.sfu.cmpt276.sudokulang.R;
-import ca.sfu.cmpt276.sudokulang.ui.Util;
+import ca.sfu.cmpt276.sudokulang.ui.UiUtil;
 
 /**
  * A UI representation of a Sudoku cell.
- *
- * @implNote Default state: <p>
- * Row index = -1.          <p>
- * Column index = -1.       <p>
- * Is user fillable.        <p>
- * Is not an error cell.
  */
 @SuppressLint("AppCompatCustomView")
 public class SudokuCell extends TextView {
-    private int mRowIndex, mColIndex;
-    private boolean mIsPrefilled, mIsErrorCell;
+    private @NonNull CellUiState mUiState;
+    private final int mRowIndex, mColIndex;
 
-    public SudokuCell(@NonNull Context context) {
+    public SudokuCell(@NonNull Context context, int rowIndex, int colIndex) {
         super(context);
+        mRowIndex = rowIndex;
+        mColIndex = colIndex;
+        mUiState = new CellUiState();
         init();
     }
 
     public SudokuCell(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        mRowIndex = mColIndex = -1;
+        mUiState = new CellUiState();
         init();
     }
 
@@ -46,16 +45,15 @@ public class SudokuCell extends TextView {
         setLayoutParams(layoutParams);
 
         // Make text stay 2dp away from borders.
-        final int padding = Util.dpToPx(2);
+        final int padding = UiUtil.dpToPx(2);
         setPadding(padding, padding, padding, padding);
 
+        // Center text inside cell.
         setGravity(Gravity.CENTER);
         setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelSmall);
 
-        setText("");
+        setText(mUiState.getText());
         setColor(Color.NORMAL);
-        setRowIndex(-1);
-        setColIndex(-1);
         setId(generateViewId());
     }
 
@@ -85,45 +83,22 @@ public class SudokuCell extends TextView {
         }
     }
 
-    public String getText() {
-        return (String) super.getText();
+    void updateState(@NonNull CellUiState uiState) {
+        mUiState = uiState;
+        setText(uiState.getText());
+        if (uiState.isPrefilled()) {
+            setTextColor(getResources().getColor(R.color.cell_text_prefilled, null));
+        } else {
+            setTextColor(getResources().getColor(R.color.cell_text_user_fillable, null));
+        }
     }
 
     public int getRowIndex() {
         return mRowIndex;
     }
 
-    void setRowIndex(int rowIndex) {
-        mRowIndex = rowIndex;
-    }
-
     public int getColIndex() {
         return mColIndex;
-    }
-
-    void setColIndex(int colIndex) {
-        mColIndex = colIndex;
-    }
-
-    public boolean isErrorCell() {
-        return mIsErrorCell;
-    }
-
-    public void setAsErrorCell(boolean isErrorCell) {
-        mIsErrorCell = isErrorCell;
-    }
-
-    public boolean isPrefilled() {
-        return mIsPrefilled;
-    }
-
-    public void setPrefilled(boolean prefilled) {
-        mIsPrefilled = prefilled;
-        if (prefilled) {
-            setTextColor(getResources().getColor(R.color.cell_text_prefilled, null));
-        } else {
-            setTextColor(getResources().getColor(R.color.cell_text_user_fillable, null));
-        }
     }
 
     enum Color {NORMAL, SEMI_HIGHLIGHTED, SELECTED, ERROR_SEMI_HIGHLIGHTED, ERROR_SELECTED, ERROR_NOT_SELECTED}

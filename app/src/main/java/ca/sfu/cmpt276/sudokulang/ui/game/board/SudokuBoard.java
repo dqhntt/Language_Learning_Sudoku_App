@@ -13,29 +13,22 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import java.util.Arrays;
 
 import ca.sfu.cmpt276.sudokulang.R;
-import ca.sfu.cmpt276.sudokulang.ui.Util;
+import ca.sfu.cmpt276.sudokulang.ui.UiUtil;
 
 /**
- * @implNote Board dimension when default constructed is undefined. <p/>
+ * A UI representation of a Sudoku board.
+ *
+ * @implNote Board dimension when default constructed is undefined. <p>
  * The layout parameters of this board are set in its XML file.
  */
 public class SudokuBoard extends ConstraintLayout {
-
-    private int mBoardSize, mSubgridHeight, mSubgridWidth;
+    private @NonNull BoardUiState mUiState;
     private SudokuCell[][] mCells;
-
-    public SudokuBoard(@NonNull Context context) {
-        super(context);
-        init();
-    }
 
     public SudokuBoard(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init();
-    }
-
-    private void init() {
-        createEmptyBoard(1, 1, 1);
+        mUiState = new BoardUiState();
+        createBoard(mUiState);
     }
 
     /**
@@ -49,25 +42,19 @@ public class SudokuBoard extends ConstraintLayout {
      *                      Equals {@code boardSize} if no sub-grid.
      * @implNote This function creates new cells, thus clearing all OnClickListeners present.
      */
-    public void createEmptyBoard(int boardSize, int subgridHeight, int subgridWidth) {
-        assert (boardSize > 0);
-        mBoardSize = boardSize;
+    private void createEmptyBoard(int boardSize, int subgridHeight, int subgridWidth) {
         // Ensure sub-grids are equally divided.
         assert (subgridHeight > 0 && subgridHeight <= boardSize && boardSize % subgridHeight == 0);
-        mSubgridHeight = subgridHeight;
         assert (subgridWidth > 0 && subgridWidth <= boardSize && boardSize % subgridWidth == 0);
-        mSubgridWidth = subgridWidth;
 
         mCells = new SudokuCell[boardSize][boardSize];
 
         // Create and add cells to layout.
         // Cite: https://stackoverflow.com/a/40527407
         for (int n = 0; n < boardSize * boardSize; n++) {
-            var cell = new SudokuCell(getContext());
             final int rowIndex = n / boardSize;
             final int colIndex = n % boardSize;
-            cell.setRowIndex(rowIndex);
-            cell.setColIndex(colIndex);
+            final var cell = new SudokuCell(getContext(), rowIndex, colIndex);
             mCells[rowIndex][colIndex] = cell;
             addView(cell);
         }
@@ -95,8 +82,8 @@ public class SudokuBoard extends ConstraintLayout {
         constraintSet.clone(this);
 
         // Chain cells to each other.
-        chainRowsInLayout(mCells, constraintSet, ConstraintSet.CHAIN_SPREAD);
-        chainColumnsInLayout(mCells, constraintSet, ConstraintSet.CHAIN_SPREAD);
+        chainRowsInLayout(mCells, constraintSet);
+        chainColumnsInLayout(mCells, constraintSet);
 
         // Constrain cells to dividers
         // and dividers to cells, temporarily.
@@ -118,21 +105,30 @@ public class SudokuBoard extends ConstraintLayout {
         }
 
         // Chain dividers to each other.
-        chainRowInLayout(vertDividers, constraintSet, ConstraintSet.CHAIN_SPREAD);
-        chainColumnInLayout(horDividers, constraintSet, ConstraintSet.CHAIN_SPREAD);
+        chainRowInLayout(vertDividers, constraintSet);
+        chainColumnInLayout(horDividers, constraintSet);
 
         constraintSet.applyTo(this);
     }
 
+    public void createBoard(@NonNull BoardUiState uiState) {
+        createEmptyBoard(
+                uiState.getBoardSize(),
+                uiState.getSubgridHeight(),
+                uiState.getSubgridWidth()
+        );
+        updateState(uiState);
+    }
+
     // See: https://constraintlayout.com/basics/create_chains.html
-    private void chainRowsInLayout(@NonNull View[][] matrix, ConstraintSet constraintSet, int chainStyle) {
+    private void chainRowsInLayout(@NonNull View[][] matrix, ConstraintSet constraintSet) {
         for (var row : matrix) {
-            chainRowInLayout(row, constraintSet, chainStyle);
+            chainRowInLayout(row, constraintSet);
         }
     }
 
     // Cite: https://stackoverflow.com/a/23945015
-    private void chainRowInLayout(@NonNull View[] row, ConstraintSet constraintSet, int chainStyle) {
+    private void chainRowInLayout(@NonNull View[] row, ConstraintSet constraintSet) {
         if (row.length < 1) {
             return;
         }
@@ -144,16 +140,16 @@ public class SudokuBoard extends ConstraintLayout {
         constraintSet.createHorizontalChain(
                 ConstraintSet.PARENT_ID, ConstraintSet.LEFT,
                 ConstraintSet.PARENT_ID, ConstraintSet.RIGHT,
-                rowChainIds, null, chainStyle);
+                rowChainIds, null, ConstraintSet.CHAIN_SPREAD);
     }
 
-    private void chainColumnsInLayout(@NonNull View[][] matrix, ConstraintSet constraintSet, int chainStyle) {
-        for (var column : transpose(matrix)) {
-            chainColumnInLayout(column, constraintSet, chainStyle);
+    private void chainColumnsInLayout(@NonNull View[][] matrix, ConstraintSet constraintSet) {
+        for (var column : UiUtil.transpose(matrix)) {
+            chainColumnInLayout(column, constraintSet);
         }
     }
 
-    private void chainColumnInLayout(@NonNull View[] column, ConstraintSet constraintSet, int chainStyle) {
+    private void chainColumnInLayout(@NonNull View[] column, ConstraintSet constraintSet) {
         if (column.length < 1) {
             return;
         }
@@ -165,19 +161,7 @@ public class SudokuBoard extends ConstraintLayout {
         constraintSet.createVerticalChain(
                 ConstraintSet.PARENT_ID, ConstraintSet.TOP,
                 ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM,
-                colChainIds, null, chainStyle);
-    }
-
-    public SudokuCell[][] getCells() {
-        return mCells;
-    }
-
-    public void highlightRelatedCells(@Nullable SudokuCellViewModel cell) {
-        if (cell == null) {
-            highlightRelatedCells(-1, -1);
-        } else {
-            highlightRelatedCells(cell.getRowIndex().getValue(), cell.getColIndex().getValue());
-        }
+                colChainIds, null, ConstraintSet.CHAIN_SPREAD);
     }
 
     /**
@@ -187,16 +171,18 @@ public class SudokuBoard extends ConstraintLayout {
      * @param colIndex Column index of that cell, -1 if none.
      */
     private void highlightRelatedCells(int rowIndex, int colIndex) {
-        final boolean validIndexes = (rowIndex >= 0 && rowIndex < mBoardSize)
-                && (colIndex >= 0 && colIndex < mBoardSize);
         resetBoardColors();
+        final boolean validIndexes =
+                (rowIndex >= 0 && rowIndex < mUiState.getBoardSize())
+                        && (colIndex >= 0 && colIndex < mUiState.getBoardSize());
         if (!validIndexes) {
             return;
         }
-        final boolean isErrorCell = mCells[rowIndex][colIndex].isErrorCell();
+        final boolean isErrorCell = mUiState.getCells()[rowIndex][colIndex].isErrorCell();
         highlightRow(rowIndex, isErrorCell);
         highlightColumn(colIndex, isErrorCell);
-        if (mSubgridWidth != mBoardSize || mSubgridHeight != mBoardSize) {
+        if (mUiState.getSubgridHeight() != mUiState.getBoardSize()
+                || mUiState.getSubgridWidth() != mUiState.getBoardSize()) {
             highlightSubgrid(rowIndex, colIndex);
         }
         final var cellColor = isErrorCell
@@ -206,9 +192,10 @@ public class SudokuBoard extends ConstraintLayout {
     }
 
     private void highlightColumn(int colIndex, boolean isErrorCell) {
-        for (int i = 0; i < mBoardSize; i++) {
-            var currentCell = mCells[i][colIndex];
-            if (currentCell.isErrorCell()) {
+        for (int i = 0; i < mUiState.getBoardSize(); i++) {
+            final var currentCell = mCells[i][colIndex];
+            final var currCellState = mUiState.getCells()[i][colIndex];
+            if (currCellState.isErrorCell()) {
                 currentCell.setColor(SudokuCell.Color.ERROR_NOT_SELECTED);
             } else {
                 currentCell.setColor(isErrorCell
@@ -219,9 +206,10 @@ public class SudokuBoard extends ConstraintLayout {
     }
 
     private void highlightRow(int rowIndex, boolean isErrorCell) {
-        for (int j = 0; j < mBoardSize; j++) {
-            var currentCell = mCells[rowIndex][j];
-            if (currentCell.isErrorCell()) {
+        for (int j = 0; j < mUiState.getBoardSize(); j++) {
+            final var currentCell = mCells[rowIndex][j];
+            final var currCellState = mUiState.getCells()[rowIndex][j];
+            if (currCellState.isErrorCell()) {
                 currentCell.setColor(SudokuCell.Color.ERROR_NOT_SELECTED);
             } else {
                 currentCell.setColor(isErrorCell
@@ -232,17 +220,18 @@ public class SudokuBoard extends ConstraintLayout {
     }
 
     private void highlightSubgrid(int rowIndex, int colIndex) {
-        final int startRowIndex = rowIndex - rowIndex % mSubgridHeight;
-        final int startColIndex = colIndex - colIndex % mSubgridWidth;
-        final int endRowIndex = startRowIndex + mSubgridHeight - 1;
-        final int endColIndex = startColIndex + mSubgridWidth - 1;
+        final int startRowIndex = rowIndex - rowIndex % mUiState.getSubgridHeight();
+        final int startColIndex = colIndex - colIndex % mUiState.getSubgridWidth();
+        final int endRowIndex = startRowIndex + mUiState.getSubgridHeight() - 1;
+        final int endColIndex = startColIndex + mUiState.getSubgridWidth() - 1;
         for (int i = startRowIndex; i <= endRowIndex; i++) {
             for (int j = startColIndex; j <= endColIndex; j++) {
-                var currentCell = mCells[i][j];
-                if (currentCell.isErrorCell()) {
+                final var currentCell = mCells[i][j];
+                final var currCellState = mUiState.getCells()[i][j];
+                if (currCellState.isErrorCell()) {
                     currentCell.setColor(SudokuCell.Color.ERROR_NOT_SELECTED);
                 } else {
-                    currentCell.setColor(mCells[rowIndex][colIndex].isErrorCell()
+                    currentCell.setColor(mUiState.getCells()[rowIndex][colIndex].isErrorCell()
                             ? SudokuCell.Color.ERROR_SEMI_HIGHLIGHTED
                             : SudokuCell.Color.SEMI_HIGHLIGHTED);
                 }
@@ -264,41 +253,46 @@ public class SudokuBoard extends ConstraintLayout {
     }
 
     private void resetBoardColors() {
-        for (var row : mCells) {
-            for (var cell : row) {
-                cell.setColor(cell.isErrorCell()
-                        ? SudokuCell.Color.ERROR_NOT_SELECTED
-                        : SudokuCell.Color.NORMAL);
+        final var boardSize = mUiState.getBoardSize();
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                mCells[i][j].setColor(
+                        mUiState.getCells()[i][j].isErrorCell()
+                                ? SudokuCell.Color.ERROR_NOT_SELECTED
+                                : SudokuCell.Color.NORMAL
+                );
             }
         }
     }
 
-    private @NonNull View[][] transpose(@NonNull View[][] matrix) {
-        final int nRows = matrix.length;
-        final int nCols = matrix[0].length;
-        var transposedMatrix = new View[nCols][nRows];
-        for (int i = 0; i < nRows; i++) {
-            for (int j = 0; j < nCols; j++) {
-                transposedMatrix[j][i] = matrix[i][j];
+    public void updateState(@NonNull BoardUiState uiState) {
+        final var boardSize = uiState.getBoardSize();
+        final var subgridHeight = uiState.getSubgridHeight();
+        final var subgridWidth = uiState.getSubgridWidth();
+        if (boardSize != mUiState.getBoardSize()
+                || subgridHeight != mUiState.getSubgridHeight()
+                || subgridWidth != mUiState.getSubgridWidth()) {
+            createEmptyBoard(boardSize, subgridHeight, subgridWidth);
+        }
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                mCells[i][j].updateState(uiState.getCells()[i][j]);
             }
         }
-        return transposedMatrix;
+        mUiState = uiState;
+        highlightRelatedCells(uiState.getSelectedRowIndex(), uiState.getSelectedColIndex());
     }
 
     private static class Divider extends View {
         protected Divider(@NonNull Context context) {
             super(context);
-            init();
-        }
-
-        private void init() {
             setId(generateViewId());
             setBackgroundResource(R.color.grid_divider);
         }
 
-        protected void setOrientation(boolean horizontal) {
-            final int thickness = Util.dpToPx(1);
-            var layoutParams = horizontal
+        protected void setHorizontalOrientation(boolean isHorizontal) {
+            final int thickness = UiUtil.dpToPx(1);
+            var layoutParams = isHorizontal
                     ? new ConstraintLayout.LayoutParams(0, thickness)
                     : new ConstraintLayout.LayoutParams(thickness, 0);
             setLayoutParams(layoutParams);
@@ -308,14 +302,14 @@ public class SudokuBoard extends ConstraintLayout {
     private static class HorizontalDivider extends Divider {
         public HorizontalDivider(@NonNull Context context) {
             super(context);
-            setOrientation(true);
+            setHorizontalOrientation(true);
         }
     }
 
     private static class VerticalDivider extends Divider {
         public VerticalDivider(@NonNull Context context) {
             super(context);
-            setOrientation(false);
+            setHorizontalOrientation(false);
         }
     }
 }

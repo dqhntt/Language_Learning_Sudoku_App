@@ -8,7 +8,6 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -16,37 +15,33 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 
 import ca.sfu.cmpt276.sudokulang.databinding.FragmentGameBinding;
-import ca.sfu.cmpt276.sudokulang.ui.game.board.SudokuBoardViewModel;
 import ca.sfu.cmpt276.sudokulang.ui.game.board.SudokuCell;
 
 // See: https://developer.android.com/topic/libraries/architecture/viewmodel
 public class GameFragment extends Fragment {
     private FragmentGameBinding mBinding;
-    private SudokuBoardViewModel mSudokuBoardVM;
-    private LifecycleOwner mLifecycleOwner;
+    private GameViewModel mGameViewModel;
+    private boolean mIsCompletedGame = false;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         mBinding = FragmentGameBinding.inflate(inflater, container, false);
-        mLifecycleOwner = getViewLifecycleOwner();
+        mGameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
 
-        mSudokuBoardVM = new ViewModelProvider(this).get(SudokuBoardViewModel.class);
-        mSudokuBoardVM.createEmptyBoard(9, 3, 3);
-        mSudokuBoardVM.generateBoardData();
+        mGameViewModel.generateNewBoard(9, 3, 3);
 
         // Set OnClickListener for parent view of game board.
-        ((View) mBinding.gameBoard.getParent()).setOnClickListener(view -> mSudokuBoardVM.setNoSelectedCell());
-
+        ((View) mBinding.gameBoard.getParent()).setOnClickListener(v -> mGameViewModel.setNoSelectedCell());
         setupBoard();
-        setupCells();
         setupWordButtons();
-        setupEraseButton();
+        mBinding.eraseButton.setOnClickListener(v -> mGameViewModel.clearSelectedCell());
 
         return mBinding.getRoot();
     }
 
     private void endGame() {
+        mIsCompletedGame = true;
         for (var button : getAllWordButtons()) {
             button.setEnabled(false);
         }
@@ -56,106 +51,33 @@ public class GameFragment extends Fragment {
     }
 
     private void setupBoard() {
-        mBinding.gameBoard.createEmptyBoard(
-                mSudokuBoardVM.getBoardSize().getValue(),
-                mSudokuBoardVM.getSubgridHeight().getValue(),
-                mSudokuBoardVM.getSubgridWidth().getValue());
-        setupBoardDimensionObservers();
-        mSudokuBoardVM.getSelectedCell().observe(mLifecycleOwner, selectedCellVM -> {
-            if (selectedCellVM == null) {
-                mBinding.quickCellView.setText("");
-            } else {
-                mBinding.quickCellView.setText(selectedCellVM.getText().getValue());
-            }
-            mBinding.gameBoard.highlightRelatedCells(selectedCellVM);
-        });
-        mSudokuBoardVM.getNumEmptyCells().observe(mLifecycleOwner, numEmptyCells -> {
-            if (numEmptyCells == 0 && mSudokuBoardVM.isValidBoard()) {
+        mBinding.gameBoard.createBoard(mGameViewModel.getBoardUiState().getValue());
+        mGameViewModel.getBoardUiState().observe(getViewLifecycleOwner(), boardUiState -> {
+            mBinding.gameBoard.updateState(boardUiState);
+            final var selectedCell = boardUiState.getSelectedCell();
+            mBinding.quickCellView.setText(selectedCell == null ? "" : selectedCell.getText());
+            if (boardUiState.isSolvedBoard() && !mIsCompletedGame) {
                 endGame();
             }
         });
-    }
-
-    private void setupBoardDimensionObservers() {
-        mSudokuBoardVM.getBoardSize().observe(mLifecycleOwner, boardSize -> {
-            mBinding.gameBoard.createEmptyBoard(boardSize,
-                    mSudokuBoardVM.getSubgridHeight().getValue(),
-                    mSudokuBoardVM.getSubgridWidth().getValue());
-            setupCells();
-        });
-        mSudokuBoardVM.getSubgridHeight().observe(mLifecycleOwner, subgridHeight -> {
-            mBinding.gameBoard.createEmptyBoard(
-                    mSudokuBoardVM.getBoardSize().getValue(),
-                    subgridHeight,
-                    mSudokuBoardVM.getSubgridWidth().getValue());
-            setupCells();
-        });
-        mSudokuBoardVM.getSubgridWidth().observe(mLifecycleOwner, subgridWidth -> {
-            mBinding.gameBoard.createEmptyBoard(
-                    mSudokuBoardVM.getBoardSize().getValue(),
-                    mSudokuBoardVM.getSubgridHeight().getValue(),
-                    subgridWidth);
-            setupCells();
-        });
-    }
-
-    private void setupCells() {
         mBinding.gameBoard.setOnclickListenersForAllCells(view -> {
             final var cell = (SudokuCell) view;
-            mSudokuBoardVM.setSelectedCell(cell.getRowIndex(), cell.getColIndex());
-        });
-        clearSudokuCellViewModelsObservers();
-        // Set SudokuCell to automatically observe SudokuCellViewModel.
-        for (var row : mSudokuBoardVM.getCells().getValue()) {
-            for (var cellVM : row) {
-                final int rowIndex = cellVM.getRowIndex().getValue();
-                final int colIndex = cellVM.getColIndex().getValue();
-                final var cellsUIs = mBinding.gameBoard.getCells();
-                cellVM.isPrefilled().observe(mLifecycleOwner, cellsUIs[rowIndex][colIndex]::setPrefilled);
-                cellVM.getText().observe(mLifecycleOwner, text -> {
-                    cellsUIs[rowIndex][colIndex].setText(text);
-                    if (cellVM == mSudokuBoardVM.getSelectedCell().getValue()) {
-                        mBinding.quickCellView.setText(text);
-                    }
-                });
-                cellVM.isErrorCell().observe(mLifecycleOwner, isError -> {
-                    cellsUIs[rowIndex][colIndex].setAsErrorCell(isError);
-                    if (cellVM == mSudokuBoardVM.getSelectedCell().getValue()) {
-                        mBinding.gameBoard.highlightRelatedCells(cellVM);
-                    }
-                });
-            }
-        }
-    }
-
-    private void clearSudokuCellViewModelsObservers() {
-        for (var row : mSudokuBoardVM.getCells().getValue()) {
-            for (var cellVM : row) {
-                cellVM.isPrefilled().removeObservers(mLifecycleOwner);
-                cellVM.getText().removeObservers(mLifecycleOwner);
-                cellVM.isErrorCell().removeObservers(mLifecycleOwner);
-            }
-        }
-    }
-
-    private void setupEraseButton() {
-        mBinding.eraseButton.setOnClickListener(v -> {
-            var selectedCellVM = mSudokuBoardVM.getSelectedCell().getValue();
-            if (selectedCellVM != null && !selectedCellVM.isPrefilled().getValue()) {
-                selectedCellVM.setText("");
-                selectedCellVM.setAsErrorCell(false);
-            }
+            mGameViewModel.setSelectedCell(cell.getRowIndex(), cell.getColIndex());
         });
     }
 
     private void setupWordButtons() {
-        final var wordButtonOnClickListener = new WordButtonOnClickListener();
         final var wordButtons = getAllWordButtons();
-        final var dataValuePairs = mSudokuBoardVM.getDataValuePairs();
+        final var dataValuePairs = mGameViewModel.getDataValuePairs();
         assert (wordButtons.length == dataValuePairs.length);
         for (int i = 0; i < wordButtons.length; i++) {
-            wordButtons[i].setOnClickListener(wordButtonOnClickListener);
             wordButtons[i].setText(dataValuePairs[i].first);
+            wordButtons[i].setOnClickListener(view -> {
+                final var button = (Button) view;
+                final String choice = (String) button.getText();
+                mBinding.quickCellView.setText(choice);
+                mGameViewModel.setSelectedCellText(choice);
+            });
         }
     }
 
@@ -177,20 +99,5 @@ public class GameFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         mBinding = null;
-    }
-
-    private class WordButtonOnClickListener implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            final var button = (Button) v;
-            final String choice = (String) button.getText();
-            mBinding.quickCellView.setText(choice);
-            final var selectedCell = mSudokuBoardVM.getSelectedCell().getValue();
-            if (selectedCell != null && !selectedCell.isPrefilled().getValue()) {
-                selectedCell.setText(choice);
-                selectedCell.setAsErrorCell(!mSudokuBoardVM.isValidValueForCell(choice, selectedCell));
-            }
-            mSudokuBoardVM.updateNumEmptyCells();
-        }
     }
 }

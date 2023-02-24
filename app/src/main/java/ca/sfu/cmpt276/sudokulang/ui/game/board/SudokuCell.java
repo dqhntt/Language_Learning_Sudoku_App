@@ -3,6 +3,7 @@ package ca.sfu.cmpt276.sudokulang.ui.game.board;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.TextView;
 
@@ -51,6 +52,11 @@ public class SudokuCell extends TextView {
         // Center text inside cell.
         setGravity(Gravity.CENTER);
         setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelSmall);
+
+        // Set text size (sp) == 28% view's height (dp).
+        addOnLayoutChangeListener((view, left, top, right, bottom,
+                                   oldLeft, oldTop, oldRight, oldBottom) ->
+                setTextSize(TypedValue.COMPLEX_UNIT_SP, 0.28f * UiUtil.pxToDp(bottom - top)));
 
         setText(mUiState.getText());
         setColor(Color.NORMAL);

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -26,10 +27,14 @@ public class GameFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         mBinding = FragmentGameBinding.inflate(inflater, container, false);
         mGameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
 
-        mGameViewModel.generateNewBoard(9, 3, 3);
+        // Check if recreating a previously destroyed instance.
+        if (shouldCreateNewGame(savedInstanceState)) {
+            mGameViewModel.generateNewBoard(9, 3, 3);
+        }
 
         // Set OnClickListener for parent view of game board.
         ((View) mBinding.gameBoard.getParent()).setOnClickListener(v -> mGameViewModel.setNoSelectedCell());
@@ -38,6 +43,10 @@ public class GameFragment extends Fragment {
         mBinding.eraseButton.setOnClickListener(v -> mGameViewModel.clearSelectedCell());
 
         return mBinding.getRoot();
+    }
+
+    private boolean shouldCreateNewGame(@Nullable Bundle savedInstanceState) {
+        return savedInstanceState == null || savedInstanceState.getBoolean("should_create_new_game");
     }
 
     private void endGame() {
@@ -99,5 +108,12 @@ public class GameFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         mBinding = null;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Save game state to the instance state bundle.
+        outState.putBoolean("should_create_new_game", false);
     }
 }

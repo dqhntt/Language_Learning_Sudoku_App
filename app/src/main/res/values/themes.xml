@@ -6,4 +6,12 @@
     </style>
 
     <style name="Theme.SudokuLanguagePracticeApp" parent="Base.Theme.SudokuLanguagePracticeApp" />
+
+    <!-- Cite: https://stackoverflow.com/a/25365193 -->
+    <style name="Theme.SudokuLanguagePracticeApp.FullScreen" parent="Base.Theme.SudokuLanguagePracticeApp">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
 </resources>

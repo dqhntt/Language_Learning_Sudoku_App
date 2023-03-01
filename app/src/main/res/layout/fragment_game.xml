@@ -14,12 +14,11 @@
 
 
         <!-- Quick cell view. -->
-
         <TextView
             android:id="@+id/quick_cell_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Quick view"
+            tools:text="Quick view"
             android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
             app:layout_constraintBottom_toTopOf="@id/game_board"
             app:layout_constraintEnd_toEndOf="parent"
@@ -28,12 +27,11 @@
 
 
         <!-- Game board. -->
-
         <ca.sfu.cmpt276.sudokulang.ui.game.board.SudokuBoard
             android:id="@+id/game_board"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="5dp"
+            android:layout_marginHorizontal="@dimen/game_board_margin"
             android:layout_marginVertical="8dp"
             app:layout_constraintBottom_toTopOf="@id/hor_scroll_view"
             app:layout_constraintDimensionRatio="1:1"
@@ -43,10 +41,9 @@
 
 
         <!-- Word buttons. -->
-
         <HorizontalScrollView
             android:id="@+id/hor_scroll_view"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
             android:fillViewport="true"
@@ -54,15 +51,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/game_board">
-
             <ca.sfu.cmpt276.sudokulang.ui.game.keypad.WordButtonKeypad
                 android:id="@+id/word_button_keypad"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent" />
         </HorizontalScrollView>
 
-        <!-- Erase and Notes buttons. -->
 
+        <!-- Erase and Notes buttons. -->
         <Button
             android:id="@+id/erase_button"
             android:layout_width="wrap_content"
@@ -77,7 +73,6 @@
             app:layout_constraintEnd_toStartOf="@id/notes_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/hor_scroll_view" />
-
         <Button
             android:id="@+id/notes_button"
             android:layout_width="wrap_content"

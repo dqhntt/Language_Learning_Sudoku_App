@@ -44,7 +44,6 @@
         <item><i>Select Difficulty Level</i></item>
         <item>Novice</item>
         <item>Expert</item>
-
     </string-array>
 
     <!-- Strings used for fragments for navigation -->

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,12 +19,12 @@
             android:id="@+id/quick_cell_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Quick view"
-            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
             app:layout_constraintBottom_toTopOf="@id/game_board"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Quick view" />
 
 
         <!-- Game board. -->
@@ -50,10 +51,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/game_board">
+
             <ca.sfu.cmpt276.sudokulang.ui.game.keypad.WordButtonKeypad
                 android:id="@+id/word_button_keypad"
                 android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                custom:buttonTextSize="24sp" />
         </HorizontalScrollView>
 
 
@@ -72,6 +75,7 @@
             app:layout_constraintEnd_toStartOf="@id/notes_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/hor_scroll_view" />
+
         <Button
             android:id="@+id/notes_button"
             android:layout_width="wrap_content"

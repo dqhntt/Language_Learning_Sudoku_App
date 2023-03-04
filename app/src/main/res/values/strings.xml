@@ -61,4 +61,6 @@
 
     <string name="erase">Erase</string>
     <string name="notes">Notes</string>
+
+    <string name="congratulations">Game completed. Well done!</string>
 </resources>

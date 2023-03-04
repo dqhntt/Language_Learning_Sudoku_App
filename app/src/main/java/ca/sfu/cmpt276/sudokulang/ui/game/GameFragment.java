@@ -15,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Arrays;
 
+import ca.sfu.cmpt276.sudokulang.R;
 import ca.sfu.cmpt276.sudokulang.databinding.FragmentGameBinding;
 import ca.sfu.cmpt276.sudokulang.ui.game.board.SudokuCell;
 
@@ -54,7 +55,7 @@ public class GameFragment extends Fragment {
         mBinding.wordButtonKeypad.setEnabled(false);
         mBinding.eraseButton.setEnabled(false);
         mBinding.notesButton.setEnabled(false);
-        Snackbar.make(mBinding.getRoot(), "Game completed. Well done!", Snackbar.LENGTH_INDEFINITE).show();
+        Snackbar.make(mBinding.getRoot(), R.string.congratulations, Snackbar.LENGTH_INDEFINITE).show();
     }
 
     private void setupBoard() {

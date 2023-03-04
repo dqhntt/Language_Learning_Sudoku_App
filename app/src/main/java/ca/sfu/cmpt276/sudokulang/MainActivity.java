@@ -57,21 +57,32 @@ public class MainActivity extends AppCompatActivity {
         nextImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Toast.makeText(MainActivity.this, "this works", Toast.LENGTH_SHORT).show();
-                openHomePage2();
+                String size = GridSizeSpinner.getSelectedItem().toString();
+                if (size.equals("Select Grid Size")) {
+                    Toast.makeText(MainActivity.this, "*Please select a valid grid size*", Toast.LENGTH_SHORT).show();
+                } else {
+                    //for testing purposes to ensure that the selected value is read
+                    Toast.makeText(MainActivity.this, size, Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(MainActivity.this, HomePage2.class);
+                    //used to send data
+                    intent.putExtra("grid_size", size);
+
+                    startActivity(intent);
+//                    openHomePage2();
+                }
             }
         });
 
 
-
-        favouritesImageButton= (ImageButton) findViewById(R.id.image_button_favourites);
+        favouritesImageButton = (ImageButton) findViewById(R.id.image_button_favourites);
         favouritesImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "this works", Toast.LENGTH_SHORT).show();
             }
         });
-        settingsImageButton=(ImageButton) findViewById(R.id.image_button_settings);
+        settingsImageButton = (ImageButton) findViewById(R.id.image_button_settings);
         settingsImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        historyImageButton=(ImageButton) findViewById(R.id.image_button_history);
+        historyImageButton = (ImageButton) findViewById(R.id.image_button_history);
         historyImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,21 +106,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-       tutorialImageButton=(ImageButton) findViewById(R.id.image_button_tutorial);
-       tutorialImageButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               Toast.makeText(MainActivity.this, "this works", Toast.LENGTH_SHORT).show();
-           }
-       });
-
-
+        tutorialImageButton = (ImageButton) findViewById(R.id.image_button_tutorial);
+        tutorialImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "this works", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }
 
-    public void openHomePage2(){
-        Intent intent = new Intent(this, HomePage2.class);
-        startActivity(intent);
-    }
+
+//    public void openHomePage2() {
+//        Intent intent = new Intent(this, HomePage2.class);
+//        startActivity(intent);
+//    }
 }

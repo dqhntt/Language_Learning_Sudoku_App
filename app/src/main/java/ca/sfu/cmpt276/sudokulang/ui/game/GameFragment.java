@@ -30,6 +30,11 @@ public class GameFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         mBinding = FragmentGameBinding.inflate(inflater, container, false);
+        return mBinding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mGameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
 
         // Check if recreating a previously destroyed instance.
@@ -38,12 +43,12 @@ public class GameFragment extends Fragment {
         }
 
         // Set OnClickListener for parent view of game board.
-        ((View) mBinding.gameBoard.getParent()).setOnClickListener(v -> mGameViewModel.setNoSelectedCell());
+        final View.OnClickListener unselectCell = v -> mGameViewModel.setNoSelectedCell();
+        ((View) mBinding.gameBoard.getParent()).setOnClickListener(unselectCell);
+        mBinding.horScrollView.setOnClickListener(unselectCell);
         setupBoard();
         setupWordButtons();
         mBinding.eraseButton.setOnClickListener(v -> mGameViewModel.clearSelectedCell());
-
-        return mBinding.getRoot();
     }
 
     private boolean shouldCreateNewGame(@Nullable Bundle savedInstanceState) {

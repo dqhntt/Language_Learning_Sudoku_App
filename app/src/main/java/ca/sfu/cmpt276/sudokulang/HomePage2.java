@@ -78,11 +78,20 @@ public class HomePage2 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(HomePage2.this, "Loading....", Toast.LENGTH_SHORT).show();
+
                 startActivity(new Intent(HomePage2.this, GameActivity.class));
+                Intent intent = getIntent();
+
+                //gets the intent value from MainActivity and stores it
+                String size = intent.getStringExtra("grid_size");
+
+                //makes a toast, printing out the selected grid size value-----for testing only
+                Toast.makeText(HomePage2.this, size, Toast.LENGTH_SHORT).show();
             }
         });
 
-        favouritesImageButton= (ImageButton) findViewById(R.id.image_button_favourites);
+
+        favouritesImageButton = (ImageButton) findViewById(R.id.image_button_favourites);
         favouritesImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

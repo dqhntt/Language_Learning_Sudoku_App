@@ -46,7 +46,7 @@ public class GameFragment extends Fragment {
         // Set OnClickListener for parent view of game board.
         final View.OnClickListener unselectCell = v -> mGameViewModel.setNoSelectedCell();
         ((View) mBinding.gameBoard.getParent()).setOnClickListener(unselectCell);
-        mBinding.horScrollView.setOnClickListener(unselectCell);
+        mBinding.wordButtonKeypad.setOnClickListener(unselectCell);
         setupBoard();
         setupWordButtons();
         mBinding.eraseButton.setOnClickListener(v -> mGameViewModel.clearSelectedCell());

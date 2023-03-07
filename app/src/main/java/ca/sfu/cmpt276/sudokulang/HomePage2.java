@@ -1,6 +1,5 @@
 package ca.sfu.cmpt276.sudokulang;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,81 +11,68 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import ca.sfu.cmpt276.sudokulang.ui.game.GameFragmentArgs;
+import kotlin.Triple;
 
 public class HomePage2 extends AppCompatActivity {
-
-    private String selectedLang, selectedSudoku; //cars to hold the values of teh selected language and sudoku level
-    private TextView tvLangSpinner, tvSudokuSpinner; //declaring TextView to show errors
-    private Spinner LangSpinner, SudokuSpinner;
-    private ArrayAdapter<CharSequence> LangAdapter, SudokuAdapter; //only declaration
-
-
-
-
-
-
-
-
-
-
-
     ImageButton nextImageButton, favouritesImageButton, settingsImageButton,
-            helpImageButton, tutorialImageButton,historyImageButton;
+            helpImageButton, tutorialImageButton, historyImageButton;
+    private String selectedLang, selectedSudoku; //vars to hold the values of the selected language and sudoku level
+    private TextView tvLangSpinner, tvSudokuSpinner; //declaring TextView to show errors
+    private Spinner langSpinner, sudokuSpinner;
+    private ArrayAdapter<CharSequence> langAdapter, sudokuAdapter; //only declaration
 
-    View view;
-
-
-
-
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page2);
 
+        // Set background color.
+        this.getWindow().getDecorView().setBackgroundResource(R.color.blue);
 
 
         //------------------------------------------SPINNER INITIALIZATION--------------------------------------------------------
 
-        LangSpinner = findViewById(R.id.spinner_lang_level);
-        SudokuSpinner=findViewById(R.id.spinner_sudoku_level);
+        langSpinner = findViewById(R.id.spinner_lang_level);
+        sudokuSpinner = findViewById(R.id.spinner_sudoku_level);
+
         //populate ArrayAdapter using string array and a spinner layout that we will define
-        LangAdapter = ArrayAdapter.createFromResource(this,R.array.array_lang_level,R.layout.spinner_layout);
-        SudokuAdapter=ArrayAdapter.createFromResource(this,R.array.array_sudoku_level,R.layout.spinner_layout);
+        langAdapter = ArrayAdapter.createFromResource(this, R.array.array_lang_level, R.layout.spinner_layout);
+        sudokuAdapter = ArrayAdapter.createFromResource(this, R.array.array_sudoku_level, R.layout.spinner_layout);
+
         //specify the layout to use when the list of choices appear
-        LangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        SudokuAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        langAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sudokuAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         //set adapter to spinner to populate the Lang Spinner
-        LangSpinner.setAdapter(LangAdapter);
-        SudokuSpinner.setAdapter(SudokuAdapter);
-
-
-
-        view=this.getWindow().getDecorView();
-        view.setBackgroundResource(R.color.blue);
-
-
-
-
-
-
+        langSpinner.setAdapter(langAdapter);
+        sudokuSpinner.setAdapter(sudokuAdapter);
 
 
         //--------------------------------------BUTTON INITIALIZATION-----------------------------------------------------------------
-        nextImageButton= (ImageButton) findViewById(R.id.image_button_next);
+
+        nextImageButton = (ImageButton) findViewById(R.id.image_button_next);
         nextImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(HomePage2.this, "Loading....", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Loading....", Toast.LENGTH_SHORT).show();
 
-                startActivity(new Intent(HomePage2.this, GameActivity.class));
                 Intent intent = getIntent();
-
                 //gets the intent value from MainActivity and stores it
-                String size = intent.getStringExtra("grid_size");
+                var sizes = parseGridSize(intent.getStringExtra("grid_size"));
 
-                //makes a toast, printing out the selected grid size value-----for testing only
-                Toast.makeText(HomePage2.this, size, Toast.LENGTH_SHORT).show();
+                startActivity(GameActivity.newIntent(HomePage2.this,
+                        new GameFragmentArgs.Builder(
+                                intent.getStringExtra("native_lang"),
+                                intent.getStringExtra("learning_lang"),
+                                // TODO: Error checking for these two.
+                                langSpinner.getSelectedItem().toString(),
+                                sudokuSpinner.getSelectedItem().toString(),
+                                sizes.getFirst(),
+                                sizes.getSecond(),
+                                sizes.getThird()
+                        ).build())
+                );
             }
         });
 
@@ -98,7 +84,7 @@ public class HomePage2 extends AppCompatActivity {
                 Toast.makeText(HomePage2.this, "this works", Toast.LENGTH_SHORT).show();
             }
         });
-        settingsImageButton=(ImageButton) findViewById(R.id.image_button_settings);
+        settingsImageButton = (ImageButton) findViewById(R.id.image_button_settings);
         settingsImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,7 +92,7 @@ public class HomePage2 extends AppCompatActivity {
             }
         });
 
-        historyImageButton=(ImageButton) findViewById(R.id.image_button_history);
+        historyImageButton = (ImageButton) findViewById(R.id.image_button_history);
         historyImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,18 +108,37 @@ public class HomePage2 extends AppCompatActivity {
             }
         });
 
-        tutorialImageButton=(ImageButton) findViewById(R.id.image_button_tutorial);
+        tutorialImageButton = (ImageButton) findViewById(R.id.image_button_tutorial);
         tutorialImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(HomePage2.this, "this works", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
-
     }
 
+    /**
+     * @return A tuple of {@code (boardSize, subgridHeight, subgridWidth)}.
+     * @implNote TODO: Replace with a better way. Perhaps parse in MainActivity beforehand.
+     */
+    private Triple<Integer, Integer, Integer> parseGridSize(String size) {
+        for (char c : size.toCharArray()) {
+            if (Character.isDigit(c)) {
+                switch (c) {
+                    case '4':
+                        return new Triple<>(4, 4, 4);
+                    case '6':
+                        return new Triple<>(6, 2, 3);
+                    case '9':
+                        return new Triple<>(9, 3, 3);
+                    case '1':
+                        return new Triple<>(12, 3, 4);
+                    default:
+                        throw new IllegalArgumentException("Unknown board dimension");
+                }
+            }
+        }
+        throw new IllegalArgumentException("Cannot parse grid size");
+    }
 
 }

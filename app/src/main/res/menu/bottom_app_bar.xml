@@ -4,30 +4,30 @@
     tools:context="ca.sfu.cmpt276.sudokulang.GameActivity">
 
     <item
-        android:id="@+id/navigation_game"
+        android:id="@+id/game_fragment"
         android:title=""
         android:visible="false" />
 
     <item
-        android:id="@+id/navigation_home"
+        android:id="@+id/main_activity"
         android:icon="@drawable/ic_home_outline_24dp"
         android:title="@string/home"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/navigation_help"
+        android:id="@+id/help_fragment"
         android:icon="@drawable/ic_help_outline_24dp"
         android:title="@string/help"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/navigation_undo"
+        android:id="@+id/undo_menu_item"
         android:icon="@drawable/ic_undo_24dp"
         android:title="@string/undo"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/navigation_redo"
+        android:id="@+id/redo_menu_item"
         android:icon="@drawable/ic_redo_24dp"
         android:title="@string/redo"
         app:showAsAction="ifRoom" />

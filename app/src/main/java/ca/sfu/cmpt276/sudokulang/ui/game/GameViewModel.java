@@ -202,16 +202,28 @@ public class GameViewModel extends ViewModel {
         // For TESTING only.
         // TODO: Replace this with a database. !!
 
-        var pairs = new ArrayList<Pair<String, String>>(mBoardUiState.getValue().getBoardSize());
-        pairs.add(new Pair<>("Ag", "Silver"));
-        pairs.add(new Pair<>("Br", "Bromine"));
-        pairs.add(new Pair<>("Ca", "Calcium"));
-        pairs.add(new Pair<>("Fe", "Iron"));
-        pairs.add(new Pair<>("He", "Helium"));
-        pairs.add(new Pair<>("Kr", "Krypton"));
-        pairs.add(new Pair<>("Li", "Lithium"));
-        pairs.add(new Pair<>("Pb", "Lead"));
-        pairs.add(new Pair<>("Se", "Selenium"));
+        final int boardSize = mBoardUiState.getValue().getBoardSize();
+        var pairs = new ArrayList<Pair<String, String>>(boardSize);
+        if (boardSize > 0) {
+            pairs.add(new Pair<>("Ag", "Silver"));
+            pairs.add(new Pair<>("Cr", "Chromium"));
+            pairs.add(new Pair<>("Fe", "Iron"));
+            pairs.add(new Pair<>("He", "Helium"));
+        }
+        if (boardSize > 4) {
+            pairs.add(new Pair<>("I", "Iodine"));
+            pairs.add(new Pair<>("K", "Potassium"));
+        }
+        if (boardSize > 6) {
+            pairs.add(new Pair<>("Li", "Lithium"));
+            pairs.add(new Pair<>("Na", "Sodium"));
+            pairs.add(new Pair<>("Pb", "Lead"));
+        }
+        if (boardSize > 9) {
+            pairs.add(new Pair<>("Sn", "Tin"));
+            pairs.add(new Pair<>("W", "Tungsten"));
+            pairs.add(new Pair<>("Zn", "Zinc"));
+        }
         return pairs.toArray(new Pair[0]);
     }
 

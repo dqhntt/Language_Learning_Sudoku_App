@@ -1,6 +1,5 @@
 package ca.sfu.cmpt276.sudokulang;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,63 +12,58 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
-
     ImageButton nextImageButton, favouritesImageButton, settingsImageButton,
             helpImageButton, tutorialImageButton, historyImageButton;
     private String selectedState, selectedDistrict, selectedGridSize; //vars to hold the values of state and district
     private TextView tvLearningLangSpinner, tvNativeLangSpinner, tvGridSizeSpinner; //declaring text view to show errors
-    private Spinner learninglanSpinner, nativelangSpinner, GridSizeSpinner;
+    private Spinner learningLangSpinner, nativeLangSpinner, gridSizeSpinner;
+    private ArrayAdapter<CharSequence> learningLangAdapter, nativeLangAdapter, gridSizeAdapter;
 
-
-    View view;
-    private ArrayAdapter<CharSequence> learninglangAdapter, nativelangAdapter, GridSizeAdapter;
-
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        view = this.getWindow().getDecorView();
-        view.setBackgroundResource(R.color.blue);
+        // Set background color.
+        this.getWindow().getDecorView().setBackgroundResource(R.color.blue);
+
         //State spinner Initialization
-        learninglanSpinner = findViewById(R.id.spinner_learning_lang);
-        nativelangSpinner = findViewById(R.id.textView_native_lang);
-        GridSizeSpinner = findViewById(R.id.spinner_grid_size);
+        learningLangSpinner = findViewById(R.id.spinner_learning_lang);
+        nativeLangSpinner = findViewById(R.id.textView_native_lang);
+        gridSizeSpinner = findViewById(R.id.spinner_grid_size);
 
         //Populate ArrayAdapter using string array and a spinner layout that we will define
-        learninglangAdapter = ArrayAdapter.createFromResource(this, R.array.array_learning_lang, R.layout.spinner_layout);
-        nativelangAdapter = ArrayAdapter.createFromResource(this, R.array.array_native_lang, R.layout.spinner_layout);
-        GridSizeAdapter = ArrayAdapter.createFromResource(this, R.array.array_grid_size, R.layout.spinner_layout);
+        learningLangAdapter = ArrayAdapter.createFromResource(this, R.array.array_learning_lang, R.layout.spinner_layout);
+        nativeLangAdapter = ArrayAdapter.createFromResource(this, R.array.array_native_lang, R.layout.spinner_layout);
+        gridSizeAdapter = ArrayAdapter.createFromResource(this, R.array.array_grid_size, R.layout.spinner_layout);
 
         //Specify the layout to use when the list of choices appear
-        learninglangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        nativelangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        GridSizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        learningLangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        nativeLangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        gridSizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         //set the adapter to the spinner to populate State Spinner
-        learninglanSpinner.setAdapter(learninglangAdapter);
-        nativelangSpinner.setAdapter(nativelangAdapter);
-        GridSizeSpinner.setAdapter(GridSizeAdapter);
+        learningLangSpinner.setAdapter(learningLangAdapter);
+        nativeLangSpinner.setAdapter(nativeLangAdapter);
+        gridSizeSpinner.setAdapter(gridSizeAdapter);
 
         nextImageButton = (ImageButton) findViewById(R.id.image_button_next);
 
         nextImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String size = GridSizeSpinner.getSelectedItem().toString();
-                if (size.equals("Select Grid Size")) {
+                String size = gridSizeSpinner.getSelectedItem().toString();
+                if (size.contentEquals(gridSizeAdapter.getItem(0))) {
                     Toast.makeText(MainActivity.this, "*Please select a valid grid size*", Toast.LENGTH_SHORT).show();
                 } else {
-                    //for testing purposes to ensure that the selected value is read
-                    Toast.makeText(MainActivity.this, size, Toast.LENGTH_SHORT).show();
-
                     Intent intent = new Intent(MainActivity.this, HomePage2.class);
                     //used to send data
+                    // TODO: Error checking for these two.
+                    intent.putExtra("native_lang", nativeLangSpinner.getSelectedItem().toString());
+                    intent.putExtra("learning_lang", learningLangSpinner.getSelectedItem().toString());
                     intent.putExtra("grid_size", size);
 
                     startActivity(intent);
-//                    openHomePage2();
                 }
             }
         });
@@ -113,13 +107,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "this works", Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 
-
-//    public void openHomePage2() {
-//        Intent intent = new Intent(this, HomePage2.class);
-//        startActivity(intent);
-//    }
 }

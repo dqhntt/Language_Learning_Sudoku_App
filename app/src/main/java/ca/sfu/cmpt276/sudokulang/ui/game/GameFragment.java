@@ -70,7 +70,9 @@ public class GameFragment extends Fragment {
         mBinding.wordButtonKeypad.setEnabled(false);
         mBinding.eraseButton.setEnabled(false);
         mBinding.notesButton.setEnabled(false);
-        Snackbar.make(mBinding.getRoot(), R.string.congratulations, Snackbar.LENGTH_INDEFINITE).show();
+        Snackbar.make(mBinding.getRoot(), R.string.congratulations, Snackbar.LENGTH_INDEFINITE)
+                .setAnchorView(requireActivity().findViewById(R.id.bottom_app_bar))
+                .show();
     }
 
     private void setupBoard() {

@@ -67,7 +67,9 @@ public class GameActivity extends AppCompatActivity {
         if (binding.bottomAppBar != null) {
             assert (binding.fab != null);
             binding.fab.setOnClickListener(view ->
-                    Snackbar.make(view, "Pause FAB", Snackbar.LENGTH_SHORT).show());
+                    Snackbar.make(view, "Pause FAB", Snackbar.LENGTH_SHORT)
+                            .setAnchorView(binding.bottomAppBar)
+                            .show());
             binding.bottomAppBar.setOnMenuItemClickListener(getOnMenuItemClickListener(navController));
         }
     }

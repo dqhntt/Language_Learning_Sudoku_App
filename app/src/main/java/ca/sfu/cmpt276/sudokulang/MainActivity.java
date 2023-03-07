@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
             helpImageButton, tutorialImageButton, historyImageButton;
     private String selectedState, selectedDistrict, selectedGridSize; //vars to hold the values of state and district
     private TextView tvLearningLangSpinner, tvNativeLangSpinner, tvGridSizeSpinner; //declaring text view to show errors
-    private Spinner learninglanSpinner, nativelangSpinner, GridSizeSpinner;
+    private Spinner learninglangSpinner, nativelangSpinner, GridSizeSpinner;
 
 
     View view;
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         view = this.getWindow().getDecorView();
         view.setBackgroundResource(R.color.blue);
         //State spinner Initialization
-        learninglanSpinner = findViewById(R.id.spinner_learning_lang);
+        learninglangSpinner = findViewById(R.id.spinner_learning_lang);
         nativelangSpinner = findViewById(R.id.textView_native_lang);
         GridSizeSpinner = findViewById(R.id.spinner_grid_size);
 
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         GridSizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         //set the adapter to the spinner to populate State Spinner
-        learninglanSpinner.setAdapter(learninglangAdapter);
+        learninglangSpinner.setAdapter(learninglangAdapter);
         nativelangSpinner.setAdapter(nativelangAdapter);
         GridSizeSpinner.setAdapter(GridSizeAdapter);
 
@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("grid_size", size);
 
                     startActivity(intent);
-//                    openHomePage2();
                 }
             }
         });
@@ -113,13 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "this works", Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 
 
-//    public void openHomePage2() {
-//        Intent intent = new Intent(this, HomePage2.class);
-//        startActivity(intent);
-//    }
 }

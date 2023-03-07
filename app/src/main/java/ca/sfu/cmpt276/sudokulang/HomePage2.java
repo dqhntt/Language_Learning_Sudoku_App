@@ -12,6 +12,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import ca.sfu.cmpt276.sudokulang.ui.game.GameFragmentArgs;
+import kotlin.Triple;
+
 
 public class HomePage2 extends AppCompatActivity {
 
@@ -77,16 +80,25 @@ public class HomePage2 extends AppCompatActivity {
         nextImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(HomePage2.this, "Loading....", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Loading....", Toast.LENGTH_SHORT).show();
 
-                startActivity(new Intent(HomePage2.this, GameActivity.class));
                 Intent intent = getIntent();
 
                 //gets the intent value from MainActivity and stores it
-                String size = intent.getStringExtra("grid_size");
+                var sizes = parseGridSize(intent.getStringExtra("grid_size"));
 
-                //makes a toast, printing out the selected grid size value-----for testing only
-                Toast.makeText(HomePage2.this, size, Toast.LENGTH_SHORT).show();
+                startActivity(GameActivity.newIntent(HomePage2.this,
+                        new GameFragmentArgs.Builder(
+                                intent.getStringExtra("native_lang"),
+                                intent.getStringExtra("learning_lang"),
+                                // TODO: Error checking for these two.
+                                LangSpinner.getSelectedItem().toString(),
+                                SudokuSpinner.getSelectedItem().toString(),
+                                sizes.getFirst(),
+                                sizes.getSecond(),
+                                sizes.getThird()
+                        ).build())
+                );
             }
         });
 
@@ -135,5 +147,28 @@ public class HomePage2 extends AppCompatActivity {
 
     }
 
+    /**
+     * @return A tuple of {@code (boardSize, subgridHeight, subgridWidth)}.
+     * @implNote TODO: Replace with a better way. Perhaps parse in MainActivity beforehand.
+     */
+    private Triple<Integer, Integer, Integer> parseGridSize(String size) {
+        for (char c : size.toCharArray()) {
+            if (Character.isDigit(c)) {
+                switch (c) {
+                    case '4':
+                        return new Triple<>(4, 4, 4);
+                    case '6':
+                        return new Triple<>(6, 2, 3);
+                    case '9':
+                        return new Triple<>(9, 3, 3);
+                    case '1':
+                        return new Triple<>(12, 3, 4);
+                    default:
+                        throw new IllegalArgumentException("Unknown board dimension");
+                }
+            }
+        }
+        throw new IllegalArgumentException("Cannot parse grid size");
+    }
 
 }

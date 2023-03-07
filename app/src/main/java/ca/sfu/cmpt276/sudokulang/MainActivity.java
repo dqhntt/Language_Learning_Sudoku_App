@@ -61,11 +61,11 @@ public class MainActivity extends AppCompatActivity {
                 if (size.equals("Select Grid Size")) {
                     Toast.makeText(MainActivity.this, "*Please select a valid grid size*", Toast.LENGTH_SHORT).show();
                 } else {
-                    //for testing purposes to ensure that the selected value is read
-                    Toast.makeText(MainActivity.this, size, Toast.LENGTH_SHORT).show();
-
                     Intent intent = new Intent(MainActivity.this, HomePage2.class);
                     //used to send data
+                    // TODO: Error checking for these two.
+                    intent.putExtra("native_lang", nativelangSpinner.getSelectedItem().toString());
+                    intent.putExtra("learning_lang", learninglangSpinner.getSelectedItem().toString());
                     intent.putExtra("grid_size", size);
 
                     startActivity(intent);

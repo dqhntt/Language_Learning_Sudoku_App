@@ -40,7 +40,16 @@ public class GameFragment extends Fragment {
 
         // Check if recreating a previously destroyed instance.
         if (shouldCreateNewGame(savedInstanceState)) {
-            mGameViewModel.generateNewBoard(9, 3, 3);
+            if (getArguments() == null) {
+                mGameViewModel.generateNewBoard(9, 3, 3);
+            } else {
+                final var args = GameFragmentArgs.fromBundle(requireArguments());
+                mGameViewModel.generateNewBoard(
+                        args.getBoardSize(),
+                        args.getSubgridHeight(),
+                        args.getSubgridWidth()
+                );
+            }
         }
 
         // Set OnClickListener for parent view of game board.

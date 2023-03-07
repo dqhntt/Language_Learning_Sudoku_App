@@ -1,9 +1,12 @@
 package ca.sfu.cmpt276.sudokulang;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -16,11 +19,24 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.snackbar.Snackbar;
 
 import ca.sfu.cmpt276.sudokulang.databinding.ActivityGameBinding;
+import ca.sfu.cmpt276.sudokulang.ui.game.GameFragmentArgs;
 import ca.sfu.cmpt276.sudokulang.ui.game.GameFragmentDirections;
 
 public class GameActivity extends AppCompatActivity {
     private @Nullable AppBarConfiguration appBarConfiguration = null;
     private ActivityGameBinding binding;
+
+    /**
+     * Create a new intent with the required arguments for {@code GameActivity}.
+     *
+     * @param packageContext Context of the calling activity.
+     * @param args           NavArgs built with: {@code new GameFragmentArgs.Builder(...).build()}
+     */
+    public static Intent newIntent(@NonNull Context packageContext, @NonNull GameFragmentArgs args) {
+        final var intent = new Intent(packageContext, GameActivity.class);
+        intent.putExtras(args.toBundle());
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +49,7 @@ public class GameActivity extends AppCompatActivity {
         NavController navController = ((NavHostFragment)
                 getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_game))
                 .getNavController();
+        // Forward the Intent extras as arguments to the host fragment = GameFragment.
         // Cite: https://developer.android.com/guide/navigation/navigation-migrate#pass_intent_extras_to_the_fragment
         navController.setGraph(R.navigation.nav_graph, getIntent().getExtras());
 

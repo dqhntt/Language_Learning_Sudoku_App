@@ -37,6 +37,27 @@
         <action
             android:id="@+id/action_game_fragment_to_translation_fragment"
             app:destination="@id/translation_fragment" />
+        <argument
+            android:name="native_lang"
+            app:argType="string" />
+        <argument
+            android:name="learning_lang"
+            app:argType="string" />
+        <argument
+            android:name="lang_level"
+            app:argType="string" />
+        <argument
+            android:name="sudoku_level"
+            app:argType="string" />
+        <argument
+            android:name="board_size"
+            app:argType="integer" />
+        <argument
+            android:name="subgrid_height"
+            app:argType="integer" />
+        <argument
+            android:name="subgrid_width"
+            app:argType="integer" />
     </fragment>
 
     <fragment

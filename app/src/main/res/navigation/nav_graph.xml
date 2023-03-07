@@ -3,47 +3,59 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/navigation_game">
+    app:startDestination="@id/game_fragment">
 
     <!-- NOTE: Automatically works with BottomNavigationView but not BottomAppBar. -->
     <!-- See: https://developer.android.com/guide/navigation -->
 
-    <fragment
-        android:id="@+id/navigation_game"
-        android:name="ca.sfu.cmpt276.sudokulang.ui.game.GameFragment"
-        android:label="@string/title_activity_game"
-        tools:layout="@layout/fragment_game" />
+    <activity
+        android:id="@+id/main_activity"
+        android:name="ca.sfu.cmpt276.sudokulang.MainActivity"
+        tools:layout="@layout/activity_main" />
+
+    <activity
+        android:id="@+id/home_page_2_activity"
+        android:name="ca.sfu.cmpt276.sudokulang.HomePage2"
+        tools:layout="@layout/activity_home_page2" />
+
+    <activity
+        android:id="@+id/game_activity"
+        android:name="ca.sfu.cmpt276.sudokulang.GameActivity"
+        tools:layout="@layout/activity_game" />
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="ca.sfu.cmpt276.sudokulang.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home">
+        android:id="@+id/game_fragment"
+        android:name="ca.sfu.cmpt276.sudokulang.ui.game.GameFragment"
+        android:label="@string/title_game"
+        tools:layout="@layout/fragment_game">
         <action
-            android:id="@+id/action_HomeFragment_to_GameFragment"
-            app:destination="@id/navigation_game" />
+            android:id="@+id/action_game_fragment_to_main_activity"
+            app:destination="@id/main_activity" />
         <action
-            android:id="@+id/action_HomeFragment_to_HelpFragment"
-            app:destination="@id/navigation_help" />
+            android:id="@+id/action_game_fragment_to_help_fragment"
+            app:destination="@id/help_fragment" />
+        <action
+            android:id="@+id/action_game_fragment_to_translation_fragment"
+            app:destination="@id/translation_fragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_help"
+        android:id="@+id/help_fragment"
         android:name="ca.sfu.cmpt276.sudokulang.ui.help.HelpFragment"
         android:label="@string/title_help"
         tools:layout="@layout/fragment_help">
-        <action
-            android:id="@+id/action_HelpFragment_to_GameFragment"
-            app:destination="@id/navigation_game" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_translation"
+        android:id="@+id/translation_fragment"
         android:name="ca.sfu.cmpt276.sudokulang.ui.translation.TranslationFragment"
         android:label="@string/title_translation"
         tools:layout="@layout/fragment_translation">
         <action
-            android:id="@+id/action_TranslationFragment_to_GameFragment"
-            app:destination="@id/navigation_game" />
+            android:id="@+id/action_translation_fragment_to_help_fragment"
+            app:destination="@id/help_fragment" />
+        <action
+            android:id="@+id/action_translation_fragment_to_main_activity"
+            app:destination="@id/main_activity" />
     </fragment>
 </navigation>

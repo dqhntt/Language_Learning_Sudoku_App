@@ -16,6 +16,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.snackbar.Snackbar;
 
 import ca.sfu.cmpt276.sudokulang.databinding.ActivityGameBinding;
+import ca.sfu.cmpt276.sudokulang.ui.game.GameFragmentDirections;
 
 public class GameActivity extends AppCompatActivity {
     private @Nullable AppBarConfiguration appBarConfiguration = null;
@@ -32,13 +33,15 @@ public class GameActivity extends AppCompatActivity {
         NavController navController = ((NavHostFragment)
                 getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_game))
                 .getNavController();
+        // Cite: https://developer.android.com/guide/navigation/navigation-migrate#pass_intent_extras_to_the_fragment
+        navController.setGraph(R.navigation.nav_graph, getIntent().getExtras());
 
         if (binding.topAppToolbar != null) {
             setSupportActionBar(binding.topAppToolbar);
             // Passing each menu ID as a set of Ids because each
             // menu should be considered as top level destinations.
             appBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.navigation_game, R.id.navigation_home, R.id.navigation_help, R.id.navigation_translation)
+                    R.id.game_fragment, R.id.main_activity, R.id.help_fragment, R.id.translation_fragment)
                     .build();
             NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
             NavigationUI.setupWithNavController(binding.topAppToolbar, navController);
@@ -56,11 +59,11 @@ public class GameActivity extends AppCompatActivity {
     private Toolbar.OnMenuItemClickListener getOnMenuItemClickListener(NavController navController) {
         return menuItem -> {
             final var id = menuItem.getItemId();
-            if (id == R.id.navigation_home) {
-                navController.navigate(R.id.navigation_home);
+            if (id == R.id.main_activity) {
+                navController.navigate(GameFragmentDirections.actionGameFragmentToMainActivity());
                 return true;
-            } else if (id == R.id.navigation_help) {
-                navController.navigate(R.id.navigation_help);
+            } else if (id == R.id.help_fragment) {
+                navController.navigate(GameFragmentDirections.actionGameFragmentToHelpFragment());
                 return true;
             }
             return false;
@@ -92,7 +95,7 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        // Handle back button.
+        // Handle back button in action bar.
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_game);
         assert (appBarConfiguration != null);
         return NavigationUI.navigateUp(navController, appBarConfiguration)

@@ -55,11 +55,7 @@ public class GameActivity extends AppCompatActivity {
 
         if (binding.topAppBar != null) {
             setSupportActionBar(binding.topAppBar);
-            // Passing each menu ID as a set of Ids because each
-            // menu should be considered as top level destinations.
-            appBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.game_fragment, R.id.main_activity, R.id.help_fragment, R.id.translation_fragment)
-                    .build();
+            appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
             NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
             NavigationUI.setupWithNavController(binding.topAppBar, navController);
         }

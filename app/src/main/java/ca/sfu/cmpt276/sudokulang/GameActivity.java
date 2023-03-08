@@ -47,21 +47,21 @@ public class GameActivity extends AppCompatActivity {
 
         // Cite: https://stackoverflow.com/a/60597670
         NavController navController = ((NavHostFragment)
-                getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_game))
+                getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_game))
                 .getNavController();
         // Forward the Intent extras as arguments to the host fragment = GameFragment.
         // Cite: https://developer.android.com/guide/navigation/navigation-migrate#pass_intent_extras_to_the_fragment
         navController.setGraph(R.navigation.nav_graph, getIntent().getExtras());
 
-        if (binding.topAppToolbar != null) {
-            setSupportActionBar(binding.topAppToolbar);
+        if (binding.topAppBar != null) {
+            setSupportActionBar(binding.topAppBar);
             // Passing each menu ID as a set of Ids because each
             // menu should be considered as top level destinations.
             appBarConfiguration = new AppBarConfiguration.Builder(
                     R.id.game_fragment, R.id.main_activity, R.id.help_fragment, R.id.translation_fragment)
                     .build();
             NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-            NavigationUI.setupWithNavController(binding.topAppToolbar, navController);
+            NavigationUI.setupWithNavController(binding.topAppBar, navController);
         }
 
         if (binding.bottomAppBar != null) {
@@ -115,7 +115,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         // Handle back button in action bar.
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_game);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_game);
         assert (appBarConfiguration != null);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();

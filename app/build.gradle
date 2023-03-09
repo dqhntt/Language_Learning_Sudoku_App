@@ -1,10 +1,10 @@
 plugins {
-    id 'com.android.application'
-    id 'androidx.navigation.safeargs'
+    id "com.android.application"
+    id "androidx.navigation.safeargs"
 }
 
 android {
-    namespace 'ca.sfu.cmpt276.sudokulang'
+    namespace "ca.sfu.cmpt276.sudokulang"
     compileSdk 33
 
     defaultConfig {
@@ -20,7 +20,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
     }
     compileOptions {
@@ -30,7 +30,7 @@ android {
     buildFeatures {
         viewBinding true
     }
-    buildToolsVersion '33.0.2'
+    buildToolsVersion = "34.0.0-rc2"
 
     testOptions {
         unitTests.all {
@@ -40,15 +40,34 @@ android {
 }
 
 dependencies {
+    def lifecycle_version = "2.6.0"
+    def nav_version = "2.6.0-alpha07"
 
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:latest.release'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.lifecycle:lifecycle-livedata:2.5.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.5.1'
-    implementation 'androidx.navigation:navigation-fragment:2.5.3'
-    implementation 'androidx.navigation:navigation-ui:2.5.3'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "androidx.constraintlayout:constraintlayout:2.2.0-alpha08"
+    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
+    implementation "androidx.navigation:navigation-fragment:$nav_version"
+    implementation "androidx.navigation:navigation-ui:$nav_version"
+    implementation "com.google.android.material:material:1.9.0-alpha02"
+
+    // Unit tests.
+    testImplementation "org.junit.jupiter:junit-jupiter:5.9.2"
+
+    // Instrumented tests.
+    androidTestImplementation "androidx.test.ext:junit:1.1.5"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+
+
+    // Fix duplicate classes found
+    // by specifying min versions for transitive dependencies without declaring them.
+    // See: https://stackoverflow.com/a/75298544
+    constraints {
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:latest.release") {
+            because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
+        }
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:latest.release") {
+            because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
+        }
+    }
 }

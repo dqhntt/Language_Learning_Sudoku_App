@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -21,8 +22,10 @@ import com.google.android.material.snackbar.Snackbar;
 import ca.sfu.cmpt276.sudokulang.databinding.ActivityGameBinding;
 import ca.sfu.cmpt276.sudokulang.ui.game.GameFragmentArgs;
 import ca.sfu.cmpt276.sudokulang.ui.game.GameFragmentDirections;
+import ca.sfu.cmpt276.sudokulang.ui.game.GameViewModel;
 
 public class GameActivity extends AppCompatActivity {
+    private static final String SHOULD_CREATE_NEW_GAME = "should_create_new_game";
     private @Nullable AppBarConfiguration appBarConfiguration = null;
     private ActivityGameBinding binding;
 
@@ -38,9 +41,29 @@ public class GameActivity extends AppCompatActivity {
         return intent;
     }
 
+    private static boolean shouldCreateNewGame(@Nullable Bundle savedInstanceState) {
+        return savedInstanceState == null || savedInstanceState.getBoolean(SHOULD_CREATE_NEW_GAME);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        final var gameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
+
+        // Check if recreating a previously destroyed instance.
+        if (shouldCreateNewGame(savedInstanceState)) {
+            final var extras = getIntent().getExtras();
+            if (extras == null) {
+                gameViewModel.generateNewBoard(9, 3, 3);
+            } else {
+                final var args = GameFragmentArgs.fromBundle(extras);
+                gameViewModel.generateNewBoard(
+                        args.getBoardSize(),
+                        args.getSubgridHeight(),
+                        args.getSubgridWidth()
+                );
+            }
+        }
 
         binding = ActivityGameBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -117,5 +140,12 @@ public class GameActivity extends AppCompatActivity {
         assert (appBarConfiguration != null);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Save game state to the instance state bundle.
+        outState.putBoolean(SHOULD_CREATE_NEW_GAME, false);
     }
 }

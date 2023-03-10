@@ -94,16 +94,16 @@ class GameViewModelTest {
         // For temporary testing of the board data.
         game.generateNewBoard(9, 3, 3);
         game.setSelectedCell(5, 5);
-        game.setSelectedCellText("Br");
+        game.setSelectedCellText("Cr");
         assertFalse(game.getBoardUiState().getValue().getSelectedCell().isErrorCell());
         game.setSelectedCell(5, 0);
-        game.setSelectedCellText("Ca");
+        game.setSelectedCellText("Fe");
         assertTrue(game.getBoardUiState().getValue().getSelectedCell().isErrorCell());
         game.setSelectedCell(8, 5);
-        game.setSelectedCellText("Br");
+        game.setSelectedCellText("Cr");
         assertTrue(game.getBoardUiState().getValue().getSelectedCell().isErrorCell());
         game.setSelectedCell(4, 3);
-        game.setSelectedCellText("Br");
+        game.setSelectedCellText("Cr");
         assertTrue(game.getBoardUiState().getValue().getSelectedCell().isErrorCell());
     }
 

@@ -1,6 +1,5 @@
 package ca.sfu.cmpt276.sudokulang;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -10,6 +9,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import kotlin.Triple;
 
 public class MainActivity extends AppCompatActivity {
     ImageButton nextImageButton, favouritesImageButton, settingsImageButton,
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         nativeLangSpinner.setAdapter(nativeLangAdapter);
         gridSizeSpinner.setAdapter(gridSizeAdapter);
 
-        nextImageButton = (ImageButton) findViewById(R.id.image_button_next);
+        nextImageButton = findViewById(R.id.image_button_next);
 
         nextImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,27 +57,32 @@ public class MainActivity extends AppCompatActivity {
                 if (size.contentEquals(gridSizeAdapter.getItem(0))) {
                     Toast.makeText(MainActivity.this, "*Please select a valid grid size*", Toast.LENGTH_SHORT).show();
                 } else {
-                    Intent intent = new Intent(MainActivity.this, HomePage2.class);
                     //used to send data
-                    // TODO: Error checking for these two.
-                    intent.putExtra("native_lang", nativeLangSpinner.getSelectedItem().toString());
-                    intent.putExtra("learning_lang", learningLangSpinner.getSelectedItem().toString());
-                    intent.putExtra("grid_size", size);
+                    final var sizes = getDimension(gridSizeSpinner);
 
-                    startActivity(intent);
+                    startActivity(HomePage2.newIntent(MainActivity.this,
+                            new HomePage2Args.Builder(
+                                    // TODO: Error checking for these two.
+                                    nativeLangSpinner.getSelectedItem().toString(),
+                                    learningLangSpinner.getSelectedItem().toString(),
+                                    sizes.getFirst(),
+                                    sizes.getSecond(),
+                                    sizes.getThird()
+                            ).build())
+                    );
                 }
             }
         });
 
 
-        favouritesImageButton = (ImageButton) findViewById(R.id.image_button_favourites);
+        favouritesImageButton = findViewById(R.id.image_button_favourites);
         favouritesImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "this works", Toast.LENGTH_SHORT).show();
             }
         });
-        settingsImageButton = (ImageButton) findViewById(R.id.image_button_settings);
+        settingsImageButton = findViewById(R.id.image_button_settings);
         settingsImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        historyImageButton = (ImageButton) findViewById(R.id.image_button_history);
+        historyImageButton = findViewById(R.id.image_button_history);
         historyImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        helpImageButton = (ImageButton) findViewById(R.id.image_button_help);
+        helpImageButton = findViewById(R.id.image_button_help);
         helpImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,13 +106,34 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        tutorialImageButton = (ImageButton) findViewById(R.id.image_button_tutorial);
+        tutorialImageButton = findViewById(R.id.image_button_tutorial);
         tutorialImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "this works", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    /**
+     * @return A tuple of {@code (boardSize, subgridHeight, subgridWidth)}.
+     */
+    private Triple<Integer, Integer, Integer> getDimension(Spinner gridSizeSpinner) {
+        final ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) gridSizeSpinner.getAdapter();
+        final var selectedItem = gridSizeSpinner.getSelectedItem().toString();
+        if (selectedItem.contentEquals(adapter.getItem(1))) {
+            return new Triple<>(4, 4, 4);
+        }
+        if (selectedItem.contentEquals(adapter.getItem(2))) {
+            return new Triple<>(6, 2, 3);
+        }
+        if (selectedItem.contentEquals(adapter.getItem(3))) {
+            return new Triple<>(9, 3, 3);
+        }
+        if (selectedItem.contentEquals(adapter.getItem(4))) {
+            return new Triple<>(12, 3, 4);
+        }
+        throw new IllegalArgumentException("Unknown board dimension");
     }
 
 }

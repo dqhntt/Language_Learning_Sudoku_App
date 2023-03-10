@@ -20,7 +20,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.snackbar.Snackbar;
 
 import ca.sfu.cmpt276.sudokulang.databinding.ActivityGameBinding;
-import ca.sfu.cmpt276.sudokulang.ui.game.GameFragmentArgs;
 import ca.sfu.cmpt276.sudokulang.ui.game.GameFragmentDirections;
 import ca.sfu.cmpt276.sudokulang.ui.game.GameViewModel;
 
@@ -33,9 +32,9 @@ public class GameActivity extends AppCompatActivity {
      * Create a new intent with the required arguments for {@code GameActivity}.
      *
      * @param packageContext Context of the calling activity.
-     * @param args           NavArgs built with: {@code new GameFragmentArgs.Builder(...).build()}
+     * @param args           NavArgs built with: {@code new GameActivityArgs.Builder(...).build()}
      */
-    public static Intent newIntent(@NonNull Context packageContext, @NonNull GameFragmentArgs args) {
+    public static Intent newIntent(@NonNull Context packageContext, @NonNull GameActivityArgs args) {
         final var intent = new Intent(packageContext, GameActivity.class);
         intent.putExtras(args.toBundle());
         return intent;
@@ -48,6 +47,10 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        binding = ActivityGameBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
         final var gameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
 
         // Check if recreating a previously destroyed instance.
@@ -56,7 +59,7 @@ public class GameActivity extends AppCompatActivity {
             if (extras == null) {
                 gameViewModel.generateNewBoard(9, 3, 3);
             } else {
-                final var args = GameFragmentArgs.fromBundle(extras);
+                final var args = GameActivityArgs.fromBundle(extras);
                 gameViewModel.generateNewBoard(
                         args.getBoardSize(),
                         args.getSubgridHeight(),
@@ -64,9 +67,6 @@ public class GameActivity extends AppCompatActivity {
                 );
             }
         }
-
-        binding = ActivityGameBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
 
         // Cite: https://stackoverflow.com/a/60597670
         NavController navController = ((NavHostFragment)

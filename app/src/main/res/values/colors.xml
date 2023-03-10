@@ -3,6 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#deeff5</color>
+    <color name="yellow">#ffff9c</color>
 
     <!--Colours of game cells in light theme-->
     <!--Should consider replacing these hardcoded values with themes later-->

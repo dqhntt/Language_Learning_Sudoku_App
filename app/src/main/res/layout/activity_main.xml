@@ -57,7 +57,7 @@
         android:textSize="15sp" />
 
     <Spinner
-        android:id="@+id/textView_native_lang"
+        android:id="@+id/spinner_native_lang"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/textView_Native_lang"
@@ -67,7 +67,7 @@
         android:id="@+id/textView_Grid_Sizes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView_native_lang"
+        android:layout_below="@+id/spinner_native_lang"
         android:layout_marginTop="40dp"
         android:padding="6dp"
         android:text="@string/GridSize"

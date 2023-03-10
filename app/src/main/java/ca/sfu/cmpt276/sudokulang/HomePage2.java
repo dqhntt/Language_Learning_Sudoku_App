@@ -5,19 +5,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import ca.sfu.cmpt276.sudokulang.databinding.ActivityHomePage2Binding;
+
 public class HomePage2 extends AppCompatActivity {
-    ImageButton nextImageButton, favouritesImageButton, settingsImageButton,
-            helpImageButton, tutorialImageButton, historyImageButton;
-    private String selectedLang, selectedSudoku; //vars to hold the values of the selected language and sudoku level
-    private TextView tvLangSpinner, tvSudokuSpinner; //declaring TextView to show errors
+    private ActivityHomePage2Binding binding;
     private Spinner langSpinner, sudokuSpinner;
     private ArrayAdapter<CharSequence> langAdapter, sudokuAdapter; //only declaration
 
@@ -36,7 +33,8 @@ public class HomePage2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_page2);
+        binding = ActivityHomePage2Binding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Set background color.
         this.getWindow().getDecorView().setBackgroundResource(R.color.blue);
@@ -44,8 +42,8 @@ public class HomePage2 extends AppCompatActivity {
 
         //------------------------------------------SPINNER INITIALIZATION--------------------------------------------------------
 
-        langSpinner = findViewById(R.id.spinner_lang_level);
-        sudokuSpinner = findViewById(R.id.spinner_sudoku_level);
+        langSpinner = binding.spinnerLangLevel;
+        sudokuSpinner = binding.spinnerSudokuLevel;
 
         //populate ArrayAdapter using string array and a spinner layout that we will define
         langAdapter = ArrayAdapter.createFromResource(this, R.array.array_lang_level, R.layout.spinner_layout);
@@ -62,8 +60,7 @@ public class HomePage2 extends AppCompatActivity {
 
         //--------------------------------------BUTTON INITIALIZATION-----------------------------------------------------------------
 
-        nextImageButton = findViewById(R.id.image_button_next);
-        nextImageButton.setOnClickListener(new View.OnClickListener() {
+        binding.imageButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "Loading....", Toast.LENGTH_SHORT).show();
@@ -86,40 +83,35 @@ public class HomePage2 extends AppCompatActivity {
             }
         });
 
-
-        favouritesImageButton = findViewById(R.id.image_button_favourites);
-        favouritesImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(HomePage2.this, "this works", Toast.LENGTH_SHORT).show();
-            }
-        });
-        settingsImageButton = findViewById(R.id.image_button_settings);
-        settingsImageButton.setOnClickListener(new View.OnClickListener() {
+        binding.imageButtonFavourites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(HomePage2.this, "this works", Toast.LENGTH_SHORT).show();
             }
         });
 
-        historyImageButton = findViewById(R.id.image_button_history);
-        historyImageButton.setOnClickListener(new View.OnClickListener() {
+        binding.imageButtonSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(HomePage2.this, "this works", Toast.LENGTH_SHORT).show();
             }
         });
 
-        helpImageButton = findViewById(R.id.image_button_help);
-        helpImageButton.setOnClickListener(new View.OnClickListener() {
+        binding.imageButtonHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(HomePage2.this, "this works", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        binding.imageButtonHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(HomePage2.this, "it works", Toast.LENGTH_SHORT).show();
             }
         });
 
-        tutorialImageButton = findViewById(R.id.image_button_tutorial);
-        tutorialImageButton.setOnClickListener(new View.OnClickListener() {
+        binding.imageButtonTutorial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(HomePage2.this, "this works", Toast.LENGTH_SHORT).show();

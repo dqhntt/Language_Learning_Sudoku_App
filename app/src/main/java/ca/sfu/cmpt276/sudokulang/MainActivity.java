@@ -3,35 +3,32 @@ package ca.sfu.cmpt276.sudokulang;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import ca.sfu.cmpt276.sudokulang.databinding.ActivityMainBinding;
 import kotlin.Triple;
 
 public class MainActivity extends AppCompatActivity {
-    ImageButton nextImageButton, favouritesImageButton, settingsImageButton,
-            helpImageButton, tutorialImageButton, historyImageButton;
-    private String selectedState, selectedDistrict, selectedGridSize; //vars to hold the values of state and district
-    private TextView tvLearningLangSpinner, tvNativeLangSpinner, tvGridSizeSpinner; //declaring text view to show errors
+    private ActivityMainBinding binding;
     private Spinner learningLangSpinner, nativeLangSpinner, gridSizeSpinner;
     private ArrayAdapter<CharSequence> learningLangAdapter, nativeLangAdapter, gridSizeAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         // Set background color.
         this.getWindow().getDecorView().setBackgroundResource(R.color.blue);
 
         //State spinner Initialization
-        learningLangSpinner = findViewById(R.id.spinner_learning_lang);
-        nativeLangSpinner = findViewById(R.id.textView_native_lang);
-        gridSizeSpinner = findViewById(R.id.spinner_grid_size);
+        learningLangSpinner = binding.spinnerLearningLang;
+        nativeLangSpinner = binding.spinnerNativeLang;
+        gridSizeSpinner = binding.spinnerGridSize;
 
         //Populate ArrayAdapter using string array and a spinner layout that we will define
         learningLangAdapter = ArrayAdapter.createFromResource(this, R.array.array_learning_lang, R.layout.spinner_layout);
@@ -48,9 +45,7 @@ public class MainActivity extends AppCompatActivity {
         nativeLangSpinner.setAdapter(nativeLangAdapter);
         gridSizeSpinner.setAdapter(gridSizeAdapter);
 
-        nextImageButton = findViewById(R.id.image_button_next);
-
-        nextImageButton.setOnClickListener(new View.OnClickListener() {
+        binding.imageButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String size = gridSizeSpinner.getSelectedItem().toString();
@@ -58,8 +53,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "*Please select a valid grid size*", Toast.LENGTH_SHORT).show();
                 } else {
                     //used to send data
-                    final var sizes = getDimension(gridSizeSpinner);
-
+                    final var sizes = getGridSize();
                     startActivity(HomePage2.newIntent(MainActivity.this,
                             new HomePage2Args.Builder(
                                     // TODO: Error checking for these two.
@@ -74,40 +68,35 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        favouritesImageButton = findViewById(R.id.image_button_favourites);
-        favouritesImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "this works", Toast.LENGTH_SHORT).show();
-            }
-        });
-        settingsImageButton = findViewById(R.id.image_button_settings);
-        settingsImageButton.setOnClickListener(new View.OnClickListener() {
+        binding.imageButtonFavourites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "this works", Toast.LENGTH_SHORT).show();
             }
         });
 
-        historyImageButton = findViewById(R.id.image_button_history);
-        historyImageButton.setOnClickListener(new View.OnClickListener() {
+        binding.imageButtonSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "this works", Toast.LENGTH_SHORT).show();
             }
         });
 
-        helpImageButton = findViewById(R.id.image_button_help);
-        helpImageButton.setOnClickListener(new View.OnClickListener() {
+        binding.imageButtonHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "this works", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        binding.imageButtonHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "it works", Toast.LENGTH_SHORT).show();
             }
         });
 
-        tutorialImageButton = findViewById(R.id.image_button_tutorial);
-        tutorialImageButton.setOnClickListener(new View.OnClickListener() {
+        binding.imageButtonTutorial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "this works", Toast.LENGTH_SHORT).show();
@@ -118,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
     /**
      * @return A tuple of {@code (boardSize, subgridHeight, subgridWidth)}.
      */
-    private Triple<Integer, Integer, Integer> getDimension(Spinner gridSizeSpinner) {
-        final ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) gridSizeSpinner.getAdapter();
+    private Triple<Integer, Integer, Integer> getGridSize() {
+        final var adapter = gridSizeAdapter;
         final var selectedItem = gridSizeSpinner.getSelectedItem().toString();
         if (selectedItem.contentEquals(adapter.getItem(1))) {
             return new Triple<>(4, 4, 4);

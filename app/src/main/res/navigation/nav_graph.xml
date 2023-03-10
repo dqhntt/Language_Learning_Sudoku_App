@@ -16,27 +16,28 @@
     <activity
         android:id="@+id/home_page_2_activity"
         android:name="ca.sfu.cmpt276.sudokulang.HomePage2"
-        tools:layout="@layout/activity_home_page2" />
+        tools:layout="@layout/activity_home_page2">
+        <argument
+            android:name="native_lang"
+            app:argType="string" />
+        <argument
+            android:name="learning_lang"
+            app:argType="string" />
+        <argument
+            android:name="board_size"
+            app:argType="integer" />
+        <argument
+            android:name="subgrid_height"
+            app:argType="integer" />
+        <argument
+            android:name="subgrid_width"
+            app:argType="integer" />
+    </activity>
 
     <activity
         android:id="@+id/game_activity"
         android:name="ca.sfu.cmpt276.sudokulang.GameActivity"
-        tools:layout="@layout/activity_game" />
-
-    <fragment
-        android:id="@+id/game_fragment"
-        android:name="ca.sfu.cmpt276.sudokulang.ui.game.GameFragment"
-        android:label="@string/title_game"
-        tools:layout="@layout/fragment_game">
-        <action
-            android:id="@+id/action_game_fragment_to_main_activity"
-            app:destination="@id/main_activity" />
-        <action
-            android:id="@+id/action_game_fragment_to_help_fragment"
-            app:destination="@id/help_fragment" />
-        <action
-            android:id="@+id/action_game_fragment_to_translation_fragment"
-            app:destination="@id/translation_fragment" />
+        tools:layout="@layout/activity_game">
         <argument
             android:name="native_lang"
             app:argType="string" />
@@ -58,14 +59,29 @@
         <argument
             android:name="subgrid_width"
             app:argType="integer" />
+    </activity>
+
+    <fragment
+        android:id="@+id/game_fragment"
+        android:name="ca.sfu.cmpt276.sudokulang.ui.game.GameFragment"
+        android:label="@string/title_game"
+        tools:layout="@layout/fragment_game">
+        <action
+            android:id="@+id/action_game_fragment_to_main_activity"
+            app:destination="@id/main_activity" />
+        <action
+            android:id="@+id/action_game_fragment_to_help_fragment"
+            app:destination="@id/help_fragment" />
+        <action
+            android:id="@+id/action_game_fragment_to_translation_fragment"
+            app:destination="@id/translation_fragment" />
     </fragment>
 
     <fragment
         android:id="@+id/help_fragment"
         android:name="ca.sfu.cmpt276.sudokulang.ui.help.HelpFragment"
         android:label="@string/title_help"
-        tools:layout="@layout/fragment_help">
-    </fragment>
+        tools:layout="@layout/fragment_help" />
 
     <fragment
         android:id="@+id/translation_fragment"

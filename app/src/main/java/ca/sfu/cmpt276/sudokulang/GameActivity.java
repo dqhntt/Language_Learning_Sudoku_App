@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -19,10 +20,11 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.snackbar.Snackbar;
 
 import ca.sfu.cmpt276.sudokulang.databinding.ActivityGameBinding;
-import ca.sfu.cmpt276.sudokulang.ui.game.GameFragmentArgs;
 import ca.sfu.cmpt276.sudokulang.ui.game.GameFragmentDirections;
+import ca.sfu.cmpt276.sudokulang.ui.game.GameViewModel;
 
 public class GameActivity extends AppCompatActivity {
+    private static final String SHOULD_CREATE_NEW_GAME = "should_create_new_game";
     private @Nullable AppBarConfiguration appBarConfiguration = null;
     private ActivityGameBinding binding;
 
@@ -30,12 +32,16 @@ public class GameActivity extends AppCompatActivity {
      * Create a new intent with the required arguments for {@code GameActivity}.
      *
      * @param packageContext Context of the calling activity.
-     * @param args           NavArgs built with: {@code new GameFragmentArgs.Builder(...).build()}
+     * @param args           NavArgs built with: {@code new GameActivityArgs.Builder(...).build()}
      */
-    public static Intent newIntent(@NonNull Context packageContext, @NonNull GameFragmentArgs args) {
+    public static Intent newIntent(@NonNull Context packageContext, @NonNull GameActivityArgs args) {
         final var intent = new Intent(packageContext, GameActivity.class);
         intent.putExtras(args.toBundle());
         return intent;
+    }
+
+    private static boolean shouldCreateNewGame(@Nullable Bundle savedInstanceState) {
+        return savedInstanceState == null || savedInstanceState.getBoolean(SHOULD_CREATE_NEW_GAME);
     }
 
     @Override
@@ -45,13 +51,27 @@ public class GameActivity extends AppCompatActivity {
         binding = ActivityGameBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        final var gameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
+
+        // Check if recreating a previously destroyed instance.
+        if (shouldCreateNewGame(savedInstanceState)) {
+            final var extras = getIntent().getExtras();
+            if (extras == null) {
+                gameViewModel.generateNewBoard(9, 3, 3);
+            } else {
+                final var args = GameActivityArgs.fromBundle(extras);
+                gameViewModel.generateNewBoard(
+                        args.getBoardSize(),
+                        args.getSubgridHeight(),
+                        args.getSubgridWidth()
+                );
+            }
+        }
+
         // Cite: https://stackoverflow.com/a/60597670
         NavController navController = ((NavHostFragment)
                 getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_game))
                 .getNavController();
-        // Forward the Intent extras as arguments to the host fragment = GameFragment.
-        // Cite: https://developer.android.com/guide/navigation/navigation-migrate#pass_intent_extras_to_the_fragment
-        navController.setGraph(R.navigation.nav_graph, getIntent().getExtras());
 
         if (binding.topAppBar != null) {
             setSupportActionBar(binding.topAppBar);
@@ -115,5 +135,12 @@ public class GameActivity extends AppCompatActivity {
         assert (appBarConfiguration != null);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Save game state to the instance state bundle.
+        outState.putBoolean(SHOULD_CREATE_NEW_GAME, false);
     }
 }

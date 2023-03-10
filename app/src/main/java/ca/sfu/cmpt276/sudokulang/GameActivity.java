@@ -72,9 +72,6 @@ public class GameActivity extends AppCompatActivity {
         NavController navController = ((NavHostFragment)
                 getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_game))
                 .getNavController();
-        // Forward the Intent extras as arguments to the host fragment = GameFragment.
-        // Cite: https://developer.android.com/guide/navigation/navigation-migrate#pass_intent_extras_to_the_fragment
-        navController.setGraph(R.navigation.nav_graph, getIntent().getExtras());
 
         if (binding.topAppToolbar != null) {
             setSupportActionBar(binding.topAppToolbar);

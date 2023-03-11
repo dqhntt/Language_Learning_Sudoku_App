@@ -63,23 +63,31 @@ public class HomePage2 extends AppCompatActivity {
         binding.imageButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Loading....", Toast.LENGTH_SHORT).show();
 
-                //gets the intent value from MainActivity and stores it
-                final var extras = HomePage2Args.fromBundle(getIntent().getExtras());
 
-                startActivity(GameActivity.newIntent(HomePage2.this,
-                        new GameActivityArgs.Builder(
-                                extras.getNativeLang(),
-                                extras.getLearningLang(),
-                                // TODO: Error checking for these two.
-                                langSpinner.getSelectedItem().toString(),
-                                sudokuSpinner.getSelectedItem().toString(),
-                                extras.getBoardSize(),
-                                extras.getSubgridHeight(),
-                                extras.getSubgridWidth()
-                        ).build())
-                );
+                String langLevel = langSpinner.getSelectedItem().toString();
+                String sudokuLevel = sudokuSpinner.getSelectedItem().toString();
+
+                if (langLevel.contentEquals(langAdapter.getItem(0)) || sudokuLevel.contentEquals(sudokuAdapter.getItem(0))) {
+                    Toast.makeText(HomePage2.this, "*Please select a valid input for all fields*", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Loading....", Toast.LENGTH_SHORT).show();
+                    //gets the intent value from MainActivity and stores it
+                    final var extras = HomePage2Args.fromBundle(getIntent().getExtras());
+
+                    startActivity(GameActivity.newIntent(HomePage2.this,
+                            new GameActivityArgs.Builder(
+                                    extras.getNativeLang(),
+                                    extras.getLearningLang(),
+                                    // TODO: Error checking for these two.
+                                    langSpinner.getSelectedItem().toString(),
+                                    sudokuSpinner.getSelectedItem().toString(),
+                                    extras.getBoardSize(),
+                                    extras.getSubgridHeight(),
+                                    extras.getSubgridWidth()
+                            ).build())
+                    );
+                }
             }
         });
 

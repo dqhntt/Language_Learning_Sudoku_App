@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
+import androidx.annotation.NonNull;
+
 public class Util {
     public static final String APP_PACKAGE_NAME = "ca.sfu.cmpt276.sudokulang";
     public static final int LAUNCH_TIMEOUT = 5000;
@@ -27,5 +29,17 @@ public class Util {
         PackageManager pm = getApplicationContext().getPackageManager();
         ResolveInfo resolveInfo = pm.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY);
         return resolveInfo.activityInfo.packageName;
+    }
+
+    /**
+     * @param shortIdName ID of the view as defined in its XML layout file. <p>
+     *                    e.g. "@+id/welcome_text" -> "welcome_text"
+     * @return Fully qualified name of {@code shortIdName}
+     * for use with {@code By.res(...)} or {@code UiSelector.resourceId(...)}.
+     */
+    public static String getResourceId(@NonNull String shortIdName) {
+        return shortIdName.startsWith(APP_PACKAGE_NAME)
+                ? shortIdName
+                : APP_PACKAGE_NAME + ":id/" + shortIdName;
     }
 }

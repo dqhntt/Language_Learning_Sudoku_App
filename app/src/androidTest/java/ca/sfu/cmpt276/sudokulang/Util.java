@@ -67,6 +67,10 @@ class Util {
     public static class TestHelper {
         public static final UiDevice DEVICE = UiDevice.getInstance(getInstrumentation());
 
+        public static void longWaitForWindowUpdate() {
+            DEVICE.waitForWindowUpdate(APP_PACKAGE_NAME, LAUNCH_TIMEOUT);
+        }
+
         public static void putDeviceInLandscapeMode() throws RemoteException {
             DEVICE.setOrientationNatural();
             if (new Random().nextBoolean()) {
@@ -74,6 +78,7 @@ class Util {
             } else {
                 DEVICE.setOrientationLeft();
             }
+            longWaitForWindowUpdate();
         }
 
         public static void open(@NonNull UiObject spinner) throws UiObjectNotFoundException {
@@ -101,8 +106,9 @@ class Util {
 
         @NonNull
         private static UiObject scrollAndGetView(UiSelector selector) throws UiObjectNotFoundException {
-            new UiScrollable(new UiSelector().className(android.widget.ScrollView.class))
-                    .scrollIntoView(selector);
+            new UiScrollable(new UiSelector().classNameMatches("^(android\\.widget\\.)?"
+                    + "((Horizontal|Nested|)ScrollView|(List|Grid|Recycler)View)$")
+            ).scrollIntoView(selector);
             return DEVICE.findObject(selector);
         }
 
@@ -150,7 +156,7 @@ class Util {
             getUpdatedMenus().get(3).clickAndWait(Until.newWindow(), SELECTOR_TIMEOUT);
 
             // Press next.
-            scrollAndGetId("image_button_next").clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
+            scrollAndGetId("image_button_next").clickAndWaitForNewWindow();
         }
 
         public static void navigateToGameActivityFromHomePage2() throws UiObjectNotFoundException {
@@ -161,7 +167,7 @@ class Util {
             getUpdatedMenus().get(1).clickAndWait(Until.newWindow(), SELECTOR_TIMEOUT);
 
             // Press next.
-            scrollAndGetId("image_button_next").clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
+            scrollAndGetId("image_button_next").clickAndWaitForNewWindow();
         }
     }
 }

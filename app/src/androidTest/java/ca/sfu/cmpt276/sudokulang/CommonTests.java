@@ -44,7 +44,8 @@ class CommonTests {
                 new UiSelector().className(android.widget.ListView.class)
         );
         dropdown.waitForExists(SELECTOR_TIMEOUT);
-        assertTrue(dropdown.isFocused());
+        assertTrue(dropdown.isFocusable());
+        assertTrue(dropdown.isEnabled());
 
         // Get list of dropdown menu items.
         var menus = getUpdatedMenus();

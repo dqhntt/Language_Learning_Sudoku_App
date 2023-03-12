@@ -2,10 +2,12 @@ package ca.sfu.cmpt276.sudokulang;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -68,12 +70,14 @@ public class HomePage2 extends AppCompatActivity {
                 String langLevel = langSpinner.getSelectedItem().toString();
                 String sudokuLevel = sudokuSpinner.getSelectedItem().toString();
 
+
                 if (langLevel.contentEquals(langAdapter.getItem(0)) || sudokuLevel.contentEquals(sudokuAdapter.getItem(0))) {
                     Toast.makeText(HomePage2.this, "*Please select a valid input for all fields*", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Loading....", Toast.LENGTH_SHORT).show();
                     //gets the intent value from MainActivity and stores it
                     final var extras = HomePage2Args.fromBundle(getIntent().getExtras());
+
 
                     startActivity(GameActivity.newIntent(HomePage2.this,
                             new GameActivityArgs.Builder(
@@ -90,6 +94,15 @@ public class HomePage2 extends AppCompatActivity {
                 }
             }
         });
+
+        TextView textView = (TextView) findViewById(R.id.textView_lang_level);
+        Intent receiverLangIntent = getIntent();
+        String receivedValue = receiverLangIntent.getStringExtra("Lang_Key");
+        Typeface boldTypeface = Typeface.defaultFromStyle(Typeface.BOLD);
+
+        textView.setText(receivedValue);
+        textView.setTypeface(boldTypeface);
+
 
         binding.imageButtonFavourites.setOnClickListener(new View.OnClickListener() {
             @Override

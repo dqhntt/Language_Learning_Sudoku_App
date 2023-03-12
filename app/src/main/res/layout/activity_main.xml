@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="25dp"
-    android:layout_marginRight="25dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
     android:layout_marginBottom="5dp"
     android:fillViewport="true"
     tools:context="ca.sfu.cmpt276.sudokulang.MainActivity">
@@ -13,8 +13,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
         android:layout_marginBottom="5dp">
 
         <TextView

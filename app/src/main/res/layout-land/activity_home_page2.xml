@@ -26,11 +26,10 @@
             android:layout_marginTop="87dp"
             android:layout_marginEnd="3dp"
             android:padding="6dp"
-            android:text="@string/HomePage2_lang_lvl"
             android:textAlignment="center"
             android:textColor="?attr/colorOnSurfaceVariant"
             android:textSize="18sp"
-            tools:text="@string/lang_level" />
+             />
 
         <Spinner
             android:id="@+id/spinner_lang_level"

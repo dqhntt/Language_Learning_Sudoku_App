@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String size = gridSizeSpinner.getSelectedItem().toString();
                 String learningLang = learningLangSpinner.getSelectedItem().toString();
+
                 String nativeLang = nativeLangSpinner.getSelectedItem().toString();
                 if (size.contentEquals(gridSizeAdapter.getItem(0)) || learningLang.contentEquals(learningLangAdapter.getItem(0)) ||
                         nativeLang.contentEquals(nativeLangAdapter.getItem(0))) {
@@ -63,13 +64,19 @@ public class MainActivity extends AppCompatActivity {
                                     // TODO: Error checking for these two.
                                     nativeLangSpinner.getSelectedItem().toString(),
                                     learningLangSpinner.getSelectedItem().toString(),
+
                                     sizes.getFirst(),
                                     sizes.getSecond(),
                                     sizes.getThird()
-                            ).build())
+
+                            ).build()).putExtra("Lang_Key", "My level of " + learningLang + " is")
                     );
+
                 }
+
             }
+
+
         });
 
         binding.imageButtonFavourites.setOnClickListener(new View.OnClickListener() {

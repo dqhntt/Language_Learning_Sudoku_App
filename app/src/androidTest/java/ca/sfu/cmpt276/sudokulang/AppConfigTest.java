@@ -16,11 +16,11 @@ import org.junit.runner.RunWith;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class AppConfigInstrumentedTest {
+public class AppConfigTest {
     @Test
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("ca.sfu.cmpt276.sudokulang", appContext.getPackageName());
+        assertEquals(Util.APP_PACKAGE_NAME, appContext.getPackageName());
     }
 }

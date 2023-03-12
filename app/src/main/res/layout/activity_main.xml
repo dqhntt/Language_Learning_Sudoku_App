@@ -51,6 +51,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/textView_Learning_lang"
+        android:contentDescription="learning lang"
+        android:minHeight="48dp"
         android:layout_marginTop="10dp" />
 
     <TextView
@@ -64,12 +66,14 @@
         android:textColor="?attr/colorOnSurfaceVariant"
         android:textSize="15sp" />
 
-    <Spinner
-        android:id="@+id/spinner_native_lang"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textView_Native_lang"
-        android:layout_marginTop="10dp" />
+        <Spinner
+            android:id="@+id/spinner_native_lang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView_Native_lang"
+            android:contentDescription="native lang"
+            android:minHeight="48dp"
+            android:layout_marginTop="10dp" />
 
     <TextView
         android:id="@+id/textView_Grid_Sizes"
@@ -82,12 +86,14 @@
         android:textColor="?attr/colorOnSurfaceVariant"
         android:textSize="15sp" />
 
-    <Spinner
-        android:id="@+id/spinner_grid_size"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textView_Grid_Sizes"
-        android:layout_marginTop="10dp" />
+        <Spinner
+            android:id="@+id/spinner_grid_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textView_Grid_Sizes"
+            android:contentDescription="grid sizes "
+            android:minHeight="48dp"
+            android:layout_marginTop="10dp" />
 
     <ImageButton
         android:id="@+id/image_button_next"
@@ -100,6 +106,7 @@
         android:layout_marginBottom="-1dp"
         android:backgroundTint="@color/blue"
         android:scaleType="fitCenter"
+        android:contentDescription="next button"
         app:srcCompat="@drawable/ic_arrow_circle_right_outline_24dp" />
 
     <ImageButton
@@ -112,6 +119,7 @@
         android:layout_marginEnd="-8dp"
         android:backgroundTint="@color/blue"
         android:scaleType="fitCenter"
+        android:contentDescription="favourites button"
         app:srcCompat="@drawable/ic_star_outline_24dp" />
 
     <ImageButton
@@ -124,6 +132,7 @@
         android:layout_marginTop="2dp"
         android:backgroundTint="@color/blue"
         android:scaleType="fitCenter"
+        android:contentDescription="settings button"
         app:srcCompat="@drawable/ic_settings_outline_24dp" />
 
     <ImageButton
@@ -135,6 +144,7 @@
         android:layout_marginTop="0dp"
         android:backgroundTint="@color/blue"
         android:scaleType="fitCenter"
+        android:contentDescription="history button"
         app:srcCompat="@drawable/ic_history_24dp" />
 
     <ImageButton
@@ -147,6 +157,7 @@
         android:layout_marginBottom="1dp"
         android:backgroundTint="@color/blue"
         android:scaleType="fitCenter"
+        android:contentDescription="help button"
         app:srcCompat="@drawable/ic_help_outline_24dp" />
 
     <ImageButton
@@ -158,6 +169,7 @@
         android:layout_marginBottom="1dp"
         android:backgroundTint="@color/blue"
         android:scaleType="fitCenter"
+        android:contentDescription="tutorial button"
         app:srcCompat="@drawable/ic_play_circle_outline_24dp" />
 
     </RelativeLayout>

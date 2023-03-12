@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Sudoku Language Practice App</string>
-    <string name="welcome_text"><b>Welcome TO \n Sudoku Vocabulary \nPractice App</b></string>
+    <string name="welcome_text"><b>Welcome To \n Sudoku Vocabulary \nPractice App</b></string>
+    <string name="MainActivity_landscape_welcome_text"><b>Welcome To \n Sudoku Vocabulary Practice App</b></string>
     <string name="lang_level"><b>My level of \n (*** input language***) is </b></string>
     <string name="sudoku_level"><b>My level of \n Sudoku is </b></string>
     <string name="submit">Submit</string>
@@ -63,4 +64,5 @@
     <string name="notes">Notes</string>
 
     <string name="congratulations">Game completed. Well done!</string>
+    <string name="landscape_welcome_text">landscape_welcome_text</string>
 </resources>

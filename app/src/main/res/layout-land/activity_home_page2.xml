@@ -41,9 +41,9 @@
             android:layout_alignParentEnd="true"
             android:layout_marginStart="1dp"
             android:layout_marginTop="14dp"
+            android:layout_marginEnd="3dp"
             android:contentDescription="lang level"
-            android:minHeight="48dp"
-            android:layout_marginEnd="3dp" />
+            android:minHeight="48dp" />
 
         <TextView
             android:id="@+id/textView_Sudoku_Level"
@@ -70,11 +70,11 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_centerHorizontal="true"
-            android:contentDescription="sudoku level"
             android:layout_marginStart="2dp"
             android:layout_marginTop="23dp"
-            android:minHeight="48dp"
-            android:layout_marginEnd="1dp" />
+            android:layout_marginEnd="1dp"
+            android:contentDescription="sudoku level"
+            android:minHeight="48dp" />
 
         <ImageButton
             android:id="@+id/image_button_next"
@@ -86,8 +86,8 @@
             android:layout_marginEnd="-2dp"
             android:layout_marginBottom="-1dp"
             android:backgroundTint="@color/blue"
-            android:scaleType="fitCenter"
             android:contentDescription="next button"
+            android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_arrow_circle_right_outline_24dp" />
 
         <ImageButton
@@ -99,8 +99,8 @@
             android:layout_marginTop="-5dp"
             android:layout_marginEnd="-8dp"
             android:backgroundTint="@color/blue"
-            android:scaleType="fitCenter"
             android:contentDescription="favourites button"
+            android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_star_outline_24dp" />
 
         <ImageButton
@@ -112,8 +112,8 @@
             android:layout_marginStart="-1dp"
             android:layout_marginTop="2dp"
             android:backgroundTint="@color/blue"
-            android:scaleType="fitCenter"
             android:contentDescription="settings button"
+            android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_settings_outline_24dp" />
 
         <ImageButton
@@ -124,8 +124,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="0dp"
             android:backgroundTint="@color/blue"
-            android:scaleType="fitCenter"
             android:contentDescription="history button"
+            android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_history_24dp" />
 
         <ImageButton
@@ -137,8 +137,8 @@
             android:layout_marginStart="3dp"
             android:layout_marginBottom="1dp"
             android:backgroundTint="@color/blue"
-            android:scaleType="fitCenter"
             android:contentDescription="help button"
+            android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_help_outline_24dp" />
 
         <ImageButton
@@ -149,8 +149,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="1dp"
             android:backgroundTint="@color/blue"
-            android:scaleType="fitCenter"
             android:contentDescription="tutorial button"
+            android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_play_circle_outline_24dp" />
 
     </RelativeLayout>

@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // Set background color.
-        this.getWindow().getDecorView().setBackgroundResource(R.color.blue);
+        this.getWindow().getDecorView().setBackgroundResource(R.color.mint_green);
 
         //State spinner Initialization
         learningLangSpinner = binding.spinnerLearningLang;

@@ -37,7 +37,7 @@ public class HomePage2 extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // Set background color.
-        this.getWindow().getDecorView().setBackgroundResource(R.color.blue);
+        this.getWindow().getDecorView().setBackgroundResource(R.color.mint_green);
 
 
         //------------------------------------------SPINNER INITIALIZATION--------------------------------------------------------

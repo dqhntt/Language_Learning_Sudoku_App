@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="15dp"
-    android:layout_marginRight="15dp"
+    android:layout_marginLeft="25dp"
+    android:layout_marginRight="25dp"
     android:layout_marginBottom="5dp"
     android:fillViewport="true"
     tools:context="ca.sfu.cmpt276.sudokulang.MainActivity">
@@ -53,6 +53,7 @@
         android:layout_below="@id/textView_Learning_lang"
         android:contentDescription="learning lang"
         android:minHeight="48dp"
+        android:background="@color/yellow"
         android:layout_marginTop="10dp" />
 
     <TextView
@@ -72,6 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/textView_Native_lang"
             android:contentDescription="native lang"
+            android:background="@color/yellow"
             android:minHeight="48dp"
             android:layout_marginTop="10dp" />
 
@@ -92,6 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/textView_Grid_Sizes"
             android:contentDescription="grid sizes "
+            android:background="@color/yellow"
             android:minHeight="48dp"
             android:layout_marginTop="10dp" />
 
@@ -104,7 +107,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="-2dp"
         android:layout_marginBottom="-1dp"
-        android:backgroundTint="@color/blue"
+        android:backgroundTint="@color/mint_green"
         android:scaleType="fitCenter"
         android:contentDescription="next button"
         app:srcCompat="@drawable/ic_arrow_circle_right_outline_24dp" />
@@ -117,7 +120,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="-5dp"
         android:layout_marginEnd="-8dp"
-        android:backgroundTint="@color/blue"
+        android:backgroundTint="@color/mint_green"
         android:scaleType="fitCenter"
         android:contentDescription="favourites button"
         app:srcCompat="@drawable/ic_star_outline_24dp" />
@@ -130,7 +133,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="-1dp"
         android:layout_marginTop="2dp"
-        android:backgroundTint="@color/blue"
+        android:backgroundTint="@color/mint_green"
         android:scaleType="fitCenter"
         android:contentDescription="settings button"
         app:srcCompat="@drawable/ic_settings_outline_24dp" />
@@ -142,7 +145,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="0dp"
-        android:backgroundTint="@color/blue"
+        android:backgroundTint="@color/mint_green"
         android:scaleType="fitCenter"
         android:contentDescription="history button"
         app:srcCompat="@drawable/ic_history_24dp" />
@@ -155,7 +158,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="3dp"
         android:layout_marginBottom="1dp"
-        android:backgroundTint="@color/blue"
+        android:backgroundTint="@color/mint_green"
         android:scaleType="fitCenter"
         android:contentDescription="help button"
         app:srcCompat="@drawable/ic_help_outline_24dp" />
@@ -167,7 +170,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="1dp"
-        android:backgroundTint="@color/blue"
+        android:backgroundTint="@color/mint_green"
         android:scaleType="fitCenter"
         android:contentDescription="tutorial button"
         app:srcCompat="@drawable/ic_play_circle_outline_24dp" />

@@ -6,7 +6,8 @@
     <string name="sudoku_level"><b>My level of \n Sudoku is </b></string>
     <string name="submit">Submit</string>
     <string name="GridSize"><b>Choose Grid Size</b></string>
-
+    <string name="HomePage2_lang_lvl"><b>My Level of (*input*) is </b></string>
+    <string name="HomePage2_sudoku_lvl"><b>My Level of Sudoku is </b></string>
     <string name="I_want_to_learn"><b>I want to learn</b></string>
     <string name="I_already_know"><b>I already know</b></string>
 

@@ -67,12 +67,20 @@ class Util {
     public static class TestHelper {
         public static final UiDevice DEVICE = UiDevice.getInstance(getInstrumentation());
 
-        public static void longWaitForWindowUpdate() {
+        private static void longWaitForWindowUpdate() {
             DEVICE.waitForWindowUpdate(APP_PACKAGE_NAME, LAUNCH_TIMEOUT);
         }
 
+        public static void rotateDevice() throws RemoteException {
+            if (DEVICE.isNaturalOrientation()) {
+                putDeviceInLandscapeMode();
+            } else {
+                DEVICE.setOrientationNatural();
+            }
+            longWaitForWindowUpdate();
+        }
+
         public static void putDeviceInLandscapeMode() throws RemoteException {
-            DEVICE.setOrientationNatural();
             if (new Random().nextBoolean()) {
                 DEVICE.setOrientationRight();
             } else {
@@ -146,10 +154,16 @@ class Util {
             DEVICE.setOrientationNatural();
         }
 
-        public static void navigateToHomePage2FromMainActivity() throws UiObjectNotFoundException {
+        /**
+         * @return The selected text of learning lang spinner.
+         */
+        public static String navigateToHomePage2FromMainActivity() throws UiObjectNotFoundException {
             // Select one choice from each spinner.
             scrollAndGetId("spinner_learning_lang").clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
-            getUpdatedMenus().get(2).clickAndWait(Until.newWindow(), SELECTOR_TIMEOUT);
+            final var learningLangSelectedMenu = getUpdatedMenus().get(2);
+            final var learningLangSelectedText = learningLangSelectedMenu.getText();
+            learningLangSelectedMenu.clickAndWait(Until.newWindow(), SELECTOR_TIMEOUT);
+
             scrollAndGetId("spinner_native_lang").clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
             getUpdatedMenus().get(1).clickAndWait(Until.newWindow(), SELECTOR_TIMEOUT);
             scrollAndGetId("spinner_grid_size").clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
@@ -157,6 +171,7 @@ class Util {
 
             // Press next.
             scrollAndGetId("image_button_next").clickAndWaitForNewWindow();
+            return learningLangSelectedText;
         }
 
         public static void navigateToGameActivityFromHomePage2() throws UiObjectNotFoundException {

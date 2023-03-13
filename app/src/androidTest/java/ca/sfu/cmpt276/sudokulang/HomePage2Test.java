@@ -22,32 +22,33 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class HomePage2Test {
-    private static final String mAnchorId = "textView_lang_level";
+    private static final String anchorId = "textView_Sudoku_Level";
+    private static String learningLangSelectedText;
 
     @Before
     public void startHomePage2FromMainActivity() throws RemoteException, UiObjectNotFoundException {
         startAppInPortraitMode();
-        navigateToHomePage2FromMainActivity();
+        learningLangSelectedText = navigateToHomePage2FromMainActivity();
     }
 
     @Test
     public void testLangLevelSpinnerInPortrait() throws UiObjectNotFoundException, RemoteException {
-        CommonTests.testSpinner("spinner_lang_level", false, mAnchorId);
+        CommonTests.testSpinner("spinner_lang_level", false, anchorId);
     }
 
     @Test
     public void testLangLevelSpinnerInLandscape() throws UiObjectNotFoundException, RemoteException {
-        CommonTests.testSpinner("spinner_lang_level", true, mAnchorId);
+        CommonTests.testSpinner("spinner_lang_level", true, anchorId);
     }
 
     @Test
     public void testSudokuLevelSpinnerInPortrait() throws UiObjectNotFoundException, RemoteException {
-        CommonTests.testSpinner("spinner_sudoku_level", false, mAnchorId);
+        CommonTests.testSpinner("spinner_sudoku_level", false, anchorId);
     }
 
     @Test
     public void testSudokuLevelSpinnerInLandscape() throws UiObjectNotFoundException, RemoteException {
-        CommonTests.testSpinner("spinner_sudoku_level", true, mAnchorId);
+        CommonTests.testSpinner("spinner_sudoku_level", true, anchorId);
     }
 
     @Test
@@ -55,11 +56,16 @@ public class HomePage2Test {
         navigateToGameActivityFromHomePage2();
 
         // Assert can move forward.
-        assertFalse(DEVICE.hasObject(By.res(getResourceId(mAnchorId))));
+        assertFalse(DEVICE.hasObject(By.res(getResourceId(anchorId))));
 
         // Assert can get back.
         DEVICE.pressBack();
-        assertTrue(DEVICE.hasObject(By.res(getResourceId(mAnchorId))));
+        assertTrue(DEVICE.hasObject(By.res(getResourceId(anchorId))));
+
+        // Assert text is still there.
+        assertTrue(DEVICE.findObject(By.res(getResourceId("textView_lang_level")))
+                .getText()
+                .contains(learningLangSelectedText));
     }
 
     @Test
@@ -68,10 +74,15 @@ public class HomePage2Test {
         navigateToGameActivityFromHomePage2();
 
         // Assert can move forward.
-        assertFalse(scrollAndGetId(mAnchorId).exists());
+        assertFalse(scrollAndGetId(anchorId).exists());
 
         // Assert can get back.
         DEVICE.pressBack();
-        assertTrue(scrollAndGetId(mAnchorId).exists());
+        assertTrue(scrollAndGetId(anchorId).exists());
+
+        // Assert text is still there.
+        assertTrue(scrollAndGetId(getResourceId("textView_lang_level"))
+                .getText()
+                .contains(learningLangSelectedText));
     }
 }

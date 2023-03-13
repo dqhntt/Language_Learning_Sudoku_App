@@ -10,6 +10,7 @@ import static ca.sfu.cmpt276.sudokulang.Util.TestHelper.getSpinnerText;
 import static ca.sfu.cmpt276.sudokulang.Util.TestHelper.getUpdatedMenus;
 import static ca.sfu.cmpt276.sudokulang.Util.TestHelper.open;
 import static ca.sfu.cmpt276.sudokulang.Util.TestHelper.putDeviceInLandscapeMode;
+import static ca.sfu.cmpt276.sudokulang.Util.TestHelper.rotateDevice;
 import static ca.sfu.cmpt276.sudokulang.Util.TestHelper.scrollAndGetId;
 import static ca.sfu.cmpt276.sudokulang.Util.TestHelper.selectMenuItem;
 
@@ -76,5 +77,9 @@ class CommonTests {
         // Close spinner.
         clickOutside();
         assertEquals(selectedText, getSpinnerText(spinner));
+
+        // Rotate and assert text is still there.
+        rotateDevice();
+        assertEquals(selectedText, getSpinnerText(scrollAndGetId(spinnerResId)));
     }
 }

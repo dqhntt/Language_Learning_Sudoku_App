@@ -33,14 +33,14 @@ public class SudokuBoard extends ConstraintLayout {
 
     /**
      * Set the size of the Sudoku board and of its sub-grids.
-     * Example: For a typical 9x9 board with 3x3 sub-grids, do: createEmptyBoard(9,3,3)
+     * Example: For a typical 9x9 board with 3x3 sub-grids, do: {@code createEmptyBoard(9,3,3)}
      *
      * @param boardSize     Number of cells in each column or row.
      * @param subgridHeight Number of cells in each sub-grid's column.
      *                      Equals {@code boardSize} if no sub-grid.
      * @param subgridWidth  Number of cells in each sub-grid's row.
      *                      Equals {@code boardSize} if no sub-grid.
-     * @implNote This function creates new cells, thus clearing all OnClickListeners present.
+     * @implNote This function creates new cells, thus clearing all {@link View#OnClickListener} present.
      */
     private void createEmptyBoard(int boardSize, int subgridHeight, int subgridWidth) {
         // Ensure sub-grids are equally divided.

@@ -29,7 +29,7 @@ public class GameActivity extends AppCompatActivity {
     private ActivityGameBinding binding;
 
     /**
-     * Create a new intent with the required arguments for {@code GameActivity}.
+     * Create a new intent with the required arguments for {@link GameActivity}.
      *
      * @param packageContext Context of the calling activity.
      * @param args           NavArgs built with: {@code new GameActivityArgs.Builder(...).build()}

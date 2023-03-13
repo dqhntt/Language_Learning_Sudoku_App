@@ -22,7 +22,7 @@ public class GameViewModel extends ViewModel {
 
     /**
      * @implNote Board dimension when default constructed is undefined. <p>
-     * Use {@code generateNewBoard()} to set a desired dimension.
+     * Use {@link #generateNewBoard(int, int, int)} to set a desired dimension.
      */
     public GameViewModel() {
         mBoardUiState = new MutableLiveData<>();

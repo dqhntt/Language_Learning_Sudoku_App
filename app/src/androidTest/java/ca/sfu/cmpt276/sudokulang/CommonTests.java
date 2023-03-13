@@ -19,6 +19,8 @@ import android.os.RemoteException;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
+import java.util.Random;
+
 class CommonTests {
     private static void clickOutside() {
         DEVICE.click(0, 0);
@@ -60,8 +62,8 @@ class CommonTests {
             }
         }
 
-        // Select first choice.
-        final int selectedIndex = 1;
+        // Select one choice.
+        final int selectedIndex = new Random().nextInt(menus.size() - 1) + 1;
         final String selectedText = menus.get(selectedIndex).getText();
         selectMenuItem(menus.get(selectedIndex));
 

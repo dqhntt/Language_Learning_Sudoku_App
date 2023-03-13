@@ -112,6 +112,18 @@ class Util {
             item.clickAndWait(Until.newWindow(), SELECTOR_TIMEOUT);
         }
 
+        /**
+         * @return Text of the selected menu item.
+         */
+        private static String selectRandomMenuItem() {
+            final var menus = getUpdatedMenus();
+            final int index = new Random().nextInt(menus.size() - 1) + 1;
+            final var selectedMenu = menus.get(index);
+            final var selectedText = selectedMenu.getText();
+            selectMenuItem(selectedMenu);
+            return selectedText;
+        }
+
         @NonNull
         private static UiObject scrollAndGetView(UiSelector selector) throws UiObjectNotFoundException {
             new UiScrollable(new UiSelector().classNameMatches("^(android\\.widget\\.)?"
@@ -160,14 +172,11 @@ class Util {
         public static String navigateToHomePage2FromMainActivity() throws UiObjectNotFoundException {
             // Select one choice from each spinner.
             scrollAndGetId("spinner_learning_lang").clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
-            final var learningLangSelectedMenu = getUpdatedMenus().get(2);
-            final var learningLangSelectedText = learningLangSelectedMenu.getText();
-            learningLangSelectedMenu.clickAndWait(Until.newWindow(), SELECTOR_TIMEOUT);
-
+            final var learningLangSelectedText = selectRandomMenuItem();
             scrollAndGetId("spinner_native_lang").clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
-            getUpdatedMenus().get(1).clickAndWait(Until.newWindow(), SELECTOR_TIMEOUT);
+            selectRandomMenuItem();
             scrollAndGetId("spinner_grid_size").clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
-            getUpdatedMenus().get(3).clickAndWait(Until.newWindow(), SELECTOR_TIMEOUT);
+            selectRandomMenuItem();
 
             // Press next.
             scrollAndGetId("image_button_next").clickAndWaitForNewWindow();
@@ -177,9 +186,9 @@ class Util {
         public static void navigateToGameActivityFromHomePage2() throws UiObjectNotFoundException {
             // Select one choice from each spinner.
             scrollAndGetId("spinner_lang_level").clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
-            getUpdatedMenus().get(2).clickAndWait(Until.newWindow(), SELECTOR_TIMEOUT);
+            selectRandomMenuItem();
             scrollAndGetId("spinner_sudoku_level").clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
-            getUpdatedMenus().get(1).clickAndWait(Until.newWindow(), SELECTOR_TIMEOUT);
+            selectRandomMenuItem();
 
             // Press next.
             scrollAndGetId("image_button_next").clickAndWaitForNewWindow();

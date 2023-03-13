@@ -1,4 +1,4 @@
-package ca.sfu.cmpt276.sudokulang;
+package ca.sfu.cmpt276.sudokulang.common;
 
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
@@ -26,7 +26,7 @@ import androidx.test.uiautomator.Until;
 import java.util.List;
 import java.util.Random;
 
-class Util {
+public class Util {
     public static final String APP_PACKAGE_NAME = "ca.sfu.cmpt276.sudokulang";
     public static final int SELECTOR_TIMEOUT = 500;
     private static final int LAUNCH_TIMEOUT = 5000;

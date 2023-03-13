@@ -2,13 +2,13 @@ package ca.sfu.cmpt276.sudokulang;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static ca.sfu.cmpt276.sudokulang.Util.TestHelper.DEVICE;
-import static ca.sfu.cmpt276.sudokulang.Util.TestHelper.navigateToGameActivityFromHomePage2;
-import static ca.sfu.cmpt276.sudokulang.Util.TestHelper.navigateToHomePage2FromMainActivity;
-import static ca.sfu.cmpt276.sudokulang.Util.TestHelper.putDeviceInLandscapeMode;
-import static ca.sfu.cmpt276.sudokulang.Util.TestHelper.scrollAndGetId;
-import static ca.sfu.cmpt276.sudokulang.Util.TestHelper.startAppInPortraitMode;
-import static ca.sfu.cmpt276.sudokulang.Util.getResourceId;
+import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.DEVICE;
+import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.navigateToGameActivityFromHomePage2;
+import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.navigateToHomePage2FromMainActivity;
+import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.putDeviceInLandscapeMode;
+import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.scrollAndGetId;
+import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.startAppInPortraitMode;
+import static ca.sfu.cmpt276.sudokulang.common.Util.getResourceId;
 
 import android.os.RemoteException;
 
@@ -19,6 +19,8 @@ import androidx.test.uiautomator.UiObjectNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import ca.sfu.cmpt276.sudokulang.common.CommonTests;
 
 @RunWith(AndroidJUnit4.class)
 public class HomePage2Test {

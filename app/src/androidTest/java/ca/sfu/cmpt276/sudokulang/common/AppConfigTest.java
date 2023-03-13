@@ -1,4 +1,4 @@
-package ca.sfu.cmpt276.sudokulang;
+package ca.sfu.cmpt276.sudokulang.common;
 
 import static org.junit.Assert.assertEquals;
 

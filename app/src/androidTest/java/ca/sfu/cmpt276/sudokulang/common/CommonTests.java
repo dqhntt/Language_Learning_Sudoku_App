@@ -1,18 +1,18 @@
-package ca.sfu.cmpt276.sudokulang;
+package ca.sfu.cmpt276.sudokulang.common;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static ca.sfu.cmpt276.sudokulang.Util.APP_PACKAGE_NAME;
-import static ca.sfu.cmpt276.sudokulang.Util.SELECTOR_TIMEOUT;
-import static ca.sfu.cmpt276.sudokulang.Util.TestHelper.DEVICE;
-import static ca.sfu.cmpt276.sudokulang.Util.TestHelper.getSpinnerText;
-import static ca.sfu.cmpt276.sudokulang.Util.TestHelper.getUpdatedMenus;
-import static ca.sfu.cmpt276.sudokulang.Util.TestHelper.open;
-import static ca.sfu.cmpt276.sudokulang.Util.TestHelper.putDeviceInLandscapeMode;
-import static ca.sfu.cmpt276.sudokulang.Util.TestHelper.rotateDevice;
-import static ca.sfu.cmpt276.sudokulang.Util.TestHelper.scrollAndGetId;
-import static ca.sfu.cmpt276.sudokulang.Util.TestHelper.selectMenuItem;
+import static ca.sfu.cmpt276.sudokulang.common.Util.APP_PACKAGE_NAME;
+import static ca.sfu.cmpt276.sudokulang.common.Util.SELECTOR_TIMEOUT;
+import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.DEVICE;
+import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.getSpinnerText;
+import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.getUpdatedMenus;
+import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.open;
+import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.putDeviceInLandscapeMode;
+import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.rotateDevice;
+import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.scrollAndGetId;
+import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.selectMenuItem;
 
 import android.os.RemoteException;
 
@@ -21,7 +21,10 @@ import androidx.test.uiautomator.UiSelector;
 
 import java.util.Random;
 
-class CommonTests {
+import ca.sfu.cmpt276.sudokulang.HomePage2Test;
+import ca.sfu.cmpt276.sudokulang.MainActivityTest;
+
+public class CommonTests {
     private static void clickOutside() {
         DEVICE.click(0, 0);
         DEVICE.waitForWindowUpdate(APP_PACKAGE_NAME, SELECTOR_TIMEOUT);

@@ -113,7 +113,6 @@ public class Util {
         public static void open(@NonNull UiObject spinner) throws UiObjectNotFoundException {
             if (spinner.exists()) {
                 spinner.clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
-                pause(SELECTOR_TIMEOUT);
             } else {
                 throw new UiObjectNotFoundException("Cannot open nonexistent spinner");
             }
@@ -215,6 +214,9 @@ public class Util {
             return scrollAndGetView(new UiSelector().resourceId(getResourceId(id)));
         }
 
+        /**
+         * @see UiDevice#findObject(UiSelector)
+         */
         @NonNull
         private static UiObject getIdNoScroll(String id) {
             return DEVICE.findObject(new UiSelector().resourceId(getResourceId(id)));
@@ -261,6 +263,9 @@ public class Util {
             // Start from the home screen
             DEVICE.pressHome();
 
+            // Put device in portrait mode.
+            DEVICE.setOrientationNatural();
+
             // Wait for launcher
             final String launcherPackage = Util.getLauncherPackageName();
             assertNotNull(launcherPackage);
@@ -275,9 +280,6 @@ public class Util {
             // Wait for the app to appear
             DEVICE.wait(Until.hasObject(By.pkg(APP_PACKAGE_NAME).depth(0)), Util.LAUNCH_TIMEOUT);
             assertEquals(APP_PACKAGE_NAME, DEVICE.getCurrentPackageName());
-
-            // Put device in portrait mode.
-            DEVICE.setOrientationNatural();
         }
 
         /**

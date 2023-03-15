@@ -50,33 +50,28 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String size = gridSizeSpinner.getSelectedItem().toString();
                 String learningLang = learningLangSpinner.getSelectedItem().toString();
-
                 String nativeLang = nativeLangSpinner.getSelectedItem().toString();
-                if (size.contentEquals(gridSizeAdapter.getItem(0)) || learningLang.contentEquals(learningLangAdapter.getItem(0)) ||
-                        nativeLang.contentEquals(nativeLangAdapter.getItem(0))) {
-                    Toast.makeText(MainActivity.this, "*Please select a valid input for all fields*", Toast.LENGTH_LONG).show();
+                if (size.contentEquals(gridSizeAdapter.getItem(0))
+                        || learningLang.contentEquals(learningLangAdapter.getItem(0))
+                        || nativeLang.contentEquals(nativeLangAdapter.getItem(0))) {
+                    Toast.makeText(
+                            MainActivity.this,
+                            "*Please select a valid input for all fields*",
+                            Toast.LENGTH_LONG
+                    ).show();
                 } else {
                     //used to send data
-
                     final var sizes = getGridSize();
                     startActivity(HomePage2.newIntent(MainActivity.this,
                             new HomePage2Args.Builder(
-                                    // TODO: Error checking for these two.
-                                    nativeLangSpinner.getSelectedItem().toString(),
-                                    learningLangSpinner.getSelectedItem().toString(),
-
+                                    nativeLang,
+                                    learningLang,
                                     sizes.getFirst(),
                                     sizes.getSecond(),
                                     sizes.getThird()
-
-                            ).build()).putExtra("Lang_Key", "My level of " + learningLang + " is")
-                    );
-
+                            ).build()));
                 }
-
             }
-
-
         });
 
         binding.imageButtonFavourites.setOnClickListener(new View.OnClickListener() {

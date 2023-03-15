@@ -65,27 +65,22 @@ public class HomePage2 extends AppCompatActivity {
         binding.imageButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 String langLevel = langSpinner.getSelectedItem().toString();
                 String sudokuLevel = sudokuSpinner.getSelectedItem().toString();
 
-
-                if (langLevel.contentEquals(langAdapter.getItem(0)) || sudokuLevel.contentEquals(sudokuAdapter.getItem(0))) {
+                if (langLevel.contentEquals(langAdapter.getItem(0))
+                        || sudokuLevel.contentEquals(sudokuAdapter.getItem(0))) {
                     Toast.makeText(HomePage2.this, "*Please select a valid input for all fields*", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Loading....", Toast.LENGTH_SHORT).show();
                     //gets the intent value from MainActivity and stores it
                     final var extras = HomePage2Args.fromBundle(getIntent().getExtras());
-
-
                     startActivity(GameActivity.newIntent(HomePage2.this,
                             new GameActivityArgs.Builder(
                                     extras.getNativeLang(),
                                     extras.getLearningLang(),
-                                    // TODO: Error checking for these two.
-                                    langSpinner.getSelectedItem().toString(),
-                                    sudokuSpinner.getSelectedItem().toString(),
+                                    langLevel,
+                                    sudokuLevel,
                                     extras.getBoardSize(),
                                     extras.getSubgridHeight(),
                                     extras.getSubgridWidth()
@@ -95,14 +90,15 @@ public class HomePage2 extends AppCompatActivity {
             }
         });
 
-        TextView textView = (TextView) findViewById(R.id.textView_lang_level);
-        Intent receiverLangIntent = getIntent();
-        String receivedValue = receiverLangIntent.getStringExtra("Lang_Key");
+        TextView textView = binding.textViewLangLevel;
+        String learningLang = getString(R.string.lang_level).replace(
+                "(*input*)",
+                HomePage2Args.fromBundle(getIntent().getExtras()).getLearningLang()
+        );
         Typeface boldTypeface = Typeface.defaultFromStyle(Typeface.BOLD);
 
-        textView.setText(receivedValue);
+        textView.setText(learningLang);
         textView.setTypeface(boldTypeface);
-
 
         binding.imageButtonFavourites.setOnClickListener(new View.OnClickListener() {
             @Override

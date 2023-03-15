@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.RemoteException;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -77,12 +78,11 @@ public class Util {
          * @see #wait(long)
          */
         public static void pause(long timeout) {
-            synchronized (DEVICE) {
-                try {
-                    DEVICE.wait(timeout);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            try {
+                Thread.sleep(timeout);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                Log.e(APP_PACKAGE_NAME, e.getMessage(), e.getCause());
             }
         }
 
@@ -113,7 +113,7 @@ public class Util {
         public static void open(@NonNull UiObject spinner) throws UiObjectNotFoundException {
             if (spinner.exists()) {
                 spinner.clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
-                pause(SELECTOR_TIMEOUT);
+                pause(CLICK_TIMEOUT);
             } else {
                 throw new UiObjectNotFoundException("Cannot open nonexistent spinner");
             }
@@ -163,7 +163,7 @@ public class Util {
         public static UiObject2 bringGameBoardIntoView() throws UiObjectNotFoundException {
             if (DEVICE.isNaturalOrientation()) {
                 searchForId("game_board");
-                getId2NoScroll("game_board").fling(Direction.DOWN);
+                getId2NoScroll("game_board").scroll(Direction.UP, 300);
             }
             return getId2NoScroll("game_board");
         }

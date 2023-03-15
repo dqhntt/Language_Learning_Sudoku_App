@@ -11,6 +11,8 @@ import static ca.sfu.cmpt276.sudokulang.common.Util.SELECTOR_TIMEOUT;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.DEVICE;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.bringGameBoardIntoView;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.bringWordButtonsIntoView;
+import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.clickRandomWordButton;
+import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.getId2NoScroll;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.getNonemptyVisibleCellCount;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.getSpinnerText;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.getUpdatedMenus;
@@ -142,38 +144,31 @@ public class CommonTests {
     public static void testKeypadBoardEraseViewCombined(int boardSize) throws UiObjectNotFoundException {
         for (int i = 0; i < boardSize * boardSize; i++) {
 
-            // Select any cell.
+            // Select each cell.
             final var cell = getVisibleCells(bringGameBoardIntoView()).get(i);
             final var initialCellText = cell.getText();
             final var initialNonemptyCellCount = getNonemptyVisibleCellCount(bringGameBoardIntoView());
             cell.click();
-            for (int j = 0; j < boardSize; j++) {
 
-                // Click a word button.
-                final var button = bringWordButtonsIntoView().getChildren().get(j);
-                final var buttonText = button.getText();
-                button.click();
-                pause(CLICK_TIMEOUT);
+            final var buttonText = clickRandomWordButton(boardSize);
+            assertEquals(buttonText, searchForId("quick_cell_view").getText());
 
-                // Assert clicking that button sets text in the cell view
-                // and in the selected cell if it's initially not empty.
-                assertEquals(buttonText, searchForId("quick_cell_view").getText());
-                final var board = bringGameBoardIntoView();
-                final var cellText = getVisibleCells(board).get(i).getText();
-                if (initialCellText == null || initialCellText.isBlank()) {
-                    assertEquals(buttonText, cellText);
-                    assertEquals(initialNonemptyCellCount + 1, getNonemptyVisibleCellCount(board));
-                } else {
-                    assertEquals(initialCellText, cellText);
-                    assertEquals(initialNonemptyCellCount, getNonemptyVisibleCellCount(board));
-                }
+            // Assert clicking that button sets text in the selected cell if it's initially not empty.
+            var board = bringGameBoardIntoView();
+            final var cellText = getVisibleCells(board).get(i).getText();
+            if (initialCellText == null) {
+                assertEquals(buttonText, cellText);
+                assertEquals(initialNonemptyCellCount + 1, getNonemptyVisibleCellCount(board));
+            } else {
+                assertEquals(initialCellText, cellText);
+                assertEquals(initialNonemptyCellCount, getNonemptyVisibleCellCount(board));
             }
 
             // Assert clicking erase button clears quick cell view and the selected cell.
             searchForId("erase_button").click();
             pause(CLICK_TIMEOUT);
             assertEquals(initialCellText != null, searchForId("quick_cell_view").exists());
-            final var board = bringGameBoardIntoView();
+            board = bringGameBoardIntoView();
             assertEquals(initialCellText, getVisibleCells(board).get(i).getText());
             assertEquals(initialNonemptyCellCount, getNonemptyVisibleCellCount(board));
         }
@@ -189,7 +184,7 @@ public class CommonTests {
         var initialCellText = cell.getText();
 
         // Search for a fillable cell and click it.
-        while (initialCellText != null && !initialCellText.isBlank()) {
+        while (initialCellText != null) {
             cellIndex = new Random().nextInt(boardSize * boardSize);
             cell = getVisibleCells(board).get(cellIndex);
             initialCellText = cell.getText();
@@ -211,6 +206,7 @@ public class CommonTests {
         board = bringGameBoardIntoView();
         cell = getVisibleCells(board).get(cellIndex);
         assertEquals(buttonText, cell.getText());
+        assertEquals(buttonText, getId2NoScroll("quick_cell_view").getText());
         assertEquals(initialNonemptyCellCount + 1, getNonemptyVisibleCellCount(board));
     }
 }

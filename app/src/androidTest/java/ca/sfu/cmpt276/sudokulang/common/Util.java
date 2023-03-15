@@ -95,8 +95,8 @@ public class Util {
                 putDeviceInLandscapeMode();
             } else {
                 DEVICE.setOrientationNatural();
+                pause(CLICK_TIMEOUT);
                 longWaitForWindowUpdate();
-                pause(SELECTOR_TIMEOUT);
             }
         }
 
@@ -106,14 +106,14 @@ public class Util {
             } else {
                 DEVICE.setOrientationLeft();
             }
+            pause(CLICK_TIMEOUT);
             longWaitForWindowUpdate();
-            pause(SELECTOR_TIMEOUT);
         }
 
         public static void open(@NonNull UiObject spinner) throws UiObjectNotFoundException {
             if (spinner.exists()) {
                 spinner.clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
-                pause(CLICK_TIMEOUT);
+                pause(SELECTOR_TIMEOUT);
             } else {
                 throw new UiObjectNotFoundException("Cannot open nonexistent spinner");
             }
@@ -145,6 +145,17 @@ public class Util {
             final var selectedText = selectedMenu.getText();
             selectMenuItem(selectedMenu);
             return selectedText;
+        }
+
+        /**
+         * @return Text of the clicked word button.
+         */
+        public static String clickRandomWordButton(int numButtons) throws UiObjectNotFoundException {
+            final int index = new Random().nextInt(numButtons);
+            final var button = bringWordButtonsIntoView().getChildren().get(index);
+            button.click();
+            pause(CLICK_TIMEOUT);
+            return button.getText();
         }
 
         /**

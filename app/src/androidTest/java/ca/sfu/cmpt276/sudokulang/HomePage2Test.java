@@ -3,10 +3,11 @@ package ca.sfu.cmpt276.sudokulang;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.DEVICE;
+import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.getId2NoScroll;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.navigateToGameActivityFromHomePage2;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.navigateToHomePage2FromMainActivity;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.putDeviceInLandscapeMode;
-import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.scrollAndGetId;
+import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.searchForId;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.startAppInPortraitMode;
 import static ca.sfu.cmpt276.sudokulang.common.Util.getResourceId;
 
@@ -28,29 +29,31 @@ public class HomePage2Test {
     private static String learningLangSelectedText;
 
     @Before
-    public void startHomePage2FromMainActivity() throws RemoteException, UiObjectNotFoundException {
+    public void startHomePage2FromHomeScreen() throws RemoteException, UiObjectNotFoundException {
         startAppInPortraitMode();
-        learningLangSelectedText = navigateToHomePage2FromMainActivity();
+        learningLangSelectedText = navigateToHomePage2FromMainActivity().first;
     }
 
     @Test
     public void testLangLevelSpinnerInPortrait() throws UiObjectNotFoundException, RemoteException {
-        CommonTests.testSpinner("spinner_lang_level", false, anchorId);
+        CommonTests.testSpinner("spinner_lang_level", anchorId);
     }
 
     @Test
     public void testLangLevelSpinnerInLandscape() throws UiObjectNotFoundException, RemoteException {
-        CommonTests.testSpinner("spinner_lang_level", true, anchorId);
+        putDeviceInLandscapeMode();
+        CommonTests.testSpinner("spinner_lang_level", anchorId);
     }
 
     @Test
     public void testSudokuLevelSpinnerInPortrait() throws UiObjectNotFoundException, RemoteException {
-        CommonTests.testSpinner("spinner_sudoku_level", false, anchorId);
+        CommonTests.testSpinner("spinner_sudoku_level", anchorId);
     }
 
     @Test
     public void testSudokuLevelSpinnerInLandscape() throws UiObjectNotFoundException, RemoteException {
-        CommonTests.testSpinner("spinner_sudoku_level", true, anchorId);
+        putDeviceInLandscapeMode();
+        CommonTests.testSpinner("spinner_sudoku_level", anchorId);
     }
 
     @Test
@@ -65,7 +68,7 @@ public class HomePage2Test {
         assertTrue(DEVICE.hasObject(By.res(getResourceId(anchorId))));
 
         // Assert text is still there.
-        assertTrue(DEVICE.findObject(By.res(getResourceId("textView_lang_level")))
+        assertTrue(getId2NoScroll("textView_lang_level")
                 .getText()
                 .contains(learningLangSelectedText));
     }
@@ -76,14 +79,14 @@ public class HomePage2Test {
         navigateToGameActivityFromHomePage2();
 
         // Assert can move forward.
-        assertFalse(scrollAndGetId(anchorId).exists());
+        assertFalse(searchForId(anchorId).exists());
 
         // Assert can get back.
         DEVICE.pressBack();
-        assertTrue(scrollAndGetId(anchorId).exists());
+        assertTrue(searchForId(anchorId).exists());
 
         // Assert text is still there.
-        assertTrue(scrollAndGetId(getResourceId("textView_lang_level"))
+        assertTrue(searchForId("textView_lang_level")
                 .getText()
                 .contains(learningLangSelectedText));
     }

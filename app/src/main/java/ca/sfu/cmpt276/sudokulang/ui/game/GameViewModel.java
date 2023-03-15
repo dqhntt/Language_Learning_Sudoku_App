@@ -292,7 +292,6 @@ public class GameViewModel extends ViewModel {
         }
         // 4x4
         else if (boardSize == 4 && subgridHeight == 4 && subgridWidth == 4) {
-            // TODO
             cells[0][3] = new CellUiState(pairs[0].second, true, false);
             cells[2][1] = new CellUiState(pairs[0].second, true, false);
 
@@ -306,7 +305,6 @@ public class GameViewModel extends ViewModel {
         }
         // 6x6
         else if (boardSize == 6 && subgridHeight == 2 && subgridWidth == 3) {
-            //TODO
             cells[0][3] = new CellUiState(pairs[0].second, true, false);
             cells[2][4] = new CellUiState(pairs[0].second, true, false);
 
@@ -327,7 +325,6 @@ public class GameViewModel extends ViewModel {
         }
         // 12x12
         else if (boardSize == 12 && subgridHeight == 3 && subgridWidth == 4) {
-            //TODO
             cells[0][0] = new CellUiState(pairs[0].second, true, false);
             cells[2][4] = new CellUiState(pairs[0].second, true, false);
             cells[3][11] = new CellUiState(pairs[0].second, true, false);

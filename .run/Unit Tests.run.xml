@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration name="Unit Tests" default="false" factoryName="JUnit" show_console_on_std_err="true"
+        show_console_on_std_out="true" type="JUnit">
+        <module name="Sudoku_Language_Practice_App.app.unitTest" />
+        <extension name="coverage" sample_coverage="false" track_test_folders="true" />
+        <option name="PACKAGE_NAME" value="" />
+        <option name="MAIN_CLASS_NAME" value="" />
+        <option name="METHOD_NAME" value="" />
+        <option name="TEST_OBJECT" value="package" />
+        <option name="TEST_SEARCH_SCOPE">
+            <value defaultName="moduleWithDependencies" />
+        </option>
+        <method v="2">
+            <option name="Make" enabled="true" />
+        </method>
+    </configuration>
+</component>

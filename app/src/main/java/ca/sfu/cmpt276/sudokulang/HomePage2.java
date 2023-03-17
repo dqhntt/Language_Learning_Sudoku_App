@@ -37,7 +37,7 @@ public class HomePage2 extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // Set background color.
-        this.getWindow().getDecorView().setBackgroundResource(R.color.blue);
+        this.getWindow().getDecorView().setBackgroundResource(R.color.mint_green);
 
 
         //------------------------------------------SPINNER INITIALIZATION--------------------------------------------------------
@@ -63,25 +63,35 @@ public class HomePage2 extends AppCompatActivity {
         binding.imageButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Loading....", Toast.LENGTH_SHORT).show();
+                String langLevel = langSpinner.getSelectedItem().toString();
+                String sudokuLevel = sudokuSpinner.getSelectedItem().toString();
 
-                //gets the intent value from MainActivity and stores it
-                final var extras = HomePage2Args.fromBundle(getIntent().getExtras());
-
-                startActivity(GameActivity.newIntent(HomePage2.this,
-                        new GameActivityArgs.Builder(
-                                extras.getNativeLang(),
-                                extras.getLearningLang(),
-                                // TODO: Error checking for these two.
-                                langSpinner.getSelectedItem().toString(),
-                                sudokuSpinner.getSelectedItem().toString(),
-                                extras.getBoardSize(),
-                                extras.getSubgridHeight(),
-                                extras.getSubgridWidth()
-                        ).build())
-                );
+                if (langLevel.contentEquals(langAdapter.getItem(0))
+                        || sudokuLevel.contentEquals(sudokuAdapter.getItem(0))) {
+                    Toast.makeText(HomePage2.this, "*Please select a valid input for all fields*", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Loading....", Toast.LENGTH_SHORT).show();
+                    //gets the intent value from MainActivity and stores it
+                    final var extras = HomePage2Args.fromBundle(getIntent().getExtras());
+                    startActivity(GameActivity.newIntent(HomePage2.this,
+                            new GameActivityArgs.Builder(
+                                    extras.getNativeLang(),
+                                    extras.getLearningLang(),
+                                    langLevel,
+                                    sudokuLevel,
+                                    extras.getBoardSize(),
+                                    extras.getSubgridHeight(),
+                                    extras.getSubgridWidth()
+                            ).build())
+                    );
+                }
             }
         });
+
+        binding.textViewLangLevel.setText(getString(R.string.lang_level).replace(
+                "(*input*)",
+                HomePage2Args.fromBundle(getIntent().getExtras()).getLearningLang()
+        ));
 
         binding.imageButtonFavourites.setOnClickListener(new View.OnClickListener() {
             @Override

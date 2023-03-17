@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // Set background color.
-        this.getWindow().getDecorView().setBackgroundResource(R.color.blue);
+        this.getWindow().getDecorView().setBackgroundResource(R.color.mint_green);
 
         //State spinner Initialization
         learningLangSpinner = binding.spinnerLearningLang;
@@ -49,21 +49,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String size = gridSizeSpinner.getSelectedItem().toString();
-                if (size.contentEquals(gridSizeAdapter.getItem(0))) {
-                    Toast.makeText(MainActivity.this, "*Please select a valid grid size*", Toast.LENGTH_SHORT).show();
+                String learningLang = learningLangSpinner.getSelectedItem().toString();
+                String nativeLang = nativeLangSpinner.getSelectedItem().toString();
+                if (size.contentEquals(gridSizeAdapter.getItem(0))
+                        || learningLang.contentEquals(learningLangAdapter.getItem(0))
+                        || nativeLang.contentEquals(nativeLangAdapter.getItem(0))) {
+                    Toast.makeText(
+                            MainActivity.this,
+                            "*Please select a valid input for all fields*",
+                            Toast.LENGTH_LONG
+                    ).show();
                 } else {
                     //used to send data
                     final var sizes = getGridSize();
                     startActivity(HomePage2.newIntent(MainActivity.this,
                             new HomePage2Args.Builder(
-                                    // TODO: Error checking for these two.
-                                    nativeLangSpinner.getSelectedItem().toString(),
-                                    learningLangSpinner.getSelectedItem().toString(),
+                                    nativeLang,
+                                    learningLang,
                                     sizes.getFirst(),
                                     sizes.getSecond(),
                                     sizes.getThird()
-                            ).build())
-                    );
+                            ).build()));
                 }
             }
         });
@@ -103,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     /**
      * @return A tuple of {@code (boardSize, subgridHeight, subgridWidth)}.

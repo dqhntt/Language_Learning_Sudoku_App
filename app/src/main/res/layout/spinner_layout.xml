@@ -4,4 +4,4 @@
     android:layout_height="wrap_content"
     android:padding="6dp"
     android:textColor="?attr/colorOnSurfaceVariant"
-    android:textSize="14sp" />
+    android:textSize="@dimen/spinner_text_size" />

@@ -43,13 +43,13 @@ dependencies {
     def lifecycle_version = "2.6.0"
     def nav_version = "2.6.0-alpha07"
 
-    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "androidx.appcompat:appcompat:1.7.0-alpha02"
     implementation "androidx.constraintlayout:constraintlayout:2.2.0-alpha08"
     implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
-    implementation "com.google.android.material:material:1.9.0-alpha02"
+    implementation "com.google.android.material:material:1.9.0-beta01"
 
     // Unit tests.
     testImplementation "org.junit.jupiter:junit-jupiter:5.9.2"
@@ -57,17 +57,18 @@ dependencies {
     // Instrumented tests.
     androidTestImplementation "androidx.test.ext:junit:1.1.5"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+    androidTestImplementation "androidx.test.uiautomator:uiautomator:2.3.0-alpha02"
 
 
-    // Fix duplicate classes found
-    // by specifying min versions for transitive dependencies without declaring them.
+    // Fix duplicate classes found.
     // See: https://stackoverflow.com/a/75298544
-    constraints {
-        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:latest.release") {
-            because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
+    //      https://docs.gradle.org/current/userguide/resolution_rules.html#sec:module_replacement
+    modules {
+        module("org.jetbrains.kotlin:kotlin-stdlib-jdk7") {
+            replacedBy("org.jetbrains.kotlin:kotlin-stdlib", "kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
         }
-        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:latest.release") {
-            because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
+        module("org.jetbrains.kotlin:kotlin-stdlib-jdk8") {
+            replacedBy("org.jetbrains.kotlin:kotlin-stdlib", "kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
         }
     }
 }

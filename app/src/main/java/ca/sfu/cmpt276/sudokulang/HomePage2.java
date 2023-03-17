@@ -19,7 +19,7 @@ public class HomePage2 extends AppCompatActivity {
     private ArrayAdapter<CharSequence> langAdapter, sudokuAdapter; //only declaration
 
     /**
-     * Create a new intent with the required arguments for {@code HomePage2Args}.
+     * Create a new intent with the required arguments for {@link HomePage2}.
      *
      * @param packageContext Context of the calling activity.
      * @param args           NavArgs built with: {@code new HomePage2Args.Builder(...).build()}

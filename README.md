@@ -51,12 +51,12 @@
 **Examples:**
 
 - Given a cell selected by the player,
+  - Its row/column/subgrid will be highlighted with a different colour than when it's not
+    selected. {+ [ IMPLEMENTED ] +}
   - When it's filled in a way not in accordance with the rules of the game, that cell will be
     highlighted with a different colour than when it’s correct or empty. {+ [ IMPLEMENTED ] +}
   - When it’s filled correctly, that cell’s colour will be the same as when it’s
     empty. {+ [ IMPLEMENTED ] +}
-- When a row/column/subgrid is completed correctly, it will be highlighted with a different colour
-  when that cell is selected than when it's not. {+ [ IMPLEMENTED ] +}
 - When the game play is completed correctly,
     - The word buttons will be disabled and the contents of the cells will become
       read-only. {+ [ IMPLEMENTED ] +}
@@ -67,7 +67,7 @@
 
 ## Erase Cell Content Functionality
 
-### 1.5. I want to be able to clear the content of a cell I select so that I can input a new value to correct my mistake if there’s any. {+ [ IMPLEMENTED ] +}
+### 1.5. I want to clear the content of a cell I select so that I can input a new value to correct my mistake if there’s any. {+ [ IMPLEMENTED ] +}
 
 **Examples:**
 
@@ -80,7 +80,7 @@
 
 ## Quick Cell View Functionality
 
-### 1.6. I want to be able to see the full text inside of a cell displayed somewhere convenient when it’s too long to fit inside that cell. {+ [ IMPLEMENTED ] +}
+### 1.6. I want to see the full text of a cell displayed somewhere convenient when it’s too long to fit inside that cell. {+ [ IMPLEMENTED ] +}
 
 **Examples:**
 
@@ -93,7 +93,7 @@
 
 ## Undo and Redo Functionality
 
-### 1.7. I want to be able to undo and redo my moves so that I can fix my mistakes or try out a new strategy. {- [ NOT Implemented ] -}
+### 1.7. I want to undo and redo my moves so that I can fix my mistakes or try out a new strategy. {- [ NOT Implemented ] -}
 
 **Examples:**
 
@@ -254,7 +254,7 @@ of [CEFR: Common European Framework of Reference for Languages](https://www.coe.
 
 - When the players need help, there is a tutorial *([1.2.][])* and a hint system *([1.8.][])*
   available.
-- When the students work hard, they are rewarded for their effort *([4.2.][])*
+- When the students work hard, they are rewarded for their effort *([4.2.][])*.
 - Ensure that the app design is intuitive and engaging.
 
 ## Reward To Keep Students/Users Motivated
@@ -282,67 +282,73 @@ of [CEFR: Common European Framework of Reference for Languages](https://www.coe.
 
 ## Different Devices
 
-### 5.1. As a vocabulary learner practicing at home, I want to use my tablet for Sudoku vocabulary practice, so that the words will be conveniently displayed in larger, easier to read fonts. {- [ NOT Implemented ] -}
+### 5.1. As a vocabulary learner practicing at home, I want to use my tablet for Sudoku vocabulary practice, so that the words will be conveniently displayed in larger, easier to read fonts. {+ [ IMPLEMENTED ] +}
 
 **Examples:**
 
 - When the app is launched on the tablet, the words will be displayed in a larger size fonts
-  than when it’s displayed on a phone.
+  than when it’s displayed on a phone. {+ [ IMPLEMENTED ] +}
 - Tablet users, on average, should not have to squint their eyes to read the contents compared
-  to users of smaller devices.
+  to users of smaller devices. {- [ N/A ] -}
 
-### 5.2. As a vocabulary learner taking the bus, I want to use my phone in landscape mode for Sudoku vocabulary practice, so that longer words are displayed in a larger font than standard mode. {- [ NOT Implemented ] -}
+### 5.2. As a vocabulary learner taking the bus, I want to use my phone in landscape mode for Sudoku vocabulary practice, so that longer words are displayed in a larger font than standard mode. {+ [ IMPLEMENTED ] +}
 
 **Examples:**
 
 - When the app is in landscape mode, longer words are displayed in larger size fonts than in
-  standard portrait mode.
+  standard portrait mode. {+ [ IMPLEMENTED ] +}
+  - This is made possible with the quick cell view functionality *([1.6.][])*.
 - Users using landscape mode should not have to squint their eyes, on average, to read the contents
-  compared to users in portrait mode.
+  compared to users in portrait mode. {- [ N/A ] -}
 - When a device is rotated, the contents and states of the game should remain the same as before
-  it’s rotated.
+  it’s rotated. {+ [ IMPLEMENTED ] +}
 
 ## Different Size Sudoku Grids
 
-### 5.3. As a teacher of elementary and junior high school children, I want scaled versions of Sudoku that use 4x4 and 6x6 grids. In the 6x6 grid version, the overall grid should be divided into rectangles of six cells each (2x3). {- [ NOT Implemented ] -}
+### 5.3. As a teacher of elementary and junior high school children, I want scaled versions of Sudoku that use 4x4 and 6x6 grids. In the 6x6 grid version, the overall grid should be divided into rectangles of six cells each (2x3). {+ [ IMPLEMENTED ] +}
 
 **Examples:**
 
 - When the game is in 4x4 grid mode,
-    - Each column should have 4 cells.
-    - Each row should have 4 cells.
-    - The total number of cells should be 16 with no sub-grids.
-    - A valid game should have no repeating values in each column or row of the board.
+  - Each column should have 4 cells. {+ [ IMPLEMENTED ] +}
+  - Each row should have 4 cells. {+ [ IMPLEMENTED ] +}
+  - The total number of cells should be 16 with no sub-grids. {+ [ IMPLEMENTED ] +}
+  - A valid game should have no repeating values in each column or row of the
+    board. {+ [ IMPLEMENTED ] +}
 - When the game is in 6x6 grid mode,
-    - Each column should have 6 cells.
-    - Each row should have 6 cells.
-    - The total number of cells should be 36 with each 2x3 sub-grid having 6 cells in total.
-    - Each column of the sub-grids should have 2 cells.
-    - Each row of the sub-grids should have 3 cells.
-    - A valid game should have no repeating values in each column, row, or sub-grid of the board.
+  - Each column should have 6 cells. {+ [ IMPLEMENTED ] +}
+  - Each row should have 6 cells. {+ [ IMPLEMENTED ] +}
+  - The total number of cells should be 36 with each 2x3 sub-grid having 6 cells in
+    total. {+ [ IMPLEMENTED ] +}
+  - Each column of the sub-grids should have 2 cells. {+ [ IMPLEMENTED ] +}
+  - Each row of the sub-grids should have 3 cells. {+ [ IMPLEMENTED ] +}
+  - A valid game should have no repeating values in each column, row, or sub-grid of the
+    board. {+ [ IMPLEMENTED ] +}
 
-### 5.4. As a vocabulary learner who wants an extra challenging mode, I want a 12x12 version of Sudoku to play on my tablet. The overall grid should be divided into rectangles of 12 cells each (3x4). {- [ NOT Implemented ] -}
+### 5.4. As a vocabulary learner who wants an extra challenging mode, I want a 12x12 version of Sudoku to play on my tablet. The overall grid should be divided into rectangles of 12 cells each (3x4). {+ [ IMPLEMENTED ] +}
 
 **Examples:**
 
 - When the game is in 12x12 grid mode,
-    - Each column should have 12 cells.
-    - Each row should have 12 cells.
-    - The total number of cells should be 144 with each 3x4 sub-grid having 12 cells in total.
-    - Each column of the sub-grids should have 3 cells.
-    - Each row of the sub-grids should have 4 cells.
-    - A valid game should have no repeating values in each column, row, or sub-grid of the board.
-- When the app is launched on the tablet, the words will be displayed in a larger size fonts than
-  when it’s displayed on a phone.
+  - Each column should have 12 cells. {+ [ IMPLEMENTED ] +}
+  - Each row should have 12 cells. {+ [ IMPLEMENTED ] +}
+  - The total number of cells should be 144 with each 3x4 sub-grid having 12 cells in
+    total. {+ [ IMPLEMENTED ] +}
+  - Each column of the sub-grids should have 3 cells. {+ [ IMPLEMENTED ] +}
+  - Each row of the sub-grids should have 4 cells. {+ [ IMPLEMENTED ] +}
+  - A valid game should have no repeating values in each column, row, or sub-grid of the
+    board. {+ [ IMPLEMENTED ] +}
+- When the app is launched on a tablet, the words will be displayed in a larger size fonts than when
+  it’s displayed on a phone. {+ [ IMPLEMENTED ] +}
 - These users should, on average, not have to squint their eyes to read the contents compared to
   users of smaller devices, but may have more difficulty reading compared to tablet users playing
-  with smaller grid sizes.
+  with smaller grid sizes. {- [ N/A ] -}
 
 <br />
 <br />
 <br />
 
-# VISUAL STATE OF THE GAME/APPLICATION
+# VISUAL STATES OF THE GAME/APPLICATION
 
 ![](docs/images/homepage.jpg) ![](docs/images/choose_level.jpg)
 ![](docs/images/game_play.jpg) ![](docs/images/word_translation.jpg)
@@ -362,6 +368,8 @@ of [CEFR: Common European Framework of Reference for Languages](https://www.coe.
 [1.1.]: #general-user-interface-accessibility-requirements
 
 [1.2.]: #instructional-tutorial
+
+[1.6.]: #quick-cell-view-functionality
 
 [1.8.]: #game-hints
 

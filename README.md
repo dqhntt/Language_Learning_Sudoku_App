@@ -351,9 +351,11 @@ of [CEFR: Common European Framework of Reference for Languages](https://www.coe.
 ![](docs/images/history_of_games_played.jpg) ![](docs/images/game_play_details.jpg)
 ![](docs/images/favourites_list.jpg) ![](docs/images/tutorial.jpg)
 ![](docs/images/settings.jpg) ![](docs/images/curate_own_word_list.jpg)
-![](docs/images/import_word_list.jpg) ![](docs/images/tablet_mode.png)
-![](docs/images/landscape_mode.png) ![](docs/images/4x4_mode.png)
+![](docs/images/import_word_list.jpg) ![](docs/images/4x4_mode.png)
 ![](docs/images/6x6_mode.png) ![](docs/images/12x12_mode.png)
+![](docs/images/tablet_mode.png) ![](docs/images/landscape_mode.png)
+![](docs/images/cell_highlights.png) ![](docs/images/erase_quick_view.png)
+![](docs/images/completed_game.png)
 
 [//]: <> (References to the header IDs below should be extracted from the TOC as rendered on GitLab.)
 

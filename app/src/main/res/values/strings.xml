@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">Sudoku Language Practice App</string>
-    <string name="welcome_text"><b>Welcome To \nSudoku Vocabulary \nPractice App</b></string>
-    <string name="sudoku_level"><b>My level of Sudoku is </b></string>
-    <string name="lang_level"><b>My level of (*input*) is</b></string>
-    <string name="GridSize"><b>Choose Grid Size</b></string>
-    <string name="I_want_to_learn"><b>I want to learn</b></string>
-    <string name="I_already_know"><b>I already know</b></string>
+    <string name="welcome_text">Welcome To \nSudoku Vocabulary \nPractice App</string>
+    <string name="sudoku_level">My level of Sudoku is </string>
+    <string name="lang_level">My level of (*input*) is</string>
+    <string name="GridSize">Choose Grid Size</string>
+    <string name="I_want_to_learn">I want to learn</string>
+    <string name="I_already_know">I already know</string>
 
     <string-array name="array_learning_lang">
         <item><i>Select Learning Language</i></item>

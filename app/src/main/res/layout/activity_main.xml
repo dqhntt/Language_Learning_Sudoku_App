@@ -17,6 +17,7 @@
         <TextView
             android:id="@+id/welcome_text"
             android:layout_width="0dp"
+            android:textStyle="bold"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/main_activity_spinner_margin"
             android:text="@string/welcome_text"
@@ -132,8 +133,8 @@
                 android:id="@+id/textView_Learning_lang"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 android:padding="8dp"
-
                 android:text="@string/I_want_to_learn"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="@dimen/homepage_text_size"
@@ -172,7 +173,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-
+                android:textStyle="bold"
                 android:text="@string/I_already_know"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="@dimen/homepage_text_size"
@@ -213,6 +214,7 @@
                 android:padding="8dp"
                 android:text="@string/GridSize"
                 android:textColor="?attr/colorOnSurfaceVariant"
+                android:textStyle="bold"
                 android:textSize="@dimen/homepage_text_size"
                 app:layout_constraintBottom_toTopOf="@id/spinner_grid_size"
                 app:layout_constraintEnd_toEndOf="parent"

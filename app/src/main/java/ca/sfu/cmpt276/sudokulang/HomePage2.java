@@ -2,12 +2,10 @@ package ca.sfu.cmpt276.sudokulang;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -90,15 +88,10 @@ public class HomePage2 extends AppCompatActivity {
             }
         });
 
-        TextView textView = binding.textViewLangLevel;
-        String learningLang = getString(R.string.lang_level).replace(
+        binding.textViewLangLevel.setText(getString(R.string.lang_level).replace(
                 "(*input*)",
                 HomePage2Args.fromBundle(getIntent().getExtras()).getLearningLang()
-        );
-        Typeface boldTypeface = Typeface.defaultFromStyle(Typeface.BOLD);
-
-        textView.setText(learningLang);
-        textView.setTypeface(boldTypeface);
+        ));
 
         binding.imageButtonFavourites.setOnClickListener(new View.OnClickListener() {
             @Override

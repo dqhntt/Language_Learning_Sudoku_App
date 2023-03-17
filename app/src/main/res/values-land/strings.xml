@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="welcome_text"><b>Welcome To \nSudoku Vocabulary Practice App</b></string>
+    <string name="welcome_text">Welcome To \nSudoku Vocabulary Practice App</string>
 </resources>

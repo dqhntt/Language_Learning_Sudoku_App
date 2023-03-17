@@ -22,7 +22,6 @@
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="@id/image_button_tutorial"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@id/image_button_tutorial"
             app:layout_constraintTop_toTopOf="@id/image_button_tutorial"
             app:srcCompat="@drawable/ic_arrow_circle_right_outline_24dp"
@@ -36,7 +35,6 @@
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="@id/image_button_history"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@id/image_button_history"
             app:layout_constraintTop_toTopOf="@id/image_button_history"
             app:srcCompat="@drawable/ic_star_outline_24dp"
@@ -50,7 +48,6 @@
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="@id/image_button_history"
             app:layout_constraintEnd_toStartOf="@id/image_button_history"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/image_button_history"
@@ -63,9 +60,7 @@
             android:layout_height="70dp"
             android:backgroundTint="@color/mint_green"
             android:scaleType="fitCenter"
-            app:layout_constraintBottom_toTopOf="@id/constraintLayout"
             app:layout_constraintEnd_toStartOf="@id/image_button_favourites"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@id/image_button_settings"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="spread_inside"
@@ -80,7 +75,6 @@
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="@id/image_button_tutorial"
             app:layout_constraintEnd_toStartOf="@id/image_button_tutorial"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/image_button_tutorial"
@@ -95,9 +89,7 @@
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/image_button_next"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@id/image_button_help"
-            app:layout_constraintTop_toBottomOf="@id/constraintLayout2"
             app:srcCompat="@drawable/ic_play_circle_outline_24dp"
             tools:contentDescription="tutorial button" />
 
@@ -105,11 +97,12 @@
             android:id="@+id/constraintLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spinner_margin"
             app:layout_constraintBottom_toTopOf="@id/constraintLayout2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/image_button_history">
+            app:layout_constraintTop_toBottomOf="@id/image_button_history"
+            app:layout_constraintVertical_chainStyle="packed">
 
             <TextView
                 android:id="@+id/textView_lang_level"
@@ -117,8 +110,9 @@
                 android:layout_height="wrap_content"
                 android:padding="6dp"
                 android:text="@string/lang_level"
+                android:textAlignment="center"
                 android:textColor="?attr/colorOnSurfaceVariant"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toTopOf="@id/spinner_lang_level"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -127,7 +121,7 @@
 
             <Spinner
                 android:id="@+id/spinner_lang_level"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/spinner_width"
                 android:layout_height="wrap_content"
                 android:background="@color/yellow"
                 android:minHeight="48dp"
@@ -142,9 +136,9 @@
             android:id="@+id/constraintLayout2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spinner_margin"
             app:layout_constraintBottom_toTopOf="@id/image_button_tutorial"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/constraintLayout">
 
@@ -154,24 +148,24 @@
                 android:layout_height="wrap_content"
                 android:padding="6dp"
                 android:text="@string/sudoku_level"
+                android:textAlignment="center"
                 android:textColor="?attr/colorOnSurfaceVariant"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toTopOf="@id/spinner_sudoku_level"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@+id/spinner_sudoku_level"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Spinner
                 android:id="@+id/spinner_sudoku_level"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/spinner_width"
                 android:layout_height="wrap_content"
                 android:background="@color/yellow"
                 android:minHeight="48dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView_Sudoku_Level"
+                app:layout_constraintStart_toStartOf="@+id/textView_Sudoku_Level"
+                app:layout_constraintTop_toBottomOf="@+id/textView_Sudoku_Level"
                 tools:contentDescription="native lang" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

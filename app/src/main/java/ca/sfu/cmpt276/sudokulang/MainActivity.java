@@ -21,10 +21,7 @@ public class MainActivity extends AppCompatActivity {
         final var binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Set background color.
-        this.getWindow().getDecorView().setBackgroundResource(R.color.mint_green);
-
-        //State spinner Initialization
+        // State spinner Initialization
         learningLangSpinner = binding.spinnerLearningLang;
         nativeLangSpinner = binding.spinnerNativeLang;
         gridSizeSpinner = binding.spinnerGridSize;

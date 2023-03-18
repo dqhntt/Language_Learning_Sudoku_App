@@ -1,173 +1,241 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ca.sfu.cmpt276.sudokulang.MainActivity"
-    android:layout_marginBottom="5dp"
-    android:layout_marginRight="15dp"
-    android:layout_marginLeft="15dp"
+    android:fillViewport="true"
+    tools:context="ca.sfu.cmpt276.sudokulang.MainActivity">
 
-
-    >
-
-
-    <TextView
-        android:id="@+id/welcome_text"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
+        android:layout_height="0dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp">
 
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="-1dp"
-        android:layout_marginTop="109dp"
-        android:layout_marginEnd="2dp"
-        android:padding="6dp"
-        android:text="@string/welcome_text"
-        android:textAlignment="center"
-        android:textColor="?attr/colorOnSurfaceVariant"
-        android:textSize="18sp"
-        tools:text="@string/welcome_text" />
+        <TextView
+            android:id="@+id/welcome_text"
+            android:layout_width="0dp"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/main_activity_spinner_margin"
+            android:text="@string/welcome_text"
+            android:textAlignment="center"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="@dimen/welcome_text_size"
+            app:layout_constraintBottom_toTopOf="@id/constraintLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image_button_history"
+            tools:text="@string/welcome_text" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView_Learning_lang"
-        android:layout_below="@+id/welcome_text"
-        android:layout_marginTop="55dp"
-        android:padding="6dp"
-        android:textSize="15sp"
-        android:textColor="?attr/colorOnSurfaceVariant"
-        android:text="@string/I_want_to_learn"
+        <ImageButton
+            android:id="@+id/image_button_next"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:backgroundTint="@color/mint_green"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="@id/image_button_tutorial"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@id/image_button_tutorial"
+            app:layout_constraintTop_toTopOf="@id/image_button_tutorial"
+            app:srcCompat="@drawable/ic_arrow_circle_right_outline_24dp"
+            tools:contentDescription="next button" />
 
-        />
+        <ImageButton
+            android:id="@+id/image_button_favourites"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:backgroundTint="@color/mint_green"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="@id/image_button_history"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@id/image_button_history"
+            app:layout_constraintTop_toTopOf="@id/image_button_history"
+            app:srcCompat="@drawable/ic_star_outline_24dp"
+            tools:contentDescription="favourites button" />
 
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:id="@+id/spinner_learning_lang"
-        android:layout_below="@id/textView_Learning_lang"
+        <ImageButton
+            android:id="@+id/image_button_settings"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:backgroundTint="@color/mint_green"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="@id/image_button_history"
+            app:layout_constraintEnd_toStartOf="@id/image_button_history"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/image_button_history"
+            app:srcCompat="@drawable/ic_settings_outline_24dp"
+            tools:contentDescription="settings button" />
 
-        />
+        <ImageButton
+            android:id="@+id/image_button_history"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:backgroundTint="@color/mint_green"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toTopOf="@id/welcome_text"
+            app:layout_constraintEnd_toStartOf="@id/image_button_favourites"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@id/image_button_settings"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread_inside"
+            app:srcCompat="@drawable/ic_history_24dp"
+            tools:contentDescription="history button" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView_Native_lang"
-        android:layout_below="@+id/spinner_learning_lang"
-        android:layout_marginTop="40dp"
-        android:padding="6dp"
-        android:textSize="15sp"
-        android:textColor="?attr/colorOnSurfaceVariant"
-        android:text="@string/I_already_know"
+        <ImageButton
+            android:id="@+id/image_button_help"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:backgroundTint="@color/mint_green"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="@id/image_button_tutorial"
+            app:layout_constraintEnd_toStartOf="@id/image_button_tutorial"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/image_button_tutorial"
+            app:srcCompat="@drawable/ic_help_outline_24dp"
+            tools:contentDescription="help button" />
 
-        />
+        <ImageButton
+            android:id="@+id/image_button_tutorial"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:backgroundTint="@color/mint_green"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/image_button_next"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@id/image_button_help"
+            app:layout_constraintTop_toBottomOf="@id/constraintLayout3"
+            app:srcCompat="@drawable/ic_play_circle_outline_24dp"
+            tools:contentDescription="tutorial button" />
 
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:id="@+id/textView_native_lang"
-        android:layout_below="@id/textView_Native_lang"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="@dimen/spinner_width"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/main_activity_spinner_margin"
+            app:layout_constraintBottom_toTopOf="@id/constraintLayout2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/welcome_text">
 
-        />
+            <TextView
+                android:id="@+id/textView_Learning_lang"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:padding="8dp"
+                android:text="@string/I_want_to_learn"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="@dimen/homepage_text_size"
+                app:layout_constraintBottom_toTopOf="@id/spinner_learning_lang"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
+            <Spinner
+                android:id="@+id/spinner_learning_lang"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/yellow"
+                android:minHeight="@dimen/spinner_height"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView_Learning_lang"
+                tools:contentDescription="learning lang" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/textView_Grid_Sizes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView_native_lang"
-        android:layout_marginTop="40dp"
-        android:padding="6dp"
-        android:text="@string/GridSize"
-        android:textColor="?attr/colorOnSurfaceVariant"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
+            android:layout_width="@dimen/spinner_width"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/main_activity_spinner_margin"
+            app:layout_constraintBottom_toTopOf="@id/constraintLayout3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/constraintLayout">
 
-        android:textSize="15sp" />
+            <TextView
+                android:id="@+id/textView_Native_lang"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:textStyle="bold"
+                android:text="@string/I_already_know"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="@dimen/homepage_text_size"
+                app:layout_constraintBottom_toTopOf="@id/spinner_native_lang"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:id="@+id/spinner_grid_size"
-        android:layout_below="@id/textView_Grid_Sizes"
+            <Spinner
+                android:id="@+id/spinner_native_lang"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/yellow"
+                android:minHeight="@dimen/spinner_height"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView_Native_lang"
+                tools:contentDescription="native lang" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout3"
+            android:layout_width="@dimen/spinner_width"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/main_activity_spinner_margin"
+            app:layout_constraintBottom_toTopOf="@id/image_button_tutorial"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/constraintLayout2">
 
-    <ImageButton
-        android:id="@+id/image_button_next"
-        android:layout_width="67dp"
-        android:layout_height="73dp"
+            <TextView
+                android:id="@+id/textView_Grid_Sizes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="@string/GridSize"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textStyle="bold"
+                android:textSize="@dimen/homepage_text_size"
+                app:layout_constraintBottom_toTopOf="@id/spinner_grid_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginEnd="-2dp"
-        android:layout_marginBottom="-1dp"
-        android:backgroundTint="@color/blue"
-        android:scaleType="fitCenter"
-        app:srcCompat="@drawable/ic_arrow_circle_right_outline_24dp" />
+            <Spinner
+                android:id="@+id/spinner_grid_size"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/yellow"
+                android:minHeight="@dimen/spinner_height"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView_Grid_Sizes"
+                tools:contentDescription="grid sizes " />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageButton
-        android:id="@+id/image_button_favourites"
-        android:layout_width="84dp"
-        android:layout_height="85dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="-5dp"
-        android:layout_marginEnd="-8dp"
-        android:backgroundTint="@color/blue"
-        android:scaleType="fitCenter"
-        app:srcCompat="@drawable/ic_star_outline_24dp" />
-
-    <ImageButton
-        android:id="@+id/image_button_settings"
-        android:layout_width="79dp"
-        android:layout_height="69dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="-1dp"
-        android:layout_marginTop="2dp"
-        android:backgroundTint="@color/blue"
-        android:scaleType="fitCenter"
-        app:srcCompat="@drawable/ic_settings_outline_24dp" />
-
-    <ImageButton
-        android:id="@+id/image_button_history"
-        android:layout_width="72dp"
-        android:layout_height="73dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="0dp"
-        app:srcCompat="@drawable/ic_history_24dp"
-        android:backgroundTint="@color/blue"
-        android:scaleType="fitCenter"/>
-
-    <ImageButton
-        android:id="@+id/image_button_help"
-        android:layout_width="68dp"
-        android:layout_height="69dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="3dp"
-        android:layout_marginBottom="1dp"
-        android:backgroundTint="@color/blue"
-        android:scaleType="fitCenter"
-        app:srcCompat="@drawable/ic_help_outline_24dp" />
-
-    <ImageButton
-        android:id="@+id/image_button_tutorial"
-        android:layout_width="73dp"
-        android:layout_height="69dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="1dp"
-        app:srcCompat="@drawable/ic_play_circle_outline_24dp"
-        android:scaleType="fitCenter"
-        android:backgroundTint="@color/blue"/>
-
-</RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

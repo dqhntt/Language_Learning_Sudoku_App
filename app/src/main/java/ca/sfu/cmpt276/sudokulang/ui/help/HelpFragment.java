@@ -37,8 +37,10 @@ public class HelpFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.buttonHelp.setOnClickListener(view1 -> NavHostFragment.findNavController(HelpFragment.this)
-                .navigate(R.id.navigation_home));
+        binding.buttonHelp.setOnClickListener(v ->
+                NavHostFragment
+                        .findNavController(this)
+                        .navigate(R.id.main_activity));
     }
 
     @Override

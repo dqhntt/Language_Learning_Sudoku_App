@@ -4,16 +4,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
+import ca.sfu.cmpt276.sudokulang.R;
 import ca.sfu.cmpt276.sudokulang.databinding.FragmentGameBinding;
 import ca.sfu.cmpt276.sudokulang.ui.game.board.SudokuCell;
 
@@ -26,28 +28,34 @@ public class GameFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         mBinding = FragmentGameBinding.inflate(inflater, container, false);
-        mGameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
+        return mBinding.getRoot();
+    }
 
-        mGameViewModel.generateNewBoard(9, 3, 3);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // Share ViewModel with parent activity.
+        mGameViewModel = new ViewModelProvider(requireActivity()).get(GameViewModel.class);
 
         // Set OnClickListener for parent view of game board.
-        ((View) mBinding.gameBoard.getParent()).setOnClickListener(v -> mGameViewModel.setNoSelectedCell());
+        final View.OnClickListener unselectCell = v -> mGameViewModel.setNoSelectedCell();
+        ((View) mBinding.gameBoard.getParent()).setOnClickListener(unselectCell);
+        mBinding.wordButtonKeypad.setOnClickListener(unselectCell);
         setupBoard();
         setupWordButtons();
         mBinding.eraseButton.setOnClickListener(v -> mGameViewModel.clearSelectedCell());
-
-        return mBinding.getRoot();
     }
 
     private void endGame() {
         mIsCompletedGame = true;
-        for (var button : getAllWordButtons()) {
-            button.setEnabled(false);
-        }
+        mBinding.wordButtonKeypad.setEnabled(false);
         mBinding.eraseButton.setEnabled(false);
         mBinding.notesButton.setEnabled(false);
-        Snackbar.make(mBinding.getRoot(), "Game completed. Well done!", Snackbar.LENGTH_INDEFINITE).show();
+        Snackbar.make(mBinding.getRoot(), R.string.congratulations, Snackbar.LENGTH_INDEFINITE)
+                .setAnchorView(requireActivity().findViewById(R.id.bottom_app_bar))
+                .show();
     }
 
     private void setupBoard() {
@@ -67,32 +75,17 @@ public class GameFragment extends Fragment {
     }
 
     private void setupWordButtons() {
-        final var wordButtons = getAllWordButtons();
-        final var dataValuePairs = mGameViewModel.getDataValuePairs();
-        assert (wordButtons.length == dataValuePairs.length);
-        for (int i = 0; i < wordButtons.length; i++) {
-            wordButtons[i].setText(dataValuePairs[i].first);
-            wordButtons[i].setOnClickListener(view -> {
-                final var button = (Button) view;
-                final String choice = (String) button.getText();
-                mBinding.quickCellView.setText(choice);
-                mGameViewModel.setSelectedCellText(choice);
-            });
-        }
-    }
-
-    private Button[] getAllWordButtons() {
-        var buttons = new ArrayList<Button>();
-        buttons.add(mBinding.wordButton1);
-        buttons.add(mBinding.wordButton2);
-        buttons.add(mBinding.wordButton3);
-        buttons.add(mBinding.wordButton4);
-        buttons.add(mBinding.wordButton5);
-        buttons.add(mBinding.wordButton6);
-        buttons.add(mBinding.wordButton7);
-        buttons.add(mBinding.wordButton8);
-        buttons.add(mBinding.wordButton9);
-        return buttons.toArray(new Button[0]);
+        mBinding.wordButtonKeypad.setValues(
+                Arrays.stream(mGameViewModel.getDataValuePairs())
+                        .map(pair -> pair.first)
+                        .toArray(String[]::new)
+        );
+        mBinding.wordButtonKeypad.setOnclickListenersForAllButtons(view -> {
+            final var button = (MaterialButton) view;
+            final String choice = (String) button.getText();
+            mBinding.quickCellView.setText(choice);
+            mGameViewModel.setSelectedCellText(choice);
+        });
     }
 
     @Override

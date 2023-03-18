@@ -1,130 +1,132 @@
 package ca.sfu.cmpt276.sudokulang;
 
-import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import ca.sfu.cmpt276.sudokulang.databinding.ActivityHomePage2Binding;
 
 public class HomePage2 extends AppCompatActivity {
+    private ActivityHomePage2Binding binding;
+    private Spinner langSpinner, sudokuSpinner;
+    private ArrayAdapter<CharSequence> langAdapter, sudokuAdapter; //only declaration
 
-    private String selectedLang, selectedSudoku; //cars to hold the values of teh selected language and sudoku level
-    private TextView tvLangSpinner, tvSudokuSpinner; //declaring TextView to show errors
-    private Spinner LangSpinner, SudokuSpinner;
-    private ArrayAdapter<CharSequence> LangAdapter, SudokuAdapter; //only declaration
+    /**
+     * Create a new intent with the required arguments for {@link HomePage2}.
+     *
+     * @param packageContext Context of the calling activity.
+     * @param args           NavArgs built with: {@code new HomePage2Args.Builder(...).build()}
+     */
+    public static Intent newIntent(@NonNull Context packageContext, @NonNull HomePage2Args args) {
+        final var intent = new Intent(packageContext, HomePage2.class);
+        intent.putExtras(args.toBundle());
+        return intent;
+    }
 
-
-
-
-
-
-
-
-
-
-
-    ImageButton nextImageButton, favouritesImageButton, settingsImageButton,
-            helpImageButton, tutorialImageButton,historyImageButton;
-
-    View view;
-
-
-
-
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_page2);
+        binding = ActivityHomePage2Binding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
+        // Set background color.
+        this.getWindow().getDecorView().setBackgroundResource(R.color.mint_green);
 
 
         //------------------------------------------SPINNER INITIALIZATION--------------------------------------------------------
 
-        LangSpinner = findViewById(R.id.spinner_lang_level);
-        SudokuSpinner=findViewById(R.id.spinner_sudoku_level);
+        langSpinner = binding.spinnerLangLevel;
+        sudokuSpinner = binding.spinnerSudokuLevel;
+
         //populate ArrayAdapter using string array and a spinner layout that we will define
-        LangAdapter = ArrayAdapter.createFromResource(this,R.array.array_lang_level,R.layout.spinner_layout);
-        SudokuAdapter=ArrayAdapter.createFromResource(this,R.array.array_sudoku_level,R.layout.spinner_layout);
+        langAdapter = ArrayAdapter.createFromResource(this, R.array.array_lang_level, R.layout.spinner_layout);
+        sudokuAdapter = ArrayAdapter.createFromResource(this, R.array.array_sudoku_level, R.layout.spinner_layout);
+
         //specify the layout to use when the list of choices appear
-        LangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        SudokuAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        langAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sudokuAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         //set adapter to spinner to populate the Lang Spinner
-        LangSpinner.setAdapter(LangAdapter);
-        SudokuSpinner.setAdapter(SudokuAdapter);
-
-
-
-        view=this.getWindow().getDecorView();
-        view.setBackgroundResource(R.color.blue);
-
-
-
-
-
-
+        langSpinner.setAdapter(langAdapter);
+        sudokuSpinner.setAdapter(sudokuAdapter);
 
 
         //--------------------------------------BUTTON INITIALIZATION-----------------------------------------------------------------
-        nextImageButton= (ImageButton) findViewById(R.id.image_button_next);
-        nextImageButton.setOnClickListener(new View.OnClickListener() {
+
+        binding.imageButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(HomePage2.this, "Loading....", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(HomePage2.this, GameActivity.class));
+                String langLevel = langSpinner.getSelectedItem().toString();
+                String sudokuLevel = sudokuSpinner.getSelectedItem().toString();
+
+                if (langLevel.contentEquals(langAdapter.getItem(0))
+                        || sudokuLevel.contentEquals(sudokuAdapter.getItem(0))) {
+                    Toast.makeText(HomePage2.this, "*Please select a valid input for all fields*", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Loading....", Toast.LENGTH_SHORT).show();
+                    //gets the intent value from MainActivity and stores it
+                    final var extras = HomePage2Args.fromBundle(getIntent().getExtras());
+                    startActivity(GameActivity.newIntent(HomePage2.this,
+                            new GameActivityArgs.Builder(
+                                    extras.getNativeLang(),
+                                    extras.getLearningLang(),
+                                    langLevel,
+                                    sudokuLevel,
+                                    extras.getBoardSize(),
+                                    extras.getSubgridHeight(),
+                                    extras.getSubgridWidth()
+                            ).build())
+                    );
+                }
             }
         });
 
-        favouritesImageButton= (ImageButton) findViewById(R.id.image_button_favourites);
-        favouritesImageButton.setOnClickListener(new View.OnClickListener() {
+        binding.textViewLangLevel.setText(getString(R.string.lang_level).replace(
+                "(*input*)",
+                HomePage2Args.fromBundle(getIntent().getExtras()).getLearningLang()
+        ));
+
+        binding.imageButtonFavourites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(HomePage2.this, "this works", Toast.LENGTH_SHORT).show();
             }
         });
-        settingsImageButton=(ImageButton) findViewById(R.id.image_button_settings);
-        settingsImageButton.setOnClickListener(new View.OnClickListener() {
+
+        binding.imageButtonSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(HomePage2.this, "this works", Toast.LENGTH_SHORT).show();
             }
         });
 
-        historyImageButton=(ImageButton) findViewById(R.id.image_button_history);
-        historyImageButton.setOnClickListener(new View.OnClickListener() {
+        binding.imageButtonHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(HomePage2.this, "this works", Toast.LENGTH_SHORT).show();
             }
         });
 
-        helpImageButton = (ImageButton) findViewById(R.id.image_button_help);
-        helpImageButton.setOnClickListener(new View.OnClickListener() {
+        binding.imageButtonHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(HomePage2.this, "it works", Toast.LENGTH_SHORT).show();
             }
         });
 
-        tutorialImageButton=(ImageButton) findViewById(R.id.image_button_tutorial);
-        tutorialImageButton.setOnClickListener(new View.OnClickListener() {
+        binding.imageButtonTutorial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(HomePage2.this, "this works", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
-
     }
-
 
 }

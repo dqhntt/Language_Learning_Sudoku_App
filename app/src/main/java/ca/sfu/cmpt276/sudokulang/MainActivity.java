@@ -1,115 +1,135 @@
 package ca.sfu.cmpt276.sudokulang;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import ca.sfu.cmpt276.sudokulang.databinding.ActivityMainBinding;
+import kotlin.Triple;
+
 public class MainActivity extends AppCompatActivity {
+    private ActivityMainBinding binding;
+    private Spinner learningLangSpinner, nativeLangSpinner, gridSizeSpinner;
+    private ArrayAdapter<CharSequence> learningLangAdapter, nativeLangAdapter, gridSizeAdapter;
 
-    ImageButton nextImageButton, favouritesImageButton, settingsImageButton,
-            helpImageButton, tutorialImageButton, historyImageButton;
-    private String selectedState, selectedDistrict, selectedGridSize; //vars to hold the values of state and district
-    private TextView tvLearningLangSpinner, tvNativeLangSpinner, tvGridSizeSpinner; //declaring text view to show errors
-    private Spinner learninglanSpinner, nativelangSpinner, GridSizeSpinner;
-
-
-    View view;
-    private ArrayAdapter<CharSequence> learninglangAdapter, nativelangAdapter, GridSizeAdapter;
-
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        view = this.getWindow().getDecorView();
-        view.setBackgroundResource(R.color.blue);
+        // Set background color.
+        this.getWindow().getDecorView().setBackgroundResource(R.color.mint_green);
+
         //State spinner Initialization
-        learninglanSpinner = findViewById(R.id.spinner_learning_lang);
-        nativelangSpinner = findViewById(R.id.textView_native_lang);
-        GridSizeSpinner = findViewById(R.id.spinner_grid_size);
+        learningLangSpinner = binding.spinnerLearningLang;
+        nativeLangSpinner = binding.spinnerNativeLang;
+        gridSizeSpinner = binding.spinnerGridSize;
 
         //Populate ArrayAdapter using string array and a spinner layout that we will define
-        learninglangAdapter = ArrayAdapter.createFromResource(this, R.array.array_learning_lang, R.layout.spinner_layout);
-        nativelangAdapter = ArrayAdapter.createFromResource(this, R.array.array_native_lang, R.layout.spinner_layout);
-        GridSizeAdapter = ArrayAdapter.createFromResource(this, R.array.array_grid_size, R.layout.spinner_layout);
+        learningLangAdapter = ArrayAdapter.createFromResource(this, R.array.array_learning_lang, R.layout.spinner_layout);
+        nativeLangAdapter = ArrayAdapter.createFromResource(this, R.array.array_native_lang, R.layout.spinner_layout);
+        gridSizeAdapter = ArrayAdapter.createFromResource(this, R.array.array_grid_size, R.layout.spinner_layout);
 
         //Specify the layout to use when the list of choices appear
-        learninglangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        nativelangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        GridSizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        learningLangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        nativeLangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        gridSizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         //set the adapter to the spinner to populate State Spinner
-        learninglanSpinner.setAdapter(learninglangAdapter);
-        nativelangSpinner.setAdapter(nativelangAdapter);
-        GridSizeSpinner.setAdapter(GridSizeAdapter);
+        learningLangSpinner.setAdapter(learningLangAdapter);
+        nativeLangSpinner.setAdapter(nativeLangAdapter);
+        gridSizeSpinner.setAdapter(gridSizeAdapter);
 
-        nextImageButton = (ImageButton) findViewById(R.id.image_button_next);
-
-        nextImageButton.setOnClickListener(new View.OnClickListener() {
+        binding.imageButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Toast.makeText(MainActivity.this, "this works", Toast.LENGTH_SHORT).show();
-                openHomePage2();
+                String size = gridSizeSpinner.getSelectedItem().toString();
+                String learningLang = learningLangSpinner.getSelectedItem().toString();
+                String nativeLang = nativeLangSpinner.getSelectedItem().toString();
+                if (size.contentEquals(gridSizeAdapter.getItem(0))
+                        || learningLang.contentEquals(learningLangAdapter.getItem(0))
+                        || nativeLang.contentEquals(nativeLangAdapter.getItem(0))) {
+                    Toast.makeText(
+                            MainActivity.this,
+                            "*Please select a valid input for all fields*",
+                            Toast.LENGTH_LONG
+                    ).show();
+                } else {
+                    //used to send data
+                    final var sizes = getGridSize();
+                    startActivity(HomePage2.newIntent(MainActivity.this,
+                            new HomePage2Args.Builder(
+                                    nativeLang,
+                                    learningLang,
+                                    sizes.getFirst(),
+                                    sizes.getSecond(),
+                                    sizes.getThird()
+                            ).build()));
+                }
             }
         });
 
-
-
-        favouritesImageButton= (ImageButton) findViewById(R.id.image_button_favourites);
-        favouritesImageButton.setOnClickListener(new View.OnClickListener() {
+        binding.imageButtonFavourites.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "this works", Toast.LENGTH_SHORT).show();
             }
         });
-        settingsImageButton=(ImageButton) findViewById(R.id.image_button_settings);
-        settingsImageButton.setOnClickListener(new View.OnClickListener() {
+
+        binding.imageButtonSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "this works", Toast.LENGTH_SHORT).show();
             }
         });
 
-        historyImageButton=(ImageButton) findViewById(R.id.image_button_history);
-        historyImageButton.setOnClickListener(new View.OnClickListener() {
+        binding.imageButtonHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "this works", Toast.LENGTH_SHORT).show();
             }
         });
 
-        helpImageButton = (ImageButton) findViewById(R.id.image_button_help);
-        helpImageButton.setOnClickListener(new View.OnClickListener() {
+        binding.imageButtonHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "it works", Toast.LENGTH_SHORT).show();
             }
         });
 
-       tutorialImageButton=(ImageButton) findViewById(R.id.image_button_tutorial);
-       tutorialImageButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               Toast.makeText(MainActivity.this, "this works", Toast.LENGTH_SHORT).show();
-           }
-       });
-
-
-
-
+        binding.imageButtonTutorial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "this works", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    public void openHomePage2(){
-        Intent intent = new Intent(this, HomePage2.class);
-        startActivity(intent);
+
+    /**
+     * @return A tuple of {@code (boardSize, subgridHeight, subgridWidth)}.
+     */
+    private Triple<Integer, Integer, Integer> getGridSize() {
+        final var adapter = gridSizeAdapter;
+        final var selectedItem = gridSizeSpinner.getSelectedItem().toString();
+        if (selectedItem.contentEquals(adapter.getItem(1))) {
+            return new Triple<>(4, 4, 4);
+        }
+        if (selectedItem.contentEquals(adapter.getItem(2))) {
+            return new Triple<>(6, 2, 3);
+        }
+        if (selectedItem.contentEquals(adapter.getItem(3))) {
+            return new Triple<>(9, 3, 3);
+        }
+        if (selectedItem.contentEquals(adapter.getItem(4))) {
+            return new Triple<>(12, 3, 4);
+        }
+        throw new IllegalArgumentException("Unknown board dimension");
     }
+
 }

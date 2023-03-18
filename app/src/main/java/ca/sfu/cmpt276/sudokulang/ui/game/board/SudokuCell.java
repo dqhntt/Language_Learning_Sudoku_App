@@ -1,13 +1,10 @@
 package ca.sfu.cmpt276.sudokulang.ui.game.board;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import ca.sfu.cmpt276.sudokulang.R;
@@ -16,10 +13,14 @@ import ca.sfu.cmpt276.sudokulang.ui.UiUtil;
 /**
  * A UI representation of a Sudoku cell.
  */
-@SuppressLint("AppCompatCustomView")
-public class SudokuCell extends TextView {
-    private @NonNull CellUiState mUiState;
+public class SudokuCell extends com.google.android.material.textview.MaterialTextView {
+    private final static int mPadding = UiUtil.dpToPx(2);
     private final int mRowIndex, mColIndex;
+    private @NonNull CellUiState mUiState;
+
+    public SudokuCell(@NonNull Context context) {
+        this(context, -1, -1);
+    }
 
     public SudokuCell(@NonNull Context context, int rowIndex, int colIndex) {
         super(context);
@@ -29,28 +30,25 @@ public class SudokuCell extends TextView {
         init();
     }
 
-    public SudokuCell(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        mRowIndex = mColIndex = -1;
-        mUiState = new CellUiState();
-        init();
-    }
-
     private void init() {
         // Make it fill all available layout space, considering other weights.
-        var layoutParams = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_CONSTRAINT,
-                ConstraintLayout.LayoutParams.MATCH_CONSTRAINT);
-        layoutParams.horizontalWeight = layoutParams.verticalWeight = 1f;
-        setLayoutParams(layoutParams);
+        setLayoutParams(
+                new ConstraintLayout.LayoutParams(
+                        ConstraintLayout.LayoutParams.MATCH_CONSTRAINT,
+                        ConstraintLayout.LayoutParams.MATCH_CONSTRAINT)
+        );
 
         // Make text stay 2dp away from borders.
-        final int padding = UiUtil.dpToPx(2);
-        setPadding(padding, padding, padding, padding);
+        setPadding(mPadding, mPadding, mPadding, mPadding);
 
         // Center text inside cell.
         setGravity(Gravity.CENTER);
         setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelSmall);
+
+        // Set text size (sp) == 28% view's height (dp).
+        addOnLayoutChangeListener((view, left, top, right, bottom,
+                                   oldLeft, oldTop, oldRight, oldBottom) ->
+                setTextSize(TypedValue.COMPLEX_UNIT_SP, 0.28f * UiUtil.pxToDp(bottom - top)));
 
         setText(mUiState.getText());
         setColor(Color.NORMAL);

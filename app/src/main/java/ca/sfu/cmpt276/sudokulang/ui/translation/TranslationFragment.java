@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
-import ca.sfu.cmpt276.sudokulang.R;
 import ca.sfu.cmpt276.sudokulang.databinding.FragmentTranslationBinding;
 
 public class TranslationFragment extends Fragment {
@@ -36,8 +35,10 @@ public class TranslationFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.buttonTranslation.setOnClickListener(view1 -> NavHostFragment.findNavController(TranslationFragment.this)
-                .navigate(R.id.navigation_home));
+        binding.buttonTranslation.setOnClickListener(v ->
+                NavHostFragment
+                        .findNavController(this)
+                        .navigate(TranslationFragmentDirections.actionTranslationFragmentToMainActivity()));
     }
 
     @Override

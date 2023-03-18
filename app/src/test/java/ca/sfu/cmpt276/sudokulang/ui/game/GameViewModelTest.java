@@ -1,13 +1,17 @@
-package ca.sfu.cmpt276.sudokulang.ui.game.board;
+package ca.sfu.cmpt276.sudokulang.ui.game;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import ca.sfu.cmpt276.sudokulang.ui.InstantExecutorExtension;
-import ca.sfu.cmpt276.sudokulang.ui.game.GameViewModel;
 
 @ExtendWith(InstantExecutorExtension.class)
 class GameViewModelTest {
@@ -90,16 +94,16 @@ class GameViewModelTest {
         // For temporary testing of the board data.
         game.generateNewBoard(9, 3, 3);
         game.setSelectedCell(5, 5);
-        game.setSelectedCellText("Br");
+        game.setSelectedCellText("Cr");
         assertFalse(game.getBoardUiState().getValue().getSelectedCell().isErrorCell());
         game.setSelectedCell(5, 0);
-        game.setSelectedCellText("Ca");
+        game.setSelectedCellText("Fe");
         assertTrue(game.getBoardUiState().getValue().getSelectedCell().isErrorCell());
         game.setSelectedCell(8, 5);
-        game.setSelectedCellText("Br");
+        game.setSelectedCellText("Cr");
         assertTrue(game.getBoardUiState().getValue().getSelectedCell().isErrorCell());
         game.setSelectedCell(4, 3);
-        game.setSelectedCellText("Br");
+        game.setSelectedCellText("Cr");
         assertTrue(game.getBoardUiState().getValue().getSelectedCell().isErrorCell());
     }
 

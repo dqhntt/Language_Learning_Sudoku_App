@@ -17,106 +17,98 @@
         <TextView
             android:id="@+id/welcome_text"
             android:layout_width="0dp"
-            android:textStyle="bold"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/main_activity_spinner_margin"
             android:text="@string/welcome_text"
             android:textAlignment="center"
             android:textColor="?attr/colorOnSurfaceVariant"
             android:textSize="@dimen/welcome_text_size"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/constraintLayout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/image_button_history"
-            tools:text="@string/welcome_text" />
+            app:layout_constraintTop_toBottomOf="@id/image_button_history" />
 
         <ImageButton
             android:id="@+id/image_button_next"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:backgroundTint="@color/mint_green"
+            android:contentDescription="@string/next"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="@id/image_button_tutorial"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@id/image_button_tutorial"
             app:layout_constraintTop_toTopOf="@id/image_button_tutorial"
-            app:srcCompat="@drawable/ic_arrow_circle_right_outline_24dp"
-            tools:contentDescription="next button" />
+            app:srcCompat="@drawable/ic_arrow_circle_right_outline_24dp" />
 
         <ImageButton
             android:id="@+id/image_button_favourites"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:backgroundTint="@color/mint_green"
+            android:contentDescription="@string/favourites"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="@id/image_button_history"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@id/image_button_history"
             app:layout_constraintTop_toTopOf="@id/image_button_history"
-            app:srcCompat="@drawable/ic_star_outline_24dp"
-            tools:contentDescription="favourites button" />
+            app:srcCompat="@drawable/ic_star_outline_24dp" />
 
         <ImageButton
             android:id="@+id/image_button_settings"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:backgroundTint="@color/mint_green"
+            android:contentDescription="@string/settings"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="@id/image_button_history"
             app:layout_constraintEnd_toStartOf="@id/image_button_history"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/image_button_history"
-            app:srcCompat="@drawable/ic_settings_outline_24dp"
-            tools:contentDescription="settings button" />
+            app:srcCompat="@drawable/ic_settings_outline_24dp" />
 
         <ImageButton
             android:id="@+id/image_button_history"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:backgroundTint="@color/mint_green"
+            android:contentDescription="@string/history"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toTopOf="@id/welcome_text"
             app:layout_constraintEnd_toStartOf="@id/image_button_favourites"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@id/image_button_settings"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="spread_inside"
-            app:srcCompat="@drawable/ic_history_24dp"
-            tools:contentDescription="history button" />
+            app:srcCompat="@drawable/ic_history_24dp" />
 
         <ImageButton
             android:id="@+id/image_button_help"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:backgroundTint="@color/mint_green"
+            android:contentDescription="@string/help"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="@id/image_button_tutorial"
             app:layout_constraintEnd_toStartOf="@id/image_button_tutorial"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/image_button_tutorial"
-            app:srcCompat="@drawable/ic_help_outline_24dp"
-            tools:contentDescription="help button" />
+            app:srcCompat="@drawable/ic_help_outline_24dp" />
 
         <ImageButton
             android:id="@+id/image_button_tutorial"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:backgroundTint="@color/mint_green"
+            android:contentDescription="@string/tutorial"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/image_button_next"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@id/image_button_help"
             app:layout_constraintTop_toBottomOf="@id/constraintLayout3"
-            app:srcCompat="@drawable/ic_play_circle_outline_24dp"
-            tools:contentDescription="tutorial button" />
+            app:srcCompat="@drawable/ic_play_circle_outline_24dp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
@@ -125,7 +117,6 @@
             android:layout_marginVertical="@dimen/main_activity_spinner_margin"
             app:layout_constraintBottom_toTopOf="@id/constraintLayout2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/welcome_text">
 
@@ -133,16 +124,15 @@
                 android:id="@+id/textView_Learning_lang"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
                 android:padding="8dp"
                 android:text="@string/I_want_to_learn"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="@dimen/homepage_text_size"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/spinner_learning_lang"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Spinner
                 android:id="@+id/spinner_learning_lang"
@@ -153,8 +143,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView_Learning_lang"
-                tools:contentDescription="learning lang" />
+                app:layout_constraintTop_toBottomOf="@id/textView_Learning_lang" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -164,7 +153,6 @@
             android:layout_marginVertical="@dimen/main_activity_spinner_margin"
             app:layout_constraintBottom_toTopOf="@id/constraintLayout3"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/constraintLayout">
 
@@ -173,15 +161,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:textStyle="bold"
                 android:text="@string/I_already_know"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="@dimen/homepage_text_size"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/spinner_native_lang"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Spinner
                 android:id="@+id/spinner_native_lang"
@@ -192,8 +179,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView_Native_lang"
-                tools:contentDescription="native lang" />
+                app:layout_constraintTop_toBottomOf="@id/textView_Native_lang" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -203,7 +189,6 @@
             android:layout_marginVertical="@dimen/main_activity_spinner_margin"
             app:layout_constraintBottom_toTopOf="@id/image_button_tutorial"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/constraintLayout2">
 
@@ -214,14 +199,12 @@
                 android:padding="8dp"
                 android:text="@string/GridSize"
                 android:textColor="?attr/colorOnSurfaceVariant"
-                android:textStyle="bold"
                 android:textSize="@dimen/homepage_text_size"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/spinner_grid_size"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Spinner
                 android:id="@+id/spinner_grid_size"
@@ -231,11 +214,8 @@
                 android:minHeight="@dimen/spinner_height"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView_Grid_Sizes"
-                tools:contentDescription="grid sizes " />
+                app:layout_constraintTop_toBottomOf="@id/textView_Grid_Sizes" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

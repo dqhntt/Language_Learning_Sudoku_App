@@ -19,85 +19,85 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:backgroundTint="@color/mint_green"
+            android:contentDescription="@string/next"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="@id/image_button_tutorial"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/image_button_tutorial"
             app:layout_constraintTop_toTopOf="@id/image_button_tutorial"
-            app:srcCompat="@drawable/ic_arrow_circle_right_outline_24dp"
-            tools:contentDescription="next button" />
+            app:srcCompat="@drawable/ic_arrow_circle_right_outline_24dp" />
 
         <ImageButton
             android:id="@+id/image_button_favourites"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:backgroundTint="@color/mint_green"
+            android:contentDescription="@string/favourites"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="@id/image_button_history"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/image_button_history"
             app:layout_constraintTop_toTopOf="@id/image_button_history"
-            app:srcCompat="@drawable/ic_star_outline_24dp"
-            tools:contentDescription="favourites button" />
+            app:srcCompat="@drawable/ic_star_outline_24dp" />
 
         <ImageButton
             android:id="@+id/image_button_settings"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:backgroundTint="@color/mint_green"
+            android:contentDescription="@string/settings"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="@id/image_button_history"
             app:layout_constraintEnd_toStartOf="@id/image_button_history"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/image_button_history"
-            app:srcCompat="@drawable/ic_settings_outline_24dp"
-            tools:contentDescription="settings button" />
+            app:srcCompat="@drawable/ic_settings_outline_24dp" />
 
         <ImageButton
             android:id="@+id/image_button_history"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:backgroundTint="@color/mint_green"
+            android:contentDescription="@string/history"
             android:scaleType="fitCenter"
             app:layout_constraintEnd_toStartOf="@id/image_button_favourites"
             app:layout_constraintStart_toEndOf="@id/image_button_settings"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="spread_inside"
-            app:srcCompat="@drawable/ic_history_24dp"
-            tools:contentDescription="history button" />
+            app:srcCompat="@drawable/ic_history_24dp" />
 
         <ImageButton
             android:id="@+id/image_button_help"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:backgroundTint="@color/mint_green"
+            android:contentDescription="@string/help"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="@id/image_button_tutorial"
             app:layout_constraintEnd_toStartOf="@id/image_button_tutorial"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/image_button_tutorial"
-            app:srcCompat="@drawable/ic_help_outline_24dp"
-            tools:contentDescription="help button" />
+            app:srcCompat="@drawable/ic_help_outline_24dp" />
 
         <ImageButton
             android:id="@+id/image_button_tutorial"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:backgroundTint="@color/mint_green"
+            android:contentDescription="@string/tutorial"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/image_button_next"
             app:layout_constraintStart_toEndOf="@id/image_button_help"
-            app:srcCompat="@drawable/ic_play_circle_outline_24dp"
-            tools:contentDescription="tutorial button" />
+            app:srcCompat="@drawable/ic_play_circle_outline_24dp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="@dimen/spinner_width"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spinner_margin"
+            android:layout_marginBottom="@dimen/homepage2_spinner_margin"
             app:layout_constraintBottom_toTopOf="@id/constraintLayout2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -111,14 +111,13 @@
                 android:padding="8dp"
                 android:text="@string/lang_level"
                 android:textAlignment="center"
-                android:textSize="@dimen/homepage_text_size"
                 android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="@dimen/homepage_text_size"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/spinner_lang_level"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Spinner
                 android:id="@+id/spinner_lang_level"
@@ -129,15 +128,14 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView_lang_level"
-                tools:contentDescription="learning lang" />
+                app:layout_constraintTop_toBottomOf="@id/textView_lang_level" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"
             android:layout_width="@dimen/spinner_width"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spinner_margin"
+            android:layout_marginTop="@dimen/homepage2_spinner_margin"
             app:layout_constraintBottom_toTopOf="@id/image_button_tutorial"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -148,12 +146,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:textSize="@dimen/homepage_text_size"
                 android:text="@string/sudoku_level"
                 android:textAlignment="center"
                 android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="@dimen/homepage_text_size"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/spinner_sudoku_level"
+                app:layout_constraintBottom_toTopOf="@id/spinner_sudoku_level"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -166,9 +164,8 @@
                 android:minHeight="@dimen/spinner_height"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textView_Sudoku_Level"
-                app:layout_constraintTop_toBottomOf="@+id/textView_Sudoku_Level"
-                tools:contentDescription="native lang" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView_Sudoku_Level" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

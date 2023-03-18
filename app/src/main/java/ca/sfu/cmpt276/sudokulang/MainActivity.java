@@ -12,14 +12,13 @@ import ca.sfu.cmpt276.sudokulang.databinding.ActivityMainBinding;
 import kotlin.Triple;
 
 public class MainActivity extends AppCompatActivity {
-    private ActivityMainBinding binding;
     private Spinner learningLangSpinner, nativeLangSpinner, gridSizeSpinner;
     private ArrayAdapter<CharSequence> learningLangAdapter, nativeLangAdapter, gridSizeAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        final var binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // Set background color.
@@ -30,17 +29,17 @@ public class MainActivity extends AppCompatActivity {
         nativeLangSpinner = binding.spinnerNativeLang;
         gridSizeSpinner = binding.spinnerGridSize;
 
-        //Populate ArrayAdapter using string array and a spinner layout that we will define
+        // Populate ArrayAdapter using string array and a spinner layout that we will define
         learningLangAdapter = ArrayAdapter.createFromResource(this, R.array.array_learning_lang, R.layout.spinner_layout);
         nativeLangAdapter = ArrayAdapter.createFromResource(this, R.array.array_native_lang, R.layout.spinner_layout);
         gridSizeAdapter = ArrayAdapter.createFromResource(this, R.array.array_grid_size, R.layout.spinner_layout);
 
-        //Specify the layout to use when the list of choices appear
+        // Specify the layout to use when the list of choices appear
         learningLangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         nativeLangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         gridSizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        //set the adapter to the spinner to populate State Spinner
+        // Set the adapter to the spinner to populate State Spinner
         learningLangSpinner.setAdapter(learningLangAdapter);
         nativeLangSpinner.setAdapter(nativeLangAdapter);
         gridSizeSpinner.setAdapter(gridSizeAdapter);
@@ -64,12 +63,10 @@ public class MainActivity extends AppCompatActivity {
                     final var sizes = getGridSize();
                     startActivity(HomePage2.newIntent(MainActivity.this,
                             new HomePage2Args.Builder(
-                                    nativeLang,
-                                    learningLang,
-                                    sizes.getFirst(),
-                                    sizes.getSecond(),
-                                    sizes.getThird()
-                            ).build()));
+                                    nativeLang, learningLang,
+                                    sizes.getFirst(), sizes.getSecond(), sizes.getThird()
+                            ).build()
+                    ));
                 }
             }
         });

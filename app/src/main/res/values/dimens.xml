@@ -5,13 +5,15 @@
     <dimen name="text_margin">16dp</dimen>
     <dimen name="game_board_margin">8dp</dimen>
     <dimen name="bottom_app_bar_height">80dp</dimen>
-    <dimen name="spinner_width">0dp</dimen>
-    <dimen name="spinner_margin">32dp</dimen>
-    <dimen name="main_activity_spinner_margin">8dp</dimen>
+    <dimen name="quick_cell_view_text_size">16sp</dimen>
+    <dimen name="word_button_text_size">14sp</dimen>
+
+    <!-- Homepages -->
     <dimen name="homepage_text_size">15sp</dimen>
     <dimen name="welcome_text_size">18sp</dimen>
     <dimen name="spinner_text_size">14sp</dimen>
     <dimen name="spinner_height">48dp</dimen>
-    <dimen name="quick_cell_view_text_size">16sp</dimen>
-    <dimen name="word_button_text_size">14sp</dimen>
+    <dimen name="spinner_width">0dp</dimen>
+    <dimen name="main_activity_spinner_margin">8dp</dimen>
+    <dimen name="homepage2_spinner_margin">32dp</dimen>
 </resources>

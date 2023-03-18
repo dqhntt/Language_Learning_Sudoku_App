@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import ca.sfu.cmpt276.sudokulang.databinding.ActivityHomePage2Binding;
 
 public class HomePage2 extends AppCompatActivity {
-    private ActivityHomePage2Binding binding;
     private Spinner langSpinner, sudokuSpinner;
     private ArrayAdapter<CharSequence> langAdapter, sudokuAdapter; //only declaration
 
@@ -33,7 +32,7 @@ public class HomePage2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityHomePage2Binding.inflate(getLayoutInflater());
+        final var binding = ActivityHomePage2Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // Set background color.
@@ -45,15 +44,15 @@ public class HomePage2 extends AppCompatActivity {
         langSpinner = binding.spinnerLangLevel;
         sudokuSpinner = binding.spinnerSudokuLevel;
 
-        //populate ArrayAdapter using string array and a spinner layout that we will define
+        // Populate ArrayAdapter using string array and a spinner layout that we will define
         langAdapter = ArrayAdapter.createFromResource(this, R.array.array_lang_level, R.layout.spinner_layout);
         sudokuAdapter = ArrayAdapter.createFromResource(this, R.array.array_sudoku_level, R.layout.spinner_layout);
 
-        //specify the layout to use when the list of choices appear
+        // Specify the layout to use when the list of choices appear
         langAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sudokuAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        //set adapter to spinner to populate the Lang Spinner
+        // Set adapter to spinner to populate the Lang Spinner
         langSpinner.setAdapter(langAdapter);
         sudokuSpinner.setAdapter(sudokuAdapter);
 
@@ -68,7 +67,11 @@ public class HomePage2 extends AppCompatActivity {
 
                 if (langLevel.contentEquals(langAdapter.getItem(0))
                         || sudokuLevel.contentEquals(sudokuAdapter.getItem(0))) {
-                    Toast.makeText(HomePage2.this, "*Please select a valid input for all fields*", Toast.LENGTH_LONG).show();
+                    Toast.makeText(
+                            HomePage2.this,
+                            "*Please select a valid input for all fields*",
+                            Toast.LENGTH_LONG
+                    ).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Loading....", Toast.LENGTH_SHORT).show();
                     //gets the intent value from MainActivity and stores it
@@ -82,8 +85,8 @@ public class HomePage2 extends AppCompatActivity {
                                     extras.getBoardSize(),
                                     extras.getSubgridHeight(),
                                     extras.getSubgridWidth()
-                            ).build())
-                    );
+                            ).build()
+                    ));
                 }
             }
         });

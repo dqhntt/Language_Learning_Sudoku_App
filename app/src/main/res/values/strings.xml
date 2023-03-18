@@ -61,5 +61,10 @@
     <string name="notes">Notes</string>
 
     <string name="congratulations">Game completed. Well done!</string>
-    <string name="landscape_welcome_text">landscape_welcome_text</string>
+
+    <!-- Content descriptions -->
+    <string name="next">Next</string>
+    <string name="favourites">Favourites</string>
+    <string name="history">History</string>
+    <string name="tutorial">Tutorial</string>
 </resources>

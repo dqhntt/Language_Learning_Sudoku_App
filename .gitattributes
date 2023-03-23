@@ -1,6 +1,15 @@
-*      text=auto
+# The rest
+*   text=auto
 
-*.pdf   binary
+# Documents
+*.pdf       binary
 
-*.png   binary
-*.jpg   binary
+# Images
+*.png       binary
+*.jpg       binary
+
+# Databases
+*.db        binary
+*.db3       binary
+*.sqlite    binary
+*.sqlite3   binary

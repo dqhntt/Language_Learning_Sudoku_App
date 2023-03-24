@@ -7,20 +7,25 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import android.app.Application;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import ca.sfu.cmpt276.sudokulang.GameViewModel;
 import ca.sfu.cmpt276.sudokulang.ui.InstantExecutorExtension;
 
+@ExtendWith(MockitoExtension.class)
 @ExtendWith(InstantExecutorExtension.class)
 class GameViewModelTest {
     private GameViewModel game;
 
     @BeforeEach
     void setUp() {
-        game = new GameViewModel();
+        game = new GameViewModel(Mockito.mock(Application.class));
     }
 
     @Test
@@ -129,7 +134,7 @@ class GameViewModelTest {
 
     @Test
     void getDataValuePairs() {
-        game.generateNewBoard(9,3,3);
+        game.generateNewBoard(9, 3, 3);
         assertEquals(
                 game.getBoardUiState().getValue().getBoardSize(),
                 game.getDataValuePairs().length

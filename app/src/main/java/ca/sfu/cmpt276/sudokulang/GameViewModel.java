@@ -1,14 +1,24 @@
 package ca.sfu.cmpt276.sudokulang;
 
+import android.app.Application;
+
 import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import ca.sfu.cmpt276.sudokulang.data.source.BoardRepository;
+import ca.sfu.cmpt276.sudokulang.data.source.BoardRepositoryImpl;
+import ca.sfu.cmpt276.sudokulang.data.source.GameRepository;
+import ca.sfu.cmpt276.sudokulang.data.source.GameRepositoryImpl;
+import ca.sfu.cmpt276.sudokulang.data.source.TranslationRepository;
+import ca.sfu.cmpt276.sudokulang.data.source.TranslationRepositoryImpl;
+import ca.sfu.cmpt276.sudokulang.data.source.WordRepository;
+import ca.sfu.cmpt276.sudokulang.data.source.WordRepositoryImpl;
 import ca.sfu.cmpt276.sudokulang.ui.game.board.BoardUiState;
 import ca.sfu.cmpt276.sudokulang.ui.game.board.CellUiState;
 
@@ -17,14 +27,23 @@ import ca.sfu.cmpt276.sudokulang.ui.game.board.CellUiState;
  *
  * @cite <a href="https://google-developer-training.github.io/android-developer-fundamentals-course-concepts-v2/unit-4-saving-user-data/lesson-10-storing-data-with-room/10-1-c-room-livedata-viewmodel/10-1-c-room-livedata-viewmodel.html#viewmodel">LiveData & ViewModel</a>
  */
-public class GameViewModel extends ViewModel {
+public class GameViewModel extends AndroidViewModel {
+    private final BoardRepository mBoardRepo;
+    private final GameRepository mGameRepo;
+    private final TranslationRepository mTranslationRepo;
+    private final WordRepository mWordRepo;
     private final @NonNull MutableLiveData<BoardUiState> mBoardUiState;
 
     /**
      * @implNote Board dimension when default constructed is undefined. <p>
      * Use {@link #generateNewBoard(int, int, int)} to set a desired dimension.
      */
-    public GameViewModel() {
+    public GameViewModel(Application app) {
+        super(app);
+        mBoardRepo = new BoardRepositoryImpl(app);
+        mGameRepo = new GameRepositoryImpl(app);
+        mTranslationRepo = new TranslationRepositoryImpl(app);
+        mWordRepo = new WordRepositoryImpl(app);
         mBoardUiState = new MutableLiveData<>();
     }
 

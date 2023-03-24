@@ -58,6 +58,7 @@ dependencies {
 
     // Unit tests.
     testImplementation "org.junit.jupiter:junit-jupiter:5.9.2"
+    testImplementation "org.mockito:mockito-junit-jupiter:5.2.0"
 
     // Instrumented tests.
     androidTestImplementation "androidx.test.ext:junit:1.2.0-alpha01"

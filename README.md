@@ -344,9 +344,14 @@ of [CEFR: Common European Framework of Reference for Languages](https://www.coe.
   users of smaller devices, but may have more difficulty reading compared to tablet users playing
   with smaller grid sizes. {- [ N/A ] -}
 
-<br />
-<br />
-<br />
+# 6. NEW REQUIREMENTS FOR ITERATIONS 4
+
+### 6.1. As a student who wants to practice my understanding of spoken words in the languages that I am learning, I want a listening comprehension mode. 
+
+**Examples:**
+- In this mode, numbers will appear in the prefilled cells. 
+- When I press the number, the corresponding word in the language that I am learning will be read out to me.
+- I can then test my listening comprehension by selecting from the menu the correct English (or my native languge) translation of the word.
 
 # VISUAL STATES OF THE GAME/APPLICATION
 

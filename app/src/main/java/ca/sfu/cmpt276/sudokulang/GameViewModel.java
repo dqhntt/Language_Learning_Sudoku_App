@@ -1,4 +1,4 @@
-package ca.sfu.cmpt276.sudokulang.ui.game;
+package ca.sfu.cmpt276.sudokulang;
 
 import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
@@ -198,6 +198,7 @@ public class GameViewModel extends ViewModel {
         return map;
     }
 
+    @SuppressWarnings("unchecked")
     public Pair<String, String>[] getDataValuePairs() {
         // For TESTING only.
         // TODO: Replace this with a database. !!

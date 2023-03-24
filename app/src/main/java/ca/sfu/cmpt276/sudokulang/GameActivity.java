@@ -21,7 +21,6 @@ import com.google.android.material.snackbar.Snackbar;
 
 import ca.sfu.cmpt276.sudokulang.databinding.ActivityGameBinding;
 import ca.sfu.cmpt276.sudokulang.ui.game.GameFragmentDirections;
-import ca.sfu.cmpt276.sudokulang.ui.game.GameViewModel;
 
 public class GameActivity extends AppCompatActivity {
     private static final String SHOULD_CREATE_NEW_GAME = "should_create_new_game";

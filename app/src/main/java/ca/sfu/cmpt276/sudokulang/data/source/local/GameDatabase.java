@@ -9,7 +9,6 @@ import androidx.room.TypeConverters;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import ca.sfu.cmpt276.sudokulang.data.BoardImpl;
 import ca.sfu.cmpt276.sudokulang.data.Converters;
@@ -24,7 +23,6 @@ import ca.sfu.cmpt276.sudokulang.data.Word;
 // Cite: https://developer.android.com/codelabs/android-room-with-a-view#7
 @Database(
         version = 1,
-        exportSchema = true,
         entities = {
                 BoardImpl.class,
                 Game.class,
@@ -49,7 +47,7 @@ public abstract class GameDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     GameDatabase.class, "game_database")
                             .createFromAsset("database/GameDatabase.db")
-                            .allowMainThreadQueries() // For TESTING only. TODO: Remove this.
+                            .allowMainThreadQueries() // For TESTING.
                             .build();
                 }
             }
@@ -68,27 +66,4 @@ public abstract class GameDatabase extends RoomDatabase {
     public abstract TranslationDao translationDao();
 
     public abstract WordDao wordDao();
-
-    public static class Util {
-        public static void execute(Runnable command) {
-            databaseWriteExecutor.execute(command);
-        }
-
-        /**
-         * @cite <a href="https://stackoverflow.com/questions/1250643">Shutdown ExecutorService</a>
-         * @see ExecutorService#awaitTermination(long, TimeUnit)
-         */
-        public static boolean executeAndAwaitTermination(Runnable command) {
-            boolean terminated = false;
-            databaseWriteExecutor.execute(command);
-            databaseWriteExecutor.shutdown();
-            try {
-                terminated = databaseWriteExecutor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
-            } catch (InterruptedException e) {
-                // re-interrupt the thread and propagate the exception
-                Thread.currentThread().interrupt();
-            }
-            return terminated;
-        }
-    }
 }

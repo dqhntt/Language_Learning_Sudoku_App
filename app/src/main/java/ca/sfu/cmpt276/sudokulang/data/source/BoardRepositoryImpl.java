@@ -1,15 +1,11 @@
 package ca.sfu.cmpt276.sudokulang.data.source;
 
-import static ca.sfu.cmpt276.sudokulang.data.source.local.GameDatabase.databaseWriteExecutor;
-
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
 
 import ca.sfu.cmpt276.sudokulang.data.BoardDimension;
 import ca.sfu.cmpt276.sudokulang.data.BoardImpl;
@@ -27,16 +23,7 @@ public class BoardRepositoryImpl implements BoardRepository {
     // Cite: https://stackoverflow.com/questions/1250643
     @Override
     public BoardImpl getBoardById(long id) {
-        final var boardAtomic = new AtomicReference<BoardImpl>();
-        databaseWriteExecutor.execute(() -> boardAtomic.set(mBoardDao.getBoardById(id)));
-        databaseWriteExecutor.shutdown();
-        try {
-            databaseWriteExecutor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
-        } catch (InterruptedException e) {
-            // re-interrupt the thread and propagate the exception
-            Thread.currentThread().interrupt();
-        }
-        return boardAtomic.get();
+        return mBoardDao.getBoardById(id);
     }
 
     @Override
@@ -61,16 +48,8 @@ public class BoardRepositoryImpl implements BoardRepository {
 
     @Override
     public BoardImpl getARandomBoardMatching(int boardSize, int subgridHeight, int subgridWidth, String level) {
-        final var boardsAtomic = new AtomicReference<List<BoardImpl>>();
-        databaseWriteExecutor.execute(() ->
-                boardsAtomic.set(mBoardDao.getAllFilteredBoards(boardSize, subgridHeight, subgridWidth, level)));
-        databaseWriteExecutor.shutdown();
-        try {
-            databaseWriteExecutor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
-        } catch (InterruptedException e) {
-            // re-interrupt the thread and propagate the exception
-            Thread.currentThread().interrupt();
-        }
-        return boardsAtomic.get().get(new Random().nextInt(boardSize));
+        return mBoardDao
+                .getAllFilteredBoards(boardSize, subgridHeight, subgridWidth, level)
+                .get(new Random().nextInt(boardSize));
     }
 }

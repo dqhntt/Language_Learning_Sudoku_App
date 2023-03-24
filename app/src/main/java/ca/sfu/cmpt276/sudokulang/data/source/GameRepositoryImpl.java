@@ -5,8 +5,6 @@ import static ca.sfu.cmpt276.sudokulang.data.source.local.GameDatabase.databaseW
 import android.app.Application;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
 
 import ca.sfu.cmpt276.sudokulang.data.Game;
 import ca.sfu.cmpt276.sudokulang.data.GameTranslation;
@@ -27,41 +25,21 @@ public class GameRepositoryImpl implements GameRepository {
 
     @Override
     public void insert(Game game) {
-        GameDatabase.Util.execute(() -> mGameDao.insert(game));
+        databaseWriteExecutor.execute(() -> mGameDao.insert(game));
     }
 
     @Override
     public void update(Game game) {
-        GameDatabase.Util.execute(() -> mGameDao.update(game));
+        databaseWriteExecutor.execute(() -> mGameDao.update(game));
     }
 
     @Override
     public List<GameWithTranslations> getAllGamesWithTranslations() {
-        final var gameTranslationsAtomic = new AtomicReference<List<GameWithTranslations>>();
-        databaseWriteExecutor.execute(() ->
-                gameTranslationsAtomic.set(mGameTranslationDao.getAllGamesWithTranslations()));
-        databaseWriteExecutor.shutdown();
-        try {
-            databaseWriteExecutor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
-        } catch (InterruptedException e) {
-            // re-interrupt the thread and propagate the exception
-            Thread.currentThread().interrupt();
-        }
-        return gameTranslationsAtomic.get();
+        return mGameTranslationDao.getAllGamesWithTranslations();
     }
 
     @Override
     public long insert(GameTranslation gameTranslation) {
-        final var longAtomic = new AtomicReference<Long>();
-        databaseWriteExecutor.execute(() ->
-                longAtomic.set(mGameTranslationDao.insert(gameTranslation)));
-        databaseWriteExecutor.shutdown();
-        try {
-            databaseWriteExecutor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
-        } catch (InterruptedException e) {
-            // re-interrupt the thread and propagate the exception
-            Thread.currentThread().interrupt();
-        }
-        return longAtomic.get();
+        return mGameTranslationDao.insert(gameTranslation);
     }
 }

@@ -1,15 +1,11 @@
 package ca.sfu.cmpt276.sudokulang.data.source;
 
-import static ca.sfu.cmpt276.sudokulang.data.source.local.GameDatabase.databaseWriteExecutor;
-
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 import ca.sfu.cmpt276.sudokulang.data.Translation;
@@ -25,18 +21,9 @@ public class TranslationRepositoryImpl implements TranslationRepository {
     }
 
     @Override
-    public List<WordPair> getNRandomWordPairsMatching(int n, String nativeLang, String learningLang, String langLevel) {
-        final var pairsAtomic = new AtomicReference<List<WordPair>>();
-        databaseWriteExecutor.execute(() ->
-                pairsAtomic.set(mTranslationDao.getAllFilteredWordPairs(nativeLang, learningLang, langLevel)));
-        databaseWriteExecutor.shutdown();
-        try {
-            databaseWriteExecutor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
-        } catch (InterruptedException e) {
-            // re-interrupt the thread and propagate the exception
-            Thread.currentThread().interrupt();
-        }
-        final var pairs = pairsAtomic.get();
+    public List<WordPair> getNRandomWordPairsMatching(int n,
+                                                      String nativeLang, String learningLang, String langLevel) {
+        final var pairs = mTranslationDao.getAllFilteredWordPairs(nativeLang, learningLang, langLevel);
         Collections.shuffle(pairs);
         return pairs.stream().limit(n).collect(Collectors.toList());
     }
@@ -58,16 +45,6 @@ public class TranslationRepositoryImpl implements TranslationRepository {
 
     @Override
     public List<Translation> getTranslationsByIds(long[] translationIds) {
-        final var translationsAtomic = new AtomicReference<List<Translation>>();
-        databaseWriteExecutor.execute(() ->
-                translationsAtomic.set(mTranslationDao.getTranslationsByIds(translationIds)));
-        databaseWriteExecutor.shutdown();
-        try {
-            databaseWriteExecutor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
-        } catch (InterruptedException e) {
-            // re-interrupt the thread and propagate the exception
-            Thread.currentThread().interrupt();
-        }
-        return translationsAtomic.get();
+        return mTranslationDao.getTranslationsByIds(translationIds);
     }
 }

@@ -3,14 +3,13 @@ package ca.sfu.cmpt276.sudokulang;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.core.util.Pair;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
+import ca.sfu.cmpt276.sudokulang.data.WordPair;
 import ca.sfu.cmpt276.sudokulang.data.source.BoardRepository;
 import ca.sfu.cmpt276.sudokulang.data.source.BoardRepositoryImpl;
 import ca.sfu.cmpt276.sudokulang.data.source.GameRepository;
@@ -28,11 +27,13 @@ import ca.sfu.cmpt276.sudokulang.ui.game.board.CellUiState;
  * @cite <a href="https://google-developer-training.github.io/android-developer-fundamentals-course-concepts-v2/unit-4-saving-user-data/lesson-10-storing-data-with-room/10-1-c-room-livedata-viewmodel/10-1-c-room-livedata-viewmodel.html#viewmodel">LiveData & ViewModel</a>
  */
 public class GameViewModel extends AndroidViewModel {
-    private final BoardRepository mBoardRepo;
-    private final GameRepository mGameRepo;
-    private final TranslationRepository mTranslationRepo;
-    private final WordRepository mWordRepo;
+    public final BoardRepository boardRepo;
+    public final GameRepository gameRepo;
+    public final TranslationRepository translationRepo;
+    public final WordRepository wordRepo;
     private final @NonNull MutableLiveData<BoardUiState> mBoardUiState;
+    private WordPair[] mWordPairs = null;
+    private final boolean mGameInProgress;
 
     /**
      * @implNote Board dimension when default constructed is undefined. <p>
@@ -40,11 +41,12 @@ public class GameViewModel extends AndroidViewModel {
      */
     public GameViewModel(Application app) {
         super(app);
-        mBoardRepo = new BoardRepositoryImpl(app);
-        mGameRepo = new GameRepositoryImpl(app);
-        mTranslationRepo = new TranslationRepositoryImpl(app);
-        mWordRepo = new WordRepositoryImpl(app);
+        boardRepo = new BoardRepositoryImpl(app);
+        gameRepo = new GameRepositoryImpl(app);
+        translationRepo = new TranslationRepositoryImpl(app);
+        wordRepo = new WordRepositoryImpl(app);
         mBoardUiState = new MutableLiveData<>();
+        mGameInProgress = true;
     }
 
     public LiveData<BoardUiState> getBoardUiState() {
@@ -211,40 +213,20 @@ public class GameViewModel extends AndroidViewModel {
 
     private HashMap<String, String> getButtonToCellValueMap() {
         var map = new HashMap<String, String>(mBoardUiState.getValue().getBoardSize());
-        for (var pair : getDataValuePairs()) {
-            map.put(pair.first, pair.second);
+        for (var pair : getWordPairs()) {
+            map.put(pair.getOriginalWord(), pair.getTranslatedWord());
         }
         return map;
     }
 
-    @SuppressWarnings("unchecked")
-    public Pair<String, String>[] getDataValuePairs() {
-        // For TESTING only.
-        // TODO: Replace this with a database. !!
-
-        final int boardSize = mBoardUiState.getValue().getBoardSize();
-        var pairs = new ArrayList<Pair<String, String>>(boardSize);
-        if (boardSize > 0) {
-            pairs.add(new Pair<>("Ag", "Silver"));
-            pairs.add(new Pair<>("Cr", "Chromium"));
-            pairs.add(new Pair<>("Fe", "Iron"));
-            pairs.add(new Pair<>("He", "Helium"));
+    public WordPair[] getWordPairs() {
+        if (mWordPairs == null || !mGameInProgress) {
+            mWordPairs = translationRepo.getNRandomWordPairsMatching(
+                    mBoardUiState.getValue().getBoardSize(),
+                    "English", "French", "Beginner"
+            ).toArray(new WordPair[0]);
         }
-        if (boardSize > 4) {
-            pairs.add(new Pair<>("I", "Iodine"));
-            pairs.add(new Pair<>("K", "Potassium"));
-        }
-        if (boardSize > 6) {
-            pairs.add(new Pair<>("Li", "Lithium"));
-            pairs.add(new Pair<>("Na", "Sodium"));
-            pairs.add(new Pair<>("Pb", "Lead"));
-        }
-        if (boardSize > 9) {
-            pairs.add(new Pair<>("Sn", "Tin"));
-            pairs.add(new Pair<>("W", "Tungsten"));
-            pairs.add(new Pair<>("Zn", "Zinc"));
-        }
-        return pairs.toArray(new Pair[0]);
+        return mWordPairs;
     }
 
     private void generateBoardData() {
@@ -255,179 +237,179 @@ public class GameViewModel extends AndroidViewModel {
         final int subgridHeight = mBoardUiState.getValue().getSubgridHeight();
         final int subgridWidth = mBoardUiState.getValue().getSubgridWidth();
 
-        final var pairs = getDataValuePairs();
+        final var pairs = getWordPairs();
         final var cells = mBoardUiState.getValue().getCells();
 
         // 9x9
         if (boardSize == 9 && subgridHeight == 3 && subgridWidth == 3) {
-            cells[0][3] = new CellUiState(pairs[0].second, true, false);
-            cells[2][6] = new CellUiState(pairs[0].second, true, false);
-            cells[4][7] = new CellUiState(pairs[0].second, true, false);
-            cells[6][5] = new CellUiState(pairs[0].second, true, false);
-            cells[7][1] = new CellUiState(pairs[0].second, true, false);
+            cells[0][3] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
+            cells[2][6] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
+            cells[4][7] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
+            cells[6][5] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
+            cells[7][1] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
 
-            cells[0][2] = new CellUiState(pairs[1].second, true, false);
-            cells[1][4] = new CellUiState(pairs[1].second, true, false);
-            cells[3][1] = new CellUiState(pairs[1].second, true, false);
-            cells[6][7] = new CellUiState(pairs[1].second, true, false);
-            cells[7][0] = new CellUiState(pairs[1].second, true, false);
+            cells[0][2] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
+            cells[1][4] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
+            cells[3][1] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
+            cells[6][7] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
+            cells[7][0] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
 
-            cells[1][1] = new CellUiState(pairs[2].second, true, false);
-            cells[4][2] = new CellUiState(pairs[2].second, true, false);
-            cells[5][8] = new CellUiState(pairs[2].second, true, false);
-            cells[7][3] = new CellUiState(pairs[2].second, true, false);
-            cells[8][6] = new CellUiState(pairs[2].second, true, false);
+            cells[1][1] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
+            cells[4][2] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
+            cells[5][8] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
+            cells[7][3] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
+            cells[8][6] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
 
-            cells[1][6] = new CellUiState(pairs[3].second, true, false);
-            cells[2][4] = new CellUiState(pairs[3].second, true, false);
-            cells[4][1] = new CellUiState(pairs[3].second, true, false);
-            cells[5][7] = new CellUiState(pairs[3].second, true, false);
-            cells[6][2] = new CellUiState(pairs[3].second, true, false);
+            cells[1][6] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
+            cells[2][4] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
+            cells[4][1] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
+            cells[5][7] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
+            cells[6][2] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
 
-            cells[0][6] = new CellUiState(pairs[4].second, true, false);
-            cells[2][0] = new CellUiState(pairs[4].second, true, false);
-            cells[3][7] = new CellUiState(pairs[4].second, true, false);
-            cells[4][5] = new CellUiState(pairs[4].second, true, false);
-            cells[5][1] = new CellUiState(pairs[4].second, true, false);
+            cells[0][6] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
+            cells[2][0] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
+            cells[3][7] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
+            cells[4][5] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
+            cells[5][1] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
 
-            cells[3][2] = new CellUiState(pairs[5].second, true, false);
-            cells[4][4] = new CellUiState(pairs[5].second, true, false);
-            cells[5][6] = new CellUiState(pairs[5].second, true, false);
-            cells[7][5] = new CellUiState(pairs[5].second, true, false);
-            cells[8][7] = new CellUiState(pairs[5].second, true, false);
+            cells[3][2] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
+            cells[4][4] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
+            cells[5][6] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
+            cells[7][5] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
+            cells[8][7] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
 
-            cells[0][1] = new CellUiState(pairs[6].second, true, false);
-            cells[2][5] = new CellUiState(pairs[6].second, true, false);
-            cells[3][3] = new CellUiState(pairs[6].second, true, false);
-            cells[5][2] = new CellUiState(pairs[6].second, true, false);
-            cells[6][4] = new CellUiState(pairs[6].second, true, false);
+            cells[0][1] = new CellUiState(pairs[6].getTranslatedWord(), true, false);
+            cells[2][5] = new CellUiState(pairs[6].getTranslatedWord(), true, false);
+            cells[3][3] = new CellUiState(pairs[6].getTranslatedWord(), true, false);
+            cells[5][2] = new CellUiState(pairs[6].getTranslatedWord(), true, false);
+            cells[6][4] = new CellUiState(pairs[6].getTranslatedWord(), true, false);
 
-            cells[2][1] = new CellUiState(pairs[7].second, true, false);
-            cells[7][4] = new CellUiState(pairs[7].second, true, false);
+            cells[2][1] = new CellUiState(pairs[7].getTranslatedWord(), true, false);
+            cells[7][4] = new CellUiState(pairs[7].getTranslatedWord(), true, false);
 
-            cells[1][8] = new CellUiState(pairs[8].second, true, false);
-            cells[3][6] = new CellUiState(pairs[8].second, true, false);
-            cells[6][3] = new CellUiState(pairs[8].second, true, false);
-            cells[7][7] = new CellUiState(pairs[8].second, true, false);
+            cells[1][8] = new CellUiState(pairs[8].getTranslatedWord(), true, false);
+            cells[3][6] = new CellUiState(pairs[8].getTranslatedWord(), true, false);
+            cells[6][3] = new CellUiState(pairs[8].getTranslatedWord(), true, false);
+            cells[7][7] = new CellUiState(pairs[8].getTranslatedWord(), true, false);
         }
         // 4x4
         else if (boardSize == 4 && subgridHeight == 4 && subgridWidth == 4) {
-            cells[0][3] = new CellUiState(pairs[0].second, true, false);
-            cells[2][1] = new CellUiState(pairs[0].second, true, false);
+            cells[0][3] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
+            cells[2][1] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
 
-            cells[1][0] = new CellUiState(pairs[1].second, true, false);
+            cells[1][0] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
 
-            cells[0][0] = new CellUiState(pairs[2].second, true, false);
-            cells[3][3] = new CellUiState(pairs[2].second, true, false);
+            cells[0][0] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
+            cells[3][3] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
 
-            cells[1][3] = new CellUiState(pairs[3].second, true, false);
-            cells[3][2] = new CellUiState(pairs[3].second, true, false);
+            cells[1][3] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
+            cells[3][2] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
         }
         // 6x6
         else if (boardSize == 6 && subgridHeight == 2 && subgridWidth == 3) {
-            cells[0][3] = new CellUiState(pairs[0].second, true, false);
-            cells[2][4] = new CellUiState(pairs[0].second, true, false);
+            cells[0][3] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
+            cells[2][4] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
 
-            cells[1][1] = new CellUiState(pairs[1].second, true, false);
-            cells[3][0] = new CellUiState(pairs[1].second, true, false);
+            cells[1][1] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
+            cells[3][0] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
 
-            cells[0][5] = new CellUiState(pairs[2].second, true, false);
-            cells[5][1] = new CellUiState(pairs[2].second, true, false);
+            cells[0][5] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
+            cells[5][1] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
 
-            cells[2][2] = new CellUiState(pairs[3].second, true, false);
-            cells[4][1] = new CellUiState(pairs[3].second, true, false);
+            cells[2][2] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
+            cells[4][1] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
 
-            cells[3][5] = new CellUiState(pairs[4].second, true, false);
-            cells[5][3] = new CellUiState(pairs[4].second, true, false);
+            cells[3][5] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
+            cells[5][3] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
 
-            cells[0][2] = new CellUiState(pairs[5].second, true, false);
-            cells[5][5] = new CellUiState(pairs[5].second, true, false);
+            cells[0][2] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
+            cells[5][5] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
         }
         // 12x12
         else if (boardSize == 12 && subgridHeight == 3 && subgridWidth == 4) {
-            cells[0][0] = new CellUiState(pairs[0].second, true, false);
-            cells[2][4] = new CellUiState(pairs[0].second, true, false);
-            cells[3][11] = new CellUiState(pairs[0].second, true, false);
-            cells[6][10] = new CellUiState(pairs[0].second, true, false);
-            cells[8][2] = new CellUiState(pairs[0].second, true, false);
-            cells[9][9] = new CellUiState(pairs[0].second, true, false);
+            cells[0][0] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
+            cells[2][4] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
+            cells[3][11] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
+            cells[6][10] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
+            cells[8][2] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
+            cells[9][9] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
 
-            cells[1][9] = new CellUiState(pairs[1].second, true, false);
-            cells[3][0] = new CellUiState(pairs[1].second, true, false);
-            cells[4][8] = new CellUiState(pairs[1].second, true, false);
-            cells[5][4] = new CellUiState(pairs[1].second, true, false);
-            cells[7][7] = new CellUiState(pairs[1].second, true, false);
-            cells[8][3] = new CellUiState(pairs[1].second, true, false);
-            cells[11][2] = new CellUiState(pairs[1].second, true, false);
+            cells[1][9] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
+            cells[3][0] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
+            cells[4][8] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
+            cells[5][4] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
+            cells[7][7] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
+            cells[8][3] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
+            cells[11][2] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
 
-            cells[0][2] = new CellUiState(pairs[2].second, true, false);
-            cells[3][1] = new CellUiState(pairs[2].second, true, false);
-            cells[5][5] = new CellUiState(pairs[2].second, true, false);
-            cells[7][8] = new CellUiState(pairs[2].second, true, false);
-            cells[9][11] = new CellUiState(pairs[2].second, true, false);
-            cells[10][7] = new CellUiState(pairs[2].second, true, false);
+            cells[0][2] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
+            cells[3][1] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
+            cells[5][5] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
+            cells[7][8] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
+            cells[9][11] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
+            cells[10][7] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
 
-            cells[1][11] = new CellUiState(pairs[3].second, true, false);
-            cells[2][7] = new CellUiState(pairs[3].second, true, false);
-            cells[4][10] = new CellUiState(pairs[3].second, true, false);
-            cells[7][9] = new CellUiState(pairs[3].second, true, false);
-            cells[8][5] = new CellUiState(pairs[3].second, true, false);
-            cells[9][0] = new CellUiState(pairs[3].second, true, false);
+            cells[1][11] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
+            cells[2][7] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
+            cells[4][10] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
+            cells[7][9] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
+            cells[8][5] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
+            cells[9][0] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
 
-            cells[0][4] = new CellUiState(pairs[4].second, true, false);
-            cells[2][8] = new CellUiState(pairs[4].second, true, false);
-            cells[3][3] = new CellUiState(pairs[4].second, true, false);
-            cells[6][2] = new CellUiState(pairs[4].second, true, false);
-            cells[8][6] = new CellUiState(pairs[4].second, true, false);
-            cells[10][9] = new CellUiState(pairs[4].second, true, false);
+            cells[0][4] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
+            cells[2][8] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
+            cells[3][3] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
+            cells[6][2] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
+            cells[8][6] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
+            cells[10][9] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
 
-            cells[1][1] = new CellUiState(pairs[5].second, true, false);
-            cells[3][4] = new CellUiState(pairs[5].second, true, false);
-            cells[5][8] = new CellUiState(pairs[5].second, true, false);
-            cells[6][3] = new CellUiState(pairs[5].second, true, false);
-            cells[7][11] = new CellUiState(pairs[5].second, true, false);
-            cells[9][2] = new CellUiState(pairs[5].second, true, false);
-            cells[11][6] = new CellUiState(pairs[5].second, true, false);
+            cells[1][1] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
+            cells[3][4] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
+            cells[5][8] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
+            cells[6][3] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
+            cells[7][11] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
+            cells[9][2] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
+            cells[11][6] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
 
-            cells[1][2] = new CellUiState(pairs[6].second, true, false);
-            cells[2][10] = new CellUiState(pairs[6].second, true, false);
-            cells[3][5] = new CellUiState(pairs[6].second, true, false);
-            cells[4][1] = new CellUiState(pairs[6].second, true, false);
-            cells[7][0] = new CellUiState(pairs[6].second, true, false);
-            cells[10][11] = new CellUiState(pairs[6].second, true, false);
-            cells[11][7] = new CellUiState(pairs[6].second, true, false);
+            cells[1][2] = new CellUiState(pairs[6].getTranslatedWord(), true, false);
+            cells[2][10] = new CellUiState(pairs[6].getTranslatedWord(), true, false);
+            cells[3][5] = new CellUiState(pairs[6].getTranslatedWord(), true, false);
+            cells[4][1] = new CellUiState(pairs[6].getTranslatedWord(), true, false);
+            cells[7][0] = new CellUiState(pairs[6].getTranslatedWord(), true, false);
+            cells[10][11] = new CellUiState(pairs[6].getTranslatedWord(), true, false);
+            cells[11][7] = new CellUiState(pairs[6].getTranslatedWord(), true, false);
 
-            cells[0][7] = new CellUiState(pairs[7].second, true, false);
-            cells[5][10] = new CellUiState(pairs[7].second, true, false);
-            cells[6][5] = new CellUiState(pairs[7].second, true, false);
-            cells[7][1] = new CellUiState(pairs[7].second, true, false);
-            cells[8][9] = new CellUiState(pairs[7].second, true, false);
-            cells[9][4] = new CellUiState(pairs[7].second, true, false);
-            cells[10][0] = new CellUiState(pairs[7].second, true, false);
-            cells[11][8] = new CellUiState(pairs[7].second, true, false);
+            cells[0][7] = new CellUiState(pairs[7].getTranslatedWord(), true, false);
+            cells[5][10] = new CellUiState(pairs[7].getTranslatedWord(), true, false);
+            cells[6][5] = new CellUiState(pairs[7].getTranslatedWord(), true, false);
+            cells[7][1] = new CellUiState(pairs[7].getTranslatedWord(), true, false);
+            cells[8][9] = new CellUiState(pairs[7].getTranslatedWord(), true, false);
+            cells[9][4] = new CellUiState(pairs[7].getTranslatedWord(), true, false);
+            cells[10][0] = new CellUiState(pairs[7].getTranslatedWord(), true, false);
+            cells[11][8] = new CellUiState(pairs[7].getTranslatedWord(), true, false);
 
-            cells[0][8] = new CellUiState(pairs[8].second, true, false);
-            cells[2][0] = new CellUiState(pairs[8].second, true, false);
-            cells[3][7] = new CellUiState(pairs[8].second, true, false);
-            cells[4][3] = new CellUiState(pairs[8].second, true, false);
-            cells[5][11] = new CellUiState(pairs[8].second, true, false);
-            cells[6][6] = new CellUiState(pairs[8].second, true, false);
-            cells[9][5] = new CellUiState(pairs[8].second, true, false);
+            cells[0][8] = new CellUiState(pairs[8].getTranslatedWord(), true, false);
+            cells[2][0] = new CellUiState(pairs[8].getTranslatedWord(), true, false);
+            cells[3][7] = new CellUiState(pairs[8].getTranslatedWord(), true, false);
+            cells[4][3] = new CellUiState(pairs[8].getTranslatedWord(), true, false);
+            cells[5][11] = new CellUiState(pairs[8].getTranslatedWord(), true, false);
+            cells[6][6] = new CellUiState(pairs[8].getTranslatedWord(), true, false);
+            cells[9][5] = new CellUiState(pairs[8].getTranslatedWord(), true, false);
 
-            cells[1][5] = new CellUiState(pairs[9].second, true, false);
-            cells[11][10] = new CellUiState(pairs[9].second, true, false);
+            cells[1][5] = new CellUiState(pairs[9].getTranslatedWord(), true, false);
+            cells[11][10] = new CellUiState(pairs[9].getTranslatedWord(), true, false);
 
-            cells[0][10] = new CellUiState(pairs[10].second, true, false);
-            cells[1][6] = new CellUiState(pairs[10].second, true, false);
-            cells[6][8] = new CellUiState(pairs[10].second, true, false);
-            cells[7][4] = new CellUiState(pairs[10].second, true, false);
-            cells[10][3] = new CellUiState(pairs[10].second, true, false);
+            cells[0][10] = new CellUiState(pairs[10].getTranslatedWord(), true, false);
+            cells[1][6] = new CellUiState(pairs[10].getTranslatedWord(), true, false);
+            cells[6][8] = new CellUiState(pairs[10].getTranslatedWord(), true, false);
+            cells[7][4] = new CellUiState(pairs[10].getTranslatedWord(), true, false);
+            cells[10][3] = new CellUiState(pairs[10].getTranslatedWord(), true, false);
 
-            cells[2][3] = new CellUiState(pairs[11].second, true, false);
-            cells[4][6] = new CellUiState(pairs[11].second, true, false);
-            cells[5][2] = new CellUiState(pairs[11].second, true, false);
-            cells[10][4] = new CellUiState(pairs[11].second, true, false);
-            cells[11][0] = new CellUiState(pairs[11].second, true, false);
+            cells[2][3] = new CellUiState(pairs[11].getTranslatedWord(), true, false);
+            cells[4][6] = new CellUiState(pairs[11].getTranslatedWord(), true, false);
+            cells[5][2] = new CellUiState(pairs[11].getTranslatedWord(), true, false);
+            cells[10][4] = new CellUiState(pairs[11].getTranslatedWord(), true, false);
+            cells[11][0] = new CellUiState(pairs[11].getTranslatedWord(), true, false);
         }
 
         mBoardUiState.setValue(new BoardUiState(

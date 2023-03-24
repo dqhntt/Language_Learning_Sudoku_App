@@ -137,7 +137,7 @@ class GameViewModelTest {
         game.generateNewBoard(9, 3, 3);
         assertEquals(
                 game.getBoardUiState().getValue().getBoardSize(),
-                game.getDataValuePairs().length
+                game.getWordPairs().length
         );
     }
 }

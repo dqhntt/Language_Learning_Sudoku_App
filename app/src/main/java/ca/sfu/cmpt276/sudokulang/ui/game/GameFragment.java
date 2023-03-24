@@ -17,6 +17,7 @@ import java.util.Arrays;
 
 import ca.sfu.cmpt276.sudokulang.GameViewModel;
 import ca.sfu.cmpt276.sudokulang.R;
+import ca.sfu.cmpt276.sudokulang.data.WordPair;
 import ca.sfu.cmpt276.sudokulang.databinding.FragmentGameBinding;
 import ca.sfu.cmpt276.sudokulang.ui.game.board.SudokuCell;
 
@@ -77,8 +78,8 @@ public class GameFragment extends Fragment {
 
     private void setupWordButtons() {
         mBinding.wordButtonKeypad.setValues(
-                Arrays.stream(mGameViewModel.getDataValuePairs())
-                        .map(pair -> pair.first)
+                Arrays.stream(mGameViewModel.getWordPairs())
+                        .map(WordPair::getOriginalWord)
                         .toArray(String[]::new)
         );
         mBinding.wordButtonKeypad.setOnclickListenersForAllButtons(view -> {

@@ -19,7 +19,7 @@ import ca.sfu.cmpt276.sudokulang.GameViewModel;
 import ca.sfu.cmpt276.sudokulang.R;
 import ca.sfu.cmpt276.sudokulang.data.WordPair;
 import ca.sfu.cmpt276.sudokulang.databinding.FragmentGameBinding;
-import ca.sfu.cmpt276.sudokulang.ui.game.board.SudokuCell;
+import ca.sfu.cmpt276.sudokulang.ui.game.board.CellUi;
 
 // See: https://developer.android.com/topic/libraries/architecture/viewmodel
 public class GameFragment extends Fragment {
@@ -71,7 +71,7 @@ public class GameFragment extends Fragment {
             }
         });
         mBinding.gameBoard.setOnclickListenersForAllCells(view -> {
-            final var cell = (SudokuCell) view;
+            final var cell = (CellUi) view;
             mGameViewModel.setSelectedCell(cell.getRowIndex(), cell.getColIndex());
         });
     }

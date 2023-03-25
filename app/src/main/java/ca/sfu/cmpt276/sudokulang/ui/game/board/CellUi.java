@@ -15,16 +15,16 @@ import ca.sfu.cmpt276.sudokulang.ui.UiUtil;
 /**
  * A UI representation of a Sudoku cell.
  */
-public class SudokuCell extends com.google.android.material.textview.MaterialTextView {
+public class CellUi extends com.google.android.material.textview.MaterialTextView {
     private final static int mPadding = UiUtil.dpToPx(2);
     private final int mRowIndex, mColIndex;
     private @NonNull Cell mUiState;
 
-    public SudokuCell(@NonNull Context context) {
+    public CellUi(@NonNull Context context) {
         this(context, -1, -1);
     }
 
-    public SudokuCell(@NonNull Context context, int rowIndex, int colIndex) {
+    public CellUi(@NonNull Context context, int rowIndex, int colIndex) {
         super(context);
         mRowIndex = rowIndex;
         mColIndex = colIndex;

@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ca.sfu.cmpt276.sudokulang.data.Board;
+import ca.sfu.cmpt276.sudokulang.data.BoardImpl;
 import ca.sfu.cmpt276.sudokulang.data.Cell;
 import ca.sfu.cmpt276.sudokulang.data.CellImpl;
 import ca.sfu.cmpt276.sudokulang.data.WordPair;
@@ -28,7 +30,6 @@ import ca.sfu.cmpt276.sudokulang.data.source.TranslationRepository;
 import ca.sfu.cmpt276.sudokulang.data.source.TranslationRepositoryImpl;
 import ca.sfu.cmpt276.sudokulang.data.source.WordRepository;
 import ca.sfu.cmpt276.sudokulang.data.source.WordRepositoryImpl;
-import ca.sfu.cmpt276.sudokulang.ui.game.board.BoardUiState;
 
 /**
  * State processor for UI elements in GameFragment.
@@ -40,7 +41,7 @@ public class GameViewModel extends AndroidViewModel {
     public final GameRepository gameRepo;
     public final TranslationRepository translationRepo;
     public final WordRepository wordRepo;
-    private final @NonNull MutableLiveData<BoardUiState> mBoardUiState;
+    private final @NonNull MutableLiveData<Board> mBoardUiState;
     private final boolean mGameInProgress;
     private final @NonNull Map<String, WordPair> mWordToWordPairMap = new HashMap<>();
     private final @NonNull BiMap<Integer, WordPair> mValueWordPairBiMap = HashBiMap.create();
@@ -60,7 +61,7 @@ public class GameViewModel extends AndroidViewModel {
         mGameInProgress = true;
     }
 
-    public LiveData<BoardUiState> getBoardUiState() {
+    public LiveData<Board> getBoardUiState() {
         return mBoardUiState;
     }
 
@@ -83,13 +84,9 @@ public class GameViewModel extends AndroidViewModel {
      * @param colIndex Column index of the cell, -1 if none.
      */
     public void setSelectedCell(int rowIndex, int colIndex) {
-        mBoardUiState.setValue(new BoardUiState(
-                mBoardUiState.getValue().getBoardSize(),
-                mBoardUiState.getValue().getSubgridHeight(),
-                mBoardUiState.getValue().getSubgridWidth(),
-                rowIndex, colIndex,
-                mBoardUiState.getValue().getCells()
-        ));
+        mBoardUiState.setValue(
+                ((BoardImpl) mBoardUiState.getValue()).setSelectedIndexes(rowIndex, colIndex)
+        );
     }
 
     public void setNoSelectedCell() {
@@ -125,31 +122,22 @@ public class GameViewModel extends AndroidViewModel {
             final var selectedColIndex = mBoardUiState.getValue().getSelectedColIndex();
             final var cells = mBoardUiState.getValue().getCells();
             cells[selectedRowIndex][selectedColIndex] = newState;
-            mBoardUiState.setValue(new BoardUiState(
-                    mBoardUiState.getValue().getBoardSize(),
-                    mBoardUiState.getValue().getSubgridHeight(),
-                    mBoardUiState.getValue().getSubgridWidth(),
-                    selectedRowIndex, selectedColIndex,
-                    cells
-            ));
+            mBoardUiState.setValue(mBoardUiState.getValue());
         }
     }
 
+    // TODO: Remove this since board data is coming straight from Room.
     private void createEmptyBoard(int boardSize, int subgridHeight, int subgridWidth) {
         if (!isValidBoardDimension(boardSize, subgridHeight, subgridWidth)) {
             throw new IllegalArgumentException("Invalid board dimension");
         }
-        final var newCells = new Cell[boardSize][boardSize];
+        final var newCells = new CellImpl[boardSize][boardSize];
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
                 newCells[i][j] = new CellImpl();
             }
         }
-        mBoardUiState.setValue(new BoardUiState(
-                boardSize, subgridHeight, subgridWidth,
-                -1, -1,
-                newCells
-        ));
+        mBoardUiState.setValue(new BoardImpl(boardSize, subgridHeight, subgridWidth, newCells));
     }
 
     private boolean isValidBoardDimension(int boardSize, int subgridHeight, int subgridWidth) {
@@ -268,6 +256,7 @@ public class GameViewModel extends AndroidViewModel {
         }
     }
 
+    // TODO: Connect with Room since board data is coming straight from there.
     private void generateBoardData() {
         // For TESTING only.
         // TODO: Replace this with a database. !!
@@ -719,11 +708,6 @@ public class GameViewModel extends AndroidViewModel {
                     .setPrefilled(true);
         }
 
-        mBoardUiState.setValue(new BoardUiState(
-                boardSize, subgridHeight, subgridWidth,
-                mBoardUiState.getValue().getSelectedRowIndex(),
-                mBoardUiState.getValue().getSelectedColIndex(),
-                cells
-        ));
+        mBoardUiState.setValue(new BoardImpl(boardSize, subgridHeight, subgridWidth, cells));
     }
 }

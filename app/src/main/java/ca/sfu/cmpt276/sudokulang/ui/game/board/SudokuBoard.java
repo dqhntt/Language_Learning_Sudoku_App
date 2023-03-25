@@ -13,6 +13,8 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import java.util.Arrays;
 
 import ca.sfu.cmpt276.sudokulang.R;
+import ca.sfu.cmpt276.sudokulang.data.Board;
+import ca.sfu.cmpt276.sudokulang.data.BoardImpl;
 import ca.sfu.cmpt276.sudokulang.ui.UiUtil;
 
 /**
@@ -22,12 +24,12 @@ import ca.sfu.cmpt276.sudokulang.ui.UiUtil;
  * The layout parameters of this board are set in its XML file.
  */
 public class SudokuBoard extends ConstraintLayout {
-    private @NonNull BoardUiState mUiState;
+    private @NonNull Board mUiState;
     private CellUi[][] mCells;
 
     public SudokuBoard(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        mUiState = new BoardUiState();
+        mUiState = new BoardImpl();
         createBoard(mUiState);
     }
 
@@ -111,7 +113,7 @@ public class SudokuBoard extends ConstraintLayout {
         constraintSet.applyTo(this);
     }
 
-    public void createBoard(@NonNull BoardUiState uiState) {
+    public void createBoard(@NonNull Board uiState) {
         createEmptyBoard(
                 uiState.getBoardSize(),
                 uiState.getSubgridHeight(),
@@ -265,7 +267,7 @@ public class SudokuBoard extends ConstraintLayout {
         }
     }
 
-    public void updateState(@NonNull BoardUiState uiState) {
+    public void updateState(@NonNull Board uiState) {
         final var boardSize = uiState.getBoardSize();
         final var subgridHeight = uiState.getSubgridHeight();
         final var subgridWidth = uiState.getSubgridWidth();

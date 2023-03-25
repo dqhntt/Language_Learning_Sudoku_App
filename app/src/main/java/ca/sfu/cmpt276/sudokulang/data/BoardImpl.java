@@ -8,12 +8,24 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.util.Arrays;
+
+import ca.sfu.cmpt276.sudokulang.GameViewModel;
+
 @Entity(tableName = "board",
         indices = {
                 @Index(value = "prefilled_values", unique = true)
         }
 )
 public class BoardImpl implements Board {
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    private final int mId;
+
+    @NonNull
+    @ColumnInfo(name = "level", collate = ColumnInfo.NOCASE)
+    private final String mDifficultyLevel;
+
     @ColumnInfo(name = "size")
     private final int mBoardSize;
 
@@ -23,25 +35,17 @@ public class BoardImpl implements Board {
     @ColumnInfo(name = "subgrid_width")
     private final int mSubgridWidth;
 
-    @Ignore
-    @NonNull
-    private final CellImpl[][] mCells;
-
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    private int mId;
-
-    @NonNull
-    @ColumnInfo(name = "level", collate = ColumnInfo.NOCASE)
-    private String mDifficultyLevel;
-
     @NonNull
     @ColumnInfo(name = "prefilled_values", collate = ColumnInfo.RTRIM)
-    private Cell[][] mPrefilledValues;
+    private final Cell[][] mPrefilledValues;
 
     @NonNull
     @ColumnInfo(name = "solved_values", collate = ColumnInfo.RTRIM)
-    private Cell[][] mSolvedValues;
+    private final Cell[][] mSolvedValues;
+
+    @Ignore
+    @NonNull
+    private final CellImpl[][] mCells;
 
     @Ignore
     private int mSelectedRowIndex, mSelectedColIndex;
@@ -51,32 +55,31 @@ public class BoardImpl implements Board {
      */
     @Ignore
     public BoardImpl() {
-        this(1, 1, 1,
-                -1, -1,
+        this(0, "", 1, 1, 1,
+                new CellImpl[][]{new CellImpl[]{new CellImpl()}},
                 new CellImpl[][]{new CellImpl[]{new CellImpl()}});
     }
 
+    /**
+     * @apiNote Only for use with {@link GameViewModel#createEmptyBoard(int, int, int)}
+     * @// TODO: Remove this since board data is coming straight from Room.
+     */
     @Ignore
     public BoardImpl(int boardSize, int subgridHeight, int subgridWidth,
-                     int selectedRowIndex, int selectedColIndex,
-                     @NonNull CellImpl[][] cells) {
-        if (!isValidBoardDimension(boardSize, subgridHeight, subgridWidth)) {
-            throw new IllegalArgumentException("Invalid board dimension");
-        }
-        mBoardSize = boardSize;
-        mSubgridHeight = subgridHeight;
-        mSubgridWidth = subgridWidth;
-        mSelectedRowIndex = selectedRowIndex;
-        mSelectedColIndex = selectedColIndex;
-        mCells = cells;
+                     @NonNull Cell[][] currentValues) {
+        this(0, "", boardSize, subgridHeight, subgridWidth,
+                currentValues, currentValues);
     }
 
     /**
-     * @apiNote For Room only.
+     * @apiNote DO NOT USE. For Room only.
      */
     public BoardImpl(int id, @NonNull String difficultyLevel,
                      int boardSize, int subgridHeight, int subgridWidth,
                      @NonNull Cell[][] prefilledValues, @NonNull Cell[][] solvedValues) {
+        if (!isValidBoardDimension(boardSize, subgridHeight, subgridWidth)) {
+            throw new IllegalArgumentException("Invalid board dimension");
+        }
         mId = id;
         mDifficultyLevel = difficultyLevel;
         mBoardSize = boardSize;
@@ -85,7 +88,11 @@ public class BoardImpl implements Board {
         mPrefilledValues = prefilledValues;
         mSolvedValues = solvedValues;
         mSelectedRowIndex = mSelectedColIndex = -1;
-        mCells = (CellImpl[][]) prefilledValues;
+        mCells = Arrays.stream(prefilledValues)
+                .map(row -> Arrays.stream(row)
+                        .map(cell -> (CellImpl) cell)
+                        .toArray(CellImpl[]::new))
+                .toArray(CellImpl[][]::new);
     }
 
     private boolean isValidBoardDimension(int boardSize, int subgridHeight, int subgridWidth) {
@@ -114,23 +121,23 @@ public class BoardImpl implements Board {
         return mSelectedRowIndex;
     }
 
-    public BoardImpl setSelectedRowIndex(int rowIndex) {
-        if (!areValidIndexes(rowIndex, mSelectedColIndex)) {
-            throw new IllegalArgumentException("Invalid row index");
-        }
-        mSelectedRowIndex = rowIndex;
-        return this;
-    }
-
     @Override
     public int getSelectedColIndex() {
         return mSelectedColIndex;
     }
 
-    public BoardImpl setSelectedColIndex(int colIndex) {
-        if (!areValidIndexes(mSelectedRowIndex, colIndex)) {
-            throw new IllegalArgumentException("Invalid column index");
+    /**
+     * @param rowIndex Row index of the selected cell, -1 if none.
+     * @param colIndex Column index of the selected cell, -1 if none.
+     * @return {@code this}
+     */
+    @NonNull
+    public BoardImpl setSelectedIndexes(int rowIndex, int colIndex) {
+        if (rowIndex != -1 && colIndex != -1 // Selected cell is inside the board.
+                && !indexesAreInsideBoard(rowIndex, colIndex)) {
+            throw new IllegalArgumentException("Invalid indexes: (" + rowIndex + ", " + colIndex + ")");
         }
+        mSelectedRowIndex = rowIndex;
         mSelectedColIndex = colIndex;
         return this;
     }
@@ -138,12 +145,12 @@ public class BoardImpl implements Board {
     @Nullable
     @Override
     public Cell getSelectedCell() {
-        return areValidIndexes(mSelectedRowIndex, mSelectedColIndex)
+        return indexesAreInsideBoard(mSelectedRowIndex, mSelectedColIndex)
                 ? mCells[mSelectedRowIndex][mSelectedColIndex]
                 : null;
     }
 
-    private boolean areValidIndexes(int rowIndex, int colIndex) {
+    private boolean indexesAreInsideBoard(int rowIndex, int colIndex) {
         return (rowIndex >= 0 && rowIndex < mCells.length)
                 && (colIndex >= 0 && colIndex < mCells[0].length);
     }

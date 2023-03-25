@@ -45,7 +45,7 @@ public class BoardImpl implements Board {
 
     @Ignore
     @NonNull
-    private final CellImpl[][] mCells;
+    private Cell[][] mCells;
 
     @Ignore
     private int mSelectedRowIndex, mSelectedColIndex;
@@ -88,11 +88,19 @@ public class BoardImpl implements Board {
         mPrefilledValues = prefilledValues;
         mSolvedValues = solvedValues;
         mSelectedRowIndex = mSelectedColIndex = -1;
-        mCells = Arrays.stream(prefilledValues)
-                .map(row -> Arrays.stream(row)
-                        .map(cell -> (CellImpl) cell)
-                        .toArray(CellImpl[]::new))
-                .toArray(CellImpl[][]::new);
+        mCells = cloneCells(prefilledValues);
+    }
+
+    @NonNull
+    private static Cell[][] cloneCells(@NonNull Cell[][] cells) {
+        // Cite: https://stackoverflow.com/a/53397359
+        return Arrays.stream(cells).map(Cell[]::clone).toArray(Cell[][]::new);
+    }
+
+    @NonNull
+    public BoardImpl resetBoard() {
+        mCells = cloneCells(mPrefilledValues);
+        return this;
     }
 
     private boolean isValidBoardDimension(int boardSize, int subgridHeight, int subgridWidth) {

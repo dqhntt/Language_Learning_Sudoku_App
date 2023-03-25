@@ -19,4 +19,7 @@ public interface Cell {
     boolean isErrorCell();
 
     boolean isEmpty();
+
+    @NonNull
+    Cell clone();
 }

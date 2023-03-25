@@ -95,4 +95,14 @@ public class CellImpl implements Cell {
     private boolean hasConsistentTextAndValue() {
         return (mValue == 0) == (mText.isBlank());
     }
+
+    @NonNull
+    @Override
+    public Cell clone() {
+        try {
+            return (CellImpl) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

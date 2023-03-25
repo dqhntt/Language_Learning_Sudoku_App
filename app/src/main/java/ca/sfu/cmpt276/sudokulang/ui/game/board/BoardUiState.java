@@ -3,13 +3,16 @@ package ca.sfu.cmpt276.sudokulang.ui.game.board;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import ca.sfu.cmpt276.sudokulang.data.Cell;
+import ca.sfu.cmpt276.sudokulang.data.CellImpl;
+
 /**
  * Immutable state holder for SudokuBoard UI element.
  */
 public final class BoardUiState {
     private final int mBoardSize, mSubgridHeight, mSubgridWidth;
     private final int mSelectedRowIndex, mSelectedColIndex;
-    private final @NonNull CellUiState[][] mCells;
+    private final @NonNull Cell[][] mCells;
 
     /**
      * @implNote Board dimension when default constructed is undefined.
@@ -17,12 +20,12 @@ public final class BoardUiState {
     public BoardUiState() {
         this(1, 1, 1,
                 -1, -1,
-                new CellUiState[][]{new CellUiState[]{new CellUiState()}});
+                new CellImpl[][]{new CellImpl[]{new CellImpl()}});
     }
 
     public BoardUiState(int boardSize, int subgridHeight, int subgridWidth,
                         int selectedRowIndex, int selectedColIndex,
-                        @NonNull CellUiState[][] cells) {
+                        @NonNull Cell[][] cells) {
         if (!isValidBoardDimension(boardSize, subgridHeight, subgridWidth)) {
             throw new IllegalArgumentException("Invalid board dimension");
         }
@@ -63,7 +66,7 @@ public final class BoardUiState {
     /**
      * @return State of the selected cell or {@code null} if none.
      */
-    public @Nullable CellUiState getSelectedCell() {
+    public @Nullable Cell getSelectedCell() {
         return areValidIndexes(mSelectedRowIndex, mSelectedColIndex)
                 ? mCells[mSelectedRowIndex][mSelectedColIndex]
                 : null;
@@ -74,7 +77,7 @@ public final class BoardUiState {
                 && (colIndex >= 0 && colIndex < mCells[0].length);
     }
 
-    public @NonNull CellUiState[][] getCells() {
+    public @NonNull Cell[][] getCells() {
         return mCells;
     }
 

@@ -7,8 +7,18 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import java.util.HashMap;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import ca.sfu.cmpt276.sudokulang.data.Cell;
+import ca.sfu.cmpt276.sudokulang.data.CellImpl;
 import ca.sfu.cmpt276.sudokulang.data.WordPair;
 import ca.sfu.cmpt276.sudokulang.data.source.BoardRepository;
 import ca.sfu.cmpt276.sudokulang.data.source.BoardRepositoryImpl;
@@ -19,7 +29,6 @@ import ca.sfu.cmpt276.sudokulang.data.source.TranslationRepositoryImpl;
 import ca.sfu.cmpt276.sudokulang.data.source.WordRepository;
 import ca.sfu.cmpt276.sudokulang.data.source.WordRepositoryImpl;
 import ca.sfu.cmpt276.sudokulang.ui.game.board.BoardUiState;
-import ca.sfu.cmpt276.sudokulang.ui.game.board.CellUiState;
 
 /**
  * State processor for UI elements in GameFragment.
@@ -32,8 +41,10 @@ public class GameViewModel extends AndroidViewModel {
     public final TranslationRepository translationRepo;
     public final WordRepository wordRepo;
     private final @NonNull MutableLiveData<BoardUiState> mBoardUiState;
-    private WordPair[] mWordPairs = null;
     private final boolean mGameInProgress;
+    private final @NonNull Map<String, WordPair> mWordToWordPairMap = new HashMap<>();
+    private final @NonNull BiMap<Integer, WordPair> mValueWordPairBiMap = HashBiMap.create();
+    private WordPair[] mWordPairs = null;
 
     /**
      * @implNote Board dimension when default constructed is undefined. <p>
@@ -86,22 +97,28 @@ public class GameViewModel extends AndroidViewModel {
     }
 
     public void setSelectedCellText(@NonNull String buttonValue) {
-        setSelectedCellState(new CellUiState(
-                buttonValue,
-                false,
-                !isValidValueForCell(
-                        buttonValue,
-                        mBoardUiState.getValue().getSelectedRowIndex(),
-                        mBoardUiState.getValue().getSelectedColIndex()
-                )
-        ));
+        final var selectedCell = (CellImpl) mBoardUiState.getValue().getSelectedCell();
+        assert selectedCell != null;
+        if (selectedCell.isPrefilled()) {
+            return;
+        }
+        setSelectedCellState(
+                selectedCell
+                        .setValue(mValueWordPairBiMap.inverse().get(mWordToWordPairMap.get(buttonValue)))
+                        .setText(buttonValue)
+                        .setErrorCell(!isValidValueForCell(
+                                buttonValue,
+                                mBoardUiState.getValue().getSelectedRowIndex(),
+                                mBoardUiState.getValue().getSelectedColIndex()
+                        ))
+        );
     }
 
     public void clearSelectedCell() {
-        setSelectedCellState(new CellUiState());
+        setSelectedCellState(new CellImpl());
     }
 
-    private void setSelectedCellState(@NonNull CellUiState newState) {
+    private void setSelectedCellState(@NonNull Cell newState) {
         final var selectedCell = mBoardUiState.getValue().getSelectedCell();
         if (selectedCell != null && !selectedCell.isPrefilled()) {
             final var selectedRowIndex = mBoardUiState.getValue().getSelectedRowIndex();
@@ -122,10 +139,10 @@ public class GameViewModel extends AndroidViewModel {
         if (!isValidBoardDimension(boardSize, subgridHeight, subgridWidth)) {
             throw new IllegalArgumentException("Invalid board dimension");
         }
-        final var newCells = new CellUiState[boardSize][boardSize];
+        final var newCells = new Cell[boardSize][boardSize];
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
-                newCells[i][j] = new CellUiState();
+                newCells[i][j] = new CellImpl();
             }
         }
         mBoardUiState.setValue(new BoardUiState(
@@ -221,12 +238,34 @@ public class GameViewModel extends AndroidViewModel {
 
     public WordPair[] getWordPairs() {
         if (mWordPairs == null || !mGameInProgress) {
-            mWordPairs = translationRepo.getNRandomWordPairsMatching(
-                    mBoardUiState.getValue().getBoardSize(),
-                    "English", "French", "Beginner"
-            ).toArray(new WordPair[0]);
+            generateWordPairs();
         }
         return mWordPairs;
+    }
+
+    private void generateWordPairs() {
+        mWordPairs = translationRepo.getNRandomWordPairsMatching(
+                mBoardUiState.getValue().getBoardSize(),
+                "English", "French", "Beginner"
+        ).toArray(new WordPair[0]);
+        prepareMaps();
+    }
+
+    private void prepareMaps() {
+        final List<Integer> values = new ArrayList<>();
+        for (int i = 0; i < mWordPairs.length; i++) {
+            values.add(i + 1);
+        }
+        Collections.shuffle(values);
+        mValueWordPairBiMap.clear();
+        for (int i = 0; i < mWordPairs.length; i++) {
+            mValueWordPairBiMap.put(values.get(i), mWordPairs[i]);
+        }
+        mWordToWordPairMap.clear();
+        for (var pair : mWordPairs) {
+            mWordToWordPairMap.put(pair.getOriginalWord(), pair);
+            mWordToWordPairMap.put(pair.getTranslatedWord(), pair);
+        }
     }
 
     private void generateBoardData() {
@@ -237,179 +276,447 @@ public class GameViewModel extends AndroidViewModel {
         final int subgridHeight = mBoardUiState.getValue().getSubgridHeight();
         final int subgridWidth = mBoardUiState.getValue().getSubgridWidth();
 
-        final var pairs = getWordPairs();
-        final var cells = mBoardUiState.getValue().getCells();
+        generateWordPairs();
+        final var cells = Arrays.stream(mBoardUiState.getValue().getCells())
+                .map(row -> Arrays.stream(row)
+                        .map(cell -> (CellImpl) cell)
+                        .toArray(CellImpl[]::new))
+                .toArray(CellImpl[][]::new);
 
         // 9x9
         if (boardSize == 9 && subgridHeight == 3 && subgridWidth == 3) {
-            cells[0][3] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
-            cells[2][6] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
-            cells[4][7] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
-            cells[6][5] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
-            cells[7][1] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
+            cells[0][3].setValue(1)
+                    .setText(mValueWordPairBiMap.get(1).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[2][6].setValue(1)
+                    .setText(mValueWordPairBiMap.get(1).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[4][7].setValue(1)
+                    .setText(mValueWordPairBiMap.get(1).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[6][5].setValue(1)
+                    .setText(mValueWordPairBiMap.get(1).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[7][1].setValue(1)
+                    .setText(mValueWordPairBiMap.get(1).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[0][2] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
-            cells[1][4] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
-            cells[3][1] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
-            cells[6][7] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
-            cells[7][0] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
+            cells[0][2].setValue(2)
+                    .setText(mValueWordPairBiMap.get(2).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[1][4].setValue(2)
+                    .setText(mValueWordPairBiMap.get(2).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[3][1].setValue(2)
+                    .setText(mValueWordPairBiMap.get(2).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[6][7].setValue(2)
+                    .setText(mValueWordPairBiMap.get(2).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[7][0].setValue(2)
+                    .setText(mValueWordPairBiMap.get(2).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[1][1] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
-            cells[4][2] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
-            cells[5][8] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
-            cells[7][3] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
-            cells[8][6] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
+            cells[1][1].setValue(3)
+                    .setText(mValueWordPairBiMap.get(3).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[4][2].setValue(3)
+                    .setText(mValueWordPairBiMap.get(3).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[5][8].setValue(3)
+                    .setText(mValueWordPairBiMap.get(3).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[7][3].setValue(3)
+                    .setText(mValueWordPairBiMap.get(3).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[8][6].setValue(3)
+                    .setText(mValueWordPairBiMap.get(3).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[1][6] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
-            cells[2][4] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
-            cells[4][1] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
-            cells[5][7] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
-            cells[6][2] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
+            cells[1][6].setValue(4)
+                    .setText(mValueWordPairBiMap.get(4).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[2][4].setValue(4)
+                    .setText(mValueWordPairBiMap.get(4).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[4][1].setValue(4)
+                    .setText(mValueWordPairBiMap.get(4).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[5][7].setValue(4)
+                    .setText(mValueWordPairBiMap.get(4).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[6][2].setValue(4)
+                    .setText(mValueWordPairBiMap.get(4).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[0][6] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
-            cells[2][0] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
-            cells[3][7] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
-            cells[4][5] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
-            cells[5][1] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
+            cells[0][6].setValue(5)
+                    .setText(mValueWordPairBiMap.get(5).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[2][0].setValue(5)
+                    .setText(mValueWordPairBiMap.get(5).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[3][7].setValue(5)
+                    .setText(mValueWordPairBiMap.get(5).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[4][5].setValue(5)
+                    .setText(mValueWordPairBiMap.get(5).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[5][1].setValue(5)
+                    .setText(mValueWordPairBiMap.get(5).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[3][2] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
-            cells[4][4] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
-            cells[5][6] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
-            cells[7][5] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
-            cells[8][7] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
+            cells[3][2].setValue(6)
+                    .setText(mValueWordPairBiMap.get(6).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[4][4].setValue(6)
+                    .setText(mValueWordPairBiMap.get(6).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[5][6].setValue(6)
+                    .setText(mValueWordPairBiMap.get(6).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[7][5].setValue(6)
+                    .setText(mValueWordPairBiMap.get(6).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[8][7].setValue(6)
+                    .setText(mValueWordPairBiMap.get(6).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[0][1] = new CellUiState(pairs[6].getTranslatedWord(), true, false);
-            cells[2][5] = new CellUiState(pairs[6].getTranslatedWord(), true, false);
-            cells[3][3] = new CellUiState(pairs[6].getTranslatedWord(), true, false);
-            cells[5][2] = new CellUiState(pairs[6].getTranslatedWord(), true, false);
-            cells[6][4] = new CellUiState(pairs[6].getTranslatedWord(), true, false);
+            cells[0][1].setValue(7)
+                    .setText(mValueWordPairBiMap.get(7).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[2][5].setValue(7)
+                    .setText(mValueWordPairBiMap.get(7).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[3][3].setValue(7)
+                    .setText(mValueWordPairBiMap.get(7).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[5][2].setValue(7)
+                    .setText(mValueWordPairBiMap.get(7).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[6][4].setValue(7)
+                    .setText(mValueWordPairBiMap.get(7).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[2][1] = new CellUiState(pairs[7].getTranslatedWord(), true, false);
-            cells[7][4] = new CellUiState(pairs[7].getTranslatedWord(), true, false);
+            cells[2][1].setValue(8)
+                    .setText(mValueWordPairBiMap.get(8).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[7][4].setValue(8)
+                    .setText(mValueWordPairBiMap.get(8).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[1][8] = new CellUiState(pairs[8].getTranslatedWord(), true, false);
-            cells[3][6] = new CellUiState(pairs[8].getTranslatedWord(), true, false);
-            cells[6][3] = new CellUiState(pairs[8].getTranslatedWord(), true, false);
-            cells[7][7] = new CellUiState(pairs[8].getTranslatedWord(), true, false);
+            cells[1][8].setValue(9)
+                    .setText(mValueWordPairBiMap.get(9).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[3][6].setValue(9)
+                    .setText(mValueWordPairBiMap.get(9).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[6][3].setValue(9)
+                    .setText(mValueWordPairBiMap.get(9).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[7][7].setValue(9)
+                    .setText(mValueWordPairBiMap.get(9).getTranslatedWord())
+                    .setPrefilled(true);
         }
         // 4x4
         else if (boardSize == 4 && subgridHeight == 4 && subgridWidth == 4) {
-            cells[0][3] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
-            cells[2][1] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
+            cells[0][3].setValue(1)
+                    .setText(mValueWordPairBiMap.get(1).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[2][1].setValue(1)
+                    .setText(mValueWordPairBiMap.get(1).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[1][0] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
+            cells[1][0].setValue(2)
+                    .setText(mValueWordPairBiMap.get(2).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[0][0] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
-            cells[3][3] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
+            cells[0][0].setValue(3)
+                    .setText(mValueWordPairBiMap.get(3).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[3][3].setValue(3)
+                    .setText(mValueWordPairBiMap.get(3).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[1][3] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
-            cells[3][2] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
+            cells[1][3].setValue(4)
+                    .setText(mValueWordPairBiMap.get(4).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[3][2].setValue(4)
+                    .setText(mValueWordPairBiMap.get(4).getTranslatedWord())
+                    .setPrefilled(true);
         }
         // 6x6
         else if (boardSize == 6 && subgridHeight == 2 && subgridWidth == 3) {
-            cells[0][3] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
-            cells[2][4] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
+            cells[0][3].setValue(1)
+                    .setText(mValueWordPairBiMap.get(1).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[2][4].setValue(1)
+                    .setText(mValueWordPairBiMap.get(1).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[1][1] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
-            cells[3][0] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
+            cells[1][1].setValue(2)
+                    .setText(mValueWordPairBiMap.get(2).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[3][0].setValue(2)
+                    .setText(mValueWordPairBiMap.get(2).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[0][5] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
-            cells[5][1] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
+            cells[0][5].setValue(3)
+                    .setText(mValueWordPairBiMap.get(3).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[5][1].setValue(3)
+                    .setText(mValueWordPairBiMap.get(3).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[2][2] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
-            cells[4][1] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
+            cells[2][2].setValue(4)
+                    .setText(mValueWordPairBiMap.get(4).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[4][1].setValue(4)
+                    .setText(mValueWordPairBiMap.get(4).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[3][5] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
-            cells[5][3] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
+            cells[3][5].setValue(5)
+                    .setText(mValueWordPairBiMap.get(5).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[5][3].setValue(5)
+                    .setText(mValueWordPairBiMap.get(5).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[0][2] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
-            cells[5][5] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
+            cells[0][2].setValue(6)
+                    .setText(mValueWordPairBiMap.get(6).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[5][5].setValue(6)
+                    .setText(mValueWordPairBiMap.get(6).getTranslatedWord())
+                    .setPrefilled(true);
         }
         // 12x12
         else if (boardSize == 12 && subgridHeight == 3 && subgridWidth == 4) {
-            cells[0][0] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
-            cells[2][4] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
-            cells[3][11] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
-            cells[6][10] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
-            cells[8][2] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
-            cells[9][9] = new CellUiState(pairs[0].getTranslatedWord(), true, false);
+            cells[0][0].setValue(1)
+                    .setText(mValueWordPairBiMap.get(1).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[2][4].setValue(1)
+                    .setText(mValueWordPairBiMap.get(1).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[3][11].setValue(1)
+                    .setText(mValueWordPairBiMap.get(1).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[6][10].setValue(1)
+                    .setText(mValueWordPairBiMap.get(1).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[8][2].setValue(1)
+                    .setText(mValueWordPairBiMap.get(1).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[9][9].setValue(1)
+                    .setText(mValueWordPairBiMap.get(1).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[1][9] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
-            cells[3][0] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
-            cells[4][8] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
-            cells[5][4] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
-            cells[7][7] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
-            cells[8][3] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
-            cells[11][2] = new CellUiState(pairs[1].getTranslatedWord(), true, false);
+            cells[1][9].setValue(2)
+                    .setText(mValueWordPairBiMap.get(2).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[3][0].setValue(2)
+                    .setText(mValueWordPairBiMap.get(2).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[4][8].setValue(2)
+                    .setText(mValueWordPairBiMap.get(2).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[5][4].setValue(2)
+                    .setText(mValueWordPairBiMap.get(2).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[7][7].setValue(2)
+                    .setText(mValueWordPairBiMap.get(2).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[8][3].setValue(2)
+                    .setText(mValueWordPairBiMap.get(2).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[11][2].setValue(2)
+                    .setText(mValueWordPairBiMap.get(2).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[0][2] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
-            cells[3][1] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
-            cells[5][5] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
-            cells[7][8] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
-            cells[9][11] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
-            cells[10][7] = new CellUiState(pairs[2].getTranslatedWord(), true, false);
+            cells[0][2].setValue(3)
+                    .setText(mValueWordPairBiMap.get(3).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[3][1].setValue(3)
+                    .setText(mValueWordPairBiMap.get(3).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[5][5].setValue(3)
+                    .setText(mValueWordPairBiMap.get(3).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[7][8].setValue(3)
+                    .setText(mValueWordPairBiMap.get(3).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[9][11].setValue(3)
+                    .setText(mValueWordPairBiMap.get(3).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[10][7].setValue(3)
+                    .setText(mValueWordPairBiMap.get(3).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[1][11] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
-            cells[2][7] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
-            cells[4][10] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
-            cells[7][9] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
-            cells[8][5] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
-            cells[9][0] = new CellUiState(pairs[3].getTranslatedWord(), true, false);
+            cells[1][11].setValue(4)
+                    .setText(mValueWordPairBiMap.get(4).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[2][7].setValue(4)
+                    .setText(mValueWordPairBiMap.get(4).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[4][10].setValue(4)
+                    .setText(mValueWordPairBiMap.get(4).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[7][9].setValue(4)
+                    .setText(mValueWordPairBiMap.get(4).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[8][5].setValue(4)
+                    .setText(mValueWordPairBiMap.get(4).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[9][0].setValue(4)
+                    .setText(mValueWordPairBiMap.get(4).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[0][4] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
-            cells[2][8] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
-            cells[3][3] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
-            cells[6][2] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
-            cells[8][6] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
-            cells[10][9] = new CellUiState(pairs[4].getTranslatedWord(), true, false);
+            cells[0][4].setValue(5)
+                    .setText(mValueWordPairBiMap.get(5).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[2][8].setValue(5)
+                    .setText(mValueWordPairBiMap.get(5).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[3][3].setValue(5)
+                    .setText(mValueWordPairBiMap.get(5).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[6][2].setValue(5)
+                    .setText(mValueWordPairBiMap.get(5).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[8][6].setValue(5)
+                    .setText(mValueWordPairBiMap.get(5).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[10][9].setValue(5)
+                    .setText(mValueWordPairBiMap.get(5).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[1][1] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
-            cells[3][4] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
-            cells[5][8] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
-            cells[6][3] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
-            cells[7][11] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
-            cells[9][2] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
-            cells[11][6] = new CellUiState(pairs[5].getTranslatedWord(), true, false);
+            cells[1][1].setValue(6)
+                    .setText(mValueWordPairBiMap.get(6).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[3][4].setValue(6)
+                    .setText(mValueWordPairBiMap.get(6).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[5][8].setValue(6)
+                    .setText(mValueWordPairBiMap.get(6).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[6][3].setValue(6)
+                    .setText(mValueWordPairBiMap.get(6).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[7][11].setValue(6)
+                    .setText(mValueWordPairBiMap.get(6).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[9][2].setValue(6)
+                    .setText(mValueWordPairBiMap.get(6).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[11][6].setValue(6)
+                    .setText(mValueWordPairBiMap.get(6).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[1][2] = new CellUiState(pairs[6].getTranslatedWord(), true, false);
-            cells[2][10] = new CellUiState(pairs[6].getTranslatedWord(), true, false);
-            cells[3][5] = new CellUiState(pairs[6].getTranslatedWord(), true, false);
-            cells[4][1] = new CellUiState(pairs[6].getTranslatedWord(), true, false);
-            cells[7][0] = new CellUiState(pairs[6].getTranslatedWord(), true, false);
-            cells[10][11] = new CellUiState(pairs[6].getTranslatedWord(), true, false);
-            cells[11][7] = new CellUiState(pairs[6].getTranslatedWord(), true, false);
+            cells[1][2].setValue(7)
+                    .setText(mValueWordPairBiMap.get(7).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[2][10].setValue(7)
+                    .setText(mValueWordPairBiMap.get(7).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[3][5].setValue(7)
+                    .setText(mValueWordPairBiMap.get(7).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[4][1].setValue(7)
+                    .setText(mValueWordPairBiMap.get(7).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[7][0].setValue(7)
+                    .setText(mValueWordPairBiMap.get(7).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[10][11].setValue(7)
+                    .setText(mValueWordPairBiMap.get(7).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[11][7].setValue(7)
+                    .setText(mValueWordPairBiMap.get(7).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[0][7] = new CellUiState(pairs[7].getTranslatedWord(), true, false);
-            cells[5][10] = new CellUiState(pairs[7].getTranslatedWord(), true, false);
-            cells[6][5] = new CellUiState(pairs[7].getTranslatedWord(), true, false);
-            cells[7][1] = new CellUiState(pairs[7].getTranslatedWord(), true, false);
-            cells[8][9] = new CellUiState(pairs[7].getTranslatedWord(), true, false);
-            cells[9][4] = new CellUiState(pairs[7].getTranslatedWord(), true, false);
-            cells[10][0] = new CellUiState(pairs[7].getTranslatedWord(), true, false);
-            cells[11][8] = new CellUiState(pairs[7].getTranslatedWord(), true, false);
+            cells[0][7].setValue(8)
+                    .setText(mValueWordPairBiMap.get(8).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[5][10].setValue(8)
+                    .setText(mValueWordPairBiMap.get(8).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[6][5].setValue(8)
+                    .setText(mValueWordPairBiMap.get(8).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[7][1].setValue(8)
+                    .setText(mValueWordPairBiMap.get(8).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[8][9].setValue(8)
+                    .setText(mValueWordPairBiMap.get(8).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[9][4].setValue(8)
+                    .setText(mValueWordPairBiMap.get(8).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[10][0].setValue(8)
+                    .setText(mValueWordPairBiMap.get(8).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[11][8].setValue(8)
+                    .setText(mValueWordPairBiMap.get(8).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[0][8] = new CellUiState(pairs[8].getTranslatedWord(), true, false);
-            cells[2][0] = new CellUiState(pairs[8].getTranslatedWord(), true, false);
-            cells[3][7] = new CellUiState(pairs[8].getTranslatedWord(), true, false);
-            cells[4][3] = new CellUiState(pairs[8].getTranslatedWord(), true, false);
-            cells[5][11] = new CellUiState(pairs[8].getTranslatedWord(), true, false);
-            cells[6][6] = new CellUiState(pairs[8].getTranslatedWord(), true, false);
-            cells[9][5] = new CellUiState(pairs[8].getTranslatedWord(), true, false);
+            cells[0][8].setValue(9)
+                    .setText(mValueWordPairBiMap.get(9).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[2][0].setValue(9)
+                    .setText(mValueWordPairBiMap.get(9).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[3][7].setValue(9)
+                    .setText(mValueWordPairBiMap.get(9).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[4][3].setValue(9)
+                    .setText(mValueWordPairBiMap.get(9).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[5][11].setValue(9)
+                    .setText(mValueWordPairBiMap.get(9).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[6][6].setValue(9)
+                    .setText(mValueWordPairBiMap.get(9).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[9][5].setValue(9)
+                    .setText(mValueWordPairBiMap.get(9).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[1][5] = new CellUiState(pairs[9].getTranslatedWord(), true, false);
-            cells[11][10] = new CellUiState(pairs[9].getTranslatedWord(), true, false);
+            cells[1][5].setValue(10)
+                    .setText(mValueWordPairBiMap.get(10).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[11][10].setValue(10)
+                    .setText(mValueWordPairBiMap.get(10).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[0][10] = new CellUiState(pairs[10].getTranslatedWord(), true, false);
-            cells[1][6] = new CellUiState(pairs[10].getTranslatedWord(), true, false);
-            cells[6][8] = new CellUiState(pairs[10].getTranslatedWord(), true, false);
-            cells[7][4] = new CellUiState(pairs[10].getTranslatedWord(), true, false);
-            cells[10][3] = new CellUiState(pairs[10].getTranslatedWord(), true, false);
+            cells[0][10].setValue(11)
+                    .setText(mValueWordPairBiMap.get(11).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[1][6].setValue(11)
+                    .setText(mValueWordPairBiMap.get(11).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[6][8].setValue(11)
+                    .setText(mValueWordPairBiMap.get(11).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[7][4].setValue(11)
+                    .setText(mValueWordPairBiMap.get(11).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[10][3].setValue(11)
+                    .setText(mValueWordPairBiMap.get(11).getTranslatedWord())
+                    .setPrefilled(true);
 
-            cells[2][3] = new CellUiState(pairs[11].getTranslatedWord(), true, false);
-            cells[4][6] = new CellUiState(pairs[11].getTranslatedWord(), true, false);
-            cells[5][2] = new CellUiState(pairs[11].getTranslatedWord(), true, false);
-            cells[10][4] = new CellUiState(pairs[11].getTranslatedWord(), true, false);
-            cells[11][0] = new CellUiState(pairs[11].getTranslatedWord(), true, false);
+            cells[2][3].setValue(12)
+                    .setText(mValueWordPairBiMap.get(12).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[4][6].setValue(12)
+                    .setText(mValueWordPairBiMap.get(12).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[5][2].setValue(12)
+                    .setText(mValueWordPairBiMap.get(12).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[10][4].setValue(12)
+                    .setText(mValueWordPairBiMap.get(12).getTranslatedWord())
+                    .setPrefilled(true);
+            cells[11][0].setValue(12)
+                    .setText(mValueWordPairBiMap.get(12).getTranslatedWord())
+                    .setPrefilled(true);
         }
 
         mBoardUiState.setValue(new BoardUiState(

@@ -23,11 +23,11 @@ import ca.sfu.cmpt276.sudokulang.ui.UiUtil;
  * @implNote Board dimension when default constructed is undefined. <p>
  * The layout parameters of this board are set in its XML file.
  */
-public class SudokuBoard extends ConstraintLayout {
+public class BoardUi extends ConstraintLayout {
     private @NonNull Board mUiState;
     private CellUi[][] mCells;
 
-    public SudokuBoard(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public BoardUi(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         mUiState = new BoardImpl();
         createBoard(mUiState);

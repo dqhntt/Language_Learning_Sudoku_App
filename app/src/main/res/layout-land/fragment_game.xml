@@ -9,7 +9,7 @@
 
 
     <!-- Game board. -->
-    <ca.sfu.cmpt276.sudokulang.ui.game.board.SudokuBoard
+    <ca.sfu.cmpt276.sudokulang.ui.game.board.BoardUi
         android:id="@+id/game_board"
         android:layout_width="0dp"
         android:layout_height="0dp"

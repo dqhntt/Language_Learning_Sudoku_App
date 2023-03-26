@@ -25,14 +25,12 @@ public class CellImpl implements Cell {
         }
         mValue = value;
         mText = text;
-        assert hasConsistentTextAndValue();
         mIsPrefilled = isPrefilled;
         mIsErrorCell = isErrorCell;
     }
 
     @Override
     public int getValue() {
-        assert hasConsistentTextAndValue();
         return mValue;
     }
 
@@ -48,7 +46,6 @@ public class CellImpl implements Cell {
     @NonNull
     @Override
     public String getText() {
-        assert hasConsistentTextAndValue();
         return mText;
     }
 
@@ -88,12 +85,8 @@ public class CellImpl implements Cell {
 
     @Override
     public boolean isEmpty() {
-        assert hasConsistentTextAndValue();
+        assert mValue != 0 || mText.isBlank();
         return mValue == 0;
-    }
-
-    private boolean hasConsistentTextAndValue() {
-        return (mValue == 0) == (mText.isBlank());
     }
 
     @NonNull

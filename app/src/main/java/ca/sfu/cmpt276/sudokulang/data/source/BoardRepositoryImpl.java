@@ -48,8 +48,7 @@ public class BoardRepositoryImpl implements BoardRepository {
 
     @Override
     public BoardImpl getARandomBoardMatching(int boardSize, int subgridHeight, int subgridWidth, String level) {
-        return mBoardDao
-                .getAllFilteredBoards(boardSize, subgridHeight, subgridWidth, level)
-                .get(new Random().nextInt(boardSize));
+        final var boards = mBoardDao.getAllFilteredBoards(boardSize, subgridHeight, subgridWidth, level);
+        return boards.get(new Random().nextInt(boards.size()));
     }
 }

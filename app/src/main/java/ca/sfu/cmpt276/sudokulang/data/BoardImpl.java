@@ -10,8 +10,6 @@ import androidx.room.PrimaryKey;
 
 import java.util.Arrays;
 
-import ca.sfu.cmpt276.sudokulang.GameViewModel;
-
 @Entity(tableName = "board",
         indices = {
                 @Index(value = "prefilled_values", unique = true)
@@ -58,17 +56,6 @@ public class BoardImpl implements Board {
         this(0, "", 1, 1, 1,
                 new CellImpl[][]{new CellImpl[]{new CellImpl()}},
                 new CellImpl[][]{new CellImpl[]{new CellImpl()}});
-    }
-
-    /**
-     * @apiNote Only for use with {@link GameViewModel#createEmptyBoard(int, int, int)}
-     * @// TODO: Remove this since board data is coming straight from Room.
-     */
-    @Ignore
-    public BoardImpl(int boardSize, int subgridHeight, int subgridWidth,
-                     @NonNull Cell[][] currentValues) {
-        this(0, "", boardSize, subgridHeight, subgridWidth,
-                currentValues, currentValues);
     }
 
     /**

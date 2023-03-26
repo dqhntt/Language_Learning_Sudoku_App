@@ -29,10 +29,11 @@ public class Converters {
         final var cells = new CellImpl[boardSize][boardSize];
         for (int i = 0; i < cellVals.length; i++) {
             final var currVal = cellVals[i];
+            final char firstChar = currVal.charAt(0);
             cells[i / boardSize][i % boardSize] = new CellImpl()
                     .setValue(Math.abs(Integer.parseInt(currVal)))
                     .setErrorCell(currVal.startsWith("-"))
-                    .setPrefilled(Character.isDigit(currVal.charAt(0)));
+                    .setPrefilled(firstChar != '0' && Character.isDigit(firstChar));
         }
         return cells;
     }

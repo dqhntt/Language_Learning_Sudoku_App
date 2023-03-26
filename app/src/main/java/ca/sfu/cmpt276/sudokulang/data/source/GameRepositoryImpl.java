@@ -4,6 +4,8 @@ import static ca.sfu.cmpt276.sudokulang.data.source.local.GameDatabase.databaseW
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 import ca.sfu.cmpt276.sudokulang.data.Game;
@@ -24,22 +26,33 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public void insert(Game game) {
+    public long generateId() {
+        return mGameDao.generateId();
+    }
+
+    @Override
+    public void insert(@NonNull Game game) {
         databaseWriteExecutor.execute(() -> mGameDao.insert(game));
     }
 
     @Override
-    public void update(Game game) {
+    public void update(@NonNull Game game) {
         databaseWriteExecutor.execute(() -> mGameDao.update(game));
     }
 
+    @NonNull
     @Override
     public List<GameWithTranslations> getAllGamesWithTranslations() {
         return mGameTranslationDao.getAllGamesWithTranslations();
     }
 
     @Override
-    public long insert(GameTranslation gameTranslation) {
-        return mGameTranslationDao.insert(gameTranslation);
+    public void insert(@NonNull GameTranslation gameTranslation) {
+        databaseWriteExecutor.execute(() -> mGameTranslationDao.insert(gameTranslation));
+    }
+
+    @Override
+    public void insert(@NonNull List<GameTranslation> gameTranslations) {
+        databaseWriteExecutor.execute(() -> mGameTranslationDao.insert(gameTranslations));
     }
 }

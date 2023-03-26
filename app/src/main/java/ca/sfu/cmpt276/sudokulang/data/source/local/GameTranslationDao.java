@@ -18,5 +18,8 @@ public interface GameTranslationDao {
     List<GameWithTranslations> getAllGamesWithTranslations();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long insert(GameTranslation gameTranslation);
+    void insert(GameTranslation gameTranslation);
+
+    @Insert(onConflict = OnConflictStrategy.ROLLBACK)
+    void insert(List<GameTranslation> gameTranslations);
 }

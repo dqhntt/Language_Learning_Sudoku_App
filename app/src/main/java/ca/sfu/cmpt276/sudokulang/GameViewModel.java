@@ -1,5 +1,7 @@
 package ca.sfu.cmpt276.sudokulang;
 
+import static ca.sfu.cmpt276.sudokulang.data.source.local.GameDatabase.databaseWriteExecutor;
+
 import android.app.Application;
 
 import androidx.annotation.NonNull;
@@ -8,15 +10,19 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import ca.sfu.cmpt276.sudokulang.data.Board;
 import ca.sfu.cmpt276.sudokulang.data.BoardImpl;
 import ca.sfu.cmpt276.sudokulang.data.Cell;
 import ca.sfu.cmpt276.sudokulang.data.CellImpl;
+import ca.sfu.cmpt276.sudokulang.data.Game;
+import ca.sfu.cmpt276.sudokulang.data.GameTranslation;
 import ca.sfu.cmpt276.sudokulang.data.WordPair;
 import ca.sfu.cmpt276.sudokulang.data.source.BoardRepository;
 import ca.sfu.cmpt276.sudokulang.data.source.BoardRepositoryImpl;
@@ -43,6 +49,7 @@ public class GameViewModel extends AndroidViewModel {
     private final @NonNull Map<String, String> mButtonCellTextMap = new HashMap<>();
     private WordPair[] mWordPairs = null;
     private boolean mGameInProgress;
+    private Game mCurrentGame;
 
     /**
      * @implNote Board dimension when default constructed is undefined. <p>
@@ -88,8 +95,40 @@ public class GameViewModel extends AndroidViewModel {
                 );
             }
         }
-        mBoardUiState.setValue(newBoard);
+        insertGameToDatabase(newBoard);
         mGameInProgress = true;
+        mBoardUiState.setValue(newBoard);
+        mBoardUiState.observeForever(board -> updateGameInDatabase(mCurrentGame, board));
+    }
+
+    private void insertGameToDatabase(@NonNull BoardImpl board) {
+        databaseWriteExecutor.execute(() -> {
+            mCurrentGame = new Game(
+                    gameRepo.generateId(),
+                    board.getId(),
+                    board.getCells(),
+                    wordRepo.getIdOfLanguage("English"),
+                    wordRepo.getIdOfLanguage("French"),
+                    wordRepo.getIdOfLanguageLevel("Beginner")
+            );
+            gameRepo.insert(mCurrentGame);
+            gameRepo.insert(Arrays.stream(mWordPairs)
+                    .map(pair -> new GameTranslation(mCurrentGame.getId(), pair.getTranslationId()))
+                    .collect(Collectors.toList())
+            );
+        });
+    }
+
+    private void updateGameInDatabase(Game game, @NonNull Board board) {
+        databaseWriteExecutor.execute(() -> {
+            if (mGameInProgress && mCurrentGame != null) {
+                gameRepo.update(game
+                        .setCompleted(board.isSolvedBoard())
+                        .setCurrentBoardValues(board.getCells())
+                        .setTimeDuration(System.currentTimeMillis() - game.getStartTime().getTime())
+                );
+            }
+        });
     }
 
     public boolean isGameInProgress() {

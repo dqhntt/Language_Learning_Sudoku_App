@@ -38,39 +38,31 @@ import java.util.Date;
         }
 )
 public class Game {
+    @ColumnInfo(name = "board_id", index = true)
+    private final long mBoardId;
+    @ColumnInfo(name = "native_language_id", index = true)
+    private final long mNativeLanguageId;
+    @ColumnInfo(name = "learning_language_id", index = true)
+    private final long mLearningLanguageId;
+    @ColumnInfo(name = "learning_language_level_id", index = true)
+    private final long mLearningLanguageLevelId;
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private int mId;
-
+    private final long mId;
     @NonNull
     @ColumnInfo(name = "start_time", defaultValue = "CURRENT_TIMESTAMP")
-    private Date mStartTime;
-
+    private Date mStartTime = new Date();
     @ColumnInfo(name = "time_duration", defaultValue = "0")
-    private long mTimeDuration;
-
+    private long mTimeDuration = 0;
     @ColumnInfo(name = "is_completed", defaultValue = "0")
-    private boolean mIsCompleted;
-
-    @ColumnInfo(name = "board_id", index = true)
-    private final int mBoardId;
-
+    private boolean mIsCompleted = false;
     @NonNull
     @ColumnInfo(name = "current_board_values", collate = ColumnInfo.RTRIM)
-    private CellImpl[][] mCurrentBoardValues;
+    private Cell[][] mCurrentBoardValues;
 
-    @ColumnInfo(name = "native_language_id", index = true)
-    private final int mNativeLanguageId;
-
-    @ColumnInfo(name = "learning_language_id", index = true)
-    private final int mLearningLanguageId;
-
-    @ColumnInfo(name = "learning_language_level_id", index = true)
-    private final int mLearningLanguageLevelId;
-
-    public Game(int id, @NonNull Date startTime, long timeDuration,
-                boolean isCompleted, int boardId, @NonNull CellImpl[][] currentBoardValues,
-                int nativeLanguageId, int learningLanguageId, int learningLanguageLevelId) {
+    public Game(long id, @NonNull Date startTime, long timeDuration,
+                boolean isCompleted, long boardId, @NonNull Cell[][] currentBoardValues,
+                long nativeLanguageId, long learningLanguageId, long learningLanguageLevelId) {
         mId = id;
         mStartTime = startTime;
         mTimeDuration = timeDuration;
@@ -83,8 +75,9 @@ public class Game {
     }
 
     @Ignore
-    public Game(int boardId, @NonNull CellImpl[][] currentBoardValues,
-                int nativeLanguageId, int learningLanguageId, int learningLanguageLevelId) {
+    public Game(long id, long boardId, @NonNull Cell[][] currentBoardValues,
+                long nativeLanguageId, long learningLanguageId, long learningLanguageLevelId) {
+        mId = id;
         mBoardId = boardId;
         mCurrentBoardValues = currentBoardValues;
         mNativeLanguageId = nativeLanguageId;
@@ -92,7 +85,7 @@ public class Game {
         mLearningLanguageLevelId = learningLanguageLevelId;
     }
 
-    public int getId() {
+    public long getId() {
         return mId;
     }
 
@@ -105,39 +98,46 @@ public class Game {
         return mTimeDuration;
     }
 
-    public void setTimeDuration(long timeDuration) {
+    @NonNull
+    public Game setTimeDuration(long timeDuration) {
         mTimeDuration = timeDuration;
+        return this;
     }
 
     public boolean isCompleted() {
         return mIsCompleted;
     }
 
-    public void setCompleted(boolean completed) {
+    @NonNull
+    public Game setCompleted(boolean completed) {
         mIsCompleted = completed;
+        return this;
     }
 
-    public int getBoardId() {
+    public long getBoardId() {
         return mBoardId;
     }
 
-    public CellImpl[][] getCurrentBoardValues() {
+    @NonNull
+    public Cell[][] getCurrentBoardValues() {
         return mCurrentBoardValues;
     }
 
-    public void setCurrentBoardValues(@NonNull CellImpl[][] currentBoardValues) {
+    @NonNull
+    public Game setCurrentBoardValues(@NonNull Cell[][] currentBoardValues) {
         mCurrentBoardValues = currentBoardValues;
+        return this;
     }
 
-    public int getNativeLanguageId() {
+    public long getNativeLanguageId() {
         return mNativeLanguageId;
     }
 
-    public int getLearningLanguageId() {
+    public long getLearningLanguageId() {
         return mLearningLanguageId;
     }
 
-    public int getLearningLanguageLevelId() {
+    public long getLearningLanguageLevelId() {
         return mLearningLanguageLevelId;
     }
 }

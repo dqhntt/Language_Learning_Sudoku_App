@@ -25,7 +25,6 @@ import ca.sfu.cmpt276.sudokulang.ui.game.board.CellUi;
 public class GameFragment extends Fragment {
     private FragmentGameBinding mBinding;
     private GameViewModel mGameViewModel;
-    private boolean mIsCompletedGame = false;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -51,7 +50,7 @@ public class GameFragment extends Fragment {
     }
 
     private void endGame() {
-        mIsCompletedGame = true;
+        mGameViewModel.endGame();
         mBinding.wordButtonKeypad.setEnabled(false);
         mBinding.eraseButton.setEnabled(false);
         mBinding.notesButton.setEnabled(false);
@@ -66,7 +65,7 @@ public class GameFragment extends Fragment {
             mBinding.gameBoard.updateState(boardUiState);
             final var selectedCell = boardUiState.getSelectedCell();
             mBinding.quickCellView.setText(selectedCell == null ? "" : selectedCell.getText());
-            if (boardUiState.isSolvedBoard() && !mIsCompletedGame) {
+            if (boardUiState.isSolvedBoard() && mGameViewModel.isGameInProgress()) {
                 endGame();
             }
         });

@@ -38,10 +38,11 @@ public class GameViewModel extends AndroidViewModel {
     public final TranslationRepository translationRepo;
     public final WordRepository wordRepo;
     private final @NonNull MutableLiveData<Board> mBoardUiState;
-    private final boolean mGameInProgress;
     private final @NonNull Map<Integer, WordPair> mValueWordPairMap = new HashMap<>();
+    private final @NonNull Map<String, Integer> mOriginalWordValueMap = new HashMap<>();
     private final @NonNull Map<String, String> mButtonCellTextMap = new HashMap<>();
     private WordPair[] mWordPairs = null;
+    private boolean mGameInProgress;
 
     /**
      * @implNote Board dimension when default constructed is undefined. <p>
@@ -54,7 +55,6 @@ public class GameViewModel extends AndroidViewModel {
         translationRepo = new TranslationRepositoryImpl(app);
         wordRepo = new WordRepositoryImpl(app);
         mBoardUiState = new MutableLiveData<>();
-        mGameInProgress = true;
     }
 
     public LiveData<Board> getBoardUiState() {
@@ -89,6 +89,15 @@ public class GameViewModel extends AndroidViewModel {
             }
         }
         mBoardUiState.setValue(newBoard);
+        mGameInProgress = true;
+    }
+
+    public boolean isGameInProgress() {
+        return mGameInProgress;
+    }
+
+    public void endGame() {
+        mGameInProgress = false;
     }
 
     /**
@@ -115,6 +124,7 @@ public class GameViewModel extends AndroidViewModel {
         }
         setSelectedCellState(
                 selectedCell
+                        .setValue(mOriginalWordValueMap.get(buttonText))
                         .setText(buttonText)
                         .setErrorCell(!isValidValueForCell(
                                 buttonText,
@@ -236,8 +246,12 @@ public class GameViewModel extends AndroidViewModel {
         }
         Collections.shuffle(values);
         mValueWordPairMap.clear();
+        mOriginalWordValueMap.clear();
         for (int i = 0; i < mWordPairs.length; i++) {
-            mValueWordPairMap.put(values.get(i), mWordPairs[i]);
+            final var currPair = mWordPairs[i];
+            final var currVal = values.get(i);
+            mValueWordPairMap.put(currVal, currPair);
+            mOriginalWordValueMap.put(currPair.getOriginalWord(), currVal);
         }
         mButtonCellTextMap.clear();
         for (var pair : mWordPairs) {

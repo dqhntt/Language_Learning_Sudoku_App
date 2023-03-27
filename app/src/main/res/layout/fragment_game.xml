@@ -34,7 +34,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="@dimen/game_board_margin"
-            app:layout_constraintBottom_toTopOf="@id/hor_scroll_view"
+            app:layout_constraintBottom_toTopOf="@id/word_button_keypad"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,23 +42,18 @@
 
 
         <!-- Word buttons. -->
-        <HorizontalScrollView
-            android:id="@+id/hor_scroll_view"
+        <ca.sfu.cmpt276.sudokulang.ui.game.keypad.WordButtonKeypad
+            android:id="@+id/word_button_keypad"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"
-            android:fillViewport="true"
+            android:layout_margin="@dimen/word_button_margin"
+            app:flow_horizontalGap="@dimen/word_button_margin"
+            app:flow_wrapMode="chain"
             app:layout_constraintBottom_toTopOf="@id/erase_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/game_board">
-
-            <ca.sfu.cmpt276.sudokulang.ui.game.keypad.WordButtonKeypad
-                android:id="@+id/word_button_keypad"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                custom:buttonTextSize="@dimen/word_button_text_size" />
-        </HorizontalScrollView>
+            app:layout_constraintTop_toBottomOf="@id/game_board"
+            custom:buttonTextSize="@dimen/word_button_text_size" />
 
 
         <!-- Erase and Notes buttons. -->
@@ -75,7 +70,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/notes_button"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/hor_scroll_view" />
+            app:layout_constraintTop_toBottomOf="@id/word_button_keypad" />
 
         <Button
             android:id="@+id/notes_button"

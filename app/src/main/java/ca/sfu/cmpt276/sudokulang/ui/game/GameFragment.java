@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ import java.util.Arrays;
 
 import ca.sfu.cmpt276.sudokulang.GameViewModel;
 import ca.sfu.cmpt276.sudokulang.R;
+import ca.sfu.cmpt276.sudokulang.Util;
 import ca.sfu.cmpt276.sudokulang.data.WordPair;
 import ca.sfu.cmpt276.sudokulang.databinding.FragmentGameBinding;
 import ca.sfu.cmpt276.sudokulang.ui.game.board.CellUi;
@@ -51,10 +53,10 @@ public class GameFragment extends Fragment {
 
     private void endGame() {
         mGameViewModel.endGame();
-        mBinding.wordButtonKeypad.setEnabled(false);
-        mBinding.eraseButton.setEnabled(false);
-        mBinding.notesButton.setEnabled(false);
-        Snackbar.make(mBinding.getRoot(), R.string.congratulations, Snackbar.LENGTH_INDEFINITE)
+        Snackbar.make(mBinding.getRoot(),
+                        Util.formatWithTime(getString(R.string.congratulations),
+                                mGameViewModel.getElapsedTime()),
+                        Snackbar.LENGTH_INDEFINITE)
                 .setAnchorView(requireActivity().findViewById(R.id.bottom_app_bar))
                 .show();
     }
@@ -65,7 +67,7 @@ public class GameFragment extends Fragment {
             mBinding.gameBoard.updateState(boardUiState);
             final var selectedCell = boardUiState.getSelectedCell();
             mBinding.quickCellView.setText(selectedCell == null ? "" : selectedCell.getText());
-            if (boardUiState.isSolvedBoard() && mGameViewModel.isGameInProgress()) {
+            if (boardUiState.isSolvedBoard() && mGameViewModel.isGameInProgress().getValue()) {
                 endGame();
             }
         });
@@ -86,6 +88,16 @@ public class GameFragment extends Fragment {
             final String choice = (String) button.getText();
             mBinding.quickCellView.setText(choice);
             mGameViewModel.setSelectedCellText(choice);
+        });
+        mGameViewModel.isGameInProgress().observe(getViewLifecycleOwner(), gameInProgress -> {
+            // Disable buttons but doesn't end game.
+            mBinding.wordButtonKeypad.setEnabled(gameInProgress);
+            mBinding.eraseButton.setEnabled(gameInProgress);
+            mBinding.notesButton.setEnabled(gameInProgress);
+            ((ImageButton) requireActivity().findViewById(R.id.fab))
+                    .setImageResource(gameInProgress
+                            ? R.drawable.ic_pause_24dp
+                            : R.drawable.ic_play_arrow_24dp);
         });
     }
 

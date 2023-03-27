@@ -25,7 +25,7 @@ import ca.sfu.cmpt276.sudokulang.ui.game.GameFragmentDirections;
 public class GameActivity extends AppCompatActivity {
     private static final String SHOULD_CREATE_NEW_GAME = "should_create_new_game";
     private @Nullable AppBarConfiguration appBarConfiguration = null;
-    private ActivityGameBinding binding;
+    private Snackbar snackbar;
 
     /**
      * Create a new intent with the required arguments for {@link GameActivity}.
@@ -47,7 +47,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityGameBinding.inflate(getLayoutInflater());
+        final var binding = ActivityGameBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         final var gameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
@@ -81,10 +81,22 @@ public class GameActivity extends AppCompatActivity {
 
         if (binding.bottomAppBar != null) {
             assert (binding.fab != null);
-            binding.fab.setOnClickListener(view ->
-                    Snackbar.make(view, "Pause FAB", Snackbar.LENGTH_SHORT)
-                            .setAnchorView(binding.bottomAppBar)
-                            .show());
+            snackbar = Snackbar
+                    .make(binding.fab, "", Snackbar.LENGTH_INDEFINITE)
+                    .setAnchorView(binding.bottomAppBar);
+            binding.fab.setOnClickListener(view -> {
+                snackbar.setText(Util.formatWithTime(
+                        getString(R.string.paused_message),
+                        gameViewModel.getElapsedTime()
+                ));
+                if (gameViewModel.isGameInProgress().getValue()) {
+                    gameViewModel.pauseGame();
+                    snackbar.show();
+                } else {
+                    gameViewModel.resumeGame();
+                    snackbar.dismiss();
+                }
+            });
             binding.bottomAppBar.setOnMenuItemClickListener(getOnMenuItemClickListener(navController));
         }
     }

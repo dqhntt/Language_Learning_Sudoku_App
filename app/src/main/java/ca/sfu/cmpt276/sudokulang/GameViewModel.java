@@ -44,11 +44,11 @@ public class GameViewModel extends AndroidViewModel {
     public final TranslationRepository translationRepo;
     public final WordRepository wordRepo;
     private final @NonNull MutableLiveData<Board> mBoardUiState;
+    private final @NonNull MutableLiveData<Boolean> mGameInProgress;
     private final @NonNull Map<Integer, WordPair> mValueWordPairMap = new HashMap<>();
     private final @NonNull Map<String, Integer> mOriginalWordValueMap = new HashMap<>();
     private final @NonNull Map<String, String> mButtonCellTextMap = new HashMap<>();
     private WordPair[] mWordPairs = null;
-    private boolean mGameInProgress;
     private Game mCurrentGame;
 
     /**
@@ -62,6 +62,7 @@ public class GameViewModel extends AndroidViewModel {
         translationRepo = new TranslationRepositoryImpl(app);
         wordRepo = new WordRepositoryImpl(app);
         mBoardUiState = new MutableLiveData<>();
+        mGameInProgress = new MutableLiveData<>();
     }
 
     public LiveData<Board> getBoardUiState() {
@@ -96,9 +97,12 @@ public class GameViewModel extends AndroidViewModel {
             }
         }
         insertGameToDatabase(newBoard);
-        mGameInProgress = true;
+        mGameInProgress.setValue(true);
         mBoardUiState.setValue(newBoard);
-        mBoardUiState.observeForever(board -> updateGameInDatabase(mCurrentGame, board));
+        mGameInProgress.observeForever(gameInProgress ->
+                updateGameInDatabase(mCurrentGame, mBoardUiState.getValue(), gameInProgress));
+        mBoardUiState.observeForever(board ->
+                updateGameInDatabase(mCurrentGame, board, mGameInProgress.getValue()));
     }
 
     private void insertGameToDatabase(@NonNull BoardImpl board) {
@@ -119,9 +123,9 @@ public class GameViewModel extends AndroidViewModel {
         });
     }
 
-    private void updateGameInDatabase(Game game, @NonNull Board board) {
+    private void updateGameInDatabase(Game game, @NonNull Board board, boolean gameInProgress) {
         databaseWriteExecutor.execute(() -> {
-            if (mGameInProgress && mCurrentGame != null) {
+            if (gameInProgress && game != null) {
                 gameRepo.update(game
                         .setCompleted(board.isSolvedBoard())
                         .setCurrentBoardValues(board.getCells())
@@ -131,12 +135,36 @@ public class GameViewModel extends AndroidViewModel {
         });
     }
 
-    public boolean isGameInProgress() {
+    public LiveData<Boolean> isGameInProgress() {
         return mGameInProgress;
     }
 
     public void endGame() {
-        mGameInProgress = false;
+        mGameInProgress.setValue(false);
+        mWordPairs = null;
+    }
+
+    /**
+     * @return The elapsed time in milliseconds.
+     */
+    public long getElapsedTime() {
+        return mCurrentGame.getTimeDuration() == 0 // Game is not updated yet.
+                ? System.currentTimeMillis() - mCurrentGame.getStartTime().getTime()
+                : mCurrentGame.getTimeDuration();
+    }
+
+    /**
+     * @post {@link #isGameInProgress()} {@code == false}
+     */
+    public void pauseGame() {
+        mGameInProgress.setValue(false);
+    }
+
+    /**
+     * @post {@link #isGameInProgress()} {@code == true}
+     */
+    public void resumeGame() {
+        mGameInProgress.setValue(true);
     }
 
     /**
@@ -263,8 +291,8 @@ public class GameViewModel extends AndroidViewModel {
     }
 
     public WordPair[] getWordPairs() {
-        if (mWordPairs == null || !mGameInProgress) {
-            generateWordPairs(mBoardUiState.getValue().getBoardSize());
+        if (mWordPairs == null) {
+            throw new IllegalStateException("Game must be created before retrieving the word pairs");
         }
         return mWordPairs;
     }

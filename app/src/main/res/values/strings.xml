@@ -60,7 +60,8 @@
     <string name="erase">Erase</string>
     <string name="notes">Notes</string>
 
-    <string name="congratulations">Game completed. Well done!</string>
+    <string name="congratulations">Game completed in %02d:%02d. Well done!</string>
+    <string name="paused_message">Game paused. Elapsed time: %02d:%02d</string>
 
     <!-- Content descriptions -->
     <string name="next">Next</string>

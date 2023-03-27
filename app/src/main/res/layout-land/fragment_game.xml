@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
         android:textSize="@dimen/quick_cell_view_text_size"
-        app:layout_constraintBottom_toTopOf="@id/hor_scroll_view"
+        app:layout_constraintBottom_toTopOf="@id/word_button_keypad"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/game_board"
         app:layout_constraintTop_toTopOf="parent"
@@ -36,22 +36,17 @@
 
 
     <!-- Word buttons. -->
-    <HorizontalScrollView
-        android:id="@+id/hor_scroll_view"
+    <ca.sfu.cmpt276.sudokulang.ui.game.keypad.WordButtonKeypad
+        android:id="@+id/word_button_keypad"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fillViewport="true"
+        app:flow_horizontalGap="8dp"
+        app:flow_wrapMode="chain"
         app:layout_constraintBottom_toTopOf="@id/erase_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/game_board"
-        app:layout_constraintTop_toBottomOf="@id/quick_cell_view">
-
-        <ca.sfu.cmpt276.sudokulang.ui.game.keypad.WordButtonKeypad
-            android:id="@+id/word_button_keypad"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            custom:buttonTextSize="@dimen/word_button_text_size" />
-    </HorizontalScrollView>
+        app:layout_constraintTop_toBottomOf="@id/quick_cell_view"
+        custom:buttonTextSize="@dimen/word_button_text_size" />
 
 
     <!-- Erase and Notes buttons. -->
@@ -67,7 +62,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/notes_button"
         app:layout_constraintStart_toEndOf="@id/game_board"
-        app:layout_constraintTop_toBottomOf="@id/hor_scroll_view" />
+        app:layout_constraintTop_toBottomOf="@id/word_button_keypad" />
 
     <Button
         android:id="@+id/notes_button"

@@ -35,7 +35,7 @@ import ca.sfu.cmpt276.sudokulang.data.Word;
 )
 @TypeConverters({Converters.class})
 public abstract class GameDatabase extends RoomDatabase {
-    private static final int NUMBER_OF_THREADS = 4;
+    private static final int NUMBER_OF_THREADS = 6;
     public static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
     private static volatile GameDatabase INSTANCE;
@@ -45,7 +45,7 @@ public abstract class GameDatabase extends RoomDatabase {
             synchronized (GameDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                                    GameDatabase.class, "game_database")
+                                    GameDatabase.class, "game-database")
                             .createFromAsset("database/GameDatabase.db")
                             .allowMainThreadQueries() // For TESTING.
                             .build();

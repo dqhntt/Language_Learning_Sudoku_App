@@ -89,15 +89,17 @@ public class GameFragment extends Fragment {
             mBinding.quickCellView.setText(choice);
             mGameViewModel.setSelectedCellText(choice);
         });
+        final var fab = (ImageButton) requireActivity().findViewById(R.id.fab);
         mGameViewModel.isGameInProgress().observe(getViewLifecycleOwner(), gameInProgress -> {
             // Disable buttons but doesn't end game.
             mBinding.wordButtonKeypad.setEnabled(gameInProgress);
             mBinding.eraseButton.setEnabled(gameInProgress);
             mBinding.notesButton.setEnabled(gameInProgress);
-            ((ImageButton) requireActivity().findViewById(R.id.fab))
-                    .setImageResource(gameInProgress
-                            ? R.drawable.ic_pause_24dp
-                            : R.drawable.ic_play_arrow_24dp);
+            if (fab != null) {
+                fab.setImageResource(gameInProgress
+                        ? R.drawable.ic_pause_24dp
+                        : R.drawable.ic_play_arrow_24dp);
+            }
         });
     }
 

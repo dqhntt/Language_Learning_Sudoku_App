@@ -5,6 +5,7 @@ import static ca.sfu.cmpt276.sudokulang.data.source.local.GameDatabase.databaseW
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -63,6 +64,10 @@ public class GameViewModel extends AndroidViewModel {
         wordRepo = new WordRepositoryImpl(app);
         mBoardUiState = new MutableLiveData<>();
         mGameInProgress = new MutableLiveData<>();
+        mBoardUiState.observeForever(board ->
+                updateGameInDatabase(mCurrentGame, board, mGameInProgress.getValue()));
+        mGameInProgress.observeForever(gameInProgress ->
+                updateGameInDatabase(mCurrentGame, mBoardUiState.getValue(), gameInProgress));
     }
 
     public LiveData<Board> getBoardUiState() {
@@ -99,10 +104,6 @@ public class GameViewModel extends AndroidViewModel {
         insertGameToDatabase(newBoard);
         mGameInProgress.setValue(true);
         mBoardUiState.setValue(newBoard);
-        mGameInProgress.observeForever(gameInProgress ->
-                updateGameInDatabase(mCurrentGame, mBoardUiState.getValue(), gameInProgress));
-        mBoardUiState.observeForever(board ->
-                updateGameInDatabase(mCurrentGame, board, mGameInProgress.getValue()));
     }
 
     private void insertGameToDatabase(@NonNull BoardImpl board) {
@@ -123,7 +124,7 @@ public class GameViewModel extends AndroidViewModel {
         });
     }
 
-    private void updateGameInDatabase(Game game, @NonNull Board board, boolean gameInProgress) {
+    private void updateGameInDatabase(@Nullable Game game, @NonNull Board board, boolean gameInProgress) {
         databaseWriteExecutor.execute(() -> {
             if (gameInProgress && game != null) {
                 gameRepo.update(game
@@ -135,6 +136,7 @@ public class GameViewModel extends AndroidViewModel {
         });
     }
 
+    @NonNull
     public LiveData<Boolean> isGameInProgress() {
         return mGameInProgress;
     }
@@ -290,6 +292,7 @@ public class GameViewModel extends AndroidViewModel {
         return true;
     }
 
+    @NonNull
     public WordPair[] getWordPairs() {
         if (mWordPairs == null) {
             throw new IllegalStateException("Game must be created before retrieving the word pairs");

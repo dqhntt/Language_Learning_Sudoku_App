@@ -5,10 +5,10 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.Arrays;
 
@@ -45,14 +45,14 @@ public class WordButtonKeypad extends androidx.constraintlayout.helper.widget.Fl
     private void createNewButtons(int n) {
         assert (n > 0);
         mButtons = new WordButton[n];
-        // Create and add buttons to layout.
+        // Create and add buttons to parent ConstraintLayout.
         for (int i = 0; i < n; i++) {
             final var button = new WordButton(getContext());
             if (mTextSizePx != -1) {
                 button.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSizePx);
             }
             mButtons[i] = button;
-            ((ViewGroup) getParent()).addView(button);
+            ((ConstraintLayout) getParent()).addView(button);
         }
         setReferencedIds(Arrays.stream(mButtons).mapToInt(View::getId).toArray());
     }

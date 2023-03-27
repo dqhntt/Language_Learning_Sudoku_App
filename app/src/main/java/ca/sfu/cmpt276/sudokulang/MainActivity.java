@@ -1,5 +1,6 @@
 package ca.sfu.cmpt276.sudokulang;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -7,7 +8,12 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 
+import java.util.List;
+
+import ca.sfu.cmpt276.sudokulang.data.source.TranslationRepository;
+import ca.sfu.cmpt276.sudokulang.data.source.TranslationRepositoryImpl;
 import ca.sfu.cmpt276.sudokulang.databinding.ActivityMainBinding;
 import kotlin.Triple;
 
@@ -15,41 +21,79 @@ public class MainActivity extends AppCompatActivity {
     private Spinner learningLangSpinner, nativeLangSpinner, gridSizeSpinner;
     private ArrayAdapter<CharSequence> learningLangAdapter, nativeLangAdapter, gridSizeAdapter;
 
+    private Spinner mLearningLangSpinner, mNativeLangSpinner;
+    private TranslationRepository mTranslationRepository;
+    private ArrayAdapter<String> mLearningLangAdapter, mNativeLangAdapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final var binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
+        mLearningLangSpinner = findViewById(R.id.spinner_learning_lang);
+        mNativeLangSpinner = findViewById(R.id.spinner_native_lang);
+        mTranslationRepository = TranslationRepositoryImpl.getInstance(getApplicationContext());
+
+        // Initialize the adapter for the spinner
+        mLearningLangAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+        mLearningLangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mLearningLangSpinner.setAdapter(mLearningLangAdapter);
+
+        mNativeLangAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+        mNativeLangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mNativeLangSpinner.setAdapter(mNativeLangAdapter);
+
+        // Observe the LiveData returned by the repository
+        mTranslationRepository.getAvailableLearningLanguages().observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> learningLanguages) {
+                mLearningLangAdapter.clear();
+                mLearningLangAdapter.add(getString(R.string.select_learning_lang));
+                mLearningLangAdapter.addAll(learningLanguages);
+                mLearningLangAdapter.notifyDataSetChanged();
+
+                mNativeLangAdapter.clear();
+                mNativeLangAdapter.add(getString(R.string.select_native_lang));
+                mNativeLangAdapter.addAll(learningLanguages);
+                mLearningLangAdapter.notifyDataSetChanged();
+            }
+        });
+
+
+//-------------------------------------------------------------------------------------------
         // State spinner Initialization
-        learningLangSpinner = binding.spinnerLearningLang;
-        nativeLangSpinner = binding.spinnerNativeLang;
+//        learningLangSpinner = binding.spinnerLearningLang;
+//        nativeLangSpinner = binding.spinnerNativeLang;
         gridSizeSpinner = binding.spinnerGridSize;
 
         // Populate ArrayAdapter using string array and a spinner layout that we will define
-        learningLangAdapter = ArrayAdapter.createFromResource(this, R.array.array_learning_lang, R.layout.spinner_layout);
-        nativeLangAdapter = ArrayAdapter.createFromResource(this, R.array.array_native_lang, R.layout.spinner_layout);
+//        learningLangAdapter = ArrayAdapter.createFromResource(this, R.array.array_learning_lang, R.layout.spinner_layout);
+//        nativeLangAdapter = ArrayAdapter.createFromResource(this, R.array.array_native_lang, R.layout.spinner_layout);
         gridSizeAdapter = ArrayAdapter.createFromResource(this, R.array.array_grid_size, R.layout.spinner_layout);
 
         // Specify the layout to use when the list of choices appear
-        learningLangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        nativeLangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        learningLangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        nativeLangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         gridSizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // Set the adapter to the spinner to populate State Spinner
-        learningLangSpinner.setAdapter(learningLangAdapter);
-        nativeLangSpinner.setAdapter(nativeLangAdapter);
+//        learningLangSpinner.setAdapter(learningLangAdapter);
+//        nativeLangSpinner.setAdapter(nativeLangAdapter);
         gridSizeSpinner.setAdapter(gridSizeAdapter);
 
+//------------------------------------------------------------------------------------------------------------------------
         binding.imageButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String size = gridSizeSpinner.getSelectedItem().toString();
-                String learningLang = learningLangSpinner.getSelectedItem().toString();
-                String nativeLang = nativeLangSpinner.getSelectedItem().toString();
+                String learningLang = mLearningLangSpinner.getSelectedItem().toString();
+                String nativeLang = mNativeLangSpinner.getSelectedItem().toString();
                 if (size.contentEquals(gridSizeAdapter.getItem(0))
-                        || learningLang.contentEquals(learningLangAdapter.getItem(0))
-                        || nativeLang.contentEquals(nativeLangAdapter.getItem(0))) {
+                        || learningLang.contentEquals(mLearningLangAdapter.getContext().getString(R.string.select_learning_lang))
+                        || nativeLang.contentEquals(mNativeLangAdapter.getContext().getString(R.string.select_native_lang))) {
                     Toast.makeText(
                             MainActivity.this,
                             "*Please select a valid input for all fields*",
@@ -67,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
 
         binding.imageButtonFavourites.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +149,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void getlang() {
+    }
+
 
     /**
      * @return A tuple of {@code (boardSize, subgridHeight, subgridWidth)}.
@@ -125,5 +173,10 @@ public class MainActivity extends AppCompatActivity {
         }
         throw new IllegalArgumentException("Unknown board dimension");
     }
+
+    private Context getContext() {
+        return getApplicationContext();
+    }
+
 
 }

@@ -1,9 +1,11 @@
 package ca.sfu.cmpt276.sudokulang.data.source;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,11 +16,37 @@ import ca.sfu.cmpt276.sudokulang.data.source.local.GameDatabase;
 import ca.sfu.cmpt276.sudokulang.data.source.local.TranslationDao;
 
 public class TranslationRepositoryImpl implements TranslationRepository {
+
+
     private final TranslationDao mTranslationDao;
+
+    private static volatile TranslationRepositoryImpl sInstance;
+
+    private TranslationRepositoryImpl(TranslationDao translationDao) {
+        mTranslationDao = translationDao;
+    }
+
+    private TranslationRepositoryImpl(Context context) {
+        GameDatabase database = GameDatabase.getDatabase(context);
+        mTranslationDao = database.translationDao();
+    }
+
+    public static TranslationRepositoryImpl getInstance(Context context) {
+        if (sInstance == null) {
+            synchronized (TranslationRepositoryImpl.class) {
+                if (sInstance == null) {
+                    sInstance = new TranslationRepositoryImpl(context);
+                }
+            }
+        }
+        return sInstance;
+    }
+
 
     public TranslationRepositoryImpl(Application application) {
         mTranslationDao = GameDatabase.getDatabase(application).translationDao();
     }
+
 
     @Override
     public List<WordPair> getNRandomWordPairsMatching(int n,
@@ -50,4 +78,10 @@ public class TranslationRepositoryImpl implements TranslationRepository {
     public List<Translation> getTranslationsByIds(long[] translationIds) {
         return mTranslationDao.getTranslationsByIds(translationIds);
     }
+
+    @Override
+    public Collection<Object> getAvailableLearningLanguage() {
+        return null;
+    }
+
 }

@@ -2,6 +2,7 @@ package ca.sfu.cmpt276.sudokulang.data.source;
 
 import androidx.lifecycle.LiveData;
 
+import java.util.Collection;
 import java.util.List;
 
 import ca.sfu.cmpt276.sudokulang.data.Translation;
@@ -17,4 +18,6 @@ public interface TranslationRepository {
     LiveData<List<String>> getAvailableLanguageLevels();
 
     List<Translation> getTranslationsByIds(long[] translationIds);
+
+    Collection<Object> getAvailableLearningLanguage();
 }

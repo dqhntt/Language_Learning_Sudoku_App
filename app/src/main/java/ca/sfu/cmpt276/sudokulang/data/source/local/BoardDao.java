@@ -22,7 +22,7 @@ public interface BoardDao {
             "WHERE level = :level " +
             "GROUP BY size, subgrid_height, subgrid_width " +
             "ORDER BY size")
-    LiveData<List<BoardDimension>> getAvailableBoardDimensionsByLevel(String level);
+    List<BoardDimension> getAvailableBoardDimensionsByLevel(String level);
 
     @Query("SELECT DISTINCT b.level " +
             "FROM board AS b " +
@@ -35,7 +35,7 @@ public interface BoardDao {
             "  AND subgrid_height = :subgridHeight " +
             "  AND subgrid_width = :subgridWidth " +
             "ORDER BY level DESC")
-    LiveData<List<String>> getAvailableBoardLevelsByDimension(int boardSize, int subgridHeight, int subgridWidth);
+    List<String> getAvailableBoardLevelsByDimension(int boardSize, int subgridHeight, int subgridWidth);
 
     @Query("SELECT * FROM board WHERE id = :id")
     BoardImpl getBoardById(long id);

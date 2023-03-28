@@ -45,7 +45,7 @@ public class BoardRepositoryImpl implements BoardRepository {
     }
 
     @Override
-    public LiveData<List<BoardDimension>> getAvailableBoardDimensionsByLevel(String level) {
+    public List<BoardDimension> getAvailableBoardDimensionsByLevel(String level) {
         return mBoardDao.getAvailableBoardDimensionsByLevel(level);
     }
 
@@ -55,7 +55,7 @@ public class BoardRepositoryImpl implements BoardRepository {
     }
 
     @Override
-    public LiveData<List<String>> getAvailableBoardLevelsByDimension(int boardSize, int subgridHeight, int subgridWidth) {
+    public List<String> getAvailableBoardLevelsByDimension(int boardSize, int subgridHeight, int subgridWidth) {
         return mBoardDao.getAvailableBoardLevelsByDimension(boardSize, subgridHeight, subgridWidth);
     }
 

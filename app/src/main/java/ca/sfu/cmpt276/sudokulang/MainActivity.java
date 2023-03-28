@@ -1,6 +1,5 @@
 package ca.sfu.cmpt276.sudokulang;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -10,21 +9,24 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+import ca.sfu.cmpt276.sudokulang.data.BoardDimension;
+import ca.sfu.cmpt276.sudokulang.data.source.BoardRepository;
+import ca.sfu.cmpt276.sudokulang.data.source.BoardRepositoryImpl;
 import ca.sfu.cmpt276.sudokulang.data.source.TranslationRepository;
 import ca.sfu.cmpt276.sudokulang.data.source.TranslationRepositoryImpl;
 import ca.sfu.cmpt276.sudokulang.databinding.ActivityMainBinding;
-import kotlin.Triple;
 
 public class MainActivity extends AppCompatActivity {
-    private Spinner learningLangSpinner, nativeLangSpinner, gridSizeSpinner;
-    private ArrayAdapter<CharSequence> learningLangAdapter, nativeLangAdapter, gridSizeAdapter;
-
-    private Spinner mLearningLangSpinner, mNativeLangSpinner;
+    private final Map<String, BoardDimension> mStringToGridSizeMap = new HashMap<>();
     private TranslationRepository mTranslationRepository;
-    private ArrayAdapter<String> mLearningLangAdapter, mNativeLangAdapter;
-
+    private BoardRepository mBoardRepository;
+    private Spinner mLearningLangSpinner, mNativeLangSpinner, mGridSizeSpinner;
+    private ArrayAdapter<CharSequence> mLearningLangAdapter, mNativeLangAdapter, mGridSizeAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,71 +34,85 @@ public class MainActivity extends AppCompatActivity {
         final var binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Find the spinners using view binding
+        mLearningLangSpinner = binding.spinnerLearningLang;
+        mNativeLangSpinner = binding.spinnerNativeLang;
+        mGridSizeSpinner = binding.spinnerGridSize;
 
-        mLearningLangSpinner = findViewById(R.id.spinner_learning_lang);
-        mNativeLangSpinner = findViewById(R.id.spinner_native_lang);
-        mTranslationRepository = TranslationRepositoryImpl.getInstance(getApplicationContext());
+        // Initialize the repositories
+        mTranslationRepository = TranslationRepositoryImpl.getInstance(this);
+        mBoardRepository = BoardRepositoryImpl.getInstance(this);
 
         // Initialize the adapter for the spinner
-        mLearningLangAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+        mLearningLangAdapter = new ArrayAdapter<>(this, R.layout.spinner_layout);
         mLearningLangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mLearningLangSpinner.setAdapter(mLearningLangAdapter);
 
-        mNativeLangAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
+        mNativeLangAdapter = new ArrayAdapter<>(this, R.layout.spinner_layout);
         mNativeLangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mNativeLangSpinner.setAdapter(mNativeLangAdapter);
 
+        mGridSizeAdapter = new ArrayAdapter<>(this, R.layout.spinner_layout);
+        mGridSizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mGridSizeSpinner.setAdapter(mGridSizeAdapter);
+
         // Observe the LiveData returned by the repository
-        mTranslationRepository.getAvailableLearningLanguages().observe(this, new Observer<List<String>>() {
+        mTranslationRepository.getAvailableLearningLanguages().observe(this, new Observer<>() {
             @Override
             public void onChanged(List<String> learningLanguages) {
                 mLearningLangAdapter.clear();
-                mLearningLangAdapter.add(getString(R.string.select_learning_lang));
+                if (learningLanguages.size() > 1) {
+                    mLearningLangAdapter.add(getString(R.string.select_learning_lang));
+                }
                 mLearningLangAdapter.addAll(learningLanguages);
-                mLearningLangAdapter.notifyDataSetChanged();
-
-                mNativeLangAdapter.clear();
-                mNativeLangAdapter.add(getString(R.string.select_native_lang));
-                mNativeLangAdapter.addAll(learningLanguages);
                 mLearningLangAdapter.notifyDataSetChanged();
             }
         });
 
+        mTranslationRepository.getAvailableNativeLanguages().observe(this, new Observer<>() {
+            @Override
+            public void onChanged(List<String> nativeLanguages) {
+                mNativeLangAdapter.clear();
+                if (nativeLanguages.size() > 1) {
+                    mNativeLangAdapter.add(getString(R.string.select_native_lang));
+                }
+                mNativeLangAdapter.addAll(nativeLanguages);
+                mNativeLangAdapter.notifyDataSetChanged();
+            }
+        });
 
-//-------------------------------------------------------------------------------------------
-        // State spinner Initialization
-//        learningLangSpinner = binding.spinnerLearningLang;
-//        nativeLangSpinner = binding.spinnerNativeLang;
-        gridSizeSpinner = binding.spinnerGridSize;
+        mBoardRepository.getAvailableBoardDimensions().observe(this, new Observer<>() {
+            @Override
+            public void onChanged(List<BoardDimension> boardDimensions) {
+                mGridSizeAdapter.clear();
+                if (boardDimensions.size() > 1) {
+                    mGridSizeAdapter.add(getString(R.string.select_sudoku_level));
+                }
+                mGridSizeAdapter.addAll(convertToStrings(boardDimensions));
+                mGridSizeAdapter.notifyDataSetChanged();
 
-        // Populate ArrayAdapter using string array and a spinner layout that we will define
-//        learningLangAdapter = ArrayAdapter.createFromResource(this, R.array.array_learning_lang, R.layout.spinner_layout);
-//        nativeLangAdapter = ArrayAdapter.createFromResource(this, R.array.array_native_lang, R.layout.spinner_layout);
-        gridSizeAdapter = ArrayAdapter.createFromResource(this, R.array.array_grid_size, R.layout.spinner_layout);
+                mStringToGridSizeMap.clear();
+                for (var dimen : boardDimensions) {
+                    mStringToGridSizeMap.put(convertToString(dimen), dimen);
+                }
+            }
+        });
 
-        // Specify the layout to use when the list of choices appear
-//        learningLangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        nativeLangAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        gridSizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // Set the adapter to the spinner to populate State Spinner
-//        learningLangSpinner.setAdapter(learningLangAdapter);
-//        nativeLangSpinner.setAdapter(nativeLangAdapter);
-        gridSizeSpinner.setAdapter(gridSizeAdapter);
 
 //------------------------------------------------------------------------------------------------------------------------
         binding.imageButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String size = gridSizeSpinner.getSelectedItem().toString();
+                String size = mGridSizeSpinner.getSelectedItem().toString();
                 String learningLang = mLearningLangSpinner.getSelectedItem().toString();
                 String nativeLang = mNativeLangSpinner.getSelectedItem().toString();
-                if (size.contentEquals(gridSizeAdapter.getItem(0))
-                        || learningLang.contentEquals(mLearningLangAdapter.getContext().getString(R.string.select_learning_lang))
-                        || nativeLang.contentEquals(mNativeLangAdapter.getContext().getString(R.string.select_native_lang))) {
+                if (size.contentEquals(getString(R.string.select_grid_size))
+                        || learningLang.contentEquals(getString(R.string.select_learning_lang))
+                        || nativeLang.contentEquals(getString(R.string.select_native_lang))
+                        || learningLang.equals(nativeLang)) {
                     Toast.makeText(
                             MainActivity.this,
-                            "*Please select a valid input for all fields*",
+                            getString(R.string.spinner_not_selected),
                             Toast.LENGTH_LONG
                     ).show();
                 } else {
@@ -105,13 +121,13 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(HomePage2.newIntent(MainActivity.this,
                             new HomePage2Args.Builder(
                                     nativeLang, learningLang,
-                                    sizes.getFirst(), sizes.getSecond(), sizes.getThird()
+                                    sizes.getBoardSize(),
+                                    sizes.getSubgridHeight(), sizes.getSubgridWidth()
                             ).build()
                     ));
                 }
             }
         });
-
 
         binding.imageButtonFavourites.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,34 +165,19 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void getlang() {
+    private BoardDimension getGridSize() {
+        return mStringToGridSizeMap.get(mGridSizeSpinner.getSelectedItem().toString());
     }
 
-
-    /**
-     * @return A tuple of {@code (boardSize, subgridHeight, subgridWidth)}.
-     */
-    private Triple<Integer, Integer, Integer> getGridSize() {
-        final var adapter = gridSizeAdapter;
-        final var selectedItem = gridSizeSpinner.getSelectedItem().toString();
-        if (selectedItem.contentEquals(adapter.getItem(1))) {
-            return new Triple<>(4, 4, 4);
-        }
-        if (selectedItem.contentEquals(adapter.getItem(2))) {
-            return new Triple<>(6, 2, 3);
-        }
-        if (selectedItem.contentEquals(adapter.getItem(3))) {
-            return new Triple<>(9, 3, 3);
-        }
-        if (selectedItem.contentEquals(adapter.getItem(4))) {
-            return new Triple<>(12, 3, 4);
-        }
-        throw new IllegalArgumentException("Unknown board dimension");
+    private String convertToString(BoardDimension boardDimension) {
+        final var boardSize = boardDimension.getBoardSize();
+        return "" + boardSize + " x " + boardSize; // e.g. "9 x 9"
     }
 
-    private Context getContext() {
-        return getApplicationContext();
+    private List<String> convertToStrings(List<BoardDimension> boardDimensions) {
+        return boardDimensions
+                .stream()
+                .map(this::convertToString)
+                .collect(Collectors.toList());
     }
-
-
 }

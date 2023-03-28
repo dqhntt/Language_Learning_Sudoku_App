@@ -54,17 +54,16 @@ public class GameActivity extends AppCompatActivity {
 
         // Check if recreating a previously destroyed instance.
         if (shouldCreateNewGame(savedInstanceState)) {
-            final var extras = getIntent().getExtras();
-            if (extras == null) {
-                gameViewModel.generateNewBoard(9, 3, 3);
-            } else {
-                final var args = GameActivityArgs.fromBundle(extras);
-                gameViewModel.generateNewBoard(
-                        args.getBoardSize(),
-                        args.getSubgridHeight(),
-                        args.getSubgridWidth()
-                );
-            }
+            final var args = GameActivityArgs.fromBundle(getIntent().getExtras());
+            gameViewModel.startNewGame(
+                    args.getNativeLang(),
+                    args.getLearningLang(),
+                    args.getLangLevel(),
+                    args.getSudokuLevel(),
+                    args.getBoardSize(),
+                    args.getSubgridHeight(),
+                    args.getSubgridWidth()
+            );
         }
 
         // Cite: https://stackoverflow.com/a/60597670

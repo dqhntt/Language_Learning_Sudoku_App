@@ -55,7 +55,7 @@ public class GameViewModel extends AndroidViewModel {
 
     /**
      * @implNote Board dimension when default constructed is undefined. <p>
-     * Use {@link #generateNewBoard(int, int, int)} to set a desired dimension.
+     * @see #startNewGame(String, String, String, String, int, int, int)
      */
     public GameViewModel(Application app) {
         super(app);
@@ -74,22 +74,24 @@ public class GameViewModel extends AndroidViewModel {
     }
 
     /**
-     * @param boardSize     Number of cells in each column or row.
-     * @param subgridHeight Number of cells in each sub-grid's column.
-     *                      Equals {@code boardSize} if no sub-grid.
-     * @param subgridWidth  Number of cells in each sub-grid's row.
-     *                      Equals {@code boardSize} if no sub-grid.
+     * @param nativeLang        Language the player already knows.
+     * @param learningLang      Language the player wants to learn.
+     * @param learningLangLevel Player's current level of {@code learningLang}.
+     * @param sudokuLevel       How well the player already knows Sudoku.
+     * @param boardSize         Number of cells in each column or row.
+     * @param subgridHeight     Number of cells in each sub-grid's column.
+     *                          Equals {@code boardSize} if no sub-grid.
+     * @param subgridWidth      Number of cells in each sub-grid's row.
+     *                          Equals {@code boardSize} if no sub-grid.
      */
-    public void generateNewBoard(int boardSize, int subgridHeight, int subgridWidth) {
+    public void startNewGame(String nativeLang, String learningLang, String learningLangLevel,
+                             String sudokuLevel, int boardSize, int subgridHeight, int subgridWidth) {
         if (!isValidBoardDimension(boardSize, subgridHeight, subgridWidth)) {
             throw new IllegalArgumentException("Invalid board dimension");
         }
         final var newBoard =
-                boardRepo.getARandomBoardMatching(
-                        boardSize, subgridHeight, subgridWidth,
-                        boardSize == 12 ? "Expert" : "Novice" // TODO: Replace this with a proper check.
-                );
-        generateWordPairs(newBoard.getBoardSize());
+                boardRepo.getARandomBoardMatching(boardSize, subgridHeight, subgridWidth, sudokuLevel);
+        generateWordPairs(newBoard.getBoardSize(), nativeLang, learningLang, learningLangLevel);
         for (var row : newBoard.getCells()) {
             for (var cell : row) {
                 final var currCell = (CellImpl) cell;
@@ -100,20 +102,21 @@ public class GameViewModel extends AndroidViewModel {
                 );
             }
         }
-        insertGameToDatabase(newBoard);
+        insertGameToDatabase(newBoard, nativeLang, learningLang, learningLangLevel);
         mGameInProgress.setValue(true);
         mBoardUiState.setValue(newBoard);
     }
 
-    private void insertGameToDatabase(@NonNull BoardImpl board) {
+    private void insertGameToDatabase(@NonNull BoardImpl board,
+                                      String nativeLang, String learningLang, String learningLangLevel) {
         databaseWriteExecutor.execute(() -> {
             mCurrentGame = new Game(
                     gameRepo.generateId(),
                     board.getId(),
                     board.getCells(),
-                    wordRepo.getIdOfLanguage("English"),
-                    wordRepo.getIdOfLanguage("French"),
-                    wordRepo.getIdOfLanguageLevel("Beginner")
+                    wordRepo.getIdOfLanguage(nativeLang),
+                    wordRepo.getIdOfLanguage(learningLang),
+                    wordRepo.getIdOfLanguageLevel(learningLangLevel)
             );
             gameRepo.insert(mCurrentGame);
             gameRepo.insert(Arrays.stream(mWordPairs)
@@ -300,11 +303,10 @@ public class GameViewModel extends AndroidViewModel {
         return mWordPairs;
     }
 
-    private void generateWordPairs(int boardSize) {
+    private void generateWordPairs(int n,
+                                   String nativeLang, String learningLang, String learningLangLevel) {
         mWordPairs = translationRepo.getNRandomWordPairsMatching(
-                boardSize,
-                // TODO: Get these values from Activity/Fragment.
-                "English", "French", "Beginner"
+                n, nativeLang, learningLang, learningLangLevel
         ).toArray(new WordPair[0]);
         prepareMaps();
     }

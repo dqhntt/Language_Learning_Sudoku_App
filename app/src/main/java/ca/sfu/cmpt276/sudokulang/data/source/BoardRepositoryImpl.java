@@ -49,6 +49,9 @@ public class BoardRepositoryImpl implements BoardRepository {
     @Override
     public BoardImpl getARandomBoardMatching(int boardSize, int subgridHeight, int subgridWidth, String level) {
         final var boards = mBoardDao.getAllFilteredBoards(boardSize, subgridHeight, subgridWidth, level);
+        if (boards.isEmpty()) {
+            throw new IllegalStateException("No matches found in database");
+        }
         return boards.get(new Random().nextInt(boards.size()));
     }
 }

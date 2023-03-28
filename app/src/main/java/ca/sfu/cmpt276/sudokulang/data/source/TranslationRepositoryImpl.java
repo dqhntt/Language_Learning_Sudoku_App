@@ -24,6 +24,9 @@ public class TranslationRepositoryImpl implements TranslationRepository {
     public List<WordPair> getNRandomWordPairsMatching(int n,
                                                       String nativeLang, String learningLang, String langLevel) {
         final var pairs = mTranslationDao.getAllFilteredWordPairs(nativeLang, learningLang, langLevel);
+        if (pairs.isEmpty()) {
+            throw new IllegalStateException("No matches found in database");
+        }
         Collections.shuffle(pairs);
         return pairs.stream().limit(n).collect(Collectors.toList());
     }

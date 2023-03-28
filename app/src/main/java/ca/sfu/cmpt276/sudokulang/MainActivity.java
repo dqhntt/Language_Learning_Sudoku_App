@@ -22,8 +22,8 @@ import ca.sfu.cmpt276.sudokulang.data.source.TranslationRepositoryImpl;
 import ca.sfu.cmpt276.sudokulang.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
-    private TranslationRepository mTranslationRepository;
     private final Map<String, BoardDimension> mStringToGridSizeMap = new HashMap<>();
+    private TranslationRepository mTranslationRepository;
     private BoardRepository mBoardRepository;
     private Spinner mLearningLangSpinner, mNativeLangSpinner, mGridSizeSpinner;
     private ArrayAdapter<CharSequence> mLearningLangAdapter, mNativeLangAdapter, mGridSizeAdapter;
@@ -108,7 +108,8 @@ public class MainActivity extends AppCompatActivity {
                 String nativeLang = mNativeLangSpinner.getSelectedItem().toString();
                 if (size.contentEquals(getString(R.string.select_grid_size))
                         || learningLang.contentEquals(getString(R.string.select_learning_lang))
-                        || nativeLang.contentEquals(getString(R.string.select_native_lang))) {
+                        || nativeLang.contentEquals(getString(R.string.select_native_lang))
+                        || learningLang.equals(nativeLang)) {
                     Toast.makeText(
                             MainActivity.this,
                             getString(R.string.spinner_not_selected),

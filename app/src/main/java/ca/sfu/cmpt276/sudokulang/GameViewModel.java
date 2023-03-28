@@ -91,7 +91,10 @@ public class GameViewModel extends AndroidViewModel {
         }
         final var newBoard =
                 boardRepo.getARandomBoardMatching(boardSize, subgridHeight, subgridWidth, sudokuLevel);
-        generateWordPairs(newBoard.getBoardSize(), nativeLang, learningLang, learningLangLevel);
+        mWordPairs = translationRepo.getNRandomWordPairsMatching(
+                boardSize, nativeLang, learningLang, learningLangLevel
+        ).toArray(new WordPair[0]);
+        prepareMaps();
         for (var row : newBoard.getCells()) {
             for (var cell : row) {
                 final var currCell = (CellImpl) cell;
@@ -301,14 +304,6 @@ public class GameViewModel extends AndroidViewModel {
             throw new IllegalStateException("Game must be created before retrieving the word pairs");
         }
         return mWordPairs;
-    }
-
-    private void generateWordPairs(int n,
-                                   String nativeLang, String learningLang, String learningLangLevel) {
-        mWordPairs = translationRepo.getNRandomWordPairsMatching(
-                n, nativeLang, learningLang, learningLangLevel
-        ).toArray(new WordPair[0]);
-        prepareMaps();
     }
 
     private void prepareMaps() {

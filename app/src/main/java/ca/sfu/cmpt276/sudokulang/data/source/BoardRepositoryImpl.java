@@ -1,6 +1,6 @@
 package ca.sfu.cmpt276.sudokulang.data.source;
 
-import android.app.Application;
+import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
@@ -14,10 +14,23 @@ import ca.sfu.cmpt276.sudokulang.data.source.local.GameDatabase;
 
 // See: https://developer.android.com/codelabs/android-room-with-a-view#8
 public class BoardRepositoryImpl implements BoardRepository {
+    private static volatile BoardRepositoryImpl sInstance;
     private final BoardDao mBoardDao;
 
-    public BoardRepositoryImpl(Application application) {
-        mBoardDao = GameDatabase.getDatabase(application).boardDao();
+    private BoardRepositoryImpl(Context context) {
+        final var db = GameDatabase.getDatabase(context);
+        mBoardDao = db.boardDao();
+    }
+
+    public static BoardRepositoryImpl getInstance(Context context) {
+        if (sInstance == null) {
+            synchronized (BoardRepositoryImpl.class) {
+                if (sInstance == null) {
+                    sInstance = new BoardRepositoryImpl(context);
+                }
+            }
+        }
+        return sInstance;
     }
 
     // Cite: https://stackoverflow.com/questions/1250643

@@ -59,10 +59,10 @@ public class GameViewModel extends AndroidViewModel {
      */
     public GameViewModel(Application app) {
         super(app);
-        boardRepo = new BoardRepositoryImpl(app);
-        gameRepo = new GameRepositoryImpl(app);
-        translationRepo = new TranslationRepositoryImpl(app);
-        wordRepo = new WordRepositoryImpl(app);
+        boardRepo = BoardRepositoryImpl.getInstance(app.getApplicationContext());
+        gameRepo = GameRepositoryImpl.getInstance(app.getApplicationContext());
+        translationRepo = TranslationRepositoryImpl.getInstance(app.getApplicationContext());
+        wordRepo = WordRepositoryImpl.getInstance(app.getApplicationContext());
         mBoardUiState = new MutableLiveData<>();
         mGameInProgress = new MutableLiveData<>();
         mBoardUiState.observeForever(board ->

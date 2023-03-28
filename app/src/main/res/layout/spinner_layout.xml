@@ -2,7 +2,7 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="6dp"
+    android:paddingHorizontal="@dimen/spinner_corner_radius"
+    android:paddingVertical="6dp"
     android:textColor="?attr/colorOnSurfaceVariant"
-    android:textSize="@dimen/spinner_text_size"
-    android:textStyle="italic" />
+    android:textSize="@dimen/spinner_text_size" />

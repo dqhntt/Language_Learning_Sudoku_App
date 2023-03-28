@@ -12,11 +12,11 @@ public interface BoardRepository {
 
     LiveData<List<BoardDimension>> getAvailableBoardDimensions();
 
-    LiveData<List<BoardDimension>> getAvailableBoardDimensionsByLevel(String level);
+    List<BoardDimension> getAvailableBoardDimensionsByLevel(String level);
 
     LiveData<List<String>> getAvailableBoardLevels();
 
-    LiveData<List<String>> getAvailableBoardLevelsByDimension(int boardSize, int subgridHeight, int subgridWidth);
+    List<String> getAvailableBoardLevelsByDimension(int boardSize, int subgridHeight, int subgridWidth);
 
     BoardImpl getARandomBoardMatching(int boardSize, int subgridHeight, int subgridWidth, String level);
 }

@@ -43,6 +43,7 @@ public class HomePage2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         final var binding = ActivityHomePage2Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        final var extras = HomePage2Args.fromBundle(getIntent().getExtras());
 
 
         //------------------------------------------SPINNER INITIALIZATION--------------------------------------------------------
@@ -58,6 +59,7 @@ public class HomePage2 extends AppCompatActivity {
         // Initialize the adapter for the spinner
         mlanglevelAdapter = new ArrayAdapter<>(this, R.layout.spinner_layout);
         mSudokuAdapter = new ArrayAdapter<>(this, R.layout.spinner_layout);
+        populateSudokuAdapter(extras);
 
         // Specify the layout to use when the list of choices appear
         mlanglevelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -81,18 +83,6 @@ public class HomePage2 extends AppCompatActivity {
             }
         });
 
-        mBoardRepository.getAvailableBoardLevels().observe(this, new Observer<>() {
-            @Override
-            public void onChanged(List<String> boardLevels) {
-                mSudokuAdapter.clear();
-                if (boardLevels.size() > 1) {
-                    mSudokuAdapter.add(getString(R.string.select_sudoku_level));
-                }
-                mSudokuAdapter.addAll(boardLevels);
-                mSudokuAdapter.notifyDataSetChanged();
-            }
-        });
-
 
         //--------------------------------------BUTTON INITIALIZATION-----------------------------------------------------------------
 
@@ -112,7 +102,6 @@ public class HomePage2 extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(), "Loading....", Toast.LENGTH_SHORT).show();
                     //gets the intent value from MainActivity and stores it
-                    final var extras = HomePage2Args.fromBundle(getIntent().getExtras());
                     startActivity(GameActivity.newIntent(HomePage2.this,
                             new GameActivityArgs.Builder(
                                     extras.getNativeLang(),
@@ -167,6 +156,15 @@ public class HomePage2 extends AppCompatActivity {
                 Toast.makeText(HomePage2.this, "this works", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void populateSudokuAdapter(HomePage2Args extras) {
+        final var boardLevels = mBoardRepository.getAvailableBoardLevelsByDimension(
+                extras.getBoardSize(), extras.getSubgridHeight(), extras.getSubgridWidth());
+        if (boardLevels.size() > 1) {
+            mSudokuAdapter.add(getString(R.string.select_sudoku_level));
+        }
+        mSudokuAdapter.addAll(boardLevels);
     }
 
 }

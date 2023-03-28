@@ -65,8 +65,7 @@ public class GameViewModel extends AndroidViewModel {
         wordRepo = WordRepositoryImpl.getInstance(app.getApplicationContext());
         mBoardUiState = new MutableLiveData<>();
         mGameInProgress = new MutableLiveData<>();
-        mBoardUiState.observeForever(board ->
-                updateGameInDatabase(mCurrentGame, board));
+        mBoardUiState.observeForever(board -> updateGameInDatabase(mCurrentGame, board));
     }
 
     public LiveData<Board> getBoardUiState() {

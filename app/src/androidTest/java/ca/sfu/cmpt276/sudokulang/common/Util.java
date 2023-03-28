@@ -37,6 +37,7 @@ public class Util {
     public static final int CLICK_TIMEOUT = 100;
     public static final int SELECTOR_TIMEOUT = 500;
     private static final int LAUNCH_TIMEOUT = 5000;
+    private static final Random RANDOM = new Random(123456789);
 
     /**
      * Uses package manager to find the package name of the device launcher. Usually this package
@@ -101,7 +102,7 @@ public class Util {
         }
 
         public static void putDeviceInLandscapeMode() throws RemoteException {
-            if (new Random().nextBoolean()) {
+            if (RANDOM.nextBoolean()) {
                 DEVICE.setOrientationRight();
             } else {
                 DEVICE.setOrientationLeft();
@@ -138,8 +139,9 @@ public class Util {
          */
         private static String selectRandomMenuItem() {
             final var menus = getUpdatedMenus();
-            // Assuming there is a header.
-            final int index = new Random().nextInt(menus.size() - 1) + 1;
+            final int index = menus.size() == 1
+                    ? 0
+                    : RANDOM.nextInt(menus.size() - 1) + 1; // + 1 if there is a header.
             final var selectedMenu = menus.get(index);
             final var selectedText = selectedMenu.getText();
             selectMenuItem(selectedMenu);
@@ -150,7 +152,7 @@ public class Util {
          * @return Text of the clicked word button.
          */
         public static String clickRandomWordButton(int numButtons) throws UiObjectNotFoundException {
-            final int index = new Random().nextInt(numButtons);
+            final int index = RANDOM.nextInt(numButtons);
             final var button = bringWordButtonsIntoView().getChildren().get(index);
             button.click();
             pause(CLICK_TIMEOUT);

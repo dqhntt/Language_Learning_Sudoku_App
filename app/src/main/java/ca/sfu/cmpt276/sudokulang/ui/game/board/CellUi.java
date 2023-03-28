@@ -8,25 +8,27 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import ca.sfu.cmpt276.sudokulang.R;
+import ca.sfu.cmpt276.sudokulang.data.Cell;
+import ca.sfu.cmpt276.sudokulang.data.CellImpl;
 import ca.sfu.cmpt276.sudokulang.ui.UiUtil;
 
 /**
  * A UI representation of a Sudoku cell.
  */
-public class SudokuCell extends com.google.android.material.textview.MaterialTextView {
+public class CellUi extends com.google.android.material.textview.MaterialTextView {
     private final static int mPadding = UiUtil.dpToPx(2);
     private final int mRowIndex, mColIndex;
-    private @NonNull CellUiState mUiState;
+    private @NonNull Cell mUiState;
 
-    public SudokuCell(@NonNull Context context) {
+    public CellUi(@NonNull Context context) {
         this(context, -1, -1);
     }
 
-    public SudokuCell(@NonNull Context context, int rowIndex, int colIndex) {
+    public CellUi(@NonNull Context context, int rowIndex, int colIndex) {
         super(context);
         mRowIndex = rowIndex;
         mColIndex = colIndex;
-        mUiState = new CellUiState();
+        mUiState = new CellImpl();
         init();
     }
 
@@ -81,7 +83,7 @@ public class SudokuCell extends com.google.android.material.textview.MaterialTex
         }
     }
 
-    void updateState(@NonNull CellUiState uiState) {
+    void updateState(@NonNull Cell uiState) {
         mUiState = uiState;
         setText(uiState.getText());
         if (uiState.isPrefilled()) {

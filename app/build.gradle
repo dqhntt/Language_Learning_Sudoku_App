@@ -15,6 +15,12 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
     }
 
     buildTypes {
@@ -40,23 +46,30 @@ android {
 }
 
 dependencies {
-    def lifecycle_version = "2.6.0"
-    def nav_version = "2.6.0-alpha07"
+    def lifecycle_version = "2.6.1"
+    def nav_version = "2.6.0-alpha08"
+    def room_version = "2.6.0-alpha01"
 
     implementation "androidx.appcompat:appcompat:1.7.0-alpha02"
-    implementation "androidx.constraintlayout:constraintlayout:2.2.0-alpha08"
+    implementation "androidx.constraintlayout:constraintlayout:2.2.0-alpha09"
     implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
+    implementation "androidx.room:room-guava:$room_version"
+    implementation "androidx.room:room-runtime:$room_version"
     implementation "com.google.android.material:material:1.9.0-beta01"
+
+    // Annotation processors.
+    annotationProcessor "androidx.room:room-compiler:$room_version"
 
     // Unit tests.
     testImplementation "org.junit.jupiter:junit-jupiter:5.9.2"
+    testImplementation "org.mockito:mockito-junit-jupiter:5.2.0"
 
     // Instrumented tests.
-    androidTestImplementation "androidx.test.ext:junit:1.1.5"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+    androidTestImplementation "androidx.test.ext:junit:1.2.0-alpha01"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.6.0-alpha01"
     androidTestImplementation "androidx.test.uiautomator:uiautomator:2.3.0-alpha02"
 
 

@@ -13,6 +13,8 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import java.util.Arrays;
 
 import ca.sfu.cmpt276.sudokulang.R;
+import ca.sfu.cmpt276.sudokulang.data.Board;
+import ca.sfu.cmpt276.sudokulang.data.BoardImpl;
 import ca.sfu.cmpt276.sudokulang.ui.UiUtil;
 
 /**
@@ -21,13 +23,13 @@ import ca.sfu.cmpt276.sudokulang.ui.UiUtil;
  * @implNote Board dimension when default constructed is undefined. <p>
  * The layout parameters of this board are set in its XML file.
  */
-public class SudokuBoard extends ConstraintLayout {
-    private @NonNull BoardUiState mUiState;
-    private SudokuCell[][] mCells;
+public class BoardUi extends ConstraintLayout {
+    private @NonNull Board mUiState;
+    private CellUi[][] mCells;
 
-    public SudokuBoard(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public BoardUi(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        mUiState = new BoardUiState();
+        mUiState = new BoardImpl();
         createBoard(mUiState);
     }
 
@@ -47,14 +49,14 @@ public class SudokuBoard extends ConstraintLayout {
         assert (subgridHeight > 0 && subgridHeight <= boardSize && boardSize % subgridHeight == 0);
         assert (subgridWidth > 0 && subgridWidth <= boardSize && boardSize % subgridWidth == 0);
 
-        mCells = new SudokuCell[boardSize][boardSize];
+        mCells = new CellUi[boardSize][boardSize];
 
         // Create and add cells to layout.
         // Cite: https://stackoverflow.com/a/40527407
         for (int n = 0; n < boardSize * boardSize; n++) {
             final int rowIndex = n / boardSize;
             final int colIndex = n % boardSize;
-            final var cell = new SudokuCell(getContext(), rowIndex, colIndex);
+            final var cell = new CellUi(getContext(), rowIndex, colIndex);
             mCells[rowIndex][colIndex] = cell;
             addView(cell);
         }
@@ -111,7 +113,7 @@ public class SudokuBoard extends ConstraintLayout {
         constraintSet.applyTo(this);
     }
 
-    public void createBoard(@NonNull BoardUiState uiState) {
+    public void createBoard(@NonNull Board uiState) {
         createEmptyBoard(
                 uiState.getBoardSize(),
                 uiState.getSubgridHeight(),
@@ -186,8 +188,8 @@ public class SudokuBoard extends ConstraintLayout {
             highlightSubgrid(rowIndex, colIndex);
         }
         final var cellColor = isErrorCell
-                ? SudokuCell.Color.ERROR_SELECTED
-                : SudokuCell.Color.SELECTED;
+                ? CellUi.Color.ERROR_SELECTED
+                : CellUi.Color.SELECTED;
         mCells[rowIndex][colIndex].setColor(cellColor);
     }
 
@@ -196,11 +198,11 @@ public class SudokuBoard extends ConstraintLayout {
             final var currentCell = mCells[i][colIndex];
             final var currCellState = mUiState.getCells()[i][colIndex];
             if (currCellState.isErrorCell()) {
-                currentCell.setColor(SudokuCell.Color.ERROR_NOT_SELECTED);
+                currentCell.setColor(CellUi.Color.ERROR_NOT_SELECTED);
             } else {
                 currentCell.setColor(isErrorCell
-                        ? SudokuCell.Color.ERROR_SEMI_HIGHLIGHTED
-                        : SudokuCell.Color.SEMI_HIGHLIGHTED);
+                        ? CellUi.Color.ERROR_SEMI_HIGHLIGHTED
+                        : CellUi.Color.SEMI_HIGHLIGHTED);
             }
         }
     }
@@ -210,11 +212,11 @@ public class SudokuBoard extends ConstraintLayout {
             final var currentCell = mCells[rowIndex][j];
             final var currCellState = mUiState.getCells()[rowIndex][j];
             if (currCellState.isErrorCell()) {
-                currentCell.setColor(SudokuCell.Color.ERROR_NOT_SELECTED);
+                currentCell.setColor(CellUi.Color.ERROR_NOT_SELECTED);
             } else {
                 currentCell.setColor(isErrorCell
-                        ? SudokuCell.Color.ERROR_SEMI_HIGHLIGHTED
-                        : SudokuCell.Color.SEMI_HIGHLIGHTED);
+                        ? CellUi.Color.ERROR_SEMI_HIGHLIGHTED
+                        : CellUi.Color.SEMI_HIGHLIGHTED);
             }
         }
     }
@@ -229,11 +231,11 @@ public class SudokuBoard extends ConstraintLayout {
                 final var currentCell = mCells[i][j];
                 final var currCellState = mUiState.getCells()[i][j];
                 if (currCellState.isErrorCell()) {
-                    currentCell.setColor(SudokuCell.Color.ERROR_NOT_SELECTED);
+                    currentCell.setColor(CellUi.Color.ERROR_NOT_SELECTED);
                 } else {
                     currentCell.setColor(mUiState.getCells()[rowIndex][colIndex].isErrorCell()
-                            ? SudokuCell.Color.ERROR_SEMI_HIGHLIGHTED
-                            : SudokuCell.Color.SEMI_HIGHLIGHTED);
+                            ? CellUi.Color.ERROR_SEMI_HIGHLIGHTED
+                            : CellUi.Color.SEMI_HIGHLIGHTED);
                 }
             }
         }
@@ -258,14 +260,14 @@ public class SudokuBoard extends ConstraintLayout {
             for (int j = 0; j < boardSize; j++) {
                 mCells[i][j].setColor(
                         mUiState.getCells()[i][j].isErrorCell()
-                                ? SudokuCell.Color.ERROR_NOT_SELECTED
-                                : SudokuCell.Color.NORMAL
+                                ? CellUi.Color.ERROR_NOT_SELECTED
+                                : CellUi.Color.NORMAL
                 );
             }
         }
     }
 
-    public void updateState(@NonNull BoardUiState uiState) {
+    public void updateState(@NonNull Board uiState) {
         final var boardSize = uiState.getBoardSize();
         final var subgridHeight = uiState.getSubgridHeight();
         final var subgridWidth = uiState.getSubgridWidth();

@@ -1,0 +1,572 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "5f3a05304192b3c72b02c4a539f1b8bb",
+    "entities": [
+      {
+        "tableName": "board",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`size` INTEGER NOT NULL, `subgrid_height` INTEGER NOT NULL, `subgrid_width` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `level` TEXT NOT NULL COLLATE NOCASE, `prefilled_values` TEXT NOT NULL COLLATE RTRIM, `solved_values` TEXT NOT NULL COLLATE RTRIM)",
+        "fields": [
+          {
+            "fieldPath": "mBoardSize",
+            "columnName": "size",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mSubgridHeight",
+            "columnName": "subgrid_height",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mSubgridWidth",
+            "columnName": "subgrid_width",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mId",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mDifficultyLevel",
+            "columnName": "level",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mPrefilledValues",
+            "columnName": "prefilled_values",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mSolvedValues",
+            "columnName": "solved_values",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_board_prefilled_values",
+            "unique": true,
+            "columnNames": [
+              "prefilled_values"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_board_prefilled_values` ON `${TABLE_NAME}` (`prefilled_values`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "game",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `start_time` INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP, `time_duration` INTEGER NOT NULL DEFAULT 0, `is_completed` INTEGER NOT NULL DEFAULT 0, `board_id` INTEGER NOT NULL, `current_board_values` TEXT NOT NULL COLLATE RTRIM, `native_language_id` INTEGER NOT NULL, `learning_language_id` INTEGER NOT NULL, `learning_language_level_id` INTEGER NOT NULL, FOREIGN KEY(`board_id`) REFERENCES `board`(`id`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`native_language_id`) REFERENCES `language`(`id`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`learning_language_id`) REFERENCES `language`(`id`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`learning_language_level_id`) REFERENCES `language_level`(`id`) ON UPDATE CASCADE ON DELETE RESTRICT )",
+        "fields": [
+          {
+            "fieldPath": "mId",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mStartTime",
+            "columnName": "start_time",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "CURRENT_TIMESTAMP"
+          },
+          {
+            "fieldPath": "mTimeDuration",
+            "columnName": "time_duration",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
+          },
+          {
+            "fieldPath": "mIsCompleted",
+            "columnName": "is_completed",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
+          },
+          {
+            "fieldPath": "mBoardId",
+            "columnName": "board_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mCurrentBoardValues",
+            "columnName": "current_board_values",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mNativeLanguageId",
+            "columnName": "native_language_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mLearningLanguageId",
+            "columnName": "learning_language_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mLearningLanguageLevelId",
+            "columnName": "learning_language_level_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_game_start_time",
+            "unique": true,
+            "columnNames": [
+              "start_time"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_game_start_time` ON `${TABLE_NAME}` (`start_time`)"
+          },
+          {
+            "name": "index_game_board_id",
+            "unique": false,
+            "columnNames": [
+              "board_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_game_board_id` ON `${TABLE_NAME}` (`board_id`)"
+          },
+          {
+            "name": "index_game_native_language_id",
+            "unique": false,
+            "columnNames": [
+              "native_language_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_game_native_language_id` ON `${TABLE_NAME}` (`native_language_id`)"
+          },
+          {
+            "name": "index_game_learning_language_id",
+            "unique": false,
+            "columnNames": [
+              "learning_language_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_game_learning_language_id` ON `${TABLE_NAME}` (`learning_language_id`)"
+          },
+          {
+            "name": "index_game_learning_language_level_id",
+            "unique": false,
+            "columnNames": [
+              "learning_language_level_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_game_learning_language_level_id` ON `${TABLE_NAME}` (`learning_language_level_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "board",
+            "onDelete": "RESTRICT",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "board_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "language",
+            "onDelete": "RESTRICT",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "native_language_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "language",
+            "onDelete": "RESTRICT",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "learning_language_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "language_level",
+            "onDelete": "RESTRICT",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "learning_language_level_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "game_translation",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`game_id` INTEGER NOT NULL, `translation_id` INTEGER NOT NULL, PRIMARY KEY(`game_id`, `translation_id`), FOREIGN KEY(`game_id`) REFERENCES `game`(`id`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`translation_id`) REFERENCES `translation`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "mGameId",
+            "columnName": "game_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mTranslationId",
+            "columnName": "translation_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "game_id",
+            "translation_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_game_translation_game_id",
+            "unique": false,
+            "columnNames": [
+              "game_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_game_translation_game_id` ON `${TABLE_NAME}` (`game_id`)"
+          },
+          {
+            "name": "index_game_translation_translation_id",
+            "unique": false,
+            "columnNames": [
+              "translation_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_game_translation_translation_id` ON `${TABLE_NAME}` (`translation_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "game",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "game_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "translation",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "translation_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "language",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL COLLATE NOCASE, `code` TEXT NOT NULL COLLATE NOCASE)",
+        "fields": [
+          {
+            "fieldPath": "mId",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mName",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mCode",
+            "columnName": "code",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_language_name_code",
+            "unique": true,
+            "columnNames": [
+              "name",
+              "code"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_language_name_code` ON `${TABLE_NAME}` (`name`, `code`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "language_level",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL COLLATE NOCASE)",
+        "fields": [
+          {
+            "fieldPath": "mId",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mName",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_language_level_name",
+            "unique": true,
+            "columnNames": [
+              "name"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_language_level_name` ON `${TABLE_NAME}` (`name`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "translation",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `original_word_id` INTEGER NOT NULL, `translated_word_id` INTEGER NOT NULL, `is_favourite` INTEGER NOT NULL DEFAULT 0, FOREIGN KEY(`original_word_id`) REFERENCES `word`(`id`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`translated_word_id`) REFERENCES `word`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "mId",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mOriginalWordId",
+            "columnName": "original_word_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mTranslatedWordId",
+            "columnName": "translated_word_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mIsFavourite",
+            "columnName": "is_favourite",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_translation_original_word_id_translated_word_id",
+            "unique": true,
+            "columnNames": [
+              "original_word_id",
+              "translated_word_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_translation_original_word_id_translated_word_id` ON `${TABLE_NAME}` (`original_word_id`, `translated_word_id`)"
+          },
+          {
+            "name": "index_translation_original_word_id",
+            "unique": false,
+            "columnNames": [
+              "original_word_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_translation_original_word_id` ON `${TABLE_NAME}` (`original_word_id`)"
+          },
+          {
+            "name": "index_translation_translated_word_id",
+            "unique": false,
+            "columnNames": [
+              "translated_word_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_translation_translated_word_id` ON `${TABLE_NAME}` (`translated_word_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "word",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "original_word_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "word",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "translated_word_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "word",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `text` TEXT NOT NULL COLLATE NOCASE, `language_id` INTEGER NOT NULL, `language_level_id` INTEGER NOT NULL, FOREIGN KEY(`language_id`) REFERENCES `language`(`id`) ON UPDATE CASCADE ON DELETE RESTRICT , FOREIGN KEY(`language_level_id`) REFERENCES `language_level`(`id`) ON UPDATE CASCADE ON DELETE RESTRICT )",
+        "fields": [
+          {
+            "fieldPath": "mId",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mText",
+            "columnName": "text",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mLanguageId",
+            "columnName": "language_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mLanguageLevelId",
+            "columnName": "language_level_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_word_text_language_id_language_level_id",
+            "unique": true,
+            "columnNames": [
+              "text",
+              "language_id",
+              "language_level_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_word_text_language_id_language_level_id` ON `${TABLE_NAME}` (`text`, `language_id`, `language_level_id`)"
+          },
+          {
+            "name": "index_word_language_id",
+            "unique": false,
+            "columnNames": [
+              "language_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_word_language_id` ON `${TABLE_NAME}` (`language_id`)"
+          },
+          {
+            "name": "index_word_language_level_id",
+            "unique": false,
+            "columnNames": [
+              "language_level_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_word_language_level_id` ON `${TABLE_NAME}` (`language_level_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "language",
+            "onDelete": "RESTRICT",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "language_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "language_level",
+            "onDelete": "RESTRICT",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "language_level_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5f3a05304192b3c72b02c4a539f1b8bb')"
+    ]
+  }
+}

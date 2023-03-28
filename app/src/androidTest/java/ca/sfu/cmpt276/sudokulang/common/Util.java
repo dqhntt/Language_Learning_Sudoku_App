@@ -290,15 +290,21 @@ public class Util {
         public static Pair<String, Integer> navigateToHomePage2FromMainActivity() throws UiObjectNotFoundException {
             // Select one choice from each spinner.
             searchForId("spinner_learning_lang").clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
-            final var learningLangSelectedText = selectRandomMenuItem();
-            searchForId("spinner_native_lang").clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
-            selectRandomMenuItem();
+            final var learningLang = selectRandomMenuItem();
+
+            // Select a different language from learningLang.
+            String nativeLang;
+            do {
+                searchForId("spinner_native_lang").clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
+                nativeLang = selectRandomMenuItem();
+            } while (nativeLang.equals(learningLang));
+
             searchForId("spinner_grid_size").clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
             final var boardSize = parseBoardSize(selectRandomMenuItem());
 
             // Press next.
             searchForId("image_button_next").clickAndWaitForNewWindow();
-            return new Pair<>(learningLangSelectedText, boardSize);
+            return new Pair<>(learningLang, boardSize);
         }
 
         public static void navigateToGameActivityFromHomePage2() throws UiObjectNotFoundException {

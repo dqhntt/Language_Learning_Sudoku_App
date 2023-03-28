@@ -104,7 +104,7 @@ public class GameActivity extends AppCompatActivity {
         return menuItem -> {
             final var id = menuItem.getItemId();
             if (id == R.id.main_activity) {
-                navController.navigate(GameFragmentDirections.actionGameFragmentToMainActivity());
+                finishAfterTransition();
                 return true;
             } else if (id == R.id.help_fragment) {
                 navController.navigate(GameFragmentDirections.actionGameFragmentToHelpFragment());

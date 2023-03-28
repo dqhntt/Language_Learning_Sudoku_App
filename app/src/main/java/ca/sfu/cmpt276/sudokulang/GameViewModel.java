@@ -50,7 +50,8 @@ public class GameViewModel extends AndroidViewModel {
     private final @NonNull Map<String, Integer> mOriginalWordValueMap = new HashMap<>();
     private final @NonNull Map<String, String> mButtonCellTextMap = new HashMap<>();
     private WordPair[] mWordPairs = null;
-    private Game mCurrentGame;
+    private Game mCurrentGame = null;
+    private long mPauseStartTime, mTotalPausedTime;
 
     /**
      * @implNote Board dimension when default constructed is undefined. <p>
@@ -65,9 +66,7 @@ public class GameViewModel extends AndroidViewModel {
         mBoardUiState = new MutableLiveData<>();
         mGameInProgress = new MutableLiveData<>();
         mBoardUiState.observeForever(board ->
-                updateGameInDatabase(mCurrentGame, board, mGameInProgress.getValue()));
-        mGameInProgress.observeForever(gameInProgress ->
-                updateGameInDatabase(mCurrentGame, mBoardUiState.getValue(), gameInProgress));
+                updateGameInDatabase(mCurrentGame, board));
     }
 
     public LiveData<Board> getBoardUiState() {
@@ -124,13 +123,13 @@ public class GameViewModel extends AndroidViewModel {
         });
     }
 
-    private void updateGameInDatabase(@Nullable Game game, @NonNull Board board, boolean gameInProgress) {
+    private void updateGameInDatabase(@Nullable Game game, @NonNull Board board) {
         databaseWriteExecutor.execute(() -> {
-            if (gameInProgress && game != null) {
+            if (game != null && mGameInProgress.getValue()) {
                 gameRepo.update(game
                         .setCompleted(board.isSolvedBoard())
                         .setCurrentBoardValues(board.getCells())
-                        .setTimeDuration(System.currentTimeMillis() - game.getStartTime().getTime())
+                        .setTimeDuration(getElapsedTime())
                 );
             }
         });
@@ -143,22 +142,23 @@ public class GameViewModel extends AndroidViewModel {
 
     public void endGame() {
         mGameInProgress.setValue(false);
-        mWordPairs = null;
     }
 
     /**
      * @return The elapsed time in milliseconds.
      */
     public long getElapsedTime() {
-        return mCurrentGame.getTimeDuration() == 0 // Game is not updated yet.
-                ? System.currentTimeMillis() - mCurrentGame.getStartTime().getTime()
-                : mCurrentGame.getTimeDuration();
+        assert mCurrentGame != null;
+        return System.currentTimeMillis()
+                - mCurrentGame.getStartTime().getTime()
+                - mTotalPausedTime;
     }
 
     /**
      * @post {@link #isGameInProgress()} {@code == false}
      */
     public void pauseGame() {
+        mPauseStartTime = System.currentTimeMillis();
         mGameInProgress.setValue(false);
     }
 
@@ -166,6 +166,7 @@ public class GameViewModel extends AndroidViewModel {
      * @post {@link #isGameInProgress()} {@code == true}
      */
     public void resumeGame() {
+        mTotalPausedTime += (System.currentTimeMillis() - mPauseStartTime);
         mGameInProgress.setValue(true);
     }
 
@@ -292,7 +293,6 @@ public class GameViewModel extends AndroidViewModel {
         return true;
     }
 
-    @NonNull
     public WordPair[] getWordPairs() {
         if (mWordPairs == null) {
             throw new IllegalStateException("Game must be created before retrieving the word pairs");

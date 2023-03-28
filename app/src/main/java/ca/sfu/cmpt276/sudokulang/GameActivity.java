@@ -85,13 +85,12 @@ public class GameActivity extends AppCompatActivity {
                     .make(binding.fab, "", Snackbar.LENGTH_INDEFINITE)
                     .setAnchorView(binding.bottomAppBar);
             binding.fab.setOnClickListener(view -> {
-                snackbar.setText(Util.formatWithTime(
-                        getString(R.string.paused_message),
-                        gameViewModel.getElapsedTime()
-                ));
                 if (gameViewModel.isGameInProgress().getValue()) {
                     gameViewModel.pauseGame();
-                    snackbar.show();
+                    snackbar.setText(Util.formatWithTime(
+                            getString(R.string.paused_message),
+                            gameViewModel.getElapsedTime()
+                    )).show();
                 } else {
                     gameViewModel.resumeGame();
                     snackbar.dismiss();

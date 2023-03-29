@@ -198,8 +198,7 @@ public class GameViewModel extends AndroidViewModel {
 
     public void setSelectedCellText(@NonNull String buttonText) {
         final var selectedCell = (CellImpl) mBoardUiState.getValue().getSelectedCell();
-        assert selectedCell != null;
-        if (selectedCell.isPrefilled()) {
+        if (selectedCell == null || selectedCell.isPrefilled()) {
             return;
         }
         setSelectedCellState(

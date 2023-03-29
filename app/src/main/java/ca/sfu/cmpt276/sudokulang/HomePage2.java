@@ -110,7 +110,8 @@ public class HomePage2 extends AppCompatActivity {
                                     sudokuLevel,
                                     extras.getBoardSize(),
                                     extras.getSubgridHeight(),
-                                    extras.getSubgridWidth()
+                                    extras.getSubgridWidth(),
+                                    true // TODO: Replace with a proper check and variable.
                             ).build()
                     ));
                 }

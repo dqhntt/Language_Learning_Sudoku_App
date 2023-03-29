@@ -111,7 +111,8 @@ public class GameActivity extends AppCompatActivity {
                     args.getSudokuLevel(),
                     args.getBoardSize(),
                     args.getSubgridHeight(),
-                    args.getSubgridWidth()
+                    args.getSubgridWidth(),
+                    args.getComprehensionMode()
             );
         } catch (SQLiteException e) {
             Log.e(getClass().getTypeName(), "Game database exception occurred", e);

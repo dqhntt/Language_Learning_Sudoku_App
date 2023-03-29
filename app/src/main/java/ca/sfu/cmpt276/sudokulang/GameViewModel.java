@@ -81,9 +81,11 @@ public class GameViewModel extends AndroidViewModel {
      *                          Equals {@code boardSize} if no sub-grid.
      * @param subgridWidth      Number of cells in each sub-grid's row.
      *                          Equals {@code boardSize} if no sub-grid.
+     * @param comprehensionMode Whether the game should be in listening comprehension mode.
      */
     public void startNewGame(String nativeLang, String learningLang, String learningLangLevel,
-                             String sudokuLevel, int boardSize, int subgridHeight, int subgridWidth) {
+                             String sudokuLevel, int boardSize, int subgridHeight, int subgridWidth,
+                             boolean comprehensionMode) {
         if (!isValidBoardDimension(boardSize, subgridHeight, subgridWidth)) {
             throw new IllegalArgumentException("Invalid board dimension");
         }

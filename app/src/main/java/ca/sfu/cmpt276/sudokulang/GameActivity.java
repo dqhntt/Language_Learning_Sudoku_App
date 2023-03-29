@@ -89,6 +89,14 @@ public class GameActivity extends AppCompatActivity {
                     snackbar.dismiss();
                 }
             });
+            gameViewModel.isGameInProgress().observe(this, gameInProgress -> {
+                binding.fab.setImageResource(gameInProgress
+                        ? R.drawable.ic_pause_24dp
+                        : R.drawable.ic_play_arrow_24dp);
+                if (gameInProgress) {
+                    snackbar.dismiss();
+                }
+            });
             binding.bottomAppBar.setOnMenuItemClickListener(getOnMenuItemClickListener(navController));
         }
     }

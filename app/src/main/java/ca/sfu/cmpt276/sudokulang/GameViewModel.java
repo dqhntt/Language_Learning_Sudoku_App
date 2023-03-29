@@ -32,8 +32,6 @@ import ca.sfu.cmpt276.sudokulang.data.source.GameRepository;
 import ca.sfu.cmpt276.sudokulang.data.source.GameRepositoryImpl;
 import ca.sfu.cmpt276.sudokulang.data.source.TranslationRepository;
 import ca.sfu.cmpt276.sudokulang.data.source.TranslationRepositoryImpl;
-import ca.sfu.cmpt276.sudokulang.data.source.WordRepository;
-import ca.sfu.cmpt276.sudokulang.data.source.WordRepositoryImpl;
 
 /**
  * State processor for UI elements in GameFragment.
@@ -41,10 +39,9 @@ import ca.sfu.cmpt276.sudokulang.data.source.WordRepositoryImpl;
  * @cite <a href="https://google-developer-training.github.io/android-developer-fundamentals-course-concepts-v2/unit-4-saving-user-data/lesson-10-storing-data-with-room/10-1-c-room-livedata-viewmodel/10-1-c-room-livedata-viewmodel.html#viewmodel">LiveData & ViewModel</a>
  */
 public class GameViewModel extends AndroidViewModel {
-    public final BoardRepository boardRepo;
-    public final GameRepository gameRepo;
-    public final TranslationRepository translationRepo;
-    public final WordRepository wordRepo;
+    private final BoardRepository mBoardRepo;
+    private final GameRepository mGameRepo;
+    private final TranslationRepository mTranslationRepo;
     private final @NonNull MutableLiveData<Board> mBoardUiState;
     private final @NonNull MutableLiveData<Boolean> mGameInProgress;
     private final @NonNull MutableLiveData<WordPair[]> mWordPairs;
@@ -60,10 +57,9 @@ public class GameViewModel extends AndroidViewModel {
      */
     public GameViewModel(Application app) {
         super(app);
-        boardRepo = BoardRepositoryImpl.getInstance(app.getApplicationContext());
-        gameRepo = GameRepositoryImpl.getInstance(app.getApplicationContext());
-        translationRepo = TranslationRepositoryImpl.getInstance(app.getApplicationContext());
-        wordRepo = WordRepositoryImpl.getInstance(app.getApplicationContext());
+        mBoardRepo = BoardRepositoryImpl.getInstance(app.getApplicationContext());
+        mGameRepo = GameRepositoryImpl.getInstance(app.getApplicationContext());
+        mTranslationRepo = TranslationRepositoryImpl.getInstance(app.getApplicationContext());
         mBoardUiState = new MutableLiveData<>();
         mGameInProgress = new MutableLiveData<>();
         mWordPairs = new MutableLiveData<>();
@@ -92,13 +88,15 @@ public class GameViewModel extends AndroidViewModel {
             throw new IllegalArgumentException("Invalid board dimension");
         }
         final var newBoard =
-                boardRepo.getARandomBoardMatching(boardSize, subgridHeight, subgridWidth, sudokuLevel);
-        mWordPairs.setValue(translationRepo.getNRandomWordPairsMatching(
+                mBoardRepo.getARandomBoardMatching(boardSize, subgridHeight, subgridWidth, sudokuLevel);
+        final var wordPairs =
+                mTranslationRepo.getNRandomWordPairsMatching(
                         boardSize, nativeLang, learningLang, learningLangLevel
-                ).toArray(new WordPair[0])
-        );
+                ).toArray(new WordPair[0]);
+        mWordPairs.setValue(wordPairs);
         setTextToCells(newBoard);
-        insertGameToDatabase(newBoard, nativeLang, learningLang, learningLangLevel);
+        mCurrentGame = new Game(mGameRepo.generateId(), newBoard.getId(), newBoard.getCells());
+        insertGameToDatabase(mCurrentGame, wordPairs);
         mGameInProgress.setValue(true);
         mBoardUiState.setValue(newBoard);
     }
@@ -116,20 +114,11 @@ public class GameViewModel extends AndroidViewModel {
         }
     }
 
-    private void insertGameToDatabase(@NonNull BoardImpl board,
-                                      String nativeLang, String learningLang, String learningLangLevel) {
+    private void insertGameToDatabase(@NonNull Game game, @NonNull WordPair... wordPairs) {
         databaseWriteExecutor.execute(() -> {
-            mCurrentGame = new Game(
-                    gameRepo.generateId(),
-                    board.getId(),
-                    board.getCells(),
-                    wordRepo.getIdOfLanguage(nativeLang),
-                    wordRepo.getIdOfLanguage(learningLang),
-                    wordRepo.getIdOfLanguageLevel(learningLangLevel)
-            );
-            gameRepo.insert(mCurrentGame);
-            gameRepo.insert(Arrays.stream(mWordPairs.getValue())
-                    .map(pair -> new GameTranslation(mCurrentGame.getId(), pair.getTranslationId()))
+            mGameRepo.insert(game);
+            mGameRepo.insert(Arrays.stream(wordPairs)
+                    .map(pair -> new GameTranslation(game.getId(), pair.getTranslationId()))
                     .collect(Collectors.toList())
             );
         });
@@ -138,7 +127,7 @@ public class GameViewModel extends AndroidViewModel {
     private void updateGameInDatabase(@Nullable Game game, @NonNull Board board) {
         databaseWriteExecutor.execute(() -> {
             if (game != null && mGameInProgress.getValue()) {
-                gameRepo.update(game
+                mGameRepo.update(game
                         .setCompleted(board.isSolvedBoard())
                         .setCurrentBoardValues(board.getCells())
                         .setTimeDuration(getElapsedTime())

@@ -16,21 +16,6 @@ import java.util.Date;
                         parentColumns = "id",
                         childColumns = "board_id",
                         onDelete = ForeignKey.RESTRICT,
-                        onUpdate = ForeignKey.CASCADE),
-                @ForeignKey(entity = Language.class,
-                        parentColumns = "id",
-                        childColumns = "native_language_id",
-                        onDelete = ForeignKey.RESTRICT,
-                        onUpdate = ForeignKey.CASCADE),
-                @ForeignKey(entity = Language.class,
-                        parentColumns = "id",
-                        childColumns = "learning_language_id",
-                        onDelete = ForeignKey.RESTRICT,
-                        onUpdate = ForeignKey.CASCADE),
-                @ForeignKey(entity = LanguageLevel.class,
-                        parentColumns = "id",
-                        childColumns = "learning_language_level_id",
-                        onDelete = ForeignKey.RESTRICT,
                         onUpdate = ForeignKey.CASCADE)
         },
         indices = {
@@ -38,21 +23,12 @@ import java.util.Date;
         }
 )
 public class Game {
-    @ColumnInfo(name = "board_id", index = true)
-    private final long mBoardId;
-
-    @ColumnInfo(name = "native_language_id", index = true)
-    private final long mNativeLanguageId;
-
-    @ColumnInfo(name = "learning_language_id", index = true)
-    private final long mLearningLanguageId;
-
-    @ColumnInfo(name = "learning_language_level_id", index = true)
-    private final long mLearningLanguageLevelId;
-
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private final long mId;
+
+    @ColumnInfo(name = "board_id", index = true)
+    private final long mBoardId;
 
     @NonNull
     @ColumnInfo(name = "start_time", defaultValue = "CURRENT_TIMESTAMP")
@@ -69,28 +45,20 @@ public class Game {
     private Cell[][] mCurrentBoardValues;
 
     public Game(long id, @NonNull Date startTime, long timeDuration,
-                boolean isCompleted, long boardId, @NonNull Cell[][] currentBoardValues,
-                long nativeLanguageId, long learningLanguageId, long learningLanguageLevelId) {
+                boolean isCompleted, long boardId, @NonNull Cell[][] currentBoardValues) {
         mId = id;
         mStartTime = startTime;
         mTimeDuration = timeDuration;
         mIsCompleted = isCompleted;
         mBoardId = boardId;
         mCurrentBoardValues = currentBoardValues;
-        mNativeLanguageId = nativeLanguageId;
-        mLearningLanguageId = learningLanguageId;
-        mLearningLanguageLevelId = learningLanguageLevelId;
     }
 
     @Ignore
-    public Game(long id, long boardId, @NonNull Cell[][] currentBoardValues,
-                long nativeLanguageId, long learningLanguageId, long learningLanguageLevelId) {
+    public Game(long id, long boardId, @NonNull Cell[][] currentBoardValues) {
         mId = id;
         mBoardId = boardId;
         mCurrentBoardValues = currentBoardValues;
-        mNativeLanguageId = nativeLanguageId;
-        mLearningLanguageId = learningLanguageId;
-        mLearningLanguageLevelId = learningLanguageLevelId;
     }
 
     public long getId() {
@@ -139,17 +107,5 @@ public class Game {
     public Game setCurrentBoardValues(@NonNull Cell[][] currentBoardValues) {
         mCurrentBoardValues = currentBoardValues;
         return this;
-    }
-
-    public long getNativeLanguageId() {
-        return mNativeLanguageId;
-    }
-
-    public long getLearningLanguageId() {
-        return mLearningLanguageId;
-    }
-
-    public long getLearningLanguageLevelId() {
-        return mLearningLanguageLevelId;
     }
 }

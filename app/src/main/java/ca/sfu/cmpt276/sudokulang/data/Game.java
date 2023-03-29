@@ -23,12 +23,12 @@ import java.util.Date;
         }
 )
 public class Game {
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    private final long mId;
-
     @ColumnInfo(name = "board_id", index = true)
     private final long mBoardId;
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    private long mId;
 
     @NonNull
     @ColumnInfo(name = "start_time", defaultValue = "CURRENT_TIMESTAMP")
@@ -55,14 +55,19 @@ public class Game {
     }
 
     @Ignore
-    public Game(long id, long boardId, @NonNull Cell[][] currentBoardValues) {
-        mId = id;
+    public Game(long boardId, @NonNull Cell[][] currentBoardValues) {
+        mId = 0;
         mBoardId = boardId;
         mCurrentBoardValues = currentBoardValues;
     }
 
     public long getId() {
         return mId;
+    }
+
+    public void setId(long id) {
+        assert id >= 0;
+        mId = id;
     }
 
     @NonNull

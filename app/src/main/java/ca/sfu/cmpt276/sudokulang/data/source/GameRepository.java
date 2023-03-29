@@ -9,9 +9,7 @@ import ca.sfu.cmpt276.sudokulang.data.GameTranslation;
 import ca.sfu.cmpt276.sudokulang.data.GameWithTranslations;
 
 public interface GameRepository {
-    long generateId();
-
-    void insert(@NonNull Game game);
+    long insert(@NonNull Game game);
 
     void update(@NonNull Game game);
 

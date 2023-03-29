@@ -38,13 +38,8 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public long generateId() {
-        return mGameDao.generateId();
-    }
-
-    @Override
-    public void insert(@NonNull Game game) {
-        databaseWriteExecutor.execute(() -> mGameDao.insert(game));
+    public long insert(@NonNull Game game) {
+        return mGameDao.insert(game);
     }
 
     @Override

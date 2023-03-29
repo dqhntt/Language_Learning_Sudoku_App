@@ -95,8 +95,9 @@ public class GameViewModel extends AndroidViewModel {
                 ).toArray(new WordPair[0]);
         mWordPairs.setValue(wordPairs);
         setTextToCells(newBoard);
-        mCurrentGame = new Game(mGameRepo.generateId(), newBoard.getId(), newBoard.getCells());
-        insertGameToDatabase(mCurrentGame, wordPairs);
+        mCurrentGame = new Game(newBoard.getId(), newBoard.getCells());
+        mCurrentGame.setId(mGameRepo.insert(mCurrentGame));
+        insertWordPairsToDatabase(mCurrentGame, wordPairs);
         mGameInProgress.setValue(true);
         mBoardUiState.setValue(newBoard);
     }
@@ -114,9 +115,8 @@ public class GameViewModel extends AndroidViewModel {
         }
     }
 
-    private void insertGameToDatabase(@NonNull Game game, @NonNull WordPair... wordPairs) {
+    private void insertWordPairsToDatabase(@NonNull Game game, @NonNull WordPair... wordPairs) {
         databaseWriteExecutor.execute(() -> {
-            mGameRepo.insert(game);
             mGameRepo.insert(Arrays.stream(wordPairs)
                     .map(pair -> new GameTranslation(game.getId(), pair.getTranslationId()))
                     .collect(Collectors.toList())

@@ -67,9 +67,6 @@
         android:label="@string/title_game"
         tools:layout="@layout/fragment_game">
         <action
-            android:id="@+id/action_game_fragment_to_main_activity"
-            app:destination="@id/main_activity" />
-        <action
             android:id="@+id/action_game_fragment_to_help_fragment"
             app:destination="@id/help_fragment" />
         <action
@@ -91,8 +88,5 @@
         <action
             android:id="@+id/action_translation_fragment_to_help_fragment"
             app:destination="@id/help_fragment" />
-        <action
-            android:id="@+id/action_translation_fragment_to_main_activity"
-            app:destination="@id/main_activity" />
     </fragment>
 </navigation>

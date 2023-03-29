@@ -2,7 +2,7 @@ package ca.sfu.cmpt276.sudokulang.data;
 
 import androidx.annotation.NonNull;
 
-public interface Cell {
+public interface Cell extends Cloneable {
     /**
      * @return Value of the cell, 0 if it's empty.
      */

@@ -47,7 +47,7 @@ public abstract class GameDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     GameDatabase.class, "game-database")
                             .createFromAsset("database/GameDatabase.db")
-                            .allowMainThreadQueries() // For TESTING.
+                            .allowMainThreadQueries()
                             .build();
                 }
             }

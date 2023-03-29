@@ -5,13 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.fragment.NavHostFragment;
 
-import ca.sfu.cmpt276.sudokulang.R;
 import ca.sfu.cmpt276.sudokulang.databinding.FragmentHelpBinding;
 
 // See: https://developer.android.com/topic/libraries/architecture/viewmodel
@@ -38,9 +37,7 @@ public class HelpFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         binding.buttonHelp.setOnClickListener(v ->
-                NavHostFragment
-                        .findNavController(this)
-                        .navigate(R.id.main_activity));
+                Toast.makeText(getContext(), "Only a placeholder", Toast.LENGTH_SHORT).show());
     }
 
     @Override

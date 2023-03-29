@@ -33,12 +33,24 @@ public class WordButtonKeypad extends androidx.constraintlayout.helper.widget.Fl
         }
     }
 
+    /**
+     * @implNote This function creates new buttons, thus clearing all {@link View#OnClickListener} present.
+     */
     public void setValues(@NonNull String[] buttonValues) {
         if (mButtons == null || mButtons.length != buttonValues.length) {
+            removeAllButtons();
             createNewButtons(buttonValues.length);
         }
         for (int i = 0; i < mButtons.length; i++) {
             mButtons[i].setText(buttonValues[i]);
+        }
+    }
+
+    private void removeAllButtons() {
+        if (mButtons != null) {
+            for (var button : mButtons) {
+                ((ConstraintLayout) getParent()).removeView(button);
+            }
         }
     }
 

@@ -1,6 +1,6 @@
 package ca.sfu.cmpt276.sudokulang.data.source;
 
-import android.app.Application;
+import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
@@ -14,16 +14,32 @@ import ca.sfu.cmpt276.sudokulang.data.source.local.GameDatabase;
 import ca.sfu.cmpt276.sudokulang.data.source.local.TranslationDao;
 
 public class TranslationRepositoryImpl implements TranslationRepository {
+    private static volatile TranslationRepositoryImpl sInstance;
     private final TranslationDao mTranslationDao;
 
-    public TranslationRepositoryImpl(Application application) {
-        mTranslationDao = GameDatabase.getDatabase(application).translationDao();
+    private TranslationRepositoryImpl(Context context) {
+        GameDatabase database = GameDatabase.getDatabase(context);
+        mTranslationDao = database.translationDao();
+    }
+
+    public static TranslationRepositoryImpl getInstance(Context context) {
+        if (sInstance == null) {
+            synchronized (TranslationRepositoryImpl.class) {
+                if (sInstance == null) {
+                    sInstance = new TranslationRepositoryImpl(context);
+                }
+            }
+        }
+        return sInstance;
     }
 
     @Override
     public List<WordPair> getNRandomWordPairsMatching(int n,
                                                       String nativeLang, String learningLang, String langLevel) {
         final var pairs = mTranslationDao.getAllFilteredWordPairs(nativeLang, learningLang, langLevel);
+        if (pairs.isEmpty()) {
+            throw new IllegalStateException("No matches found in database");
+        }
         Collections.shuffle(pairs);
         return pairs.stream().limit(n).collect(Collectors.toList());
     }

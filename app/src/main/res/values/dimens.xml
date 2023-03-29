@@ -15,6 +15,7 @@
     <dimen name="spinner_text_size">14sp</dimen>
     <dimen name="spinner_height">48dp</dimen>
     <dimen name="spinner_width">0dp</dimen>
+    <dimen name="spinner_corner_radius">12dp</dimen>
     <dimen name="homepage_spinner_margin">8dp</dimen>
     <dimen name="homepage_image_button_size">70dp</dimen>
 </resources>

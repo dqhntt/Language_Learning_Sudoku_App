@@ -1,21 +1,17 @@
 package ca.sfu.cmpt276.sudokulang;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static ca.sfu.cmpt276.sudokulang.common.Util.SELECTOR_TIMEOUT;
-import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.DEVICE;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.getId2NoScroll;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.navigateToGameActivityFromHomePage2;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.navigateToHomePage2FromMainActivity;
-import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.pause;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.putDeviceInLandscapeMode;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.searchForId;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.startAppInPortraitMode;
-import static ca.sfu.cmpt276.sudokulang.common.Util.getResourceId;
 
 import android.os.RemoteException;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.Until;
 
@@ -82,13 +78,8 @@ public class GameActivityTest {
 
     @Test
     public void testNavigateHomeButton() throws UiObjectNotFoundException {
-        // Assert can move forward.
+        // Assert pressing home button exits the game.
         getId2NoScroll("main_activity").clickAndWait(Until.newWindow(), SELECTOR_TIMEOUT);
-        pause(SELECTOR_TIMEOUT);
-        assertTrue(DEVICE.hasObject(By.res(getResourceId("welcome_text"))));
-
-        // Assert can get back.
-        DEVICE.pressBack();
-        assertTrue(searchForId("erase_button").exists());
+        assertFalse(searchForId("erase_button").exists());
     }
 }

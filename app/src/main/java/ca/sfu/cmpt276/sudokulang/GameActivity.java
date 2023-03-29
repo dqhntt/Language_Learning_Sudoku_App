@@ -2,7 +2,9 @@ package ca.sfu.cmpt276.sudokulang;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -24,6 +26,7 @@ import ca.sfu.cmpt276.sudokulang.ui.game.GameFragmentDirections;
 
 public class GameActivity extends AppCompatActivity {
     private static final String SHOULD_CREATE_NEW_GAME = "should_create_new_game";
+    private GameViewModel gameViewModel;
     private @Nullable AppBarConfiguration appBarConfiguration = null;
     private Snackbar snackbar;
 
@@ -50,21 +53,11 @@ public class GameActivity extends AppCompatActivity {
         final var binding = ActivityGameBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        final var gameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
+        gameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
 
         // Check if recreating a previously destroyed instance.
         if (shouldCreateNewGame(savedInstanceState)) {
-            final var extras = getIntent().getExtras();
-            if (extras == null) {
-                gameViewModel.generateNewBoard(9, 3, 3);
-            } else {
-                final var args = GameActivityArgs.fromBundle(extras);
-                gameViewModel.generateNewBoard(
-                        args.getBoardSize(),
-                        args.getSubgridHeight(),
-                        args.getSubgridWidth()
-                );
-            }
+            startNewGame();
         }
 
         // Cite: https://stackoverflow.com/a/60597670
@@ -100,12 +93,30 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    public void startNewGame() {
+        final var args = GameActivityArgs.fromBundle(getIntent().getExtras());
+        try {
+            gameViewModel.startNewGame(
+                    args.getNativeLang(),
+                    args.getLearningLang(),
+                    args.getLangLevel(),
+                    args.getSudokuLevel(),
+                    args.getBoardSize(),
+                    args.getSubgridHeight(),
+                    args.getSubgridWidth()
+            );
+        } catch (SQLiteException e) {
+            Log.e(getClass().getTypeName(), "Game database exception occurred", e);
+            recreate(); // Restart activity.
+        }
+    }
+
     // See: https://github.com/material-components/material-components-android/blob/master/docs/components/BottomAppBar.md
     private Toolbar.OnMenuItemClickListener getOnMenuItemClickListener(NavController navController) {
         return menuItem -> {
             final var id = menuItem.getItemId();
             if (id == R.id.main_activity) {
-                navController.navigate(GameFragmentDirections.actionGameFragmentToMainActivity());
+                finishAfterTransition();
                 return true;
             } else if (id == R.id.help_fragment) {
                 navController.navigate(GameFragmentDirections.actionGameFragmentToHelpFragment());
@@ -130,8 +141,11 @@ public class GameActivity extends AppCompatActivity {
         final int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            // TODO: Navigate to settings activity.
+        if (id == R.id.action_reset) {
+            gameViewModel.resetGame();
+            return true;
+        } else if (id == R.id.action_new_game) {
+            startNewGame();
             return true;
         }
 

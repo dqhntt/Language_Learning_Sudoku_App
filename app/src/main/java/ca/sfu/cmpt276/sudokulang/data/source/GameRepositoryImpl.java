@@ -2,7 +2,7 @@ package ca.sfu.cmpt276.sudokulang.data.source;
 
 import static ca.sfu.cmpt276.sudokulang.data.source.local.GameDatabase.databaseWriteExecutor;
 
-import android.app.Application;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
 
@@ -16,13 +16,25 @@ import ca.sfu.cmpt276.sudokulang.data.source.local.GameDatabase;
 import ca.sfu.cmpt276.sudokulang.data.source.local.GameTranslationDao;
 
 public class GameRepositoryImpl implements GameRepository {
+    private static volatile GameRepositoryImpl sInstance;
     private final GameDao mGameDao;
     private final GameTranslationDao mGameTranslationDao;
 
-    public GameRepositoryImpl(Application application) {
-        final var db = GameDatabase.getDatabase(application);
+    private GameRepositoryImpl(Context context) {
+        final var db = GameDatabase.getDatabase(context);
         mGameDao = db.gameDao();
         mGameTranslationDao = db.gameTranslationDao();
+    }
+
+    public static GameRepositoryImpl getInstance(Context context) {
+        if (sInstance == null) {
+            synchronized (GameRepositoryImpl.class) {
+                if (sInstance == null) {
+                    sInstance = new GameRepositoryImpl(context);
+                }
+            }
+        }
+        return sInstance;
     }
 
     @Override

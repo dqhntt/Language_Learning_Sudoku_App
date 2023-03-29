@@ -40,22 +40,30 @@ import java.util.Date;
 public class Game {
     @ColumnInfo(name = "board_id", index = true)
     private final long mBoardId;
+
     @ColumnInfo(name = "native_language_id", index = true)
     private final long mNativeLanguageId;
+
     @ColumnInfo(name = "learning_language_id", index = true)
     private final long mLearningLanguageId;
+
     @ColumnInfo(name = "learning_language_level_id", index = true)
     private final long mLearningLanguageLevelId;
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     private final long mId;
+
     @NonNull
     @ColumnInfo(name = "start_time", defaultValue = "CURRENT_TIMESTAMP")
     private Date mStartTime = new Date();
+
     @ColumnInfo(name = "time_duration", defaultValue = "0")
     private long mTimeDuration = 0;
+
     @ColumnInfo(name = "is_completed", defaultValue = "0")
     private boolean mIsCompleted = false;
+
     @NonNull
     @ColumnInfo(name = "current_board_values", collate = ColumnInfo.RTRIM)
     private Cell[][] mCurrentBoardValues;
@@ -92,6 +100,10 @@ public class Game {
     @NonNull
     public Date getStartTime() {
         return mStartTime;
+    }
+
+    public void setStartTime(@NonNull Date startTime) {
+        mStartTime = startTime;
     }
 
     public long getTimeDuration() {

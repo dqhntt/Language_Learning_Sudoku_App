@@ -13,6 +13,7 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,10 +47,10 @@ public class GameViewModel extends AndroidViewModel {
     public final WordRepository wordRepo;
     private final @NonNull MutableLiveData<Board> mBoardUiState;
     private final @NonNull MutableLiveData<Boolean> mGameInProgress;
+    private final @NonNull MutableLiveData<WordPair[]> mWordPairs;
     private final @NonNull Map<Integer, WordPair> mValueWordPairMap = new HashMap<>();
     private final @NonNull Map<String, Integer> mOriginalWordValueMap = new HashMap<>();
     private final @NonNull Map<String, String> mButtonCellTextMap = new HashMap<>();
-    private WordPair[] mWordPairs = null;
     private Game mCurrentGame = null;
     private long mPauseStartTime, mTotalPausedTime;
 
@@ -65,6 +66,8 @@ public class GameViewModel extends AndroidViewModel {
         wordRepo = WordRepositoryImpl.getInstance(app.getApplicationContext());
         mBoardUiState = new MutableLiveData<>();
         mGameInProgress = new MutableLiveData<>();
+        mWordPairs = new MutableLiveData<>();
+        mWordPairs.observeForever(p -> prepareMaps());
         mBoardUiState.observeForever(board -> updateGameInDatabase(mCurrentGame, board));
     }
 
@@ -90,10 +93,17 @@ public class GameViewModel extends AndroidViewModel {
         }
         final var newBoard =
                 boardRepo.getARandomBoardMatching(boardSize, subgridHeight, subgridWidth, sudokuLevel);
-        mWordPairs = translationRepo.getNRandomWordPairsMatching(
-                boardSize, nativeLang, learningLang, learningLangLevel
-        ).toArray(new WordPair[0]);
-        prepareMaps();
+        mWordPairs.setValue(translationRepo.getNRandomWordPairsMatching(
+                        boardSize, nativeLang, learningLang, learningLangLevel
+                ).toArray(new WordPair[0])
+        );
+        setTextToCells(newBoard);
+        insertGameToDatabase(newBoard, nativeLang, learningLang, learningLangLevel);
+        mGameInProgress.setValue(true);
+        mBoardUiState.setValue(newBoard);
+    }
+
+    private void setTextToCells(@NonNull Board newBoard) {
         for (var row : newBoard.getCells()) {
             for (var cell : row) {
                 final var currCell = (CellImpl) cell;
@@ -104,9 +114,6 @@ public class GameViewModel extends AndroidViewModel {
                 );
             }
         }
-        insertGameToDatabase(newBoard, nativeLang, learningLang, learningLangLevel);
-        mGameInProgress.setValue(true);
-        mBoardUiState.setValue(newBoard);
     }
 
     private void insertGameToDatabase(@NonNull BoardImpl board,
@@ -121,7 +128,7 @@ public class GameViewModel extends AndroidViewModel {
                     wordRepo.getIdOfLanguageLevel(learningLangLevel)
             );
             gameRepo.insert(mCurrentGame);
-            gameRepo.insert(Arrays.stream(mWordPairs)
+            gameRepo.insert(Arrays.stream(mWordPairs.getValue())
                     .map(pair -> new GameTranslation(mCurrentGame.getId(), pair.getTranslationId()))
                     .collect(Collectors.toList())
             );
@@ -172,6 +179,15 @@ public class GameViewModel extends AndroidViewModel {
      */
     public void resumeGame() {
         mTotalPausedTime += (System.currentTimeMillis() - mPauseStartTime);
+        mGameInProgress.setValue(true);
+    }
+
+    public void resetGame() {
+        mCurrentGame.setStartTime(new Date());
+        mTotalPausedTime = 0;
+        final var resetBoard = ((BoardImpl) mBoardUiState.getValue()).resetBoard();
+        setTextToCells(resetBoard);
+        mBoardUiState.setValue(resetBoard);
         mGameInProgress.setValue(true);
     }
 
@@ -298,8 +314,9 @@ public class GameViewModel extends AndroidViewModel {
         return true;
     }
 
-    public WordPair[] getWordPairs() {
-        if (mWordPairs == null) {
+    @NonNull
+    public LiveData<WordPair[]> getWordPairs() {
+        if (mWordPairs.getValue() == null) {
             throw new IllegalStateException("Game must be created before retrieving the word pairs");
         }
         return mWordPairs;
@@ -307,20 +324,22 @@ public class GameViewModel extends AndroidViewModel {
 
     private void prepareMaps() {
         final List<Integer> values = new ArrayList<>();
-        for (int i = 0; i < mWordPairs.length; i++) {
+        final var wordPairs = mWordPairs.getValue();
+        assert wordPairs != null;
+        for (int i = 0; i < wordPairs.length; i++) {
             values.add(i + 1);
         }
         Collections.shuffle(values);
         mValueWordPairMap.clear();
         mOriginalWordValueMap.clear();
-        for (int i = 0; i < mWordPairs.length; i++) {
-            final var currPair = mWordPairs[i];
+        for (int i = 0; i < wordPairs.length; i++) {
+            final var currPair = wordPairs[i];
             final var currVal = values.get(i);
             mValueWordPairMap.put(currVal, currPair);
             mOriginalWordValueMap.put(currPair.getOriginalWord(), currVal);
         }
         mButtonCellTextMap.clear();
-        for (var pair : mWordPairs) {
+        for (var pair : wordPairs) {
             mButtonCellTextMap.put(pair.getOriginalWord(), pair.getTranslatedWord());
         }
     }

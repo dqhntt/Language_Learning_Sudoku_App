@@ -16,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Arrays;
 
+import ca.sfu.cmpt276.sudokulang.GameActivity;
 import ca.sfu.cmpt276.sudokulang.GameViewModel;
 import ca.sfu.cmpt276.sudokulang.R;
 import ca.sfu.cmpt276.sudokulang.Util;
@@ -27,6 +28,7 @@ import ca.sfu.cmpt276.sudokulang.ui.game.board.CellUi;
 public class GameFragment extends Fragment {
     private FragmentGameBinding mBinding;
     private GameViewModel mGameViewModel;
+    private Snackbar mGameEndsSnackbar;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -49,15 +51,19 @@ public class GameFragment extends Fragment {
         setupBoard();
         setupWordButtons();
         mBinding.eraseButton.setOnClickListener(v -> mGameViewModel.clearSelectedCell());
+
+        // Prepare snackbar but doesn't show it yet.
+        mGameEndsSnackbar = Snackbar
+                .make(mBinding.getRoot(), "", Snackbar.LENGTH_INDEFINITE)
+                .setAnchorView(requireActivity().findViewById(R.id.bottom_app_bar))
+                .setAction(R.string.new_game, v -> ((GameActivity) requireActivity()).startNewGame());
     }
 
     private void endGame() {
         mGameViewModel.endGame();
-        Snackbar.make(mBinding.getRoot(),
-                        Util.formatWithTime(getString(R.string.congratulations),
-                                mGameViewModel.getElapsedTime()),
-                        Snackbar.LENGTH_INDEFINITE)
-                .setAnchorView(requireActivity().findViewById(R.id.bottom_app_bar))
+        mGameEndsSnackbar
+                .setText(Util.formatWithTime(getString(R.string.congratulations),
+                        mGameViewModel.getElapsedTime()))
                 .show();
     }
 
@@ -78,17 +84,18 @@ public class GameFragment extends Fragment {
     }
 
     private void setupWordButtons() {
-        mBinding.wordButtonKeypad.setValues(
-                Arrays.stream(mGameViewModel.getWordPairs())
-                        .map(WordPair::getOriginalWord)
-                        .toArray(String[]::new)
+        mGameViewModel.getWordPairs().observe(getViewLifecycleOwner(), wordPairs -> {
+                    mBinding.wordButtonKeypad.setValues(Arrays.stream(wordPairs)
+                            .map(WordPair::getOriginalWord)
+                            .toArray(String[]::new));
+                    mBinding.wordButtonKeypad.setOnclickListenersForAllButtons(view -> {
+                        final var button = (MaterialButton) view;
+                        final String choice = (String) button.getText();
+                        mBinding.quickCellView.setText(choice);
+                        mGameViewModel.setSelectedCellText(choice);
+                    });
+                }
         );
-        mBinding.wordButtonKeypad.setOnclickListenersForAllButtons(view -> {
-            final var button = (MaterialButton) view;
-            final String choice = (String) button.getText();
-            mBinding.quickCellView.setText(choice);
-            mGameViewModel.setSelectedCellText(choice);
-        });
         final var fab = (ImageButton) requireActivity().findViewById(R.id.fab);
         mGameViewModel.isGameInProgress().observe(getViewLifecycleOwner(), gameInProgress -> {
             // Disable buttons but doesn't end game.
@@ -99,6 +106,9 @@ public class GameFragment extends Fragment {
                 fab.setImageResource(gameInProgress
                         ? R.drawable.ic_pause_24dp
                         : R.drawable.ic_play_arrow_24dp);
+            }
+            if (gameInProgress) {
+                mGameEndsSnackbar.dismiss();
             }
         });
     }

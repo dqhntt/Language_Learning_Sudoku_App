@@ -79,15 +79,19 @@ public class BoardImpl implements Board {
     }
 
     @NonNull
-    private static Cell[][] cloneCells(@NonNull Cell[][] cells) {
+    private Cell[][] cloneCells(@NonNull Cell[][] cells) {
         // Cite: https://stackoverflow.com/a/53397359
-        return Arrays.stream(cells).map(Cell[]::clone).toArray(Cell[][]::new);
+        return Arrays.stream(cells)
+                .map(row -> Arrays.stream(row)
+                        .map(Cell::clone)
+                        .toArray(Cell[]::new))
+                .toArray(Cell[][]::new);
     }
 
     @NonNull
     public BoardImpl resetBoard() {
         mCells = cloneCells(mPrefilledValues);
-        return this;
+        return setSelectedIndexes(-1, -1);
     }
 
     private boolean isValidBoardDimension(int boardSize, int subgridHeight, int subgridWidth) {

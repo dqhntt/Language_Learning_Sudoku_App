@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -56,7 +55,10 @@ public class GameFragment extends Fragment {
         mGameEndsSnackbar = Snackbar
                 .make(mBinding.getRoot(), "", Snackbar.LENGTH_INDEFINITE)
                 .setAnchorView(requireActivity().findViewById(R.id.bottom_app_bar))
-                .setAction(R.string.new_game, v -> ((GameActivity) requireActivity()).startNewGame());
+                .setAction(R.string.new_game, v -> {
+                    ((GameActivity) requireActivity()).startNewGame();
+                    mGameEndsSnackbar.dismiss();
+                });
     }
 
     private void endGame() {
@@ -96,17 +98,11 @@ public class GameFragment extends Fragment {
                     });
                 }
         );
-        final var fab = (ImageButton) requireActivity().findViewById(R.id.fab);
         mGameViewModel.isGameInProgress().observe(getViewLifecycleOwner(), gameInProgress -> {
             // Disable buttons but doesn't end game.
             mBinding.wordButtonKeypad.setEnabled(gameInProgress);
             mBinding.eraseButton.setEnabled(gameInProgress);
             mBinding.notesButton.setEnabled(gameInProgress);
-            if (fab != null) {
-                fab.setImageResource(gameInProgress
-                        ? R.drawable.ic_pause_24dp
-                        : R.drawable.ic_play_arrow_24dp);
-            }
             if (gameInProgress) {
                 mGameEndsSnackbar.dismiss();
             }

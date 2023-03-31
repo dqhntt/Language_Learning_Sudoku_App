@@ -105,10 +105,11 @@ public class HomePage2 extends AppCompatActivity {
                 String langLevel = mlanglevelSpinner.getSelectedItem().toString();
                 String sudokuLevel = mSudokuSpinner.getSelectedItem().toString();
 
+                MaterialButtonToggleGroup toggleGroup = findViewById(R.id.toggleButton);
 
                 if (langLevel.contentEquals(getString(R.string.select_lang_level))
                         || sudokuLevel.contentEquals(getString(R.string.select_sudoku_level))
-                ) {
+                        || toggleGroup.getCheckedButtonId() == -1) {
                     Toast.makeText(
                             HomePage2.this,
                             getString(R.string.spinner_not_selected),

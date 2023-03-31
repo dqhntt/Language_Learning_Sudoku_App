@@ -105,7 +105,7 @@
             android:layout_width="@dimen/spinner_width"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/homepage_spinner_margin"
-            app:layout_constraintBottom_toTopOf="@id/bottom_guideline"
+            app:layout_constraintBottom_toTopOf="@id/toggleButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/constraintLayout">
@@ -136,6 +136,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView_Sudoku_Level" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/bottom_guideline"
@@ -185,6 +186,51 @@
             app:layout_constraintStart_toEndOf="@id/image_button_tutorial"
             app:layout_constraintTop_toTopOf="@id/image_button_tutorial"
             app:srcCompat="@drawable/ic_arrow_circle_right_outline_24dp" />
+
+        <TextView
+            android:id="@+id/textview_ComprehensionMode"
+            android:layout_width="347dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="Listening Comprehension Mode"
+            android:textAlignment="center"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="@dimen/homepage_text_size"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/toggleButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/toggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+            app:singleSelection="true">
+
+            <Button
+                android:id="@+id/yes_comprehensionMode"
+                style="?attr/materialIconButtonOutlinedStyle"
+                android:layout_width="116dp"
+                android:layout_height="match_parent"
+                android:text="Yes" />
+
+            <Button
+                android:id="@+id/no_comprehesnionMode"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="116dp"
+                android:layout_height="wrap_content"
+                android:text="No" />
+
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

@@ -49,11 +49,13 @@ public class GameViewModel extends AndroidViewModel {
     private final @NonNull Map<String, Integer> mOriginalWordValueMap = new HashMap<>();
     private final @NonNull Map<String, String> mButtonCellTextMap = new HashMap<>();
     private Game mCurrentGame = null;
+
+    private boolean comprehensionMode;
     private long mPauseStartTime, mTotalPausedTime;
 
     /**
      * @implNote Board dimension when default constructed is undefined. <p>
-     * @see #startNewGame(String, String, String, String, int, int, int)
+     * @see #(String, String, String, String, int, int, int)
      */
     public GameViewModel(Application app) {
         super(app);
@@ -96,7 +98,7 @@ public class GameViewModel extends AndroidViewModel {
                         boardSize, nativeLang, learningLang, learningLangLevel
                 ).toArray(new WordPair[0]);
         mWordPairs.setValue(wordPairs);
-        setTextToCells(newBoard);
+        setTextToCells(newBoard, comprehensionMode);
         mCurrentGame = new Game(newBoard.getId(), newBoard.getCells());
         mCurrentGame.setId(mGameRepo.insert(mCurrentGame));
         insertWordPairsToDatabase(mCurrentGame, wordPairs);
@@ -104,7 +106,7 @@ public class GameViewModel extends AndroidViewModel {
         mBoardUiState.setValue(newBoard);
     }
 
-    private void setTextToCells(@NonNull Board newBoard) {
+    private void setTextToCells(@NonNull Board newBoard, boolean comprehensionMode) {
         for (var row : newBoard.getCells()) {
             for (var cell : row) {
                 final var currCell = (CellImpl) cell;
@@ -113,6 +115,16 @@ public class GameViewModel extends AndroidViewModel {
                         ? ""
                         : mValueWordPairMap.get(currValue).getTranslatedWord()
                 );
+                if (comprehensionMode) {
+                    if (cell.isPrefilled()) {
+                        currCell.setText(String.valueOf(currCell.getValue()));
+
+                    } else {
+                        currCell.setText("");
+                    }
+
+                }
+
             }
         }
     }
@@ -177,7 +189,7 @@ public class GameViewModel extends AndroidViewModel {
         mCurrentGame.setStartTime(new Date());
         mTotalPausedTime = 0;
         final var resetBoard = ((BoardImpl) mBoardUiState.getValue()).resetBoard();
-        setTextToCells(resetBoard);
+        setTextToCells(resetBoard, comprehensionMode);
         mBoardUiState.setValue(resetBoard);
         mGameInProgress.setValue(true);
     }
@@ -332,5 +344,13 @@ public class GameViewModel extends AndroidViewModel {
         for (var pair : wordPairs) {
             mButtonCellTextMap.put(pair.getOriginalWord(), pair.getTranslatedWord());
         }
+    }
+
+    public void setComprehensionMode(boolean mode) {
+        comprehensionMode = mode;
+    }
+
+    public boolean getComprehensionMode(boolean mode) {
+        return comprehensionMode;
     }
 }

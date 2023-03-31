@@ -49,9 +49,8 @@ public class GameViewModel extends AndroidViewModel {
     private final @NonNull Map<String, Integer> mOriginalWordValueMap = new HashMap<>();
     private final @NonNull Map<String, String> mButtonCellTextMap = new HashMap<>();
     private Game mCurrentGame = null;
-
-    private boolean comprehensionMode;
     private long mPauseStartTime, mTotalPausedTime;
+    private boolean mComprehensionMode;
 
     /**
      * @implNote Board dimension when default constructed is undefined. <p>
@@ -104,6 +103,7 @@ public class GameViewModel extends AndroidViewModel {
         insertWordPairsToDatabase(mCurrentGame, wordPairs);
         mGameInProgress.setValue(true);
         mBoardUiState.setValue(newBoard);
+        mComprehensionMode = comprehensionMode;
     }
 
     private void setTextToCells(@NonNull Board newBoard, boolean comprehensionMode) {
@@ -189,7 +189,7 @@ public class GameViewModel extends AndroidViewModel {
         mCurrentGame.setStartTime(new Date());
         mTotalPausedTime = 0;
         final var resetBoard = ((BoardImpl) mBoardUiState.getValue()).resetBoard();
-        setTextToCells(resetBoard, comprehensionMode);
+        setTextToCells(resetBoard, mComprehensionMode);
         mBoardUiState.setValue(resetBoard);
         mGameInProgress.setValue(true);
     }
@@ -344,13 +344,5 @@ public class GameViewModel extends AndroidViewModel {
         for (var pair : wordPairs) {
             mButtonCellTextMap.put(pair.getOriginalWord(), pair.getTranslatedWord());
         }
-    }
-
-    public void setComprehensionMode(boolean mode) {
-        comprehensionMode = mode;
-    }
-
-    public boolean getComprehensionMode(boolean mode) {
-        return comprehensionMode;
     }
 }

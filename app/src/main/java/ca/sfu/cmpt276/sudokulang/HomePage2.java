@@ -11,7 +11,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.button.MaterialButtonToggleGroup;
 
@@ -26,17 +25,9 @@ import ca.sfu.cmpt276.sudokulang.databinding.ActivityHomePage2Binding;
 public class HomePage2 extends AppCompatActivity {
     private TranslationRepository mTranslationRepository;
     private BoardRepository mBoardRepository;
-
-    private GameViewModel gameViewModel;
-
     private Spinner mSudokuSpinner, mlanglevelSpinner;
     private ArrayAdapter<CharSequence> mSudokuAdapter, mlanglevelAdapter;
-
     private boolean comprehensionMode;
-
-
-    // Initialize the toggle button
-
 
     /**
      * Create a new intent with the required arguments for {@link HomePage2}.
@@ -49,7 +40,6 @@ public class HomePage2 extends AppCompatActivity {
         intent.putExtras(args.toBundle());
         return intent;
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,11 +95,8 @@ public class HomePage2 extends AppCompatActivity {
                 String langLevel = mlanglevelSpinner.getSelectedItem().toString();
                 String sudokuLevel = mSudokuSpinner.getSelectedItem().toString();
 
-                MaterialButtonToggleGroup toggleGroup = findViewById(R.id.toggleButton);
-
                 if (langLevel.contentEquals(getString(R.string.select_lang_level))
-                        || sudokuLevel.contentEquals(getString(R.string.select_sudoku_level))
-                        || toggleGroup.getCheckedButtonId() == -1) {
+                        || sudokuLevel.contentEquals(getString(R.string.select_sudoku_level))) {
                     Toast.makeText(
                             HomePage2.this,
                             getString(R.string.spinner_not_selected),
@@ -127,7 +114,7 @@ public class HomePage2 extends AppCompatActivity {
                                     extras.getBoardSize(),
                                     extras.getSubgridHeight(),
                                     extras.getSubgridWidth(),
-                                    comprehensionMode // TODO: Replace with a proper check and variable.
+                                    comprehensionMode
                             ).build()
                     ));
                 }
@@ -178,27 +165,14 @@ public class HomePage2 extends AppCompatActivity {
 
         //Onclick Listener returning true/false based on clicking yes/no for comprehension mode
 
-        gameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
-
-        MaterialButtonToggleGroup toggleButton = findViewById(R.id.toggleButton);
-
-
-        toggleButton.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
+        binding.comprehensionToggleGroup.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
             @Override
             public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
                 if (isChecked) {
-                    if (checkedId == R.id.yes_comprehensionMode) {
-                        comprehensionMode = true;
-                        gameViewModel.setComprehensionMode(true);
-                    } else if (checkedId == R.id.no_comprehesnionMode) {
-                        comprehensionMode = false;
-                        gameViewModel.setComprehensionMode(false);
-                    }
+                    comprehensionMode = (checkedId == R.id.yes_comprehension);
                 }
             }
-
         });
-
     }
 
     //-------------------------------------------------------------------------------------

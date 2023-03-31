@@ -25,7 +25,6 @@ import ca.sfu.cmpt276.sudokulang.databinding.ActivityGameBinding;
 import ca.sfu.cmpt276.sudokulang.ui.game.GameFragmentDirections;
 
 public class GameActivity extends AppCompatActivity {
-    private static final String SHOULD_CREATE_NEW_GAME = "should_create_new_game";
     private GameViewModel gameViewModel;
     private @Nullable AppBarConfiguration appBarConfiguration = null;
     private Snackbar snackbar;
@@ -43,7 +42,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private static boolean shouldCreateNewGame(@Nullable Bundle savedInstanceState) {
-        return savedInstanceState == null || savedInstanceState.getBoolean(SHOULD_CREATE_NEW_GAME);
+        return savedInstanceState == null;
     }
 
     @Override
@@ -148,7 +147,6 @@ public class GameActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         final int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_reset) {
             gameViewModel.resetGame();
             return true;
@@ -156,7 +154,6 @@ public class GameActivity extends AppCompatActivity {
             startNewGame();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -167,12 +164,5 @@ public class GameActivity extends AppCompatActivity {
         assert (appBarConfiguration != null);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        // Save game state to the instance state bundle.
-        outState.putBoolean(SHOULD_CREATE_NEW_GAME, false);
     }
 }

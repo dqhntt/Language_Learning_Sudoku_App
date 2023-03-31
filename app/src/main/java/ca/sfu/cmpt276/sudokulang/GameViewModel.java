@@ -54,7 +54,7 @@ public class GameViewModel extends AndroidViewModel {
 
     /**
      * @implNote Board dimension when default constructed is undefined. <p>
-     * @see #(String, String, String, String, int, int, int)
+     * @see #startNewGame(String, String, String, String, int, int, int, boolean)
      */
     public GameViewModel(Application app) {
         super(app);
@@ -111,31 +111,23 @@ public class GameViewModel extends AndroidViewModel {
             for (var cell : row) {
                 final var currCell = (CellImpl) cell;
                 final var currValue = currCell.getValue();
-                currCell.setText(currValue == 0
-                        ? ""
-                        : mValueWordPairMap.get(currValue).getTranslatedWord()
-                );
-                if (comprehensionMode) {
-                    if (cell.isPrefilled()) {
-                        currCell.setText(String.valueOf(currCell.getValue()));
-
-                    } else {
-                        currCell.setText("");
-                    }
-
+                if (cell.isPrefilled()) {
+                    currCell.setText(comprehensionMode
+                            ? String.valueOf(currValue)
+                            : mValueWordPairMap.get(currValue).getTranslatedWord());
+                } else {
+                    currCell.setText("");
                 }
-
             }
         }
     }
 
     private void insertWordPairsToDatabase(@NonNull Game game, @NonNull WordPair... wordPairs) {
-        databaseWriteExecutor.execute(() -> {
-            mGameRepo.insert(Arrays.stream(wordPairs)
-                    .map(pair -> new GameTranslation(game.getId(), pair.getTranslationId()))
-                    .collect(Collectors.toList())
-            );
-        });
+        databaseWriteExecutor.execute(() ->
+                mGameRepo.insert(Arrays.stream(wordPairs)
+                        .map(pair -> new GameTranslation(game.getId(), pair.getTranslationId()))
+                        .collect(Collectors.toList())
+                ));
     }
 
     private void updateGameInDatabase(@Nullable Game game, @NonNull Board board) {

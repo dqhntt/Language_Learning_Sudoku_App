@@ -47,7 +47,6 @@ public class GameViewModel extends AndroidViewModel {
     private final @NonNull MutableLiveData<WordPair[]> mWordPairs;
     private final @NonNull Map<Integer, WordPair> mValueWordPairMap = new HashMap<>();
     private final @NonNull Map<String, Integer> mOriginalWordValueMap = new HashMap<>();
-    private final @NonNull Map<String, String> mButtonCellTextMap = new HashMap<>();
     private Game mCurrentGame = null;
     private long mPauseStartTime, mTotalPausedTime;
     private boolean mComprehensionMode;
@@ -263,23 +262,17 @@ public class GameViewModel extends AndroidViewModel {
     private boolean isValidValueForCellInRowAndColumn(@NonNull String buttonText, int rowIndex, int colIndex) {
         final int boardSize = mBoardUiState.getValue().getBoardSize();
         final var cells = mBoardUiState.getValue().getCells();
+        // Check duplicates in each row.
         for (int i = 0; i < boardSize; i++) {
-            if (i == rowIndex) {
-                continue;
-            }
-            final var cellText = cells[i][colIndex].getText();
-            if (cellText.equals(buttonText)
-                    || cellText.equals(mButtonCellTextMap.get(buttonText))) {
+            if (i != rowIndex
+                    && cells[i][colIndex].getValue() == mOriginalWordValueMap.get(buttonText)) {
                 return false;
             }
         }
+        // Check duplicates in each column.
         for (int j = 0; j < boardSize; j++) {
-            if (j == colIndex) {
-                continue;
-            }
-            final var cellText = cells[rowIndex][j].getText();
-            if (cellText.equals(buttonText)
-                    || cellText.equals(mButtonCellTextMap.get(buttonText))) {
+            if (j != colIndex
+                    && cells[rowIndex][j].getValue() == mOriginalWordValueMap.get(buttonText)) {
                 return false;
             }
         }
@@ -298,9 +291,8 @@ public class GameViewModel extends AndroidViewModel {
                 if (i == rowIndex && j == colIndex) {
                     continue;
                 }
-                final var cellText = mBoardUiState.getValue().getCells()[i][j].getText();
-                if (cellText.equals(buttonText)
-                        || cellText.equals(mButtonCellTextMap.get(buttonText))) {
+                final int cellValue = mBoardUiState.getValue().getCells()[i][j].getValue();
+                if (cellValue == mOriginalWordValueMap.get(buttonText)) {
                     return false;
                 }
             }
@@ -331,10 +323,6 @@ public class GameViewModel extends AndroidViewModel {
             final var currVal = values.get(i);
             mValueWordPairMap.put(currVal, currPair);
             mOriginalWordValueMap.put(currPair.getOriginalWord(), currVal);
-        }
-        mButtonCellTextMap.clear();
-        for (var pair : wordPairs) {
-            mButtonCellTextMap.put(pair.getOriginalWord(), pair.getTranslatedWord());
         }
     }
 }

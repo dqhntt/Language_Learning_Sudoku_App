@@ -58,7 +58,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui:$nav_version"
     implementation "androidx.room:room-guava:$room_version"
     implementation "androidx.room:room-runtime:$room_version"
-    implementation "com.google.android.material:material:1.9.0-beta01"
+    implementation "com.google.android.material:material:1.10.0-alpha01"
 
     // Annotation processors.
     annotationProcessor "androidx.room:room-compiler:$room_version"

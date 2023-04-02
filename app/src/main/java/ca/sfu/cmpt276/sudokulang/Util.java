@@ -11,4 +11,8 @@ public class Util {
         long seconds = (timeInMs / 1000) % 60;
         return String.format(Locale.getDefault(), text, minutes, seconds);
     }
+
+    public static boolean isUnsignedInteger(@NonNull CharSequence string) {
+        return string.length() != 0 && string.chars().allMatch(Character::isDigit);
+    }
 }

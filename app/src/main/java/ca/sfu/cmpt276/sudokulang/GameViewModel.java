@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -143,7 +144,7 @@ public class GameViewModel extends AndroidViewModel {
 
     @NonNull
     public LiveData<Boolean> isGameInProgress() {
-        return mGameInProgress;
+        return Transformations.distinctUntilChanged(mGameInProgress);
     }
 
     public void endGame() {

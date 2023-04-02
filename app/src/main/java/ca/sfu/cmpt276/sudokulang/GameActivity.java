@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +25,8 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.Locale;
+
 import ca.sfu.cmpt276.sudokulang.databinding.ActivityGameBinding;
 import ca.sfu.cmpt276.sudokulang.ui.game.GameFragmentDirections;
 
@@ -29,6 +35,20 @@ public class GameActivity extends AppCompatActivity {
     private GameViewModel gameViewModel;
     private @Nullable AppBarConfiguration appBarConfiguration = null;
     private Snackbar snackbar;
+    private @Nullable TextToSpeech tts = null;
+
+    // See: https://android-developers.googleblog.com/2009/09/introduction-to-text-to-speech-in.html
+    private final ActivityResultCallback<ActivityResult> mActivityResultCallback = result -> {
+        if (result.getResultCode() == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+            // success, create the TTS instance
+            tts = new TextToSpeech(this, getTtsOnInitListener(Locale.US));
+        } else {
+            // missing data, install it
+            Intent installIntent = new Intent();
+            installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+            startActivity(installIntent);
+        }
+    };
 
     /**
      * Create a new intent with the required arguments for {@link GameActivity}.
@@ -99,6 +119,13 @@ public class GameActivity extends AppCompatActivity {
             });
             binding.bottomAppBar.setOnMenuItemClickListener(getOnMenuItemClickListener(navController));
         }
+
+        // Prepare text to speech engine.
+        final Intent checkIntent = new Intent();
+        checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(), mActivityResultCallback
+        ).launch(checkIntent);
     }
 
     public void startNewGame() {
@@ -175,5 +202,43 @@ public class GameActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         // Save game state to the instance state bundle.
         outState.putBoolean(SHOULD_CREATE_NEW_GAME, false);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }
+        super.onDestroy();
+    }
+
+    // Cite: https://stackoverflow.com/a/21354040
+    @NonNull
+    public TextToSpeech getTts(@NonNull Locale locale) {
+        if (tts == null) {
+            tts = new TextToSpeech(this, getTtsOnInitListener(locale));
+        }
+        final var voice = tts.getVoice();
+        final var currentLocale = voice == null ? null : voice.getLocale();
+        if (!locale.equals(currentLocale)) {
+            tts.setLanguage(locale);
+        }
+        return tts;
+    }
+
+    @NonNull
+    private TextToSpeech.OnInitListener getTtsOnInitListener(@NonNull Locale locale) {
+        return status -> {
+            if (status == TextToSpeech.SUCCESS) {
+                final int result = tts.setLanguage(locale);
+                if (result == TextToSpeech.LANG_MISSING_DATA ||
+                        result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    Log.e(getClass().getTypeName(), "This Language is not supported");
+                }
+            } else {
+                Log.e(getClass().getTypeName(), "Initialization Failed!");
+            }
+        };
     }
 }

@@ -1,6 +1,7 @@
 package ca.sfu.cmpt276.sudokulang.ui.game;
 
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 import ca.sfu.cmpt276.sudokulang.GameActivity;
 import ca.sfu.cmpt276.sudokulang.GameViewModel;
@@ -28,6 +30,7 @@ public class GameFragment extends Fragment {
     private FragmentGameBinding mBinding;
     private GameViewModel mGameViewModel;
     private Snackbar mGameEndsSnackbar;
+    private TextToSpeech mTts;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -59,6 +62,9 @@ public class GameFragment extends Fragment {
                     ((GameActivity) requireActivity()).startNewGame();
                     mGameEndsSnackbar.dismiss();
                 });
+
+        // Share text to speech instance with parent activity.
+        mTts = ((GameActivity) requireActivity()).getTts(Locale.US); // TODO: Get locale from VM.
     }
 
     private void endGame() {
@@ -74,7 +80,12 @@ public class GameFragment extends Fragment {
         mGameViewModel.getBoardUiState().observe(getViewLifecycleOwner(), boardUiState -> {
             mBinding.gameBoard.updateState(boardUiState);
             final var selectedCell = boardUiState.getSelectedCell();
-            mBinding.quickCellView.setText(selectedCell == null ? "" : selectedCell.getText());
+            final var selectedCellText = selectedCell == null ? "" : selectedCell.getText();
+            mBinding.quickCellView.setText(selectedCellText);
+
+            // TODO
+            mTts.speak(selectedCellText, TextToSpeech.QUEUE_FLUSH, null, "");
+
             if (boardUiState.isSolvedBoard() && mGameViewModel.isGameInProgress().getValue()) {
                 endGame();
             }
@@ -95,6 +106,9 @@ public class GameFragment extends Fragment {
                         final String choice = (String) button.getText();
                         mBinding.quickCellView.setText(choice);
                         mGameViewModel.setSelectedCellText(choice);
+
+                        // TODO
+                        mTts.speak(choice, TextToSpeech.QUEUE_FLUSH, null, "");
                     });
                 }
         );

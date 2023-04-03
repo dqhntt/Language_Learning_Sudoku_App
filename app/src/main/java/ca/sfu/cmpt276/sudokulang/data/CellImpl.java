@@ -57,6 +57,7 @@ public class CellImpl implements Cell {
 
     @Override
     public boolean isPrefilled() {
+        assert !mIsPrefilled || !isEmpty(); // Empty cell can't be prefilled.
         return mIsPrefilled;
     }
 
@@ -71,6 +72,7 @@ public class CellImpl implements Cell {
 
     @Override
     public boolean isErrorCell() {
+        assert !mIsErrorCell || !isEmpty(); // Empty cell can't be error cell.
         return mIsErrorCell;
     }
 
@@ -85,7 +87,7 @@ public class CellImpl implements Cell {
 
     @Override
     public boolean isEmpty() {
-        assert mValue != 0 || mText.isBlank();
+        assert mValue != 0 || mText.isBlank(); // Can't have empty text if value is 0.
         return mValue == 0;
     }
 

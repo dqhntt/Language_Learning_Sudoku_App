@@ -15,7 +15,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Arrays;
-import java.util.Locale;
 
 import ca.sfu.cmpt276.sudokulang.GameActivity;
 import ca.sfu.cmpt276.sudokulang.GameViewModel;
@@ -23,6 +22,7 @@ import ca.sfu.cmpt276.sudokulang.R;
 import ca.sfu.cmpt276.sudokulang.Util;
 import ca.sfu.cmpt276.sudokulang.data.WordPair;
 import ca.sfu.cmpt276.sudokulang.databinding.FragmentGameBinding;
+import ca.sfu.cmpt276.sudokulang.ui.UiUtil;
 import ca.sfu.cmpt276.sudokulang.ui.game.board.CellUi;
 
 // See: https://developer.android.com/topic/libraries/architecture/viewmodel
@@ -30,7 +30,7 @@ public class GameFragment extends Fragment {
     private FragmentGameBinding mBinding;
     private GameViewModel mGameViewModel;
     private Snackbar mGameEndsSnackbar;
-    private TextToSpeech mTts;
+    private TextToSpeech mTtsLearningLang, mTtsNativeLang;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -63,8 +63,9 @@ public class GameFragment extends Fragment {
                     mGameEndsSnackbar.dismiss();
                 });
 
-        // Share text to speech instance with parent activity.
-        mTts = ((GameActivity) requireActivity()).getTts(Locale.US); // TODO: Get locale from VM.
+        // Set up text to speech instances.
+        mTtsLearningLang = UiUtil.makeTts(getContext(), mGameViewModel.getLearningLangLocale());
+        mTtsNativeLang = UiUtil.makeTts(getContext(), mGameViewModel.getNativeLangLocale());
     }
 
     private void endGame() {
@@ -77,15 +78,18 @@ public class GameFragment extends Fragment {
 
     private void setupBoard() {
         mBinding.gameBoard.createBoard(mGameViewModel.getBoardUiState().getValue());
+        final var valueWordPairMap = mGameViewModel.getValueWordPairMap();
         mGameViewModel.getBoardUiState().observe(getViewLifecycleOwner(), boardUiState -> {
             mBinding.gameBoard.updateState(boardUiState);
             final var selectedCell = boardUiState.getSelectedCell();
             final var selectedCellText = selectedCell == null ? "" : selectedCell.getText();
             mBinding.quickCellView.setText(selectedCellText);
-
-            // TODO
-            mTts.speak(selectedCellText, TextToSpeech.QUEUE_FLUSH, null, "");
-
+            if (selectedCell != null) {
+                mTtsLearningLang.speak(mGameViewModel.isComprehensionMode()
+                                ? valueWordPairMap.get(selectedCell.getValue()).getTranslatedWord()
+                                : selectedCellText
+                        , TextToSpeech.QUEUE_FLUSH, null, "");
+            }
             if (boardUiState.isSolvedBoard() && mGameViewModel.isGameInProgress().getValue()) {
                 endGame();
             }
@@ -106,9 +110,7 @@ public class GameFragment extends Fragment {
                         final String choice = (String) button.getText();
                         mBinding.quickCellView.setText(choice);
                         mGameViewModel.setSelectedCellText(choice);
-
-                        // TODO
-                        mTts.speak(choice, TextToSpeech.QUEUE_FLUSH, null, "");
+                        mTtsNativeLang.speak(choice, TextToSpeech.QUEUE_FLUSH, null, "");
                     });
                 }
         );
@@ -127,5 +129,18 @@ public class GameFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         mBinding = null;
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mTtsLearningLang != null) {
+            mTtsLearningLang.stop();
+            mTtsLearningLang.shutdown();
+        }
+        if (mTtsNativeLang != null) {
+            mTtsNativeLang.stop();
+            mTtsNativeLang.shutdown();
+        }
+        super.onDestroy();
     }
 }

@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -53,7 +54,7 @@ public class GameViewModel extends AndroidViewModel {
     private boolean mComprehensionMode;
 
     /**
-     * @implNote Board dimension when default constructed is undefined. <p>
+     * @implNote Board dimension when default constructed is undefined.
      * @see #startNewGame(String, String, String, String, int, int, int, boolean)
      */
     public GameViewModel(Application app) {
@@ -325,5 +326,22 @@ public class GameViewModel extends AndroidViewModel {
             mValueWordPairMap.put(currVal, currPair);
             mOriginalWordValueMap.put(currPair.getOriginalWord(), currVal);
         }
+    }
+
+    public boolean isComprehensionMode() {
+        return mComprehensionMode;
+    }
+
+    @NonNull
+    public Map<Integer, WordPair> getValueWordPairMap() {
+        return Collections.unmodifiableMap(mValueWordPairMap);
+    }
+
+    public Locale getLearningLangLocale() {
+        return new Locale("fr"); // TODO: Match game settings.
+    }
+
+    public Locale getNativeLangLocale() {
+        return new Locale("en"); // TODO: Match game settings.
     }
 }

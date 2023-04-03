@@ -1,6 +1,6 @@
 package ca.sfu.cmpt276.sudokulang.data;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ class BoardImplTest {
         solved[0][0] = new CellImpl().setValue(1);
         solved[0][1] = new CellImpl().setValue(4);
         solved[1][0] = new CellImpl().setValue(3);
-        solved[1][1] = new CellImpl().setValue(2);;
+        solved[1][1] = new CellImpl().setValue(2);
 
         //create
         board = new BoardImpl(0,"d",2,2,2,prefilled,solved);
@@ -63,10 +63,10 @@ class BoardImplTest {
 
     @Test// move to cellImpl
     void getSelectedRowIndex() {
-        //Cell[][] currentCells = board.getCells(); //set currentCells as prefilled cell
-
-        //CellImpl currentCell = (CellImpl) currentCells[1][0];//@ point [0][1]
-        board.setSelectedIndexes(1,0);
+//        Cell[][] currentCells = board.getCells(); //set currentCells as prefilled cell
+//
+//        CellImpl currentCell = (CellImpl) currentCells[1][0];//@ point [0][1]
+        board.setSelectedIndexes(1, 0);
         assertEquals(1, board.getSelectedRowIndex());
     }
 
@@ -78,7 +78,10 @@ class BoardImplTest {
         Cell[][] currentCells = board.getCells(); //set currentCells as prefilled cell
 
         CellImpl currentCell = (CellImpl) currentCells[0][1];
-        //assertEquals(1, );//?
+
+        board.setSelectedIndexes(0, 0);
+        assertEquals(1, board.getSelectedColIndex());
+
     }
 
     @Test
@@ -90,20 +93,27 @@ class BoardImplTest {
 
     @Test
     void getSelectedCell() {
-        Cell[][] currentCells = board.getCells(); //set currentCells as prefilled cell
+        Cell[][] cells = board.getCells();
 
-        CellImpl currentCell = (CellImpl) currentCells[1][0];//@ point [0][1]
-        //assertEquals(1, currentCell[1][0].getSelectedCell());
+        // select a cell at row 1, column 0
+        board.setSelectedIndexes(1, 0);
+
+        // assert that the selected cell is the same as the cell at row 1, column 0
+        assertEquals(cells[1][0], board.getSelectedCell());
+
     }
 
     @Test
     void getCells() {
-
+        Cell[][] cells = board.getCells();
+        assertEquals(cells, board.getCells());
     }
 
     @Test
     void isSolvedBoard() {
-
+        boolean expected = false; // or true, depending on what you expect the return value to be
+        boolean actual = board.isSolvedBoard();
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -118,11 +128,12 @@ class BoardImplTest {
 
     @Test
     void getPrefilledValues() {
-        //assertEquals(2, board.getPrefilledValues());
+        assertEquals(2, board.getPrefilledValues());
+
     }
 
     @Test
     void getSolvedValues() {
-        //assertEquals(2, board.getSubgridHeight());
+        assertEquals(2, board.getSolvedValues());
     }
 }

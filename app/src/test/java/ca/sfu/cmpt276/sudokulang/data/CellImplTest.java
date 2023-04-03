@@ -30,7 +30,8 @@ class CellImplTest {
     @Test
     void setText() {
         CellImpl cell = new CellImpl();
-        //?
+        cell.setText("Test");
+        assertEquals("Test", cell.getText());
     }
 
     @Test
@@ -41,16 +42,22 @@ class CellImplTest {
 
     @Test
     void setPrefilled() {
+        CellImpl cell = new CellImpl();
+        cell.setPrefilled(true);
+        assertEquals(true, cell.isPrefilled());
     }
 
     @Test
     void isErrorCell() {
         CellImpl cell = new CellImpl();
-        assertEquals(false, cell.isErrorCell());
+        assertEquals(false, cell.isErrorCell());//?
     }
 
     @Test
     void setErrorCell() {
+        CellImpl cell = new CellImpl();
+        cell.setErrorCell(true);
+        assertEquals(true, cell.isErrorCell());//?
     }
 
     @Test

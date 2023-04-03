@@ -63,10 +63,11 @@ class BoardImplTest {
 
     @Test// move to cellImpl
     void getSelectedRowIndex() {
-        Cell[][] currentCells = board.getCells(); //set currentCells as prefilled cell
+        //Cell[][] currentCells = board.getCells(); //set currentCells as prefilled cell
 
-        CellImpl currentCell = (CellImpl) currentCells[1][0];//@ point [0][1]
-        //assertEquals(1, currentCells.getSelectedRowIndex());
+        //CellImpl currentCell = (CellImpl) currentCells[1][0];//@ point [0][1]
+        board.setSelectedIndexes(1,0);
+        assertEquals(1, board.getSelectedRowIndex());
     }
 
 

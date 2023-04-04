@@ -85,10 +85,14 @@ public class GameFragment extends Fragment {
             final var selectedCellText = selectedCell == null ? "" : selectedCell.getText();
             mBinding.quickCellView.setText(selectedCellText);
             if (selectedCell != null) {
-                mTtsLearningLang.speak(mGameViewModel.isComprehensionMode()
-                                ? valueWordPairMap.get(selectedCell.getValue()).getTranslatedWord()
-                                : selectedCellText
-                        , TextToSpeech.QUEUE_FLUSH, null, "");
+                if (selectedCell.isPrefilled()) {
+                    mTtsLearningLang.speak(mGameViewModel.isComprehensionMode()
+                                    ? valueWordPairMap.get(selectedCell.getValue()).getTranslatedWord()
+                                    : selectedCellText
+                            , TextToSpeech.QUEUE_FLUSH, null, "");
+                } else if (!mTtsNativeLang.isSpeaking()) {
+                    mTtsNativeLang.speak(selectedCellText, TextToSpeech.QUEUE_FLUSH, null, "");
+                }
             }
             if (boardUiState.isSolvedBoard() && mGameViewModel.isGameInProgress().getValue()) {
                 endGame();

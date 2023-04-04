@@ -30,17 +30,17 @@ public class Language {
         mCode = code;
     }
 
-    int getId() {
+    public int getId() {
         return mId;
     }
 
     @NonNull
-    String getName() {
+    public String getName() {
         return mName;
     }
 
     @NonNull
-    String getCode() {
+    public String getCode() {
         return mCode;
     }
 }

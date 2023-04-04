@@ -52,19 +52,19 @@ public class Translation {
         mIsFavourite = isFavourite;
     }
 
-    int getId() {
+    public int getId() {
         return mId;
     }
 
-    int getOriginalWordId() {
+    public int getOriginalWordId() {
         return mOriginalWordId;
     }
 
-    int getTranslatedWordId() {
+    public int getTranslatedWordId() {
         return mTranslatedWordId;
     }
 
-    boolean isFavourite() {
+    public boolean isFavourite() {
         return mIsFavourite;
     }
 }

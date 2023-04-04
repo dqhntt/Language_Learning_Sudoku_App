@@ -6,6 +6,8 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.util.Locale;
+
 @Entity(tableName = "language",
         indices = {
                 @Index(value = {"name", "code"}, unique = true)
@@ -22,9 +24,9 @@ public class Language {
 
     @NonNull
     @ColumnInfo(name = "code", collate = ColumnInfo.NOCASE)
-    private final String mCode; // ISO 639.
+    private final Locale mCode; // ISO 639.
 
-    public Language(int id, @NonNull String name, @NonNull String code) {
+    public Language(int id, @NonNull String name, @NonNull Locale code) {
         mId = id;
         mName = name;
         mCode = code;
@@ -40,7 +42,7 @@ public class Language {
     }
 
     @NonNull
-    public String getCode() {
+    public Locale getCode() {
         return mCode;
     }
 }

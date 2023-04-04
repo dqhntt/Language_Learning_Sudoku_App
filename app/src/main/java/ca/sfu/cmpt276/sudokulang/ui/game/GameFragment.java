@@ -64,8 +64,8 @@ public class GameFragment extends Fragment {
                 });
 
         // Set up text to speech instances.
-        mTtsLearningLang = UiUtil.makeTts(getContext(), mGameViewModel.getLearningLangLocale());
-        mTtsNativeLang = UiUtil.makeTts(getContext(), mGameViewModel.getNativeLangLocale());
+        mTtsLearningLang = UiUtil.makeTts(getContext(), mGameViewModel.getLearningLang().getCode());
+        mTtsNativeLang = UiUtil.makeTts(getContext(), mGameViewModel.getNativeLang().getCode());
     }
 
     private void endGame() {

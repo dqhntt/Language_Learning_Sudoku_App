@@ -6,6 +6,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -17,7 +18,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -27,6 +27,7 @@ import ca.sfu.cmpt276.sudokulang.data.Cell;
 import ca.sfu.cmpt276.sudokulang.data.CellImpl;
 import ca.sfu.cmpt276.sudokulang.data.Game;
 import ca.sfu.cmpt276.sudokulang.data.GameTranslation;
+import ca.sfu.cmpt276.sudokulang.data.Language;
 import ca.sfu.cmpt276.sudokulang.data.WordPair;
 import ca.sfu.cmpt276.sudokulang.data.source.BoardRepository;
 import ca.sfu.cmpt276.sudokulang.data.source.BoardRepositoryImpl;
@@ -34,6 +35,8 @@ import ca.sfu.cmpt276.sudokulang.data.source.GameRepository;
 import ca.sfu.cmpt276.sudokulang.data.source.GameRepositoryImpl;
 import ca.sfu.cmpt276.sudokulang.data.source.TranslationRepository;
 import ca.sfu.cmpt276.sudokulang.data.source.TranslationRepositoryImpl;
+import ca.sfu.cmpt276.sudokulang.data.source.WordRepository;
+import ca.sfu.cmpt276.sudokulang.data.source.WordRepositoryImpl;
 
 /**
  * State processor for UI elements in GameFragment.
@@ -44,6 +47,7 @@ public class GameViewModel extends AndroidViewModel {
     private final BoardRepository mBoardRepo;
     private final GameRepository mGameRepo;
     private final TranslationRepository mTranslationRepo;
+    private final WordRepository mWordRepo;
     private final @NonNull MutableLiveData<Board> mBoardUiState;
     private final @NonNull MutableLiveData<Boolean> mGameInProgress;
     private final @NonNull MutableLiveData<WordPair[]> mWordPairs;
@@ -52,6 +56,7 @@ public class GameViewModel extends AndroidViewModel {
     private Game mCurrentGame = null;
     private long mPauseStartTime, mTotalPausedTime;
     private boolean mComprehensionMode;
+    private Pair<Language, Language> mNativeLearningLangPair;
 
     /**
      * @implNote Board dimension when default constructed is undefined.
@@ -59,9 +64,11 @@ public class GameViewModel extends AndroidViewModel {
      */
     public GameViewModel(Application app) {
         super(app);
-        mBoardRepo = BoardRepositoryImpl.getInstance(app.getApplicationContext());
-        mGameRepo = GameRepositoryImpl.getInstance(app.getApplicationContext());
-        mTranslationRepo = TranslationRepositoryImpl.getInstance(app.getApplicationContext());
+        final var context = app.getApplicationContext();
+        mBoardRepo = BoardRepositoryImpl.getInstance(context);
+        mGameRepo = GameRepositoryImpl.getInstance(context);
+        mTranslationRepo = TranslationRepositoryImpl.getInstance(context);
+        mWordRepo = WordRepositoryImpl.getInstance(context);
         mBoardUiState = new MutableLiveData<>();
         mGameInProgress = new MutableLiveData<>();
         mWordPairs = new MutableLiveData<>();
@@ -105,6 +112,9 @@ public class GameViewModel extends AndroidViewModel {
         mGameInProgress.setValue(true);
         mBoardUiState.setValue(newBoard);
         mComprehensionMode = comprehensionMode;
+        mNativeLearningLangPair =
+                new Pair<>(mWordRepo.getLanguageByName(nativeLang),
+                        mWordRepo.getLanguageByName(learningLang));
     }
 
     private void setTextToCells(@NonNull Board newBoard, boolean comprehensionMode) {
@@ -337,11 +347,11 @@ public class GameViewModel extends AndroidViewModel {
         return Collections.unmodifiableMap(mValueWordPairMap);
     }
 
-    public Locale getLearningLangLocale() {
-        return new Locale("fr"); // TODO: Match game settings.
+    public Language getLearningLang() {
+        return mNativeLearningLangPair.second;
     }
 
-    public Locale getNativeLangLocale() {
-        return new Locale("en"); // TODO: Match game settings.
+    public Language getNativeLang() {
+        return mNativeLearningLangPair.first;
     }
 }

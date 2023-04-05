@@ -351,6 +351,7 @@ of [CEFR: Common European Framework of Reference for Languages](https://www.coe.
 **Examples:**
 - In this mode, numbers will appear in the prefilled cells. 
 - When I press the number, the corresponding word in the language that I am learning will be read out to me.
+- When I press a word from the wordbank, the word will be read out to me in my native language. 
 - I can then test my listening comprehension by selecting from the menu the correct English (or my native languge) translation of the word.
 
 # VISUAL STATES OF THE GAME/APPLICATION

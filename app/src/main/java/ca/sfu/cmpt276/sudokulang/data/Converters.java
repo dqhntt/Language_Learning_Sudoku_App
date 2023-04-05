@@ -29,7 +29,7 @@ public class Converters {
 
     @TypeConverter
     public static CellImpl[][] cellsFromString(String value) {
-        if (value == null) {
+        if (value == null || value.isBlank()) {
             return null;
         }
         final var cellVals = value.split(",");

@@ -1,4 +1,4 @@
-package ca.sfu.cmpt276.sudokulang.ui.game.board;
+package ca.sfu.cmpt276.sudokulang;
 
 public class TestData {
     static final String[] STRINGS = {

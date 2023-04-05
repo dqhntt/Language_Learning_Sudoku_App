@@ -1,6 +1,7 @@
 package ca.sfu.cmpt276.sudokulang.data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,9 +10,9 @@ class BoardImplTest {
     //generate board
     BoardImpl board;
 
-    @BeforeEach // before running those test
-
-    void setup(){
+    @BeforeEach
+        // before running those test
+    void setup() {
         CellImpl[][] prefilled = new CellImpl[2][2]; //create a 2-by-2 board
 
         //set values, 0 means empty, 1
@@ -29,7 +30,12 @@ class BoardImplTest {
         solved[1][1] = new CellImpl().setValue(2);
 
         //create
-        board = new BoardImpl(0,"d",2,2,2,prefilled,solved);
+        board = new BoardImpl(0, "d", 2, 2, 2, prefilled, solved);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            board = new BoardImpl(0, "d", -2, -2, -2, prefilled, solved);
+
+        });
     }
 
     @Test
@@ -61,25 +67,18 @@ class BoardImplTest {
         assertEquals(2, board.getSubgridWidth());
     }
 
-    @Test// move to cellImpl
+    @Test
+// move to cellImpl
     void getSelectedRowIndex() {
-//        Cell[][] currentCells = board.getCells(); //set currentCells as prefilled cell
-//
-//        CellImpl currentCell = (CellImpl) currentCells[1][0];//@ point [0][1]
+
         board.setSelectedIndexes(1, 0);
         assertEquals(1, board.getSelectedRowIndex());
     }
 
 
-
-
     @Test
     void getSelectedColIndex() {
-        Cell[][] currentCells = board.getCells(); //set currentCells as prefilled cell
-
-        CellImpl currentCell = (CellImpl) currentCells[0][1];
-
-        board.setSelectedIndexes(0, 0);
+        board.setSelectedIndexes(0, 1);
         assertEquals(1, board.getSelectedColIndex());
 
     }
@@ -89,16 +88,15 @@ class BoardImplTest {
         BoardImpl board1 = new BoardImpl();
         board1.setSelectedIndexes(-1, -1);
         assertEquals(null, board1.getSelectedCell());
+        assertThrows(IllegalArgumentException.class, () -> {
+            board1.setSelectedIndexes(6, -10);
+        });
     }
 
     @Test
     void getSelectedCell() {
         Cell[][] cells = board.getCells();
-
-        // select a cell at row 1, column 0
         board.setSelectedIndexes(1, 0);
-
-        // assert that the selected cell is the same as the cell at row 1, column 0
         assertEquals(cells[1][0], board.getSelectedCell());
 
     }
@@ -116,6 +114,7 @@ class BoardImplTest {
         assertEquals(expected, actual);
     }
 
+
     @Test
     void getId() {
         assertEquals(0, board.getId());
@@ -128,12 +127,24 @@ class BoardImplTest {
 
     @Test
     void getPrefilledValues() {
-        assertEquals(2, board.getPrefilledValues());
+        int[][] expectedValues = {{1, 0}, {0, 2}};
+        Cell[][] actualValues = board.getPrefilledValues();
+        assertArrayEquals(expectedValues, actualValues);
 
     }
 
     @Test
     void getSolvedValues() {
-        assertEquals(2, board.getSolvedValues());
+        int[][] expectedValues = {{1, 4}, {3, 2}};
+        Cell[][] actualValues = board.getSolvedValues();
+        assertArrayEquals(expectedValues, actualValues);
+    }
+
+    private void assertArrayEquals(int[][] expectedValues, Cell[][] actualValues) {
+        for (int i = 0; i < actualValues.length; i++) {
+            for (int j = 0; j < actualValues[0].length; j++) {
+                assertEquals(expectedValues[i][j], actualValues[i][j].getValue());
+            }
+        }
     }
 }

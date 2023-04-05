@@ -1,6 +1,7 @@
 package ca.sfu.cmpt276.sudokulang.ui.game;
 
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import ca.sfu.cmpt276.sudokulang.R;
 import ca.sfu.cmpt276.sudokulang.Util;
 import ca.sfu.cmpt276.sudokulang.data.WordPair;
 import ca.sfu.cmpt276.sudokulang.databinding.FragmentGameBinding;
+import ca.sfu.cmpt276.sudokulang.ui.UiUtil;
 import ca.sfu.cmpt276.sudokulang.ui.game.board.CellUi;
 
 // See: https://developer.android.com/topic/libraries/architecture/viewmodel
@@ -28,6 +30,7 @@ public class GameFragment extends Fragment {
     private FragmentGameBinding mBinding;
     private GameViewModel mGameViewModel;
     private Snackbar mGameEndsSnackbar;
+    private TextToSpeech mTtsLearningLang, mTtsNativeLang;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -59,6 +62,10 @@ public class GameFragment extends Fragment {
                     ((GameActivity) requireActivity()).startNewGame();
                     mGameEndsSnackbar.dismiss();
                 });
+
+        // Set up text to speech instances.
+        mTtsLearningLang = UiUtil.makeTts(getContext(), mGameViewModel.getLearningLang().getCode());
+        mTtsNativeLang = UiUtil.makeTts(getContext(), mGameViewModel.getNativeLang().getCode());
     }
 
     private void endGame() {
@@ -71,10 +78,22 @@ public class GameFragment extends Fragment {
 
     private void setupBoard() {
         mBinding.gameBoard.createBoard(mGameViewModel.getBoardUiState().getValue());
+        final var valueWordPairMap = mGameViewModel.getValueWordPairMap();
         mGameViewModel.getBoardUiState().observe(getViewLifecycleOwner(), boardUiState -> {
             mBinding.gameBoard.updateState(boardUiState);
             final var selectedCell = boardUiState.getSelectedCell();
-            mBinding.quickCellView.setText(selectedCell == null ? "" : selectedCell.getText());
+            final var selectedCellText = selectedCell == null ? "" : selectedCell.getText();
+            mBinding.quickCellView.setText(selectedCellText);
+            if (selectedCell != null) {
+                if (selectedCell.isPrefilled()) {
+                    mTtsLearningLang.speak(mGameViewModel.isComprehensionMode()
+                                    ? valueWordPairMap.get(selectedCell.getValue()).getTranslatedWord()
+                                    : selectedCellText
+                            , TextToSpeech.QUEUE_FLUSH, null, "");
+                } else if (!mTtsNativeLang.isSpeaking()) {
+                    mTtsNativeLang.speak(selectedCellText, TextToSpeech.QUEUE_FLUSH, null, "");
+                }
+            }
             if (boardUiState.isSolvedBoard() && mGameViewModel.isGameInProgress().getValue()) {
                 endGame();
             }
@@ -95,6 +114,7 @@ public class GameFragment extends Fragment {
                         final String choice = (String) button.getText();
                         mBinding.quickCellView.setText(choice);
                         mGameViewModel.setSelectedCellText(choice);
+                        mTtsNativeLang.speak(choice, TextToSpeech.QUEUE_FLUSH, null, "");
                     });
                 }
         );
@@ -113,5 +133,18 @@ public class GameFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         mBinding = null;
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mTtsLearningLang != null) {
+            mTtsLearningLang.stop();
+            mTtsLearningLang.shutdown();
+        }
+        if (mTtsNativeLang != null) {
+            mTtsNativeLang.stop();
+            mTtsNativeLang.shutdown();
+        }
+        super.onDestroy();
     }
 }

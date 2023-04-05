@@ -25,12 +25,12 @@ public class LanguageLevel {
         mName = name;
     }
 
-    int getId() {
+    public int getId() {
         return mId;
     }
 
     @NonNull
-    String getName() {
+    public String getName() {
         return mName;
     }
 }

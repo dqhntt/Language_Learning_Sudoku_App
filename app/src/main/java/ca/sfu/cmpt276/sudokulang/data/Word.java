@@ -31,7 +31,7 @@ public class Word {
     private int mId;
 
     @NonNull
-    @ColumnInfo(name = "text", collate = ColumnInfo.NOCASE)
+    @ColumnInfo(name = "text", collate = ColumnInfo.RTRIM)
     private final String mText;
 
     @ColumnInfo(name = "language_id", index = true)

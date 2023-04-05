@@ -5,8 +5,10 @@ import androidx.room.ColumnInfo;
 public class BoardDimension {
     @ColumnInfo(name = "size")
     private final int boardSize;
+
     @ColumnInfo(name = "subgrid_height")
     private final int subgridHeight;
+
     @ColumnInfo(name = "subgrid_width")
     private final int subgridWidth;
 

@@ -314,6 +314,10 @@ public class Util {
             searchForId("spinner_sudoku_level").clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
             selectRandomMenuItem();
 
+            // Randomly select comprehension mode.
+            searchForId(RANDOM.nextBoolean() ? "yes_comprehension" : "no_comprehension")
+                    .clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
+
             // Press next.
             searchForId("image_button_next").clickAndWaitForNewWindow();
         }

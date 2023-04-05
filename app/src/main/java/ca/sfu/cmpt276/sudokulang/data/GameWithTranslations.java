@@ -21,5 +21,4 @@ public class GameWithTranslations {
             )
     )
     public List<Translation> mTranslations;
-
 }

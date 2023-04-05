@@ -105,7 +105,7 @@
             android:layout_width="@dimen/spinner_width"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/homepage_spinner_margin"
-            app:layout_constraintBottom_toTopOf="@id/bottom_guideline"
+            app:layout_constraintBottom_toTopOf="@id/comprehension_toggle_group"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/constraintLayout">
@@ -136,6 +136,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView_Sudoku_Level" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/bottom_guideline"
@@ -185,6 +186,49 @@
             app:layout_constraintStart_toEndOf="@id/image_button_tutorial"
             app:layout_constraintTop_toTopOf="@id/image_button_tutorial"
             app:srcCompat="@drawable/ic_arrow_circle_right_outline_24dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/listening_comprehension_label"
+            android:textAlignment="center"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="@dimen/homepage_text_size"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/comprehension_toggle_group"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/comprehension_toggle_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            app:checkedButton="@id/no_comprehension"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <Button
+                android:id="@+id/yes_comprehension"
+                style="?attr/materialIconButtonOutlinedStyle"
+                android:layout_width="116dp"
+                android:layout_height="match_parent"
+                android:text="@string/yes" />
+
+            <Button
+                android:id="@+id/no_comprehension"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="116dp"
+                android:layout_height="wrap_content"
+                android:text="@string/no" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

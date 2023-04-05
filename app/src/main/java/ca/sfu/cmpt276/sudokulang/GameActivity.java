@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +32,16 @@ public class GameActivity extends AppCompatActivity {
     private GameViewModel gameViewModel;
     private @Nullable AppBarConfiguration appBarConfiguration = null;
     private Snackbar snackbar;
+
+    // See: https://android-developers.googleblog.com/2009/09/introduction-to-text-to-speech-in.html
+    private final ActivityResultCallback<ActivityResult> mActivityResultCallback = result -> {
+        if (result.getResultCode() != TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+            // missing data, install it
+            final var installIntent = new Intent();
+            installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+            startActivity(installIntent);
+        }
+    };
 
     /**
      * Create a new intent with the required arguments for {@link GameActivity}.
@@ -98,6 +112,12 @@ public class GameActivity extends AppCompatActivity {
             });
             binding.bottomAppBar.setOnMenuItemClickListener(getOnMenuItemClickListener(navController));
         }
+
+        // Prepare text to speech engine.
+        final var checkIntent = new Intent().setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(), mActivityResultCallback
+        ).launch(checkIntent);
     }
 
     public void startNewGame() {
@@ -110,7 +130,8 @@ public class GameActivity extends AppCompatActivity {
                     args.getSudokuLevel(),
                     args.getBoardSize(),
                     args.getSubgridHeight(),
-                    args.getSubgridWidth()
+                    args.getSubgridWidth(),
+                    args.getComprehensionMode()
             );
         } catch (SQLiteException e) {
             Log.e(getClass().getTypeName(), "Game database exception occurred", e);

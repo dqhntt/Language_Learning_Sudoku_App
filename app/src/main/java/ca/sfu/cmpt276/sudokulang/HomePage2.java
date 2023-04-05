@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
+import com.google.android.material.button.MaterialButtonToggleGroup;
+
 import java.util.List;
 
 import ca.sfu.cmpt276.sudokulang.data.source.BoardRepository;
@@ -25,6 +27,7 @@ public class HomePage2 extends AppCompatActivity {
     private BoardRepository mBoardRepository;
     private Spinner mSudokuSpinner, mlanglevelSpinner;
     private ArrayAdapter<CharSequence> mSudokuAdapter, mlanglevelAdapter;
+    private boolean comprehensionMode;
 
     /**
      * Create a new intent with the required arguments for {@link HomePage2}.
@@ -110,7 +113,8 @@ public class HomePage2 extends AppCompatActivity {
                                     sudokuLevel,
                                     extras.getBoardSize(),
                                     extras.getSubgridHeight(),
-                                    extras.getSubgridWidth()
+                                    extras.getSubgridWidth(),
+                                    comprehensionMode
                             ).build()
                     ));
                 }
@@ -156,7 +160,22 @@ public class HomePage2 extends AppCompatActivity {
                 Toast.makeText(HomePage2.this, "this works", Toast.LENGTH_SHORT).show();
             }
         });
+
+        //---------------------------------------------------------------------------------------
+
+        //Onclick Listener returning true/false based on clicking yes/no for comprehension mode
+
+        binding.comprehensionToggleGroup.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
+            @Override
+            public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
+                if (isChecked) {
+                    comprehensionMode = (checkedId == R.id.yes_comprehension);
+                }
+            }
+        });
     }
+
+    //-------------------------------------------------------------------------------------
 
     private void populateSudokuAdapter(HomePage2Args extras) {
         final var boardLevels = mBoardRepository.getAvailableBoardLevelsByDimension(
@@ -166,5 +185,4 @@ public class HomePage2 extends AppCompatActivity {
         }
         mSudokuAdapter.addAll(boardLevels);
     }
-
 }

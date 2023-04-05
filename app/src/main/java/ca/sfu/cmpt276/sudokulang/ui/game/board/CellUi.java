@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import ca.sfu.cmpt276.sudokulang.R;
+import ca.sfu.cmpt276.sudokulang.Util;
 import ca.sfu.cmpt276.sudokulang.data.Cell;
 import ca.sfu.cmpt276.sudokulang.data.CellImpl;
 import ca.sfu.cmpt276.sudokulang.ui.UiUtil;
@@ -47,10 +48,12 @@ public class CellUi extends com.google.android.material.textview.MaterialTextVie
         setGravity(Gravity.CENTER);
         setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_LabelSmall);
 
-        // Set text size (sp) == 28% view's height (dp).
+        // Set text size (sp) relative to view's height (dp).
         addOnLayoutChangeListener((view, left, top, right, bottom,
-                                   oldLeft, oldTop, oldRight, oldBottom) ->
-                setTextSize(TypedValue.COMPLEX_UNIT_SP, 0.28f * UiUtil.pxToDp(bottom - top)));
+                                   oldLeft, oldTop, oldRight, oldBottom) -> {
+            final var textSizeRatio = Util.isUnsignedInteger(getText()) ? 0.42f : 0.28f;
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeRatio * UiUtil.pxToDp(bottom - top));
+        });
 
         setText(mUiState.getText());
         setColor(Color.NORMAL);

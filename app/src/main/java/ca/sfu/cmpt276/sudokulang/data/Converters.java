@@ -3,9 +3,20 @@ package ca.sfu.cmpt276.sudokulang.data;
 import androidx.room.TypeConverter;
 
 import java.util.Date;
+import java.util.Locale;
 
 // Cite: https://developer.android.com/training/data-storage/room/referencing-data
 public class Converters {
+    @TypeConverter
+    public static Locale localeFromString(String value) {
+        return new Locale(value);
+    }
+
+    @TypeConverter
+    public static String localeToString(Locale locale) {
+        return locale.getLanguage();
+    }
+
     @TypeConverter
     public static Date dateFromTimestamp(Long value) {
         return value == null ? null : new Date(value);

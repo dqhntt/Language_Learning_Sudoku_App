@@ -59,6 +59,9 @@
         <argument
             android:name="subgrid_width"
             app:argType="integer" />
+        <argument
+            android:name="comprehension_mode"
+            app:argType="boolean" />
     </activity>
 
     <fragment

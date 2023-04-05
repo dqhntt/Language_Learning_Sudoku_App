@@ -12,6 +12,9 @@
     <string name="select_lang_level">Select Language Level</string>
     <string name="select_sudoku_level">Select Sudoku Level</string>
     <string name="spinner_not_selected">Please select a valid input for all fields</string>
+    <string name="listening_comprehension_label">Practice listening?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <!-- Strings used for fragments for navigation -->
     <string name="home">Home</string>

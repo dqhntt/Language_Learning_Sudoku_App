@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,10 +29,19 @@ import ca.sfu.cmpt276.sudokulang.databinding.ActivityGameBinding;
 import ca.sfu.cmpt276.sudokulang.ui.game.GameFragmentDirections;
 
 public class GameActivity extends AppCompatActivity {
-    private static final String SHOULD_CREATE_NEW_GAME = "should_create_new_game";
     private GameViewModel gameViewModel;
     private @Nullable AppBarConfiguration appBarConfiguration = null;
     private Snackbar snackbar;
+
+    // See: https://android-developers.googleblog.com/2009/09/introduction-to-text-to-speech-in.html
+    private final ActivityResultCallback<ActivityResult> mActivityResultCallback = result -> {
+        if (result.getResultCode() != TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+            // missing data, install it
+            final var installIntent = new Intent();
+            installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+            startActivity(installIntent);
+        }
+    };
 
     /**
      * Create a new intent with the required arguments for {@link GameActivity}.
@@ -43,7 +56,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private static boolean shouldCreateNewGame(@Nullable Bundle savedInstanceState) {
-        return savedInstanceState == null || savedInstanceState.getBoolean(SHOULD_CREATE_NEW_GAME);
+        return savedInstanceState == null;
     }
 
     @Override
@@ -99,6 +112,12 @@ public class GameActivity extends AppCompatActivity {
             });
             binding.bottomAppBar.setOnMenuItemClickListener(getOnMenuItemClickListener(navController));
         }
+
+        // Prepare text to speech engine.
+        final var checkIntent = new Intent().setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(), mActivityResultCallback
+        ).launch(checkIntent);
     }
 
     public void startNewGame() {
@@ -111,7 +130,8 @@ public class GameActivity extends AppCompatActivity {
                     args.getSudokuLevel(),
                     args.getBoardSize(),
                     args.getSubgridHeight(),
-                    args.getSubgridWidth()
+                    args.getSubgridWidth(),
+                    args.getComprehensionMode()
             );
         } catch (SQLiteException e) {
             Log.e(getClass().getTypeName(), "Game database exception occurred", e);
@@ -148,7 +168,6 @@ public class GameActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         final int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_reset) {
             gameViewModel.resetGame();
             return true;
@@ -156,7 +175,6 @@ public class GameActivity extends AppCompatActivity {
             startNewGame();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -167,12 +185,5 @@ public class GameActivity extends AppCompatActivity {
         assert (appBarConfiguration != null);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        // Save game state to the instance state bundle.
-        outState.putBoolean(SHOULD_CREATE_NEW_GAME, false);
     }
 }

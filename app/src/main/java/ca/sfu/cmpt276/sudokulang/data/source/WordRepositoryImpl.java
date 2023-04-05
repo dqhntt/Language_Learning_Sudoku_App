@@ -6,6 +6,7 @@ import android.content.Context;
 
 import java.util.List;
 
+import ca.sfu.cmpt276.sudokulang.data.Language;
 import ca.sfu.cmpt276.sudokulang.data.Word;
 import ca.sfu.cmpt276.sudokulang.data.source.local.GameDatabase;
 import ca.sfu.cmpt276.sudokulang.data.source.local.LanguageDao;
@@ -34,11 +35,6 @@ public class WordRepositoryImpl implements WordRepository {
     }
 
     @Override
-    public long getIdOfWord(String word) {
-        return mWordDao.getIdOfWord(word);
-    }
-
-    @Override
     public void insert(Word word) {
         databaseWriteExecutor.execute(() -> mWordDao.insert(word));
     }
@@ -49,12 +45,7 @@ public class WordRepositoryImpl implements WordRepository {
     }
 
     @Override
-    public long getIdOfLanguage(String language) {
-        return mLanguageDao.getIdOfLanguage(language);
-    }
-
-    @Override
-    public long getIdOfLanguageLevel(String languageLevel) {
-        return mLanguageDao.getIdOfLanguageLevel(languageLevel);
+    public Language getLanguageByName(String languageName) {
+        return mLanguageDao.getLanguageByName(languageName);
     }
 }

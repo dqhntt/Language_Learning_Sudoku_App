@@ -6,6 +6,7 @@ plugins {
 android {
     namespace "ca.sfu.cmpt276.sudokulang"
     compileSdk 33
+    compileSdkPreview "UpsideDownCake"
 
     defaultConfig {
         applicationId "ca.sfu.cmpt276.sudokulang"

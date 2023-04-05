@@ -1,4 +1,4 @@
-package ca.sfu.cmpt276.sudokulang.ui;
+package ca.sfu.cmpt276.sudokulang;
 
 import androidx.annotation.NonNull;
 import androidx.arch.core.executor.ArchTaskExecutor;

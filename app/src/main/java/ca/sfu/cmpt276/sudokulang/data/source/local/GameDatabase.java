@@ -22,7 +22,7 @@ import ca.sfu.cmpt276.sudokulang.data.Word;
 // A Room database using the singleton pattern.
 // Cite: https://developer.android.com/codelabs/android-room-with-a-view#7
 @Database(
-        version = 2,
+        version = 20230405,
         entities = {
                 BoardImpl.class,
                 Game.class,

@@ -1,18 +1,19 @@
 package ca.sfu.cmpt276.sudokulang.data;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class TranslationTest {
-
     private Translation trans, trans2;
 
     @BeforeEach
     void setup() {
         trans = new Translation(1, 0, 2, false);
-        trans2 = new Translation(3,4,true);
+        trans2 = new Translation(3, 4, true);
     }
 
     @Test

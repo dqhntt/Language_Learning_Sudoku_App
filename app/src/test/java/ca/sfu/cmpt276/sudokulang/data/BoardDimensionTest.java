@@ -1,6 +1,6 @@
 package ca.sfu.cmpt276.sudokulang.data;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +9,7 @@ class BoardDimensionTest {
     @Test
     void getBoardSize() {
         final int size = 1;
-        BoardDimension bd1 = new BoardDimension(size,2,3);
+        BoardDimension bd1 = new BoardDimension(size, 2, 3);
         assertEquals(size, bd1.getBoardSize());
     }
 

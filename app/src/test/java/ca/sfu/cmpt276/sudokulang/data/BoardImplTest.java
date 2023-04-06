@@ -74,7 +74,6 @@ class BoardImplTest {
         assertEquals(1, board.getSelectedRowIndex());
     }
 
-
     @Test
     void getSelectedColIndex() {
         board.setSelectedIndexes(0, 1);
@@ -117,7 +116,6 @@ class BoardImplTest {
         ((CellImpl) cells2[1][0]).setValue(1).setErrorCell(true);
         assertFalse(board.isSolvedBoard());
     }
-
 
     @Test
     void getId() {

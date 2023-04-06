@@ -1,19 +1,17 @@
 package ca.sfu.cmpt276.sudokulang.data;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.Locale;
 
 class WordTest {
     private Word word, word2;
 
     @BeforeEach
     void setup() {
-        word = new Word(4, "Hello", 1,0);
-        word2 = new Word("Bonjor", 2,3);
+        word = new Word(4, "Hello", 1, 0);
+        word2 = new Word("Bonjor", 2, 3);
     }
 
     @Test

@@ -1,6 +1,8 @@
 package ca.sfu.cmpt276.sudokulang.data;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -78,9 +80,9 @@ class GameTest {
     void setCurrentBoardValues() {
         game.setCurrentBoardValues(currentBoard);
         final var cells = game.getCurrentBoardValues();
-        for (int i = 0; i < cells.length;i++){
-            for (int j = 0; j <cells[0].length;j++){
-                assertEquals(currentBoard[i][j].getValue() ,cells[i][j].getValue());
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[0].length; j++) {
+                assertEquals(currentBoard[i][j].getValue(), cells[i][j].getValue());
             }
         }
     }

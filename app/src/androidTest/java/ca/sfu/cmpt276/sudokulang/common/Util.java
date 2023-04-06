@@ -153,20 +153,29 @@ public class Util {
          */
         public static String clickRandomWordButton(int numButtons) throws UiObjectNotFoundException {
             final int index = RANDOM.nextInt(numButtons);
-            final var button = bringWordButtonsIntoView().getChildren().get(index);
+            final var button = getAllWordButtons().get(index);
             button.click();
             pause(CLICK_TIMEOUT);
             return button.getText();
         }
 
         /**
-         * @return The word button keypad.
+         * @return The word button keypad: {@link androidx.constraintlayout.helper.widget.Flow}.
          */
-        public static UiObject2 bringWordButtonsIntoView() throws UiObjectNotFoundException {
+        private static UiObject2 bringWordButtonsIntoView() throws UiObjectNotFoundException {
             if (DEVICE.isNaturalOrientation()) {
                 searchForId("erase_button");
             }
             return getId2NoScroll("word_button_keypad");
+        }
+
+        /**
+         * @return All word buttons after the keypad has been fully brought into view.
+         */
+        public static List<UiObject2> getAllWordButtons() throws UiObjectNotFoundException {
+            // Note: The word buttons are siblings of the keypad since it's a virtual view.
+            return bringWordButtonsIntoView().getParent()
+                    .findObjects(By.clazz(android.widget.Button.class).res(""));
         }
 
         /**

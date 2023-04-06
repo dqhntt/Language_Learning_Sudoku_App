@@ -10,8 +10,8 @@ import static ca.sfu.cmpt276.sudokulang.common.Util.CLICK_TIMEOUT;
 import static ca.sfu.cmpt276.sudokulang.common.Util.SELECTOR_TIMEOUT;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.DEVICE;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.bringGameBoardIntoView;
-import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.bringWordButtonsIntoView;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.clickRandomWordButton;
+import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.getAllWordButtons;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.getId2NoScroll;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.getNonemptyVisibleCellCount;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.getSpinnerText;
@@ -96,10 +96,9 @@ public class CommonTests {
      */
     public static void testKeypadAndCellView(int numButtons) throws UiObjectNotFoundException {
         // Assert correct number of word buttons.
-        final var keypad = bringWordButtonsIntoView();
-        assertNotNull(keypad);
-        assertEquals(numButtons, keypad.getChildCount());
-        for (var button : keypad.getChildren()) {
+        assertEquals(numButtons, getAllWordButtons().size());
+        for (int i = 0; i < numButtons; i++) {
+            final var button = getAllWordButtons().get(i);
 
             // Assert no empty buttons.
             assertNotEquals("", button.getText().trim());
@@ -189,9 +188,7 @@ public class CommonTests {
         final var initialNonemptyCellCount = getNonemptyVisibleCellCount(board);
 
         // Click a random word button.
-        final var button = bringWordButtonsIntoView()
-                .getChildren()
-                .get(new Random().nextInt(boardSize));
+        final var button = getAllWordButtons().get(new Random().nextInt(boardSize));
         final var buttonText = button.getText();
         button.click();
 

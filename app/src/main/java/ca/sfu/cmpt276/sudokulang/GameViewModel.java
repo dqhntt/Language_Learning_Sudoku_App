@@ -159,7 +159,7 @@ public class GameViewModel extends AndroidViewModel {
     }
 
     public void endGame() {
-        mGameInProgress.setValue(false);
+        pauseGame();
     }
 
     /**

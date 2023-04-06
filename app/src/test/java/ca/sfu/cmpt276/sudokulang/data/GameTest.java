@@ -5,21 +5,29 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Date;
+
 class GameTest {
+    private Game game, game2;
+    CellImpl[][] currentBoard;
 
     @BeforeEach
     void setGame() {
+        currentBoard = new CellImpl[2][2];
 
-        //currentBoard[][] =
+        currentBoard[0][0] = new CellImpl().setValue(1);
+        currentBoard[0][1] = new CellImpl().setValue(3);
+        currentBoard[1][0] = new CellImpl().setValue(4);
+        currentBoard[1][1] = new CellImpl().setValue(2);
 
-        game = new Game(1, 2022-04-03, 12, false, 3, currentBoard);
+        game = new Game(1, new Date(123456789), 12, false, 3, currentBoard);
+        game2 = new Game(5, currentBoard);
     }
 
     @Test
     void getId() {
         assertEquals(1, game.getId());
     }
-    //
 
     @Test
     void setId() {
@@ -29,13 +37,13 @@ class GameTest {
 
     @Test
     void getStartTime() {
-        assertEquals(2022-04-03, game.getStartTime());
+        assertEquals(new Date(123456789), game.getStartTime());
     }
 
     @Test
     void setStartTime() {
-        game.setStartTime(2023-01-02);
-        assertEquals(2023-01-02, game.getStartTime());
+        game.setStartTime(new Date(987654321));
+        assertEquals(new Date(987654321), game.getStartTime());
     }
 
     @Test
@@ -51,26 +59,29 @@ class GameTest {
 
     @Test
     void isCompleted() {
-        assertEquals(false, game.isCompleted());
+        assertFalse(game.isCompleted());
     }
 
     @Test
     void setCompleted() {
         game.setCompleted(true);
-        assertEquals(true, game.setCompleted);
+        assertTrue(game.isCompleted());
     }
 
     @Test
     void getBoardId() {
-        assertEquals(3, game.getBoardId);
-    }
-
-    @Test
-    void getCurrentBoardValues() {
-        //assertEquals();
+        assertEquals(3, game.getBoardId());
+        assertEquals(5, game2.getBoardId());
     }
 
     @Test
     void setCurrentBoardValues() {
+        game.setCurrentBoardValues(currentBoard);
+        final var cells = game.getCurrentBoardValues();
+        for (int i = 0; i < cells.length;i++){
+            for (int j = 0; j <cells[0].length;j++){
+                assertEquals(currentBoard[i][j].getValue() ,cells[i][j].getValue());
+            }
+        }
     }
 }

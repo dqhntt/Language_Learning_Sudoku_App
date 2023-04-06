@@ -48,7 +48,7 @@ android {
 
 dependencies {
     def lifecycle_version = "2.6.1"
-    def nav_version = "2.6.0-alpha08"
+    def nav_version = "2.6.0-alpha09"
     def room_version = "2.6.0-alpha01"
 
     implementation "androidx.appcompat:appcompat:1.7.0-alpha02"

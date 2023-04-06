@@ -1,7 +1,10 @@
 package ca.sfu.cmpt276.sudokulang.data;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,10 +35,8 @@ class BoardImplTest {
         //create
         board = new BoardImpl(0, "d", 2, 2, 2, prefilled, solved);
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            board = new BoardImpl(0, "d", -2, -2, -2, prefilled, solved);
-
-        });
+        assertThrows(IllegalArgumentException.class,
+                () -> board = new BoardImpl(0, "d", -2, -2, -2, prefilled, solved));
     }
 
     @Test
@@ -53,7 +54,6 @@ class BoardImplTest {
 
     @Test
     void getBoardSize() {
-
         assertEquals(2, board.getBoardSize());
     }
 
@@ -70,7 +70,6 @@ class BoardImplTest {
     @Test
 // move to cellImpl
     void getSelectedRowIndex() {
-
         board.setSelectedIndexes(1, 0);
         assertEquals(1, board.getSelectedRowIndex());
     }
@@ -80,17 +79,14 @@ class BoardImplTest {
     void getSelectedColIndex() {
         board.setSelectedIndexes(0, 1);
         assertEquals(1, board.getSelectedColIndex());
-
     }
 
     @Test
     void setSelectedIndexes() {
         BoardImpl board1 = new BoardImpl();
         board1.setSelectedIndexes(-1, -1);
-        assertEquals(null, board1.getSelectedCell());
-        assertThrows(IllegalArgumentException.class, () -> {
-            board1.setSelectedIndexes(6, -10);
-        });
+        assertNull(board1.getSelectedCell());
+        assertThrows(IllegalArgumentException.class, () -> board1.setSelectedIndexes(6, -10));
     }
 
     @Test
@@ -98,7 +94,6 @@ class BoardImplTest {
         Cell[][] cells = board.getCells();
         board.setSelectedIndexes(1, 0);
         assertEquals(cells[1][0], board.getSelectedCell());
-
     }
 
     @Test
@@ -109,9 +104,18 @@ class BoardImplTest {
 
     @Test
     void isSolvedBoard() {
-        boolean expected = false; // or true, depending on what you expect the return value to be
-        boolean actual = board.isSolvedBoard();
-        assertEquals(expected, actual);
+        assertFalse(board.isSolvedBoard());
+
+        final var cells = board.getCells();
+        ((CellImpl) cells[0][1]).setValue(2);
+        ((CellImpl) cells[1][0]).setValue(1);
+        assertTrue(board.isSolvedBoard());
+
+        board.resetBoard();
+        final var cells2 = board.getCells();
+        ((CellImpl) cells2[0][1]).setValue(2);
+        ((CellImpl) cells2[1][0]).setValue(1).setErrorCell(true);
+        assertFalse(board.isSolvedBoard());
     }
 
 
@@ -130,7 +134,6 @@ class BoardImplTest {
         int[][] expectedValues = {{1, 0}, {0, 2}};
         Cell[][] actualValues = board.getPrefilledValues();
         assertArrayEquals(expectedValues, actualValues);
-
     }
 
     @Test

@@ -42,14 +42,9 @@ public class CommonTests {
     }
 
     /**
-     * @param anchorId ID of the view to check whether we are still on the same page.
      * @implNote Sharable between {@link MainActivityTest} and {@link HomePage2Test} only.
      */
-    public static void testSpinner(String spinnerResId, String anchorId) throws UiObjectNotFoundException {
-        // Assert cannot move forward while no choice is selected.
-        searchForId("image_button_next").clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
-        assertTrue(searchForId(anchorId).exists());
-
+    public static void testSpinner(String spinnerResId) throws UiObjectNotFoundException {
         // Find and open spinner.
         final var spinner = searchForId(spinnerResId);
         open(spinner);

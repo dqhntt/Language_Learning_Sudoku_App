@@ -37,7 +37,7 @@ public class Util {
     public static final int CLICK_TIMEOUT = 100;
     public static final int SELECTOR_TIMEOUT = 500;
     private static final int LAUNCH_TIMEOUT = 5000;
-    private static final Random RANDOM = new Random(123456789);
+    public static final Random RANDOM = new Random(123456789);
 
     /**
      * Uses package manager to find the package name of the device launcher. Usually this package

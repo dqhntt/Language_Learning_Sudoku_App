@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static ca.sfu.cmpt276.sudokulang.common.Util.APP_PACKAGE_NAME;
 import static ca.sfu.cmpt276.sudokulang.common.Util.CLICK_TIMEOUT;
+import static ca.sfu.cmpt276.sudokulang.common.Util.RANDOM;
 import static ca.sfu.cmpt276.sudokulang.common.Util.SELECTOR_TIMEOUT;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.DEVICE;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.bringGameBoardIntoView;
@@ -28,8 +29,6 @@ import android.os.RemoteException;
 
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
-
-import java.util.Random;
 
 import ca.sfu.cmpt276.sudokulang.GameActivityTest;
 import ca.sfu.cmpt276.sudokulang.HomePage2Test;
@@ -68,7 +67,10 @@ public class CommonTests {
         }
 
         // Select one choice.
-        final int selectedIndex = new Random().nextInt(menus.size() - 1) + 1;
+        final int selectedIndex =
+                menus.size() > 1 // If there's a header.
+                        ? RANDOM.nextInt(menus.size() - 1) + 1
+                        : 0;
         final String selectedText = menus.get(selectedIndex).getText();
         selectMenuItem(menus.get(selectedIndex));
 
@@ -78,7 +80,6 @@ public class CommonTests {
         // Assert item was selected in dropdown.
         open(spinner);
         menus = getUpdatedMenus();
-        assertFalse(menus.get(0).isChecked());
         assertTrue(menus.get(selectedIndex).isChecked());
 
         // Close spinner.
@@ -169,13 +170,13 @@ public class CommonTests {
      */
     public static void testRetainStateOnRotation(int boardSize) throws UiObjectNotFoundException, RemoteException {
         var board = bringGameBoardIntoView();
-        var cellIndex = new Random().nextInt(boardSize * boardSize);
+        var cellIndex = RANDOM.nextInt(boardSize * boardSize);
         var cell = getVisibleCells(board).get(cellIndex);
         var initialCellText = cell.getText();
 
         // Search for a fillable cell and click it.
         while (initialCellText != null) {
-            cellIndex = new Random().nextInt(boardSize * boardSize);
+            cellIndex = RANDOM.nextInt(boardSize * boardSize);
             cell = getVisibleCells(board).get(cellIndex);
             initialCellText = cell.getText();
         }
@@ -183,7 +184,7 @@ public class CommonTests {
         final var initialNonemptyCellCount = getNonemptyVisibleCellCount(board);
 
         // Click a random word button.
-        final var button = getAllWordButtons().get(new Random().nextInt(boardSize));
+        final var button = getAllWordButtons().get(RANDOM.nextInt(boardSize));
         final var buttonText = button.getText();
         button.click();
 

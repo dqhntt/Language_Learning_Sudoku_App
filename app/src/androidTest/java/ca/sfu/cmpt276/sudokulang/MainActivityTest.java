@@ -34,36 +34,36 @@ public class MainActivityTest {
     }
 
     @Test
-    public void testLearningLangSpinnerInPortrait() throws UiObjectNotFoundException, RemoteException {
-        CommonTests.testSpinner("spinner_learning_lang", anchorId);
+    public void testLearningLangSpinnerInPortrait() throws UiObjectNotFoundException {
+        CommonTests.testSpinner("spinner_learning_lang");
     }
 
     @Test
     public void testLearningLangSpinnerInLandscape() throws UiObjectNotFoundException, RemoteException {
         putDeviceInLandscapeMode();
-        CommonTests.testSpinner("spinner_learning_lang", anchorId);
+        CommonTests.testSpinner("spinner_learning_lang");
     }
 
     @Test
-    public void testNativeLangSpinnerInPortrait() throws UiObjectNotFoundException, RemoteException {
-        CommonTests.testSpinner("spinner_native_lang", anchorId);
+    public void testNativeLangSpinnerInPortrait() throws UiObjectNotFoundException {
+        CommonTests.testSpinner("spinner_native_lang");
     }
 
     @Test
     public void testNativeLangSpinnerInLandscape() throws UiObjectNotFoundException, RemoteException {
         putDeviceInLandscapeMode();
-        CommonTests.testSpinner("spinner_native_lang", anchorId);
+        CommonTests.testSpinner("spinner_native_lang");
     }
 
     @Test
-    public void testGridSizeSpinnerInPortrait() throws UiObjectNotFoundException, RemoteException {
-        CommonTests.testSpinner("spinner_grid_size", anchorId);
+    public void testGridSizeSpinnerInPortrait() throws UiObjectNotFoundException {
+        CommonTests.testSpinner("spinner_grid_size");
     }
 
     @Test
     public void testGridSizeSpinnerInLandscape() throws UiObjectNotFoundException, RemoteException {
         putDeviceInLandscapeMode();
-        CommonTests.testSpinner("spinner_grid_size", anchorId);
+        CommonTests.testSpinner("spinner_grid_size");
     }
 
     @Test

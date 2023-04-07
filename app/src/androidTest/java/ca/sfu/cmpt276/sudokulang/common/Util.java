@@ -37,7 +37,7 @@ public class Util {
     public static final int CLICK_TIMEOUT = 100;
     public static final int SELECTOR_TIMEOUT = 500;
     private static final int LAUNCH_TIMEOUT = 5000;
-    private static final Random RANDOM = new Random(123456789);
+    public static final Random RANDOM = new Random(123456789);
 
     /**
      * Uses package manager to find the package name of the device launcher. Usually this package
@@ -153,20 +153,29 @@ public class Util {
          */
         public static String clickRandomWordButton(int numButtons) throws UiObjectNotFoundException {
             final int index = RANDOM.nextInt(numButtons);
-            final var button = bringWordButtonsIntoView().getChildren().get(index);
+            final var button = getAllWordButtons().get(index);
             button.click();
             pause(CLICK_TIMEOUT);
             return button.getText();
         }
 
         /**
-         * @return The word button keypad.
+         * @return The word button keypad: {@link androidx.constraintlayout.helper.widget.Flow}.
          */
-        public static UiObject2 bringWordButtonsIntoView() throws UiObjectNotFoundException {
+        private static UiObject2 bringWordButtonsIntoView() throws UiObjectNotFoundException {
             if (DEVICE.isNaturalOrientation()) {
                 searchForId("erase_button");
             }
             return getId2NoScroll("word_button_keypad");
+        }
+
+        /**
+         * @return All word buttons after the keypad has been fully brought into view.
+         */
+        public static List<UiObject2> getAllWordButtons() throws UiObjectNotFoundException {
+            // Note: The word buttons are siblings of the keypad since it's a virtual view.
+            return bringWordButtonsIntoView().getParent()
+                    .findObjects(By.clazz(android.widget.Button.class).res(""));
         }
 
         /**
@@ -313,6 +322,10 @@ public class Util {
             selectRandomMenuItem();
             searchForId("spinner_sudoku_level").clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
             selectRandomMenuItem();
+
+            // Randomly select comprehension mode.
+            searchForId(RANDOM.nextBoolean() ? "yes_comprehension" : "no_comprehension")
+                    .clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
 
             // Press next.
             searchForId("image_button_next").clickAndWaitForNewWindow();

@@ -35,25 +35,25 @@ public class HomePage2Test {
     }
 
     @Test
-    public void testLangLevelSpinnerInPortrait() throws UiObjectNotFoundException, RemoteException {
-        CommonTests.testSpinner("spinner_lang_level", anchorId);
+    public void testLangLevelSpinnerInPortrait() throws UiObjectNotFoundException {
+        CommonTests.testSpinner("spinner_lang_level");
     }
 
     @Test
     public void testLangLevelSpinnerInLandscape() throws UiObjectNotFoundException, RemoteException {
         putDeviceInLandscapeMode();
-        CommonTests.testSpinner("spinner_lang_level", anchorId);
+        CommonTests.testSpinner("spinner_lang_level");
     }
 
     @Test
-    public void testSudokuLevelSpinnerInPortrait() throws UiObjectNotFoundException, RemoteException {
-        CommonTests.testSpinner("spinner_sudoku_level", anchorId);
+    public void testSudokuLevelSpinnerInPortrait() throws UiObjectNotFoundException {
+        CommonTests.testSpinner("spinner_sudoku_level");
     }
 
     @Test
     public void testSudokuLevelSpinnerInLandscape() throws UiObjectNotFoundException, RemoteException {
         putDeviceInLandscapeMode();
-        CommonTests.testSpinner("spinner_sudoku_level", anchorId);
+        CommonTests.testSpinner("spinner_sudoku_level");
     }
 
     @Test

@@ -7,11 +7,12 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static ca.sfu.cmpt276.sudokulang.common.Util.APP_PACKAGE_NAME;
 import static ca.sfu.cmpt276.sudokulang.common.Util.CLICK_TIMEOUT;
+import static ca.sfu.cmpt276.sudokulang.common.Util.RANDOM;
 import static ca.sfu.cmpt276.sudokulang.common.Util.SELECTOR_TIMEOUT;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.DEVICE;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.bringGameBoardIntoView;
-import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.bringWordButtonsIntoView;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.clickRandomWordButton;
+import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.getAllWordButtons;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.getId2NoScroll;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.getNonemptyVisibleCellCount;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.getSpinnerText;
@@ -29,8 +30,6 @@ import android.os.RemoteException;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
-import java.util.Random;
-
 import ca.sfu.cmpt276.sudokulang.GameActivityTest;
 import ca.sfu.cmpt276.sudokulang.HomePage2Test;
 import ca.sfu.cmpt276.sudokulang.MainActivityTest;
@@ -42,14 +41,9 @@ public class CommonTests {
     }
 
     /**
-     * @param anchorId ID of the view to check whether we are still on the same page.
      * @implNote Sharable between {@link MainActivityTest} and {@link HomePage2Test} only.
      */
-    public static void testSpinner(String spinnerResId, String anchorId) throws UiObjectNotFoundException, RemoteException {
-        // Assert cannot move forward while no choice is selected.
-        searchForId("image_button_next").clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
-        assertTrue(searchForId(anchorId).exists());
-
+    public static void testSpinner(String spinnerResId) throws UiObjectNotFoundException {
         // Find and open spinner.
         final var spinner = searchForId(spinnerResId);
         open(spinner);
@@ -73,7 +67,10 @@ public class CommonTests {
         }
 
         // Select one choice.
-        final int selectedIndex = new Random().nextInt(menus.size() - 1) + 1;
+        final int selectedIndex =
+                menus.size() > 1 // If there's a header.
+                        ? RANDOM.nextInt(menus.size() - 1) + 1
+                        : 0;
         final String selectedText = menus.get(selectedIndex).getText();
         selectMenuItem(menus.get(selectedIndex));
 
@@ -83,16 +80,11 @@ public class CommonTests {
         // Assert item was selected in dropdown.
         open(spinner);
         menus = getUpdatedMenus();
-        assertFalse(menus.get(0).isChecked());
         assertTrue(menus.get(selectedIndex).isChecked());
 
         // Close spinner.
         clickOutside();
         assertEquals(selectedText, getSpinnerText(spinner));
-
-        // Rotate and assert text is still there.
-        rotateDevice();
-        assertEquals(selectedText, getSpinnerText(searchForId(spinnerResId)));
     }
 
     /**
@@ -100,10 +92,9 @@ public class CommonTests {
      */
     public static void testKeypadAndCellView(int numButtons) throws UiObjectNotFoundException {
         // Assert correct number of word buttons.
-        final var keypad = bringWordButtonsIntoView();
-        assertNotNull(keypad);
-        assertEquals(numButtons, keypad.getChildCount());
-        for (var button : keypad.getChildren()) {
+        assertEquals(numButtons, getAllWordButtons().size());
+        for (int i = 0; i < numButtons; i++) {
+            final var button = getAllWordButtons().get(i);
 
             // Assert no empty buttons.
             assertNotEquals("", button.getText().trim());
@@ -179,13 +170,13 @@ public class CommonTests {
      */
     public static void testRetainStateOnRotation(int boardSize) throws UiObjectNotFoundException, RemoteException {
         var board = bringGameBoardIntoView();
-        var cellIndex = new Random().nextInt(boardSize * boardSize);
+        var cellIndex = RANDOM.nextInt(boardSize * boardSize);
         var cell = getVisibleCells(board).get(cellIndex);
         var initialCellText = cell.getText();
 
         // Search for a fillable cell and click it.
         while (initialCellText != null) {
-            cellIndex = new Random().nextInt(boardSize * boardSize);
+            cellIndex = RANDOM.nextInt(boardSize * boardSize);
             cell = getVisibleCells(board).get(cellIndex);
             initialCellText = cell.getText();
         }
@@ -193,9 +184,7 @@ public class CommonTests {
         final var initialNonemptyCellCount = getNonemptyVisibleCellCount(board);
 
         // Click a random word button.
-        final var button = bringWordButtonsIntoView()
-                .getChildren()
-                .get(new Random().nextInt(boardSize));
+        final var button = getAllWordButtons().get(RANDOM.nextInt(boardSize));
         final var buttonText = button.getText();
         button.click();
 

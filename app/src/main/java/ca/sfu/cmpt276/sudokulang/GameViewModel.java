@@ -70,7 +70,7 @@ public class GameViewModel extends AndroidViewModel {
         mTranslationRepo = TranslationRepositoryImpl.getInstance(context);
         mWordRepo = WordRepositoryImpl.getInstance(context);
         mBoardUiState = new MutableLiveData<>();
-        mGameInProgress = new MutableLiveData<>();
+        mGameInProgress = new MutableLiveData<>(false);
         mWordPairs = new MutableLiveData<>();
         mWordPairs.observeForever(p -> prepareMaps());
         mBoardUiState.observeForever(board -> updateGameInDatabase(mCurrentGame, board));

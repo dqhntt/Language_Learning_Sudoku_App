@@ -1,17 +1,22 @@
 package ca.sfu.cmpt276.sudokulang;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static ca.sfu.cmpt276.sudokulang.common.Util.SELECTOR_TIMEOUT;
+import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.DEVICE;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.getId2NoScroll;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.navigateToGameActivityFromHomePage2;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.navigateToHomePage2FromMainActivity;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.putDeviceInLandscapeMode;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.searchForId;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.startAppInPortraitMode;
+import static ca.sfu.cmpt276.sudokulang.common.Util.getResourceId;
 
 import android.os.RemoteException;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.Until;
 
@@ -74,6 +79,23 @@ public class GameActivityTest {
     public void testRetainStateOnRotationToPortrait() throws UiObjectNotFoundException, RemoteException {
         putDeviceInLandscapeMode();
         CommonTests.testRetainStateOnRotation(boardSize);
+    }
+
+    @Test
+    public void testPauseResume() {
+        final var snackbarId = "snackbar_text";
+
+        // Assert clicking pause shows snackbar.
+        var pauseButton = getId2NoScroll("fab");
+        assertNotNull(pauseButton);
+        pauseButton.clickAndWait(Until.newWindow(), SELECTOR_TIMEOUT);
+        assertTrue(DEVICE.hasObject(By.res(getResourceId(snackbarId))));
+
+        // Assert clicking pause again dismisses snackbar.
+        pauseButton = getId2NoScroll("fab");
+        assertNotNull(pauseButton);
+        pauseButton.clickAndWait(Until.newWindow(), SELECTOR_TIMEOUT);
+        assertFalse(DEVICE.hasObject(By.res(getResourceId(snackbarId))));
     }
 
     @Test

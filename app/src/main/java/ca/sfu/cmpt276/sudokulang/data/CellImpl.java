@@ -20,9 +20,7 @@ public class CellImpl implements Cell {
     }
 
     private CellImpl(int value, @NonNull String text, boolean isPrefilled, boolean isErrorCell) {
-        if (isPrefilled && isErrorCell) {
-            throw new IllegalArgumentException("Prefilled cells cannot be error cells");
-        }
+        assert !(isPrefilled && isErrorCell); //Prefilled cells cannot be error cells.
         mValue = value;
         mText = text;
         mIsPrefilled = isPrefilled;

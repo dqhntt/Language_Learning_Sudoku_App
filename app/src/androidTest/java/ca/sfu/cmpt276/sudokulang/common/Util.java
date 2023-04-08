@@ -37,6 +37,7 @@ public class Util {
     public static final int CLICK_TIMEOUT = 100;
     public static final int SELECTOR_TIMEOUT = 500;
     private static final int LAUNCH_TIMEOUT = 5000;
+    public static final Random RANDOM = new Random(123456789);
 
     /**
      * Uses package manager to find the package name of the device launcher. Usually this package
@@ -101,7 +102,7 @@ public class Util {
         }
 
         public static void putDeviceInLandscapeMode() throws RemoteException {
-            if (new Random().nextBoolean()) {
+            if (RANDOM.nextBoolean()) {
                 DEVICE.setOrientationRight();
             } else {
                 DEVICE.setOrientationLeft();
@@ -138,8 +139,9 @@ public class Util {
          */
         private static String selectRandomMenuItem() {
             final var menus = getUpdatedMenus();
-            // Assuming there is a header.
-            final int index = new Random().nextInt(menus.size() - 1) + 1;
+            final int index = menus.size() == 1
+                    ? 0
+                    : RANDOM.nextInt(menus.size() - 1) + 1; // + 1 if there is a header.
             final var selectedMenu = menus.get(index);
             final var selectedText = selectedMenu.getText();
             selectMenuItem(selectedMenu);
@@ -150,21 +152,30 @@ public class Util {
          * @return Text of the clicked word button.
          */
         public static String clickRandomWordButton(int numButtons) throws UiObjectNotFoundException {
-            final int index = new Random().nextInt(numButtons);
-            final var button = bringWordButtonsIntoView().getChildren().get(index);
+            final int index = RANDOM.nextInt(numButtons);
+            final var button = getAllWordButtons().get(index);
             button.click();
             pause(CLICK_TIMEOUT);
             return button.getText();
         }
 
         /**
-         * @return The word button keypad.
+         * @return The word button keypad: {@link androidx.constraintlayout.helper.widget.Flow}.
          */
-        public static UiObject2 bringWordButtonsIntoView() throws UiObjectNotFoundException {
+        private static UiObject2 bringWordButtonsIntoView() throws UiObjectNotFoundException {
             if (DEVICE.isNaturalOrientation()) {
                 searchForId("erase_button");
             }
             return getId2NoScroll("word_button_keypad");
+        }
+
+        /**
+         * @return All word buttons after the keypad has been fully brought into view.
+         */
+        public static List<UiObject2> getAllWordButtons() throws UiObjectNotFoundException {
+            // Note: The word buttons are siblings of the keypad since it's a virtual view.
+            return bringWordButtonsIntoView().getParent()
+                    .findObjects(By.clazz(android.widget.Button.class).res(""));
         }
 
         /**
@@ -288,15 +299,21 @@ public class Util {
         public static Pair<String, Integer> navigateToHomePage2FromMainActivity() throws UiObjectNotFoundException {
             // Select one choice from each spinner.
             searchForId("spinner_learning_lang").clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
-            final var learningLangSelectedText = selectRandomMenuItem();
-            searchForId("spinner_native_lang").clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
-            selectRandomMenuItem();
+            final var learningLang = selectRandomMenuItem();
+
+            // Select a different language from learningLang.
+            String nativeLang;
+            do {
+                searchForId("spinner_native_lang").clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
+                nativeLang = selectRandomMenuItem();
+            } while (nativeLang.equals(learningLang));
+
             searchForId("spinner_grid_size").clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
             final var boardSize = parseBoardSize(selectRandomMenuItem());
 
             // Press next.
             searchForId("image_button_next").clickAndWaitForNewWindow();
-            return new Pair<>(learningLangSelectedText, boardSize);
+            return new Pair<>(learningLang, boardSize);
         }
 
         public static void navigateToGameActivityFromHomePage2() throws UiObjectNotFoundException {
@@ -305,6 +322,10 @@ public class Util {
             selectRandomMenuItem();
             searchForId("spinner_sudoku_level").clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
             selectRandomMenuItem();
+
+            // Randomly select comprehension mode.
+            searchForId(RANDOM.nextBoolean() ? "yes_comprehension" : "no_comprehension")
+                    .clickAndWaitForNewWindow(SELECTOR_TIMEOUT);
 
             // Press next.
             searchForId("image_button_next").clickAndWaitForNewWindow();

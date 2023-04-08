@@ -2,10 +2,16 @@ package ca.sfu.cmpt276.sudokulang;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,12 +27,21 @@ import com.google.android.material.snackbar.Snackbar;
 
 import ca.sfu.cmpt276.sudokulang.databinding.ActivityGameBinding;
 import ca.sfu.cmpt276.sudokulang.ui.game.GameFragmentDirections;
-import ca.sfu.cmpt276.sudokulang.ui.game.GameViewModel;
 
 public class GameActivity extends AppCompatActivity {
-    private static final String SHOULD_CREATE_NEW_GAME = "should_create_new_game";
+    private GameViewModel gameViewModel;
     private @Nullable AppBarConfiguration appBarConfiguration = null;
-    private ActivityGameBinding binding;
+    private Snackbar snackbar;
+
+    // See: https://android-developers.googleblog.com/2009/09/introduction-to-text-to-speech-in.html
+    private final ActivityResultCallback<ActivityResult> mActivityResultCallback = result -> {
+        if (result.getResultCode() != TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+            // missing data, install it
+            final var installIntent = new Intent();
+            installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+            startActivity(installIntent);
+        }
+    };
 
     /**
      * Create a new intent with the required arguments for {@link GameActivity}.
@@ -41,31 +56,21 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private static boolean shouldCreateNewGame(@Nullable Bundle savedInstanceState) {
-        return savedInstanceState == null || savedInstanceState.getBoolean(SHOULD_CREATE_NEW_GAME);
+        return savedInstanceState == null;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityGameBinding.inflate(getLayoutInflater());
+        final var binding = ActivityGameBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        final var gameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
+        gameViewModel = new ViewModelProvider(this).get(GameViewModel.class);
 
         // Check if recreating a previously destroyed instance.
         if (shouldCreateNewGame(savedInstanceState)) {
-            final var extras = getIntent().getExtras();
-            if (extras == null) {
-                gameViewModel.generateNewBoard(9, 3, 3);
-            } else {
-                final var args = GameActivityArgs.fromBundle(extras);
-                gameViewModel.generateNewBoard(
-                        args.getBoardSize(),
-                        args.getSubgridHeight(),
-                        args.getSubgridWidth()
-                );
-            }
+            startNewGame();
         }
 
         // Cite: https://stackoverflow.com/a/60597670
@@ -82,11 +87,55 @@ public class GameActivity extends AppCompatActivity {
 
         if (binding.bottomAppBar != null) {
             assert (binding.fab != null);
-            binding.fab.setOnClickListener(view ->
-                    Snackbar.make(view, "Pause FAB", Snackbar.LENGTH_SHORT)
-                            .setAnchorView(binding.bottomAppBar)
-                            .show());
+            snackbar = Snackbar
+                    .make(binding.fab, "", Snackbar.LENGTH_INDEFINITE)
+                    .setAnchorView(binding.bottomAppBar);
+            binding.fab.setOnClickListener(view -> {
+                if (gameViewModel.isGameInProgress().getValue()) {
+                    gameViewModel.pauseGame();
+                    snackbar.setText(Util.formatWithTime(
+                            getString(R.string.paused_message),
+                            gameViewModel.getElapsedTime()
+                    )).show();
+                } else {
+                    gameViewModel.resumeGame();
+                    snackbar.dismiss();
+                }
+            });
+            gameViewModel.isGameInProgress().observe(this, gameInProgress -> {
+                binding.fab.setImageResource(gameInProgress
+                        ? R.drawable.ic_pause_24dp
+                        : R.drawable.ic_play_arrow_24dp);
+                if (gameInProgress) {
+                    snackbar.dismiss();
+                }
+            });
             binding.bottomAppBar.setOnMenuItemClickListener(getOnMenuItemClickListener(navController));
+        }
+
+        // Prepare text to speech engine.
+        final var checkIntent = new Intent().setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(), mActivityResultCallback
+        ).launch(checkIntent);
+    }
+
+    public void startNewGame() {
+        final var args = GameActivityArgs.fromBundle(getIntent().getExtras());
+        try {
+            gameViewModel.startNewGame(
+                    args.getNativeLang(),
+                    args.getLearningLang(),
+                    args.getLangLevel(),
+                    args.getSudokuLevel(),
+                    args.getBoardSize(),
+                    args.getSubgridHeight(),
+                    args.getSubgridWidth(),
+                    args.getComprehensionMode()
+            );
+        } catch (SQLiteException e) {
+            Log.e(getClass().getTypeName(), "Game database exception occurred", e);
+            recreate(); // Restart activity.
         }
     }
 
@@ -95,7 +144,7 @@ public class GameActivity extends AppCompatActivity {
         return menuItem -> {
             final var id = menuItem.getItemId();
             if (id == R.id.main_activity) {
-                navController.navigate(GameFragmentDirections.actionGameFragmentToMainActivity());
+                finishAfterTransition();
                 return true;
             } else if (id == R.id.help_fragment) {
                 navController.navigate(GameFragmentDirections.actionGameFragmentToHelpFragment());
@@ -119,12 +168,13 @@ public class GameActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         final int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            // TODO: Navigate to settings activity.
+        if (id == R.id.action_reset) {
+            gameViewModel.resetGame();
+            return true;
+        } else if (id == R.id.action_new_game) {
+            startNewGame();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -135,12 +185,5 @@ public class GameActivity extends AppCompatActivity {
         assert (appBarConfiguration != null);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        // Save game state to the instance state bundle.
-        outState.putBoolean(SHOULD_CREATE_NEW_GAME, false);
     }
 }

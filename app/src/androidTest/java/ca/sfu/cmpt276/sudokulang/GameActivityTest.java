@@ -1,12 +1,13 @@
 package ca.sfu.cmpt276.sudokulang;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static ca.sfu.cmpt276.sudokulang.common.Util.SELECTOR_TIMEOUT;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.DEVICE;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.getId2NoScroll;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.navigateToGameActivityFromHomePage2;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.navigateToHomePage2FromMainActivity;
-import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.pause;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.putDeviceInLandscapeMode;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.searchForId;
 import static ca.sfu.cmpt276.sudokulang.common.Util.TestHelper.startAppInPortraitMode;
@@ -81,14 +82,26 @@ public class GameActivityTest {
     }
 
     @Test
-    public void testNavigateHomeButton() throws UiObjectNotFoundException {
-        // Assert can move forward.
-        getId2NoScroll("main_activity").clickAndWait(Until.newWindow(), SELECTOR_TIMEOUT);
-        pause(SELECTOR_TIMEOUT);
-        assertTrue(DEVICE.hasObject(By.res(getResourceId("welcome_text"))));
+    public void testPauseResume() {
+        final var snackbarId = "snackbar_text";
 
-        // Assert can get back.
-        DEVICE.pressBack();
-        assertTrue(searchForId("erase_button").exists());
+        // Assert clicking pause shows snackbar.
+        var pauseButton = getId2NoScroll("fab");
+        assertNotNull(pauseButton);
+        pauseButton.clickAndWait(Until.newWindow(), SELECTOR_TIMEOUT);
+        assertTrue(DEVICE.hasObject(By.res(getResourceId(snackbarId))));
+
+        // Assert clicking pause again dismisses snackbar.
+        pauseButton = getId2NoScroll("fab");
+        assertNotNull(pauseButton);
+        pauseButton.clickAndWait(Until.newWindow(), SELECTOR_TIMEOUT);
+        assertFalse(DEVICE.hasObject(By.res(getResourceId(snackbarId))));
+    }
+
+    @Test
+    public void testNavigateHomeButton() throws UiObjectNotFoundException {
+        // Assert pressing home button exits the game.
+        getId2NoScroll("main_activity").clickAndWait(Until.newWindow(), SELECTOR_TIMEOUT);
+        assertFalse(searchForId("erase_button").exists());
     }
 }

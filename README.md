@@ -32,17 +32,17 @@
 
 ## Pause and Resume Functionality
 
-### 1.3. I want the game to be saved automatically and to be able to pause it so that if I need to do something else, I can come back later and resume it. {- [ NOT Implemented ] -}
+### 1.3. I want the game to be saved automatically and to be able to pause it so that if I need to do something else, I can come back later and resume it. {+ [ IMPLEMENTED ] +}
 
 **Examples:**
 
 - When the “Pause” button is tapped, the game’s clock is paused and the cells and words do not
-  respond to taps.
+  respond to taps. {+ [ IMPLEMENTED ] +}
     - When the “Resume” button is tapped, the game’s clock resumes, the game responds like before,
-      and the board remains the same.
+      and the board remains the same. {+ [ IMPLEMENTED ] +}
 - When the player exits the app or taps the “Home” or “Settings” button, and then resumes the game,
   the game looks exactly as if it had been paused before the first action was performed. *(game will
-  be auto-saved)*
+  be auto-saved)* {- [ NOT Implemented ] -}
 
 ## Checking For Game Correctness
 
@@ -51,19 +51,19 @@
 **Examples:**
 
 - Given a cell selected by the player,
-  - Its row/column/subgrid will be highlighted with a different colour than when it's not
-    selected. {+ [ IMPLEMENTED ] +}
-  - When it's filled in a way not in accordance with the rules of the game, that cell will be
-    highlighted with a different colour than when it’s correct or empty. {+ [ IMPLEMENTED ] +}
-  - When it’s filled correctly, that cell’s colour will be the same as when it’s
-    empty. {+ [ IMPLEMENTED ] +}
+    - Its row/column/subgrid will be highlighted with a different colour than when it's not
+      selected. {+ [ IMPLEMENTED ] +}
+    - When it's filled in a way not in accordance with the rules of the game, that cell will be
+      highlighted with a different colour than when it’s correct or empty. {+ [ IMPLEMENTED ] +}
+    - When it’s filled correctly, that cell’s colour will be the same as when it’s
+      empty. {+ [ IMPLEMENTED ] +}
 - When the game play is completed correctly,
     - The word buttons will be disabled and the contents of the cells will become
       read-only. {+ [ IMPLEMENTED ] +}
     - The player will be directed to a page where
-      - It congratulates the player on finishing that game {+ [ IMPLEMENTED ] +}
-      - Along with some statistics such as the time spent and the levels of Sudoku and language
-        used. {- [ NOT Implemented ] -}
+        - It congratulates the player on finishing that game {+ [ IMPLEMENTED ] +}
+        - Along with some statistics such as the time spent and the levels of Sudoku and language
+          used. {- [ NOT Implemented ] -}
 
 ## Erase Cell Content Functionality
 
@@ -133,7 +133,33 @@
   mistakes were made and other metadata.
 - While on a certain difficulty level, the user will receive the “highscore” notification every time
   they beat their previous high score in that level using their selected language.
-    - Highscore is based on how fast the user completes the sudoku game.
+  - Highscore is based on how fast the user completes the sudoku game.
+
+## Reset Game Functionality
+
+### 1.10. I want to reset the current game so that I can start over quickly without having to erase every cell. {+ [ IMPLEMENTED ] +}
+
+**Examples:**
+
+- Given a partially filled board, when the "Reset" button is tapped,
+  - The board's values will be back to what they were when the current game
+    started. {+ [ IMPLEMENTED ] +}
+  - The word buttons will remain the same. {+ [ IMPLEMENTED ] +}
+  - Nothing will appear in the “Quick view area”. {+ [ IMPLEMENTED ] +}
+
+## Start New Game Functionality
+
+### 1.11. I want to have a dedicated button for starting a new game so I don't have to go through the homepages again to achieve that. {+ [ IMPLEMENTED ] +}
+
+**Examples:**
+
+- Given a game currently in progress, when the "New game" button is tapped,
+  - The dimension of the board, number of word buttons, languages, and levels settings remain the
+    same. {+ [ IMPLEMENTED ] +}
+  - The board's values will be replaced with a new set of prefilled values. {+ [ IMPLEMENTED ] +}
+    - All of the user fillable cells will be cleared. {+ [ IMPLEMENTED ] +}
+  - The word buttons will be replaced with a new set of values. {+ [ IMPLEMENTED ] +}
+  - Nothing will appear in the “Quick view area”. {+ [ IMPLEMENTED ] +}
 
 # 2. EXPERT USERS
 
@@ -141,13 +167,13 @@
 
 ## Challenges *(for players)*
 
-### 2.1. I want the game to have multiple levels of difficulty so that I can challenge myself. {- [ NOT Implemented ] -}
+### 2.1. I want the game to have multiple levels of difficulty so that I can challenge myself. {+ [ IMPLEMENTED ] +}
 
 **Examples:**
 
 - When choosing the level of the game, the player can choose between a “Novice” or an “Expert”
-  level.
-- Harder levels have fewer cells prefilled than easier ones.
+  level. {+ [ IMPLEMENTED ] +}
+- Harder levels have fewer cells prefilled than easier ones. {+ [ IMPLEMENTED ] +}
 
 ## Taking Notes During The Game
 
@@ -344,24 +370,33 @@ of [CEFR: Common European Framework of Reference for Languages](https://www.coe.
   users of smaller devices, but may have more difficulty reading compared to tablet users playing
   with smaller grid sizes. {- [ N/A ] -}
 
-<br />
-<br />
-<br />
+# 6. NEW REQUIREMENTS FOR ITERATIONS 4
+
+### 6.1. As a student who wants to practice my understanding of spoken words in the languages that I am learning, I want a listening comprehension mode. {+ [ IMPLEMENTED ] +}
+
+**Examples:**
+
+- In this mode, numbers will appear in the prefilled cells. {+ [ IMPLEMENTED ] +}
+- When I press the number, the corresponding word in the language that I am learning will be read
+  out to me. {+ [ IMPLEMENTED ] +}
+- When I press a word button, the word will be read out to me in my native
+  language. {+ [ IMPLEMENTED ] +}
 
 # VISUAL STATES OF THE GAME/APPLICATION
 
-![](docs/images/homepage.jpg) ![](docs/images/choose_level.jpg)
-![](docs/images/game_play.jpg) ![](docs/images/word_translation.jpg)
-![](docs/images/note_taking_mode.jpg) ![](docs/images/pause.jpg)
-![](docs/images/game_completion.jpg) ![](docs/images/streaks_reward.jpg)
+![](docs/images/homepage.png) ![](docs/images/choose_level.png)
+![](docs/images/4x4_mode.png) ![](docs/images/6x6_mode.png)
+![](docs/images/12x12_mode.png) ![](docs/images/tablet_mode.png)
+![](docs/images/landscape_mode.png) ![](docs/images/cell_highlights.png)
+![](docs/images/erase_quick_view.png) ![](docs/images/completed_game.png)
+![](docs/images/pause_resume.png) ![](docs/images/listening_comprehension_mode.png)
+![](docs/images/streaks_reward.jpg) ![](docs/images/hint.jpg)
+![](docs/images/tutorial.jpg) ![](docs/images/word_translation.jpg)
+![](docs/images/favourites_list.jpg) ![](docs/images/undo_redo.jpg)
+![](docs/images/note_taking_mode.jpg) ![](docs/images/settings.jpg)
+![](docs/images/curate_own_word_list.jpg) ![](docs/images/import_word_list.jpg)
 ![](docs/images/history_of_games_played.jpg) ![](docs/images/game_play_details.jpg)
-![](docs/images/favourites_list.jpg) ![](docs/images/tutorial.jpg)
-![](docs/images/settings.jpg) ![](docs/images/curate_own_word_list.jpg)
-![](docs/images/import_word_list.jpg) ![](docs/images/4x4_mode.png)
-![](docs/images/6x6_mode.png) ![](docs/images/12x12_mode.png)
-![](docs/images/tablet_mode.png) ![](docs/images/landscape_mode.png)
-![](docs/images/cell_highlights.png) ![](docs/images/erase_quick_view.png)
-![](docs/images/completed_game.png)
+
 
 [//]: <> (References to the header IDs below should be extracted from the TOC as rendered on GitLab.)
 

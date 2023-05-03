@@ -8,7 +8,7 @@
 
 ## Pause and Resume Functionality
 
-### 1.3. I want the game to be saved automatically and to be able to pause it so that if I need to do something else, I can come back later and resume it. 
+### 1.1. I want the game to be saved automatically and to be able to pause it so that if I need to do something else, I can come back later and resume it. 
 
 **Examples:**
 
@@ -22,7 +22,7 @@
 
 ## Checking For Game Correctness
 
-### 1.4. I want feedback as to whether a move I make is right or wrong so that I can learn as I play. 
+### 1.2. I want feedback as to whether a move I make is right or wrong so that I can learn as I play. 
 
 **Examples:**
 
@@ -42,7 +42,7 @@
 
 ## Erase Cell Content Functionality
 
-### 1.5. I want to clear the content of a cell I select so that I can input a new value to correct my mistake if there’s any. 
+### 1.3. I want to clear the content of a cell I select so that I can input a new value to correct my mistake if there’s any. 
 
 **Examples:**
 
@@ -55,7 +55,7 @@
 
 ## Quick Cell View Functionality
 
-### 1.6. I want to see the full text of a cell displayed somewhere convenient when it’s too long to fit inside that cell. 
+### 1.4. I want to see the full text of a cell displayed somewhere convenient when it’s too long to fit inside that cell. 
 
 **Examples:**
 
@@ -68,7 +68,7 @@
 
 ## Reset Game Functionality
 
-### 1.10. I want to reset the current game so that I can start over quickly without having to erase every cell. 
+### 1.5. I want to reset the current game so that I can start over quickly without having to erase every cell. 
 
 **Examples:**
 
@@ -80,7 +80,7 @@
 
 ## Start New Game Functionality
 
-### 1.11. I want to have a dedicated button for starting a new game so I don't have to go through the homepages again to achieve that. 
+### 1.6. I want to have a dedicated button for starting a new game so I don't have to go through the homepages again to achieve that. 
 
 **Examples:**
 
@@ -106,59 +106,7 @@
   level. 
 - Harder levels have fewer cells prefilled than easier ones. 
 
-
-# 3. LANGUAGE LEARNERS
-
-*The 3 levels roughly correspond to A1/A2, B1/B2, and C1/C2
-of [CEFR: Common European Framework of Reference for Languages](https://www.coe.int/en/web/common-european-framework-reference-languages/level-descriptions).*
-
-
-## Different Devices
-
-### 5.1. As a vocabulary learner practicing at home, I want to use my tablet for Sudoku vocabulary practice, so that the words will be conveniently displayed in larger, easier to read fonts. 
-
-**Examples:**
-
-- When the app is launched on the tablet, the words will be displayed in a larger size fonts
-  than when it’s displayed on a phone. {+ [ IMPLEMENTED ] +}
-- Tablet users, on average, should not have to squint their eyes to read the contents compared
-  to users of smaller devices. 
-
-### 5.2. As a vocabulary learner taking the bus, I want to use my phone in landscape mode for Sudoku vocabulary practice, so that longer words are displayed in a larger font than standard mode. 
-
-**Examples:**
-
-- When the app is in landscape mode, longer words are displayed in larger size fonts than in
-  standard portrait mode. 
-  - This is made possible with the quick cell view functionality.
-- Users using landscape mode should not have to squint their eyes, on average, to read the contents
-  compared to users in portrait mode. 
-- When a device is rotated, the contents and states of the game should remain the same as before
-  it’s rotated. 
-
-## Different Size Sudoku Grids
-
-### 5.3. As a teacher of elementary and junior high school children, I want scaled versions of Sudoku that use 4x4 and 6x6 grids. In the 6x6 grid version, the overall grid should be divided into rectangles of six cells each (2x3). 
-
-**Examples:**
-
-- When the game is in 4x4 grid mode,
-  - Each column should have 4 cells. 
-  - Each row should have 4 cells. 
-  - The total number of cells should be 16 with no sub-grids. 
-  - A valid game should have no repeating values in each column or row of the
-    board. 
-- When the game is in 6x6 grid mode,
-  - Each column should have 6 cells. 
-  - Each row should have 6 cells. 
-  - The total number of cells should be 36 with each 2x3 sub-grid having 6 cells in
-    total. 
-  - Each column of the sub-grids should have 2 cells. 
-  - Each row of the sub-grids should have 3 cells. 
-  - A valid game should have no repeating values in each column, row, or sub-grid of the
-    board. 
-
-### 5.4. As a vocabulary learner who wants an extra challenging mode, I want a 12x12 version of Sudoku to play on my tablet. The overall grid should be divided into rectangles of 12 cells each (3x4). 
+### 2.2. As an expert user who wants an extra challenging mode, I want a 12x12 version of Sudoku to play on my tablet. The overall grid should be divided into rectangles of 12 cells each (3x4). 
 
 **Examples:**
 
@@ -178,7 +126,12 @@ of [CEFR: Common European Framework of Reference for Languages](https://www.coe.
   with smaller grid sizes. 
 
 
-### 6.1. As a student who wants to practice my understanding of spoken words in the languages that I am learning, I want a listening comprehension mode. 
+# 3. LANGUAGE LEARNERS
+
+*The 3 levels roughly correspond to A1/A2, B1/B2, and C1/C2
+of [CEFR: Common European Framework of Reference for Languages](https://www.coe.int/en/web/common-european-framework-reference-languages/level-descriptions).*
+
+### 3.1. As a student who wants to practice my understanding of spoken words in the languages that I am learning, I want a listening comprehension mode. 
 
 **Examples:**
 
@@ -187,6 +140,57 @@ of [CEFR: Common European Framework of Reference for Languages](https://www.coe.
   out to me. 
 - When I press a word button, the word will be read out to me in my native
   language. 
+
+
+## Different Devices
+
+### 3.2. As a vocabulary learner practicing at home, I want to use my tablet for Sudoku vocabulary practice, so that the words will be conveniently displayed in larger, easier to read fonts. 
+
+**Examples:**
+
+- When the app is launched on the tablet, the words will be displayed in a larger size fonts
+  than when it’s displayed on a phone. {+ [ IMPLEMENTED ] +}
+- Tablet users, on average, should not have to squint their eyes to read the contents compared
+  to users of smaller devices. 
+
+### 3.3. As a vocabulary learner taking the bus, I want to use my phone in landscape mode for Sudoku vocabulary practice, so that longer words are displayed in a larger font than standard mode. 
+
+**Examples:**
+
+- When the app is in landscape mode, longer words are displayed in larger size fonts than in
+  standard portrait mode. 
+  - This is made possible with the quick cell view functionality.
+- Users using landscape mode should not have to squint their eyes, on average, to read the contents
+  compared to users in portrait mode. 
+- When a device is rotated, the contents and states of the game should remain the same as before
+  it’s rotated. 
+
+## Different Size Sudoku Grids
+
+# 4. LANGUAGE TEACHER 
+
+### 4.1. As a teacher of elementary and junior high school children, I want scaled versions of Sudoku that use 4x4 and 6x6 grids. In the 6x6 grid version, the overall grid should be divided into rectangles of six cells each (2x3). 
+
+**Examples:**
+
+- When the game is in 4x4 grid mode,
+  - Each column should have 4 cells. 
+  - Each row should have 4 cells. 
+  - The total number of cells should be 16 with no sub-grids. 
+  - A valid game should have no repeating values in each column or row of the
+    board. 
+- When the game is in 6x6 grid mode,
+  - Each column should have 6 cells. 
+  - Each row should have 6 cells. 
+  - The total number of cells should be 36 with each 2x3 sub-grid having 6 cells in
+    total. 
+  - Each column of the sub-grids should have 2 cells. 
+  - Each row of the sub-grids should have 3 cells. 
+  - A valid game should have no repeating values in each column, row, or sub-grid of the
+    board. 
+
+
+
 
 # VISUAL STATES OF THE GAME/APPLICATION
 
